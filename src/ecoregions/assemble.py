@@ -1,19 +1,22 @@
-"""v0.2 stage — community ecoregions nested in faunal regions and biomes.
+"""v0.2 stage — community ecoregions, with faunal regions and biomes.
 
 1. Communities (90 m) are grouped into ecoregion types (``communities.yaml`` ->
    ``ecoregion_types``; each type has a RESOLVE biome).
 2. On the 270 m grid the type map is smoothed with a majority filter
    (``smooth_cells``) so 90 m speckle and thin elevation slivers do not become units.
-3. Faunal regions (``faunal`` stage, ``faunal_k`` regions on 10 km cells) are
-   carried by the physiographic L3 units: each unit takes its majority faunal
-   region, so faunal boundaries follow landforms rather than 10 km blocks.
-4. Ecoregions = connected areas of one type within one faunal region. Parts
-   smaller than ``mmu_km2`` join the neighbour sharing the most border *within
-   the same faunal region* (any neighbour only if there is none).
-5. Boundaries are snapped at 90 m as in v0.1 (marker watershed on the boundary
-   strength surface within ``snap_band_m``), but never across a faunal boundary.
+3. Ecoregions = connected areas of one type: a continuous landscape is one
+   ecoregion, whatever faunal region or province it spans. Parts smaller than
+   ``mmu_km2`` join the neighbour sharing the most border.
+4. Boundaries are snapped at 90 m as in v0.1 (marker watershed on the boundary
+   strength surface within ``snap_band_m``).
+5. Faunal regions (``faunal`` stage, ``faunal_k`` regions on 10 km cells) are a
+   separate overlay, carried by the physiographic L3 units (each unit takes its
+   majority faunal region, so their boundaries follow landforms rather than
+   10 km blocks). They do not cut ecoregions; each ecoregion records its main
+   faunal region, the share of its area in it, and every faunal region covering
+   at least 10 % of it.
 6. Attributes, names and confidence; polygons for ecoregions, faunal regions
-   (dissolved from the ecoregions, so nesting is exact) and biomes.
+   and biomes.
 
 Confidence (0-1) = 0.6 x purity (share of the unit in its own ecoregion type at
 90 m) + 0.4 x (1 - share mapped only by a province fallback rule).
@@ -147,16 +150,16 @@ def run(cfg) -> None:
     par = unit_fau[l3c]
     par[l3c == 0] = 0
 
-    # 4. connected areas of one type within one faunal region, small parts merged within the region
+    # 4. connected areas of one type (faunal regions and provinces do not cut them)
     from skimage.measure import label as cc_label
 
-    zone = np.where((cls > 0) & (par > 0), par * 64 + cls, 0).astype(np.int32)
+    zone = np.where((cls > 0) & (l3c > 0), cls, 0).astype(np.int32)
     comp = cc_label(zone, connectivity=2, background=0).astype(np.int32)
     log.info("assemble: %d raw parts", comp.max())
-    comp = merge_small_nested(comp, par, int(ac["mmu_km2"] / km2_c))
+    comp = merge_small_nested(comp, np.zeros_like(comp), int(ac["mmu_km2"] / km2_c))
     log.info("assemble: %d parts after the minimum mapping unit", len(np.unique(comp[comp > 0])))
 
-    # 5. snap at 90 m, never across a faunal boundary
+    # 5. snap at 90 m
     study = l3 > 0
     lab = upsample(comp, f, grid.shape).astype(np.int32)
     lab[~study] = 0
@@ -170,13 +173,8 @@ def run(cfg) -> None:
     del markers
     hole = study & (snapped == 0)
     snapped[hole] = lab[hole]
-    comp_par = np.zeros(int(snapped.max()) + 1, np.int32)
-    comp_par[lab[study]] = par90[study]  # every part lies in one region
-    crossed = study & (comp_par[snapped] != par90)
-    snapped[crossed] = lab[crossed]
-    log.info("snapping moved %.2f%% of study cells (%.2f%% reverted at faunal boundaries)",
-             100 * ((snapped != lab) & study).sum() / study.sum(), 100 * crossed.sum() / study.sum())
-    del lab, crossed
+    log.info("snapping moved %.2f%% of study cells", 100 * ((snapped != lab) & study).sum() / study.sum())
+    del lab
     mmu_px = int(ac["mmu_km2"] / grid.cell_km2)
     snapped, _ = make_contiguous(snapped, mmu_px)
     snapped = merge_small_units(snapped, {int(u): mmu_px for u in np.unique(snapped[snapped > 0])})
@@ -197,7 +195,11 @@ def run(cfg) -> None:
     etype = tcount.argmax(axis=1)
     purity = tcount.max(axis=1) / np.maximum(tcount.sum(axis=1), 1)
     del cls90
-    efau = mode_per_label(eco, par90, n, int(par90.max()) + 1)
+    nf = int(par90.max()) + 1
+    fcount = pair_counts(eco, par90, n, nf)
+    fcount[:, 0] = 0
+    efau = fcount.argmax(axis=1)
+    fshare = fcount.max(axis=1) / np.maximum(fcount.sum(axis=1), 1)
     comm = read(paths.raster("communities"))
     ccount = pair_counts(eco, comm, n, len(comms) + 1)[:, 1:]
     del comm
@@ -219,7 +221,9 @@ def run(cfg) -> None:
         t = tkeys[etype[u] - 1]
         top = np.argsort(-ccount[u])[:3]
         mix = "; ".join(f"{comms[j]['name']} {100 * ccount[u, j] / ccount[u].sum():.0f}%" for j in top if ccount[u, j] > 0)
+        fr_all = [int(j) for j in np.argsort(-fcount[u]) if fcount[u, j] >= 0.1 * fcount[u].sum() and fcount[u, j] > 0]
         rows.append(dict(unit=u, type=t, type_name=types[t]["name"], biome=types[t]["biome"], faunal_region=int(efau[u]),
+                         faunal_share=round(fshare[u], 3), faunal_regions=" ".join(map(str, fr_all)),
                          l2_code=f"{el2[u]:02d}", l2_name=short(l2name.get(int(el2[u]), "")), area_km2=round(area[u], 1),
                          elev_p10=round(elev.loc[u, 0.1]) if u in elev.index else np.nan,
                          elev_median=round(elev.loc[u, 0.5]) if u in elev.index else np.nan,
@@ -239,16 +243,18 @@ def run(cfg) -> None:
     multi = df.groupby("type").unit.transform("count") > 1
     df.loc[multi, "name"] = df.type_name + " — " + df.l2_name
     df["name"] = disambiguate(df.name, df.cx, df.cy)
-    df["code"] = [f"{t:02d}.{i:02d}" for t, i in zip(df.faunal_region, df.groupby("faunal_region").cumcount() + 1)]
+    tnum = {k: i + 1 for i, k in enumerate(tkeys)}
+    df = df.sort_values(["type", "area_km2"], ascending=[True, False])
+    df["code"] = [f"{tnum[t]:02d}.{i:02d}" for t, i in zip(df["type"], df.groupby("type").cumcount() + 1)]
+    df = df.sort_values("unit")
 
-    # faunal region names from the provinces they cover (largest first), made unique the same way
-    fr_names = (df.groupby(["faunal_region", "l2_name"]).area_km2.sum().reset_index()
-                  .sort_values("area_km2", ascending=False).groupby("faunal_region").l2_name
-                  .agg(lambda s: " – ".join(list(dict.fromkeys(s))[:2])))
-    w = df.area_km2
-    fx = (df.cx * w).groupby(df.faunal_region).sum() / w.groupby(df.faunal_region).sum()
-    fy = (df.cy * w).groupby(df.faunal_region).sum() / w.groupby(df.faunal_region).sum()
-    fr_names = disambiguate(fr_names, fx.reindex(fr_names.index), fy.reindex(fr_names.index))
+    # faunal regions: their own polygons; names from the provinces they cover (largest first)
+    frp = polygonize(par90, grid).rename(columns={"unit": "faunal_region"})
+    pc = pair_counts(par90, l2_of_unit[l3], nf, 18)
+    fr_names = pd.Series({i: " – ".join(short(l2name.get(int(j), "")) for j in np.argsort(-pc[i])[:2] if pc[i, j] > 0)
+                          for i in frp.faunal_region})
+    fc = frp.set_index("faunal_region").geometry.centroid
+    fr_names = disambiguate(fr_names, fc.x.reindex(fr_names.index), fc.y.reindex(fr_names.index))
     df["faunal_name"] = df.faunal_region.map(fr_names)
     df = df.drop(columns=["cx", "cy"])
     df.to_csv(paths.interim / "ecoregions.csv", index=False)
@@ -258,12 +264,14 @@ def run(cfg) -> None:
     if out.exists():
         out.unlink()
     gdf.to_file(out, layer="ecoregions")
-    fr = gdf.dissolve("faunal_region", aggfunc={"area_km2": "sum", "faunal_name": "first"}).reset_index()
-    fr["n_ecoregions"] = fr.faunal_region.map(df.faunal_region.value_counts())
-    fr.to_file(out, layer="faunal_regions")
+    frp["faunal_name"] = frp.faunal_region.map(fr_names)
+    frp["area_km2"] = (frp.area / 1e6).round(1)
+    frp["n_ecoregions"] = frp.faunal_region.map(df.faunal_regions.str.split().explode().astype(int).value_counts()).fillna(0).astype(int)
+    frp.to_file(out, layer="faunal_regions")
     gdf.dissolve("biome", aggfunc={"area_km2": "sum"}).reset_index().to_file(out, layer="biomes")
-    log.info("assemble: %d ecoregions in %d faunal regions and %d biomes (median %.0f km²)",
-             len(df), df.faunal_region.nunique(), df.biome.nunique(), df.area_km2.median())
+    log.info("assemble: %d ecoregions (median %.0f km²), %d biomes; %d faunal regions as overlay; "
+             "%d ecoregions span more than one faunal region",
+             len(df), df.area_km2.median(), df.biome.nunique(), len(frp), (df.faunal_regions.str.count(" ") > 0).sum())
     log.info("\n%s", df.groupby("type_name").agg(units=("unit", "count"), km2=("area_km2", "sum")).round(0).to_string())
 
     from .qa import label_map

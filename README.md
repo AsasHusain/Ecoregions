@@ -1,4 +1,4 @@
-# The New Ecoregions of Pakistan (v0.2.0)
+# The New Ecoregions of Pakistan (v0.2.1)
 
 Biodiversity-based ecoregions for Pakistan, Azad Kashmir, Gilgit-Baltistan and
 the Siachen Glacier area, replacing the coarse WWF/RESOLVE *Ecoregions2017*
@@ -8,14 +8,14 @@ with ecoregions built from natural communities and species turnover:
 | Level | What it is | How it is made | Count |
 |---|---|---|---|
 | **Biomes** | RESOLVE biome of each ecoregion type | from the ecoregion types | 7 |
-| **Faunal regions** | Areas with distinct vertebrate assemblages | Simpson beta diversity of 849 mammals, birds, reptiles and amphibians (IUCN Red List and BirdLife ranges trimmed to elevation limits) on 10 km cells, UPGMA clustering; boundaries follow the physiographic units | 15 |
-| **Ecoregions** | Mappable areas of one natural community type — the main deliverable | 38 potential natural vegetation communities mapped at 90 m by explicit rules ([`communities.yaml`](communities.yaml)), grouped into 22 ecoregion types, split by faunal region, minimum 1,000 km², boundaries snapped to landforms | 85 |
+| **Faunal regions** (overlay) | Areas with distinct vertebrate assemblages | Simpson beta diversity of 849 mammals, birds, reptiles and amphibians (IUCN Red List and BirdLife ranges trimmed to elevation limits) on 10 km cells, UPGMA clustering; boundaries follow the physiographic units. An overlay: faunal boundaries do not cut ecoregions | 15 |
+| **Ecoregions** | Mappable areas of one natural community type — the main deliverable | 38 potential natural vegetation communities mapped at 90 m by explicit rules ([`communities.yaml`](communities.yaml)), grouped into 22 ecoregion types; each ecoregion is one continuous area of one type (not cut by faunal regions, provinces or borders inside the study area), minimum 1,000 km², boundaries snapped to landforms | 65 |
 
-[![Static map](outputs/ecoregions_map_v0.2.0_preview.png)](outputs/ecoregions_map_v0.2.0.png)
+[![Static map](outputs/ecoregions_map_v0.2.1_preview.png)](outputs/ecoregions_map_v0.2.1.png)
 
 *Click the map for the full-resolution version.* Companion layer: the
 physiographic regionalization (17 provinces, 389 units) —
-[map](outputs/physiographic_map_v0.2.0.png), described below.
+[map](outputs/physiographic_map_v0.2.1.png), described below.
 
 > Political boundaries: the study area ends at the Line of Control and includes the Siachen Glacier area; other areas administered by India or China are shown flat gray.
 
@@ -33,39 +33,41 @@ physiographic regionalization (17 provinces, 389 units) —
 The local globe viewer (`site/`, see *v0.2* below) shows the ecoregions on a
 globe, country by country.
 
-### Ecoregion types (v0.2.0)
+### Ecoregion types (v0.2.1)
 
-| Biome | Ecoregion type | Ecoregions | Area (km²) | Still natural |
-|---|---|---|---|---|
-| Mangroves | Indus Delta–Arabian Sea mangroves and salt flats | 4 | 13,397 | 97 % |
-| Deserts & Xeric Shrublands | Indus plains thorn forests | 10 | 149,726 | 43 % |
-| | Thar–Cholistan desert | 2 | 74,967 | 62 % |
-| | Chagai–Kharan deserts and hamuns | 1 | 71,678 | 99 % |
-| | Makran ranges dwarf-palm scrub | 3 | 60,665 | 99 % |
-| | Balochistan plateau Artemisia steppe | 7 | 49,914 | 93 % |
-| | Kirthar–Lasbela hill and valley scrub | 4 | 49,282 | 87 % |
-| | Kachhi–Sibi arid thorn scrub | 2 | 39,212 | 62 % |
-| | Sulaiman–Bugti piedmont scrub | 3 | 32,997 | 62 % |
-| | Thal sand desert | 1 | 24,477 | 46 % |
-| | Makran coastal desert | 1 | 23,683 | 100 % |
-| | Balochistan pistachio–ash xeric woodlands | 8 | 20,080 | 99 % |
-| Tropical & Subtropical Dry Broadleaf Forests | Subtropical olive–phulai scrub forests | 6 | 72,505 | 84 % |
-| | Indus riverine forests | 7 | 21,315 | 25 % |
-| | Siwalik dry deciduous forests | 2 | 6,856 | 69 % |
-| Tropical & Subtropical Coniferous Forests | Himalayan chir pine forests | 3 | 16,700 | 84 % |
-| Temperate Conifer Forests | Balochistan juniper woodlands | 3 | 21,050 | 97 % |
-| | Western Himalayan moist temperate forests | 8 | 17,187 | 97 % |
-| | Hindu Kush–Sulaiman dry temperate forests | 3 | 12,898 | 99 % |
-| Montane Grasslands & Shrublands | Karakoram–Hindu Kush dry alpine steppe and cold desert | 1 | 49,074 | 100 % |
-| | Himalayan subalpine forests and alpine meadows | 3 | 38,716 | 100 % |
-| Rock and Ice | Karakoram glaciers and rock | 3 | 8,647 | 100 % |
+| Biome | Ecoregion type | Ecoregions | Area (km²) | Still natural | Stability |
+|---|---|---|---|---|---|
+| Mangroves | Indus Delta–Arabian Sea mangroves and salt flats | 4 | 13,538 | 92 % | 95 % |
+| Deserts & Xeric Shrublands | Indus plains thorn forests | 9 | 153,632 | 31 % | 98 % |
+|  | Thar–Cholistan desert | 1 | 74,970 | 81 % | 100 % |
+|  | Chagai–Kharan deserts and hamuns | 1 | 70,752 | 99 % | 98 % |
+|  | Makran ranges dwarf-palm scrub | 1 | 60,882 | 99 % | 98 % |
+|  | Balochistan plateau Artemisia steppe | 4 | 54,747 | 93 % | 90 % |
+|  | Kirthar–Lasbela hill and valley scrub | 1 | 48,825 | 93 % | 100 % |
+|  | Kachhi–Sibi arid thorn scrub | 1 | 35,856 | 44 % | 84 % |
+|  | Sulaiman–Bugti piedmont scrub | 2 | 32,182 | 74 % | 88 % |
+|  | Thal sand desert | 1 | 24,476 | 46 % | 100 % |
+|  | Makran coastal desert | 1 | 23,683 | 100 % | 88 % |
+|  | Balochistan pistachio–ash xeric woodlands | 6 | 23,547 | 98 % | 89 % |
+| Tropical & Subtropical Dry Broadleaf Forests | Subtropical olive–phulai scrub forests | 2 | 73,353 | 75 % | 92 % |
+|  | Indus riverine forests | 6 | 20,263 | 26 % | 91 % |
+|  | Siwalik dry deciduous forests | 2 | 8,322 | 70 % | 96 % |
+| Tropical & Subtropical Coniferous Forests | Himalayan chir pine forests | 4 | 15,170 | 90 % | 84 % |
+| Temperate Conifer Forests | Western Himalayan moist temperate forests | 5 | 17,980 | 97 % | 89 % |
+|  | Balochistan juniper woodlands | 3 | 17,804 | 99 % | 88 % |
+|  | Hindu Kush–Sulaiman dry temperate forests | 4 | 11,253 | 98 % | 78 % |
+| Montane Grasslands & Shrublands | Karakoram–Hindu Kush dry alpine steppe and cold desert | 1 | 49,074 | 100 % | 86 % |
+|  | Himalayan subalpine forests and alpine meadows | 3 | 36,069 | 100 % | 84 % |
+| Rock and Ice | Karakoram glaciers and rock | 3 | 8,646 | 100 % | 91 % |
 
 *Still natural* = share not mapped as cropland or built-up by ESA WorldCover
-2021 (it does not measure degradation). Median ecoregion 4,051 km²; median
-confidence 0.86 (purity of the community type and share not mapped by a
-province fallback rule).
+2021 (it does not measure degradation). *Stability* = share of the area keeping
+its type when every rule threshold is perturbed (validation test 3). Median
+ecoregion 4,360 km²; median confidence 0.88 (purity of the
+community type and share not mapped by a province fallback rule).
+26 of the 65 ecoregions span more than one faunal region.
 
-### Validation (v0.2.0)
+### Validation (v0.2.1)
 
 Four tests (`evaluate` stage; tables in `outputs/validation_*.csv`).
 
@@ -76,20 +78,22 @@ partition beats (95 % is the usual bar):
 
 | Partition | All taxa | Birds | Plants |
 |---|---|---|---|
-| **v0.2 ecoregions** (85) | **95 %** | 67 % | **95 %** |
-| **v0.2 faunal regions** (15) | 89 % | **100 %** | **97 %** |
-| v0.2 biomes (7) | 68 % | 93 % | 90 % |
-| physiographic L3 / L2 | 86 % / 89 % | 84 % / 88 % | 92 % / 82 % |
-| RESOLVE ecoregions | 79 % | 75 % | 98 % |
-| RESOLVE biomes | 99 % | 100 % | 86 % |
+| **v0.2 ecoregions** (65) | 77 % | 19 % | 80 % |
+| **v0.2 faunal regions** (15) | 90 % | 100 % | 96 % |
+| v0.2 biomes (7) | 71 % | 90 % | 95 % |
+| physiographic L3 / L2 | 84 % / 89 % | 79 % / 93 % | 94 % / 84 % |
+| RESOLVE ecoregions | 79 % | 78 % | 96 % |
+| RESOLVE biomes | 99 % | 100 % | 91 % |
 
-The faunal regions are the best-supported level (89–100 % in every group). The
-ecoregions clear the bar for all taxa and plants and beat RESOLVE ecoregions for
-all taxa (95 % vs 79 %), but not for birds (67 % vs 75 %; only 122 cells have
-enough bird records, and birds range widely). The v0.2 biome level is the weak
-point (68 % vs 99 % for RESOLVE biomes): the crosswalk from ecoregion types to
-biomes needs work. GBIF bird records and BirdLife ranges describe the same
-species, so the bird result for the faunal regions is not fully independent.
+The faunal regions are the best-supported layer. The ecoregions are continuous
+areas of one vegetation type; v0.2.0 also cut them along faunal-region
+boundaries (85 ecoregions), which separated assemblages better (95 % all taxa,
+67 % birds, 95 % plants): species composition changes across those lines even
+where the vegetation type continues. That information is kept in the faunal
+overlay. The v0.2 biome level is weaker than RESOLVE's biomes: the crosswalk
+from ecoregion types to biomes needs work. GBIF bird records and BirdLife ranges
+describe the same species, so the bird result for the faunal regions is not fully
+independent.
 
 **2. Taxon congruence.** Faunal regions rebuilt from birds alone and from
 mammals, reptiles and amphibians alone (15 regions each) agree with an adjusted
@@ -99,18 +103,18 @@ largely the same regions.
 
 **3. Sensitivity to the rule thresholds.** Twelve runs with every numeric
 threshold shifted at random (elevation σ 5 %, rainfall and aridity 15 %, slope
-and distances 20 %): the median ecoregion keeps its type on 91 % of its area, and
-only one of 85 falls below 70 %. The least stable types are the mountain belts
+and distances 20 %): the median ecoregion keeps its type on 90 % of its area, and
+2 of 65 fall below 70 %. The least stable types are the mountain belts
 drawn by elevation and rainfall limits (Hindu Kush–Sulaiman dry temperate forests
 78 %, subalpine forests and alpine meadows 84 %, moist temperate and chir pine
 forests 87–88 %). Lowland types score near 100 % partly because their rules rely
 on provinces rather than thresholds; this test does not check the provinces.
 
-**4. Correspondence with RESOLVE.** The median ecoregion lies 90 % inside one
-RESOLVE ecoregion and 18 of 85 straddle RESOLVE lines; biomes agree on 79 % of
-the area. RESOLVE's "Baluchistan xeric woodlands" is divided among 32 v0.2
-ecoregions and "Aravalli west thorn scrub forests" (most of the Indus plain)
-among 20.
+**4. Correspondence with RESOLVE.** The median ecoregion lies 88 % inside one
+RESOLVE ecoregion and 14 of 65 straddle RESOLVE lines; biomes agree on 79 % of
+the area. RESOLVE's "Baluchistan xeric woodlands" is the main RESOLVE unit of
+20 v0.2 ecoregions and "Aravalli west thorn scrub forests" (most of
+the Indus plain) of 17.
 
 **Review notes.** Weakest parts of v0.2.0: the Balochistan juniper, pistachio and
 Artemisia types form a fine mosaic (type purity 51–69 %) and are not calibrated
@@ -473,8 +477,11 @@ python -m http.server 8000 --directory site    # open http://localhost:8000
 On Windows, double-click `scripts/serve_site.bat`: it starts the server and opens
 the globe in the browser (close its window to stop the server).
 
-Countries are added one at a time; revised ones are drawn in full colour over
-the faded RESOLVE baseline.
+Revised areas are drawn in full colour over the faded RESOLVE baseline.
+Country borders do not cut ecoregions: the edge of Pakistan's ecoregions today is
+only the edge of what has been mapped. New areas will be mapped together with
+the area already done as one continuous surface, so an ecoregion that crosses a
+border remains one ecoregion.
 
 ## Data sources, citations and licences
 

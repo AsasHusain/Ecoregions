@@ -39,10 +39,12 @@ map.on('load', async () => {
     map.addLayer({ id: `${iso}-units-fill`, type: 'fill', source: `${iso}-units`,
       paint: { 'fill-color': ['get', 'color'], 'fill-opacity': 0.88 } });
     map.addLayer({ id: `${iso}-units-line`, type: 'line', source: `${iso}-units`,
-      paint: { 'line-color': '#ffffff', 'line-width': ['interpolate', ['linear'], ['zoom'], 3, 0.15, 8, 0.9] } });
+      paint: { 'line-color': '#2d2a26', 'line-opacity': 0.75,
+        'line-width': ['interpolate', ['linear'], ['zoom'], 3, 0.3, 8, 1.2] } });
     map.addLayer({ id: `${iso}-gray-fill`, type: 'fill', source: `${iso}-gray`, paint: { 'fill-color': '#b9b9b4' } });
     map.addLayer({ id: `${iso}-prov-line`, type: 'line', source: `${iso}-prov`,
-      paint: { 'line-color': '#1b1b1a', 'line-width': ['interpolate', ['linear'], ['zoom'], 3, 0.6, 8, 1.8] } });
+      paint: { 'line-color': '#4a3f5c', 'line-opacity': 0.8, 'line-dasharray': [3, 2],
+        'line-width': ['interpolate', ['linear'], ['zoom'], 3, 0.6, 8, 1.4] } });
     map.addLayer({ id: `${iso}-outline-line`, type: 'line', source: `${iso}-outline`,
       paint: { 'line-color': '#1b1b1a', 'line-width': 1.6 } });
     unitLayers.push(`${iso}-units-fill`, `${iso}-units-line`);

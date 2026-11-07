@@ -70,13 +70,19 @@ def assemblages(cfg, paths: Paths, eco_df: pd.DataFrame, res_tab: pd.DataFrame) 
         g_eco = np.array([v[0] for v in e.sample(xy)])
         g_l3 = np.array([v[0] for v in l3.sample(xy)])
         g_res = np.array([v[0] for v in r.sample(xy)])
+    # faunal regions are an overlay (ecoregions can span several): sample their own polygons
+    import geopandas as gpd
+
+    fr = gpd.read_file(paths.vector("ecoregions"), layer="faunal_regions")
+    pts = gpd.GeoDataFrame(geometry=gpd.points_from_xy(xy[:, 0], xy[:, 1]), crs=fr.crs)
+    g_fau = gpd.sjoin(pts, fr[["faunal_region", "geometry"]], how="left", predicate="within")         .groupby(level=0).faunal_region.first().reindex(range(len(pts))).fillna(0).astype(int).to_numpy()
     e = eco_df.set_index("unit")
     l2map = pd.read_csv(paths.interim / "l3_units.csv", dtype={"l2_code": str}).set_index("unit").l2_code
     rb = res_tab.set_index("ECO_ID").BIOME_NAME.map(_biome_key)
     parts_all = {
         "v0.2 ecoregions": g_eco,
         "v0.2 ecoregion types": pd.Series(g_eco).map(e.type).fillna("").to_numpy(),
-        "v0.2 faunal regions": pd.Series(g_eco).map(e.faunal_region).fillna(0).to_numpy(),
+        "v0.2 faunal regions": g_fau,
         "v0.2 biomes": pd.Series(g_eco).map(e.biome).map(_biome_key).fillna("").to_numpy(),
         "physiographic L3": g_l3,
         "physiographic L2": pd.Series(g_l3).map(l2map).fillna("").to_numpy(),

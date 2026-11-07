@@ -5,7 +5,7 @@
 
 project:
   name: pakistan-ecoregions
-  version: "0.2.0"              # 0.1.x physiographic; 0.2.0 = first biodiversity-based release
+  version: "0.2.1"              # 0.1.x physiographic; 0.2.0 = first biodiversity-based release
 
 paths:
   raw: data/raw            # cached downloads (git-ignored)

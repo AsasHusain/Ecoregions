@@ -169,8 +169,8 @@ class Labeler:
 
 
 def ecoregion_map(cfg, paths, out) -> None:
-    """The v0.2 map: community ecoregions (fill by type), faunal regions (bold
-    outlines and spaced capitals), biome-grouped legend, hillshade relief."""
+    """The v0.2 map: community ecoregions (fill by type, dark outlines), faunal
+    regions as a dashed overlay with spaced capitals, biome-grouped legend, relief."""
     from .communities import load_rules
     from .grid import Grid, read
     from .webmap import hillshade
@@ -210,12 +210,13 @@ def ecoregion_map(cfg, paths, out) -> None:
     eco.plot(ax=ax, color=eco.color, linewidth=0, alpha=0.92, zorder=3)
     ax.imshow(np.ma.masked_invalid(np.where(np.isnan(elev), np.nan, hs)), extent=ext, cmap="gray", vmin=0, vmax=1,
               alpha=0.22, zorder=4, interpolation="bilinear")  # relief over the fills
-    eco.boundary.plot(ax=ax, color="white", linewidth=0.6, alpha=0.9, zorder=5)
+    eco.boundary.plot(ax=ax, color="white", linewidth=2.0, alpha=0.55, zorder=5)
+    eco.boundary.plot(ax=ax, color="#2d2a26", linewidth=0.75, alpha=0.85, zorder=5)
     lw = 0.25 + 1.4 * np.clip(np.log10(riv.UPLAND_SKM / 1000) / 2.7, 0, 1)
     riv.plot(ax=ax, color=mc["river_color"], linewidth=lw, alpha=0.75, zorder=6)
     gray.plot(ax=ax, color=mc["gray"], edgecolor="#8d8d88", linewidth=0.5, zorder=7)
-    fr.boundary.plot(ax=ax, color="white", linewidth=3.2, alpha=0.85, zorder=8)
-    fr.boundary.plot(ax=ax, color="#2d2a26", linewidth=1.3, zorder=9)
+    # faunal regions are an overlay, not partitions of the ecoregions: thin dashed lines
+    fr.boundary.plot(ax=ax, color="#4a3f5c", linewidth=0.9, linestyle=(0, (5, 3)), alpha=0.75, zorder=9)
     study.boundary.plot(ax=ax, color="#1b1b1a", linewidth=1.6, zorder=10)
 
     lab = Labeler(ax, fig)
@@ -224,7 +225,7 @@ def ecoregion_map(cfg, paths, out) -> None:
     # faunal regions first: spaced capitals along the region
     for _, r in fr.sort_values("area_km2", ascending=False).iterrows():
         size = float(np.clip(7 + 2.2 * np.log10(r.area_km2 / 5000), 7, 13))
-        lab.label(str(r.faunal_name).upper(), r.geometry, size, serif, "#3b3630", tracking=0.18, halo=3.0, z=22)
+        lab.label(str(r.faunal_name).upper(), r.geometry, size, serif, "#4a3f5c", tracking=0.18, halo=3.0, z=22)
     # then ecoregions, largest first
     for _, r in eco.sort_values("area_km2", ascending=False).iterrows():
         size = float(np.clip(4.6 + 1.5 * np.log10(r.area_km2 / 1000), 4.6, 9))
@@ -246,7 +247,7 @@ def ecoregion_map(cfg, paths, out) -> None:
                     for t in keys]
     handles.append(Patch(facecolor=mc["gray"], edgecolor="#8d8d88", label="Not mapped: administered by India or China"))
     leg = ax.legend(handles=handles, loc="upper left", fontsize=6.4, frameon=True, framealpha=0.94,
-                    title="Ecoregion types by biome   ·   bold lines: faunal regions", title_fontsize=7.2,
+                    title="Ecoregion types by biome   ·   dashed lines: faunal regions", title_fontsize=7.2,
                     borderpad=0.9, labelspacing=0.42, handlelength=1.6)
     leg.get_frame().set_edgecolor("#bbbbbb")
     for t in leg.get_texts():
@@ -264,11 +265,11 @@ def ecoregion_map(cfg, paths, out) -> None:
                 weight="bold", arrowprops=dict(arrowstyle="-|>", color="#1b1b1a", lw=1.4), zorder=23)
 
     ax.set_title(f"Revised Ecoregions of Pakistan — v{cfg['project']['version']}\n"
-                 f"{len(eco)} community ecoregions in {len(fr)} faunal regions and {eco.biome.nunique()} biomes",
+                 f"{len(eco)} community ecoregions in {eco.biome.nunique()} biomes, with {len(fr)} faunal regions",
                  fontsize=13, loc="left")
     credit = ("Ecoregions: potential natural vegetation communities (rules on Copernicus GLO-90, CHELSA v2.1, SoilGrids, "
-              "USGS geo8ag, HydroSHEDS) grouped within faunal regions from IUCN Red List and BirdLife range maps "
-              "(Simpson beta diversity); boundaries snapped to landforms at 90 m.\n"
+              "USGS geo8ag, HydroSHEDS), boundaries snapped to landforms at 90 m; faunal regions from IUCN Red List and BirdLife range maps "
+              "(Simpson beta diversity).\n"
               "Checked against Global Mangrove Watch v3, Jung et al. 2020, Hengl et al. 2018, GBIF. Albers equal-area. "
               "Eastern limit in Kashmir: Line of Control, plus the Siachen Glacier area.")
     ax.text(0.0, -0.012, credit, fontsize=6.3, color="#52514e", transform=ax.transAxes, va="top")
