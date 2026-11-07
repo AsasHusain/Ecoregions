@@ -73,7 +73,23 @@ map.on('load', async () => {
 
   wireToggles();
   wireTooltip();
+  map.on('moveend', declutter);
+  declutter();
 });
+
+// Hide labels that would overlap one already shown (first come first served); re-run after every move.
+function declutter() {
+  const shown = [];
+  for (const m of markers) {
+    const el = m.getElement();
+    el.style.visibility = 'visible';
+    const r = el.getBoundingClientRect();
+    if (!r.width) continue; // labels switched off
+    if (shown.some((s) => r.left < s.right && r.right > s.left && r.top < s.bottom && r.bottom > s.top)) {
+      el.style.visibility = 'hidden';
+    } else shown.push(r);
+  }
+}
 
 function setVis(ids, on) { for (const id of ids) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none'); }
 function wireToggles() {

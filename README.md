@@ -470,6 +470,9 @@ borders and the RESOLVE 2017 baseline. Then:
 python -m http.server 8000 --directory site    # open http://localhost:8000
 ```
 
+On Windows, double-click `scripts/serve_site.bat`: it starts the server and opens
+the globe in the browser (close its window to stop the server).
+
 Countries are added one at a time; revised ones are drawn in full colour over
 the faded RESOLVE baseline.
 
