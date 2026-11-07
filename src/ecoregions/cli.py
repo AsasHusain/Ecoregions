@@ -29,6 +29,7 @@ STAGES = {
     "fauna": "ecoregions.fauna",
     "faunal": "ecoregions.faunal",
     "assemble": "ecoregions.assemble",
+    "evaluate": "ecoregions.evaluate",
     "names": "ecoregions.names",
     "validate": "ecoregions.validate",
     "crosscheck": "ecoregions.crosscheck",

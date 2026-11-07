@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 PY=${PY:-python}
 DONE=data/interim/.done
 mkdir -p "$DONE"
-for s in download grid dem terrain hydro covariates features provinces segment snap attributes communities vegcheck fauna faunal assemble validate crosscheck package webmap staticmap globe; do
+for s in download grid dem terrain hydro covariates features provinces segment snap attributes communities vegcheck fauna faunal assemble evaluate validate crosscheck package webmap staticmap globe; do
   [ -f "$DONE/$s" ] && { echo "skip $s"; continue; }
   echo "=== $s $(date +%T)"
   "$PY" -m ecoregions --config config.yaml "$s"

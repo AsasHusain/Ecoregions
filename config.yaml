@@ -360,3 +360,18 @@ assemble:
   smooth_cells: 7              # majority filter of ecoregion types on the 270 m grid (~1.9 km)
   mmu_km2: 1000                # minimum ecoregion size
   snap_band_m: 1000            # boundaries snapped to landform edges within this band
+
+# validation of the v0.2 ecoregions (evaluate stage)
+evaluate:
+  runs: 12                     # perturbation runs for the sensitivity test
+  seed: 7
+  sigma:                       # sd of the random shift of every rule threshold (relative; northness additive)
+    elev: 0.05
+    slope: 0.20
+    bio12: 0.15
+    ai: 0.15
+    gdd5: 0.10
+    coast_km: 0.20
+    river_km: 0.20
+    creek_m: 0.20
+    northness: 0.10

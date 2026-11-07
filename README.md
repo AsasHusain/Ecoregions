@@ -27,6 +27,7 @@ physiographic regionalization (17 provinces, 389 units) —
 | `ecoregions.csv` | the ecoregion attribute table without geometry: type, biome, faunal region, area, elevation, community mix, natural share, confidence |
 | `ecoregions_map_v<version>.png` | static map (`…_preview.png`: the lighter copy shown above) |
 | `physiographic_map_v<version>.png`, `ecoregions_map.html` | the physiographic companion layer: static and interactive maps |
+| `validation_*.csv` | v0.2 validation: assemblage test, taxon congruence, threshold sensitivity (per ecoregion and type), correspondence with RESOLVE |
 | `l3_ecoregions.csv`, `crosscheck.csv`, `gbif_*.csv` | physiographic units, their cross-check and the GBIF tests |
 
 The local globe viewer (`site/`, see *v0.2* below) shows the ecoregions on a
@@ -63,6 +64,59 @@ globe, country by country.
 2021 (it does not measure degradation). Median ecoregion 4,051 km²; median
 confidence 0.86 (purity of the community type and share not mapped by a
 province fallback rule).
+
+### Validation (v0.2.0)
+
+Four tests (`evaluate` stage; tables in `outputs/validation_*.csv`).
+
+**1. Species assemblages (independent data).** GBIF species lists on 0.25° cells
+(no GBIF record is used to build any v0.2 layer), ANOSIM *R*, and the share of
+199 random contiguous partitions with the same number of groups that each
+partition beats (95 % is the usual bar):
+
+| Partition | All taxa | Birds | Plants |
+|---|---|---|---|
+| **v0.2 ecoregions** (85) | **95 %** | 67 % | **95 %** |
+| **v0.2 faunal regions** (15) | 89 % | **100 %** | **97 %** |
+| v0.2 biomes (7) | 68 % | 93 % | 90 % |
+| physiographic L3 / L2 | 86 % / 89 % | 84 % / 88 % | 92 % / 82 % |
+| RESOLVE ecoregions | 79 % | 75 % | 98 % |
+| RESOLVE biomes | 99 % | 100 % | 86 % |
+
+The faunal regions are the best-supported level (89–100 % in every group). The
+ecoregions clear the bar for all taxa and plants and beat RESOLVE ecoregions for
+all taxa (95 % vs 79 %), but not for birds (67 % vs 75 %; only 122 cells have
+enough bird records, and birds range widely). The v0.2 biome level is the weak
+point (68 % vs 99 % for RESOLVE biomes): the crosswalk from ecoregion types to
+biomes needs work. GBIF bird records and BirdLife ranges describe the same
+species, so the bird result for the faunal regions is not fully independent.
+
+**2. Taxon congruence.** Faunal regions rebuilt from birds alone and from
+mammals, reptiles and amphibians alone (15 regions each) agree with an adjusted
+Rand index of 0.53 (normalized mutual information 0.64; random partitions ≈ 0):
+groups with very different dispersal, from mostly different sources, recover
+largely the same regions.
+
+**3. Sensitivity to the rule thresholds.** Twelve runs with every numeric
+threshold shifted at random (elevation σ 5 %, rainfall and aridity 15 %, slope
+and distances 20 %): the median ecoregion keeps its type on 91 % of its area, and
+only one of 85 falls below 70 %. The least stable types are the mountain belts
+drawn by elevation and rainfall limits (Hindu Kush–Sulaiman dry temperate forests
+78 %, subalpine forests and alpine meadows 84 %, moist temperate and chir pine
+forests 87–88 %). Lowland types score near 100 % partly because their rules rely
+on provinces rather than thresholds; this test does not check the provinces.
+
+**4. Correspondence with RESOLVE.** The median ecoregion lies 90 % inside one
+RESOLVE ecoregion and 18 of 85 straddle RESOLVE lines; biomes agree on 79 % of
+the area. RESOLVE's "Baluchistan xeric woodlands" is divided among 32 v0.2
+ecoregions and "Aravalli west thorn scrub forests" (most of the Indus plain)
+among 20.
+
+**Review notes.** Weakest parts of v0.2.0: the Balochistan juniper, pistachio and
+Artemisia types form a fine mosaic (type purity 51–69 %) and are not calibrated
+against independent data; Kirthar–Lasbela and Kachhi units rely on province
+fallback rules for 22–43 % of their area; Karakoram ice is mapped from elevation
+only (no glacier layer); the biome crosswalk is coarse.
 
 ---
 

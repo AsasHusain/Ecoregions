@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 from ecoregions.attributes import aridity_class, compass, texture_class
-from ecoregions.assemble import majority, merge_small_nested
+from ecoregions.assemble import disambiguate, majority, merge_small_nested
 from ecoregions.colors import shade
 from ecoregions.communities import classify, load_rules, northness
 from ecoregions.crosscheck import expectation
@@ -205,3 +205,10 @@ def test_merge_small_nested_prefers_same_parent():
     parent = np.array([[1, 1, 1, 2, 2]] * 3, np.int32)
     out = merge_small_nested(lab.copy(), parent, min_px=4)
     assert (out[:, 2] == 1).all()  # the small part joins its own region's neighbour, not the larger region-2 part
+
+
+def test_disambiguate_names():
+    names = pd.Series(["A", "A", "B", "C", "C"])
+    x = pd.Series([0.0, 10.0, 5.0, 3.0, 3.0]); y = pd.Series([0.0, 0.0, 5.0, 1.0, 1.0])
+    out = disambiguate(names, x, y)
+    assert out.is_unique and out[0] == "A (western)" and out[1] == "A (eastern)" and out[2] == "B"

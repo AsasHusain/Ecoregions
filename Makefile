@@ -13,10 +13,10 @@ RUN      = $(PY) -m ecoregions --config $(CONFIG)
 DONE     = data/interim/.done
 SRC      = src/ecoregions
 
-STAGES = download grid dem terrain hydro covariates features provinces segment snap attributes communities vegcheck fauna faunal assemble validate crosscheck package webmap staticmap globe
+STAGES = download grid dem terrain hydro covariates features provinces segment snap attributes communities vegcheck fauna faunal assemble evaluate validate crosscheck package webmap staticmap globe
 
 .PHONY: all clean distclean test names $(STAGES)
-all: $(DONE)/staticmap $(DONE)/webmap $(DONE)/crosscheck $(DONE)/vegcheck $(DONE)/faunal $(DONE)/globe
+all: $(DONE)/staticmap $(DONE)/webmap $(DONE)/crosscheck $(DONE)/vegcheck $(DONE)/faunal $(DONE)/evaluate $(DONE)/globe
 
 $(DONE):
 	mkdir -p $@
@@ -37,6 +37,7 @@ $(DONE)/vegcheck:   $(DONE)/communities $(SRC)/vegcheck.py $(CONFIG) | $(DONE) ;
 $(DONE)/fauna:      $(DONE)/vegcheck $(SRC)/fauna.py $(CONFIG) | $(DONE) ; $(RUN) fauna      && touch $@
 $(DONE)/faunal:     $(DONE)/fauna $(SRC)/faunal.py $(CONFIG) | $(DONE) ; $(RUN) faunal     && touch $@
 $(DONE)/assemble:   $(DONE)/faunal $(SRC)/assemble.py communities.yaml $(CONFIG) | $(DONE) ; $(RUN) assemble   && touch $@
+$(DONE)/evaluate:   $(DONE)/assemble $(SRC)/evaluate.py $(CONFIG) | $(DONE) ; $(RUN) evaluate   && touch $@
 $(DONE)/validate:   $(DONE)/attributes $(SRC)/validate.py $(CONFIG) | $(DONE) ; $(RUN) validate   && touch $@
 $(DONE)/crosscheck: $(DONE)/attributes $(SRC)/crosscheck.py gazetteer.yaml | $(DONE) ; $(RUN) crosscheck && touch $@
 $(DONE)/package:    $(DONE)/validate $(DONE)/assemble $(SRC)/package.py          | $(DONE) ; $(RUN) package    && touch $@

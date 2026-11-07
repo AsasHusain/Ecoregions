@@ -98,6 +98,20 @@ def merge_small_nested(lab: np.ndarray, parent: np.ndarray, min_px: int, rounds:
     return lab
 
 
+def disambiguate(names: pd.Series, x: pd.Series, y: pd.Series) -> pd.Series:
+    """Make repeated names unique: add the position relative to the namesakes'
+    centroid ("(northern)"), then a number if two still coincide."""
+    out = names.copy()
+    for _, g in names[names.duplicated(keep=False)].groupby(names):
+        mx, my = x[g.index].mean(), y[g.index].mean()
+        for i in g.index:
+            out[i] = f"{names[i]} ({POSITION[compass(x[i] - mx, y[i] - my)]})"
+    for _, g in out[out.duplicated(keep=False)].groupby(out):
+        for n, i in enumerate(g.index, 1):
+            out[i] = f"{out[i]} {n}"
+    return out
+
+
 def run(cfg) -> None:
     paths = Paths(cfg)
     grid = Grid.load(paths.grid_json)
@@ -224,16 +238,17 @@ def run(cfg) -> None:
     df["name"] = df.type_name
     multi = df.groupby("type").unit.transform("count") > 1
     df.loc[multi, "name"] = df.type_name + " — " + df.l2_name
-    for _, g in df[df.duplicated("name", keep=False)].groupby("name"):
-        mx, my = g.cx.mean(), g.cy.mean()
-        for i, r in g.iterrows():
-            df.loc[i, "name"] = f"{r['name']} ({POSITION[compass(r.cx - mx, r.cy - my)]})"
+    df["name"] = disambiguate(df.name, df.cx, df.cy)
     df["code"] = [f"{t:02d}.{i:02d}" for t, i in zip(df.faunal_region, df.groupby("faunal_region").cumcount() + 1)]
 
-    # faunal region names from the provinces they cover (largest first)
+    # faunal region names from the provinces they cover (largest first), made unique the same way
     fr_names = (df.groupby(["faunal_region", "l2_name"]).area_km2.sum().reset_index()
                   .sort_values("area_km2", ascending=False).groupby("faunal_region").l2_name
                   .agg(lambda s: " – ".join(list(dict.fromkeys(s))[:2])))
+    w = df.area_km2
+    fx = (df.cx * w).groupby(df.faunal_region).sum() / w.groupby(df.faunal_region).sum()
+    fy = (df.cy * w).groupby(df.faunal_region).sum() / w.groupby(df.faunal_region).sum()
+    fr_names = disambiguate(fr_names, fx.reindex(fr_names.index), fy.reindex(fr_names.index))
     df["faunal_name"] = df.faunal_region.map(fr_names)
     df = df.drop(columns=["cx", "cy"])
     df.to_csv(paths.interim / "ecoregions.csv", index=False)
