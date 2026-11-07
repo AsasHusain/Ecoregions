@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revised Ecoregions of the World</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="map"></div>
+<aside id="panel">
+  <h1>Revised Ecoregions of the World</h1>
+  <p class="sub">Work in progress, country by country. Revised countries are drawn in full colour;
+    elsewhere the faded layer is the RESOLVE Ecoregions 2017 baseline.</p>
+
+  <div class="k">Countries</div>
+  <ul id="countries"></ul>
+
+  <div class="k">Layers</div>
+  <label><input type="checkbox" id="t-units" checked> Revised ecoregions</label>
+  <label><input type="checkbox" id="t-prov" checked> Province outlines</label>
+  <label><input type="checkbox" id="t-labels" checked> Labels</label>
+  <label><input type="checkbox" id="t-resolve" checked> RESOLVE 2017 baseline</label>
+  <label><input type="checkbox" id="t-borders" checked> Country borders</label>
+
+  <div class="k">About</div>
+  <p class="sub">Hover a region for details; click a country above to fly to it.
+    Gray: areas outside a revised country's study area, no ecoregions drawn.
+    Boundaries simplified for display.</p>
+  <p class="credit">Baseline: Dinerstein et al. 2017 (RESOLVE, CC BY 4.0). Borders: Natural Earth.</p>
+</aside>
+<div id="tip" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ecoregions"
+version = "0.1.0"
+description = "Fine-grained (Omernik-style) ecoregions for Pakistan, Azad Kashmir and Gilgit-Baltistan"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+
+[project.scripts]
+ecoregions = "ecoregions.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,32 @@
+:root {
+  --bg: #0a1622; --panel: rgba(250, 248, 243, 0.94); --ink: #1d2327; --muted: #5e676d;
+  --rule: #d9d4c8; --accent: #2f6f5e;
+}
+html, body { margin: 0; height: 100%; background: var(--bg); font: 14px/1.45 "Segoe UI", system-ui, sans-serif; color: var(--ink); }
+#map { position: absolute; inset: 0; }
+#panel {
+  position: absolute; top: 16px; left: 16px; width: 300px; max-height: calc(100% - 32px); overflow: auto;
+  background: var(--panel); border-radius: 10px; padding: 16px 18px; box-shadow: 0 6px 24px rgba(0,0,0,.35);
+}
+#panel h1 { font-size: 19px; margin: 0 0 6px; font-weight: 650; letter-spacing: .2px; }
+.sub { color: var(--muted); font-size: 12.5px; margin: 4px 0 8px; }
+.credit { color: var(--muted); font-size: 11px; margin-top: 10px; }
+.k { margin: 14px 0 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted);
+     border-top: 1px solid var(--rule); padding-top: 10px; }
+label { display: flex; gap: 8px; align-items: center; margin: 4px 0; cursor: pointer; }
+#countries { list-style: none; margin: 0; padding: 0; }
+#countries li { padding: 7px 9px; border-radius: 7px; cursor: pointer; display: flex; justify-content: space-between; gap: 8px; }
+#countries li:hover { background: #ece7da; }
+#countries .name { font-weight: 600; }
+#countries .st { font-size: 11.5px; color: var(--muted); text-align: right; }
+#countries .empty { color: var(--muted); cursor: default; }
+#tip {
+  position: absolute; pointer-events: none; max-width: 340px; background: rgba(250,248,243,.97); color: var(--ink);
+  border-radius: 8px; padding: 9px 11px; box-shadow: 0 4px 16px rgba(0,0,0,.3); font-size: 12.5px; z-index: 5;
+}
+#tip h2 { font-size: 14px; margin: 0 0 3px; }
+#tip .meta { color: var(--muted); font-size: 11.5px; margin-bottom: 4px; }
+.lbl { pointer-events: none; text-align: center; white-space: pre-line; color: #1b1f22; font-weight: 650;
+       font-size: 12px; letter-spacing: .3px; text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 2px #fff; }
+.lbl.gray { font-weight: 500; font-style: italic; font-size: 11px; color: #3d3d3a; }
+@media (max-width: 640px) { #panel { width: auto; right: 16px; max-height: 42%; } }

@@ -1,0 +1,362 @@
+# Pakistan ecoregions — pipeline configuration (v0.1)
+#
+# Every tunable used by the pipeline lives here so that a run is fully described
+# by this file plus the cached raw data. Units are SI (metres, km²) unless noted.
+
+project:
+  name: pakistan-ecoregions
+  version: "0.2.0"              # 0.1.x physiographic; 0.2.0 = first biodiversity-based release
+
+paths:
+  raw: data/raw            # cached downloads (git-ignored)
+  interim: data/interim    # derived rasters on the analysis grid (git-ignored)
+  outputs: outputs
+  qa: outputs/qa           # quick-look PNGs written by each stage
+
+# ---------------------------------------------------------------------------
+# Spatial reference and analysis grid
+# ---------------------------------------------------------------------------
+crs:
+  # Albers equal-area conic centred on Pakistan; standard parallels at 1/6 and
+  # 5/6 of the latitude span (23.5–37.2°N) to minimise scale distortion.
+  proj4: "+proj=aea +lat_0=30 +lon_0=69.3 +lat_1=25.8 +lat_2=34.9 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"
+
+grid:
+  resolution: 90                       # metres, analysis resolution for terrain
+  bbox_lonlat: [60.5, 23.5, 78.0, 37.2]  # download / processing extent (W, S, E, N)
+  study_buffer_m: 20000                # processing extent = study area + buffer (hydrology context)
+  coarse_factor: 3                     # segmentation grid = resolution * coarse_factor (270 m)
+  province_factor: 3                   # L2 grid = segmentation grid * 3 (810 m)
+  tile_size: 4096                      # pixels, for tiled local operators
+  tile_overlap: 256
+
+# ---------------------------------------------------------------------------
+# Data sources (all public, no authentication)
+# ---------------------------------------------------------------------------
+sources:
+  natural_earth:
+    base: https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/10m_cultural
+    layers: [ne_10m_admin_0_countries, ne_10m_admin_0_disputed_areas, ne_10m_admin_0_countries_pak]
+    extensions: [shp, shx, dbf, prj, cpg]
+  copernicus_dem:
+    url: https://copernicus-dem-90m.s3.amazonaws.com/{name}/{name}.tif
+    tile_list: https://copernicus-dem-90m.s3.amazonaws.com/tileList.txt
+    name: Copernicus_DSM_COG_30_{ns}{lat:02d}_00_{ew}{lon:03d}_00_DEM
+  hydrorivers:
+    url: https://data.hydrosheds.org/file/HydroRIVERS/HydroRIVERS_v10_as_shp.zip
+  hydrobasins:
+    url: https://data.hydrosheds.org/file/HydroBASINS/standard/hybas_as_lev01-12_v1c.zip
+    levels: [6, 7, 8, 9, 10]
+  geology:
+    # USGS OFR 97-470C, "Geologic map of South Asia (geo8ag)", ScienceBase item 60c3b89fd34e86b93897ef19
+    url: https://www.sciencebase.gov/catalog/file/get/60c3b89fd34e86b93897ef19
+    polygons: geo8apg/geo8apg.shp
+    lines: geo8alg/geo8alg.shp
+  soilgrids:
+    url: https://files.isric.org/soilgrids/latest/data/{prop}/{prop}_{depth}_mean.vrt
+    properties: [clay, sand, phh2o, soc]
+    depths: {"0-5cm": 5, "5-15cm": 10, "15-30cm": 15}   # depth interval -> thickness weight (cm)
+  chelsa:
+    url: https://os.zhdk.cloud.switch.ch/chelsav2/GLOBAL/climatologies/1981-2010/bio/CHELSA_{var}_1981-2010_V.2.1.tif
+    variables: [bio1, bio4, bio12, bio15, gdd5, ai]
+  worldcover:
+    url: https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_{ns}{lat:02d}{ew}{lon:03d}_Map.tif
+    read_resolution_m: 80     # read COG overviews; context only, never used for delineation
+  resolve:
+    url: https://storage.googleapis.com/teow2016/Ecoregions2017.zip
+  gbif:
+    api: https://api.gbif.org/v1
+    cell_deg: 0.25            # grid for assemblage tests
+    min_records_cell: 100
+    min_species_cell: 25
+    request_pause_s: 0.25
+    threads: 2                # concurrent API requests (GBIF rate-limits above this)
+
+  # --- v0.2 calibration / validation of the vegetation-community layer ---
+  # (validation only: never inputs to the community rules)
+  gmw:                        # Global Mangrove Watch v3 (Bunting et al. 2022), CC BY 4.0
+    files:                    # union 1996-2020 = best proxy for potential extent; 2020 = current
+      gmw_v3_union_gtiff.zip: https://zenodo.org/records/6894273/files/gmw_v3_union_gtiff.zip?download=1
+      gmw_v3_2020_gtiff.zip: https://zenodo.org/records/6894273/files/gmw_v3_2020_gtiff.zip?download=1
+  pnv:                        # Hengl et al. 2018 potential natural vegetation, biome classes 1 km, CC0+terms
+    files:
+      pnv_biome_1km.tif: https://dataverse.harvard.edu/api/access/datafile/3137376
+      pnv_biome_1km_legend.csv: https://dataverse.harvard.edu/api/access/datafile/3137372
+  jung_habitat:               # Jung et al. 2020 IUCN habitat map lvl2, 100 m, v004, CC BY 4.0
+    files:
+      iucn_habitatclassification_composite_lvl2_ver004.zip: https://zenodo.org/records/4058819/files/iucn_habitatclassification_composite_lvl2_ver004.zip?download=1
+      iucn_habitatclassification_code_ver004.zip: https://zenodo.org/records/4058819/files/iucn_habitatclassification_code_ver004.zip?download=1
+  gbif_records:               # occurrence records within bbox_lonlat (CC BY-NC: raw files never committed)
+    # queries are split by bisecting the bbox until each holds <= 9,000 records (deep offsets are very slow)
+    datasets:
+      82a53efc-f762-11e1-a439-00145eb45e9a: Himalayan Uplands Plant database (herbarium specimens, ~10 km precision)
+      8e7cf27d-0c28-40d8-a593-c3681aa3fd81: Seasonal dynamics of vegetation, Punjab (quadrats 2023-24)
+
+# ---------------------------------------------------------------------------
+# Terrain derivatives
+# ---------------------------------------------------------------------------
+terrain:
+  tpi_radii_m: [450, 2000, 10000]
+  relief_windows_m: [1000, 5000]
+  geomorphons:
+    search_cells: 50            # 4.5 km
+    skip_cells: 2
+    flatness_deg: 1.5
+  dune:                         # hummocky aeolian texture on the plains / mapped sand
+    tpi_abs_m: 2.5              # |TPI 450 m| at least this ...
+    slope_min_deg: 0.8          # ... and slope at least this
+  hammond:
+    window_m: 9810              # classic Hammond 6-mile window (~9.8 km)
+    gentle_slope_pct: 8
+
+# ---------------------------------------------------------------------------
+# Hydrology
+# ---------------------------------------------------------------------------
+hydrology:
+  burn_min_upland_km2: 1000          # HydroRIVERS reaches burned into the DEM on low-relief terrain
+  burn_depth_m: 15
+  burn_max_relief_m: 60              # only burn where 1 km relief is below this (plains)
+  stream_threshold_km2: 5            # DEM channel initiation
+  plains:
+    max_elev_m: 450
+    max_relief5k_m: 80
+    min_area_km2: 2000
+  rem:
+    # relative elevation model for the alluvial plains: height above the water
+    # surface of the nearest major river (HydroRIVERS, UPLAND_SKM >= this)
+    river_min_upland_km2: 8000
+    reference_resolution_m: 450
+    river_surface_percentile: 10      # of DEM along the channel, robust to banks/trees
+    river_median_km: 8                # along-channel median filter of river samples
+    harmonic_factor: 3                # river surface interpolated harmonically on a 1350 m grid
+    harmonic_iters: 3000
+    smooth_sigma_km: 3
+    dem_median_m: 270                 # despeckle DSM (trees, buildings, canal banks)
+    min_valid_m: -3                   # below this, fall back to flow-path HAND
+  hand_classes:                       # metres above nearest drainage (REM on plains)
+    # class name: [min, max)
+    # Calibrated on REM histograms across the Bari, Rechna and Chaj doabs: the
+    # Bari bars stand only ~4-7 m above the rivers, the Sandal Bar ~8-15 m.
+    active_floodplain: [-50, 2]       # riverine bela / kacho, flooded most years
+    meander_floodplain: [2, 5]        # older meander + cover floodplains
+    bar_upland: [5, 35]               # Pleistocene bar uplands / interfluve surfaces
+    upland: [35, 100000]              # anything higher (piedmont, hills)
+
+# ---------------------------------------------------------------------------
+# L2 physiographic provinces (seeded geodesic partition on an 810 m grid)
+# Seeds are lon/lat anchor points; several per province pin its shape. Edge
+# cost = step length x (1 + alpha * feature difference).
+# ---------------------------------------------------------------------------
+provinces:
+  alpha: 40.0
+  smooth_cells: 3              # Gaussian sigma (810 m cells) applied to features before differencing
+  # Trunk rivers act as barriers between provinces (a doab or a trans-Indus plain
+  # should not leak across the Indus): extra cost, in km-equivalents, to enter a channel cell.
+  river_barrier: {min_upland_km2: 30000, cost_km: 60}
+  features: {elev: 1.0, relief5k: 1.2, relief1k: 0.8, slope: 0.8, rem: 0.6, dune_frac: 1.0, sand: 0.6,
+             bio12: 0.6, bio1: 0.4, ai: 0.5, litho: 1.0}
+  units:
+    - code: "01"
+      name: Upper Indus Plain (Punjab doabs)
+      family: plains
+      seeds: [[73.1, 31.4], [72.9, 32.1], [73.4, 30.9], [72.6, 30.2], [74.3, 31.5], [71.5, 30.2], [72.2, 31.5]]
+    - code: "02"
+      name: Thal Desert
+      family: deserts
+      seeds: [[71.6, 31.4], [71.8, 31.0], [71.3, 31.8]]
+    - code: "03"
+      name: Lower Indus Plain and Delta
+      family: plains
+      seeds: [[68.4, 27.0], [68.8, 25.4], [67.6, 24.3], [69.6, 28.3], [68.3, 26.0], [70.5, 29.0]]
+    - code: "04"
+      name: Thar and Cholistan Deserts
+      family: deserts
+      seeds: [[71.7, 28.6], [69.75, 26.3], [70.2, 25.6], [72.6, 29.2], [70.8, 24.5], [70.6, 25.2], [71.0, 28.3], [70.0, 24.9]]
+    - code: "05"
+      name: Kachhi-Sibi Plain
+      family: plains
+      seeds: [[67.9, 28.6], [67.9, 29.3], [68.2, 28.2]]
+    - code: "06"
+      name: Potohar Plateau and Salt Range
+      family: plateaus
+      # incl. the trans-Indus Surghar and Khisor ranges
+      seeds: [[73.0, 33.3], [72.3, 33.1], [72.6, 32.7], [71.9, 32.6], [73.5, 33.0], [71.3, 32.85], [70.85, 32.35]]
+    - code: "07"
+      name: Northwestern Basins and Ranges (Peshawar, Kohat, Bannu, Tirah, Waziristan)
+      family: ranges
+      seeds: [[71.7, 34.0], [71.4, 33.6], [70.6, 32.9], [70.9, 33.9], [69.9, 32.5], [70.3, 33.2], [72.2, 34.1]]
+    - code: "08"
+      name: Sulaiman-Toba Kakar Ranges
+      family: ranges
+      # incl. the Marri-Bugti hills (southern Sulaiman fold belt) and the Takht-i-Sulaiman crest
+      seeds: [[69.9, 30.6], [69.4, 31.3], [69.0, 30.6], [68.2, 30.3], [70.2, 29.9], [69.6, 31.9],
+              [69.1, 29.15], [68.95, 29.6], [69.55, 29.45], [70.05, 31.5], [69.95, 30.95]]
+    - code: "09"
+      name: Kirthar-Pab Ranges and Lasbela
+      family: ranges
+      seeds: [[67.1, 26.6], [67.0, 25.6], [66.6, 26.0], [66.6, 25.6], [67.2, 27.3], [67.25, 28.2]]
+    - code: "10"
+      name: Central Balochistan Uplands (Quetta, Kalat, Brahui)
+      family: plateaus
+      seeds: [[67.0, 30.2], [66.6, 29.0], [66.4, 27.8], [67.1, 29.4], [66.1, 28.4]]
+    - code: "11"
+      name: Kharan-Chagai Deserts and Basins
+      family: deserts
+      seeds: [[65.4, 28.6], [64.3, 29.0], [63.0, 29.2], [65.4, 29.5], [62.5, 28.4]]
+    - code: "12"
+      name: Makran Ranges and Coast
+      family: coasts
+      seeds: [[64.6, 25.9], [63.0, 26.2], [62.6, 25.45], [65.2, 25.4], [64.0, 26.8], [63.5, 25.35]]
+    - code: "13"
+      name: Hindu Kush and Swat-Dir Ranges
+      family: high_mountains
+      seeds: [[71.8, 35.8], [72.4, 35.1], [71.7, 35.0], [72.9, 35.5], [72.0, 36.3]]
+    - code: "14"
+      name: Karakoram
+      family: high_mountains
+      seeds: [[74.7, 36.4], [75.5, 35.8], [76.3, 35.5], [74.4, 36.9], [75.8, 36.2], [74.9, 35.85], [75.7, 35.6]]
+    - code: "15"
+      name: Western Himalaya (Nanga Parbat, Deosai, Kaghan, Neelum)
+      family: high_mountains
+      seeds: [[74.6, 35.2], [75.3, 35.0], [73.7, 34.8], [74.0, 34.75], [73.8, 35.3], [74.85, 35.3], [74.8, 35.05]]
+    - code: "16"
+      name: Lesser Himalaya and Siwalik Foothills (Hazara, Poonch, Mirpur)
+      family: foothills
+      seeds: [[73.3, 34.1], [73.9, 33.7], [73.7, 33.2], [73.4, 34.4], [73.0, 34.5]]
+    - code: "17"
+      name: Derajat Piedmont Plains (Daman and Pachad)
+      family: plains
+      seeds: [[70.55, 31.9], [70.45, 31.3], [70.6, 30.15], [70.25, 29.2]]
+
+# ---------------------------------------------------------------------------
+# L3 delineation
+# ---------------------------------------------------------------------------
+segmentation:
+  superpixel_km2: {plains: 20, deserts: 40, plateaus: 20, ranges: 20, coasts: 25, foothills: 12, high_mountains: 15}
+  slic_compactness: 0.15
+  # Number of L3 units requested per L2 province (expert-tunable). Defaults were
+  # set from area and internal heterogeneity; total ~ 300.
+  target_units: {"01": 40, "02": 8, "03": 38, "04": 20, "05": 8, "06": 14, "07": 26, "08": 26,
+                 "09": 18, "10": 24, "11": 22, "12": 22, "13": 20, "14": 16, "15": 18, "16": 14, "17": 8}
+  # Minimum mapping unit (km²) by L2 family.
+  mmu_km2: {plains: 50, deserts: 50, plateaus: 30, ranges: 25, coasts: 30, foothills: 15, high_mountains: 15}
+  # Feature weights for clustering, by L2 family. Features are z-scored
+  # within the province before weighting. Absent keys weigh 0.
+  weights:
+    default:   {elev: 1.0, slope: 0.8, relief1k: 0.6, relief5k: 0.8, tpi2k: 0.4, rem: 0.3, hand: 0.4,
+                bar_frac: 0.2, flood_frac: 0.2, litho: 1.0, age: 0.6, clay: 0.4, sand: 0.4, ph: 0.2, soc: 0.3,
+                bio1: 0.7, bio4: 0.3, bio12: 0.8, bio15: 0.4, gdd5: 0.4, ai: 0.6, valley_frac: 0.3, ridge_frac: 0.3}
+    plains:    {elev: 0.4, slope: 0.4, relief1k: 0.6, relief5k: 0.4, rem: 1.6, hand: 0.4, flood_frac: 1.4,
+                meander_frac: 1.0, bar_frac: 1.4, litho: 0.6, clay: 0.8, sand: 1.0, ph: 0.4, soc: 0.4,
+                bio1: 0.4, bio12: 0.6, ai: 0.6, dune_frac: 0.8}
+    deserts:   {elev: 0.6, slope: 0.6, relief1k: 1.2, relief5k: 0.8, rem: 0.8, flood_frac: 0.6, bar_frac: 0.4,
+                litho: 1.0, age: 0.6, clay: 0.6, sand: 1.0, ph: 0.3, bio12: 0.6, ai: 0.6, dune_frac: 1.2}
+    high_mountains: {elev: 1.4, slope: 0.6, relief5k: 0.6, tpi2k: 0.4, litho: 1.0, age: 0.6, soc: 0.4,
+                bio1: 1.0, bio12: 1.0, gdd5: 0.6, ai: 0.6, valley_frac: 0.4, ridge_frac: 0.3, basin: 3.0}
+    foothills: {elev: 1.0, slope: 0.8, relief1k: 0.6, relief5k: 0.8, tpi2k: 0.4, litho: 1.0, age: 0.6, clay: 0.4,
+                sand: 0.4, soc: 0.3, bio1: 0.7, bio12: 0.8, ai: 0.6, valley_frac: 0.3, ridge_frac: 0.3, basin: 2.0}
+    ranges:    {elev: 1.0, slope: 0.8, relief1k: 0.6, relief5k: 0.8, tpi2k: 0.4, litho: 1.0, age: 0.6, clay: 0.4,
+                sand: 0.4, ph: 0.2, soc: 0.3, bio1: 0.7, bio4: 0.3, bio12: 0.8, bio15: 0.4, gdd5: 0.4, ai: 0.6,
+                valley_frac: 0.3, ridge_frac: 0.3, basin: 0.8}
+  connectivity: queen
+  # Basin membership (HydroBASINS level below, one-hot within the province) as a
+  # feature, so that mountain units prefer not to straddle major drainage divides.
+  basin_level: 7
+
+# ---------------------------------------------------------------------------
+# Boundary snapping at 90 m (marker-controlled watershed on a boundary-strength
+# surface). Units are refined only within `band_m` of the provisional line.
+# ---------------------------------------------------------------------------
+snapping:
+  band_m: 1500
+  strength_weights: {ridge: 1.0, divide: 1.0, scarp: 1.2, slope_break: 0.8, geology_contact: 0.4, rem_edge: 1.2}
+  geology_contact_sigma_m: 1500     # geo8ag is ~1:5M; contacts are smeared accordingly
+  promote_min_km2: 100             # detached fragments at least this large become their own unit; smaller ones are absorbed
+
+naming:
+  gazetteer: gazetteer.yaml
+
+validation:
+  random_partitions: 199            # null-model partitions for the ANOSIM comparison
+  anosim_permutations: 999
+  seed: 42
+
+# ---------------------------------------------------------------------------
+# Maps. Family hues were validated pairwise for every spatially adjacent family
+# pair (CVD dE >= 8 and normal-vision dE >= 15, OKLab x100); L3 units vary in
+# lightness within their family. L2 outlines and labels are the secondary encoding.
+# ---------------------------------------------------------------------------
+maps:
+  family_colors: {plains: "#5aa04c", deserts: "#ecc35a", plateaus: "#8b5bb0", ranges: "#7d3f35",
+                  coasts: "#23a3a0", foothills: "#e07fa6", high_mountains: "#3f63c9"}
+  gray: "#b9b9b4"
+  river_color: "#2f6fb0"
+  web_simplify_m: 150        # display-only simplification of web geometries
+  hillshade_res_m: 500
+  preview_px: 2400           # README preview of the static map (long side)
+  dpi: 360
+  sea_color: "#d9e6ee"
+  fonts:                     # first available is used (Windows fonts, then portable fallbacks)
+    regions: ["Palatino Linotype", "Georgia", "DejaVu Serif"]
+    units: ["Segoe UI", "Gill Sans MT", "DejaVu Sans"]
+
+# ---------------------------------------------------------------------------
+# v0.2 potential natural vegetation communities (rules in communities.yaml)
+# ---------------------------------------------------------------------------
+communities:
+  rules: communities.yaml
+  tile_size: 4096
+  river_min_upland_km2: 8000   # 'major river' for river_km (as hydrology.rem.river_min_upland_km2)
+  dune_window_m: 990           # dune terrain = dune texture share in this window ...
+  dune_min_share: 0.3          # ... at least this
+  creek_max_m: 1000            # creek_m (distance to WorldCover water / sea) is computed up to this
+
+# checks of the community layer against independent data (never rule inputs)
+vegcheck:
+  gmw_min_pct: 50              # a 90 m cell is 'mangrove' in GMW at this % cover
+  min_table_km2: 50            # drop habitat / biome classes smaller than this from the area tables
+  indicator_radius_km: 5       # GBIF herbarium records are located to ~10 km
+
+# species presence for faunal regions (IUCN + BirdLife ranges; licensed, never redistributed)
+fauna:
+  classes: [MAMMALIA, AVES, REPTILIA, AMPHIBIA]
+  cell_m: 10000                # analysis cells (equal-area)
+  fine_m: 1000                 # nested grid for range cover and Area of Habitat
+  buffer_m: 50000              # around the study area
+  presence: [1, 2]             # extant, probably extant
+  origin: [1, 2]               # native, reintroduced
+  seasonal: [1, 2]             # resident, breeding season
+  min_share: 0.2               # present if the (trimmed) range covers this share of a cell
+  # artificial cells (crops, urban ...) take the IUCN habitat of their potential natural vegetation:
+  # Hengl et al. 2018 PNV biome -> Jung lvl2 code (only the biomes present in Pakistan)
+  pnv_to_habitat: {3: 105, 4: 104, 9: 104, 13: 104, 15: 104, 16: 308, 17: 104, 20: 305, 22: 404, 27: 801, 28: 404}
+
+# faunal regions: UPGMA on Simpson beta diversity between cells
+faunal:
+  presence: elev               # 'range', 'elev' (range within elevation limits) or 'aoh' (+ habitat)
+  min_study_share: 0.5         # cells at least this much inside the study area
+  k_range: [3, 30]             # numbers of regions scanned (turnover explained)
+  k_maps: [6, 8, 10, 12, 15]   # numbers of regions mapped for review
+  min_fragment_cells: 5        # smaller spatial fragments join a neighbour
+  top_species: 15              # characteristic species listed per region
+
+# ---------------------------------------------------------------------------
+# Local globe site (site/): `python -m ecoregions globe` exports the country below;
+# serve with `python -m http.server 8000 --directory site`
+# ---------------------------------------------------------------------------
+globe:
+  site_dir: site
+  world_simplify_deg: 0.02     # world borders and RESOLVE baseline, display only
+  country:
+    iso3: PAK
+    name: Pakistan
+    status: community ecoregions in faunal regions
+
+# ---------------------------------------------------------------------------
+# v0.2 community ecoregions (types in communities.yaml -> ecoregion_types)
+# ---------------------------------------------------------------------------
+assemble:
+  faunal_k: 15                 # faunal regions used as the frame (one of faunal.k_maps)
+  smooth_cells: 7              # majority filter of ecoregion types on the 270 m grid (~1.9 km)
+  mmu_km2: 1000                # minimum ecoregion size
+  snap_band_m: 1000            # boundaries snapped to landform edges within this band

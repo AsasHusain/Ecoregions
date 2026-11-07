@@ -1,0 +1,18 @@
+# Tested with Python 3.13 on Linux (x86_64).
+numpy>=2.0
+scipy>=1.13
+pandas>=2.2
+rasterio>=1.4        # bundles GDAL >= 3.9
+geopandas>=1.0
+pyogrio>=0.10
+shapely>=2.1         # coverage_simplify
+pyproj>=3.6
+scikit-learn>=1.5
+scikit-image>=0.24
+numba>=0.60
+whitebox>=2.3        # WhiteboxTools wrapper (binary fetched from whiteboxgeo.com)
+matplotlib>=3.9
+pyyaml>=6.0
+requests>=2.32
+tqdm>=4.66
+pytest>=8.0
