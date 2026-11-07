@@ -1,66 +1,60 @@
 unit,code,name,resolve_main,resolve_share
 1,21.01,Karakoram–Hindu Kush dry alpine steppe and cold desert,Karakoram-West Tibetan Plateau alpine steppe,0.927
-2,22.03,Karakoram glaciers and rock — Karakoram (northwestern),Karakoram-West Tibetan Plateau alpine steppe,1.0
-3,22.02,Karakoram glaciers and rock — Karakoram (western),Karakoram-West Tibetan Plateau alpine steppe,1.0
-4,20.03,Himalayan subalpine forests and alpine meadows — Hindu Kush and Swat-Dir Ranges (western),Northwestern Himalayan alpine shrub and meadows,0.566
-5,20.02,Himalayan subalpine forests and alpine meadows — Hindu Kush and Swat-Dir Ranges (eastern),Northwestern Himalayan alpine shrub and meadows,0.548
-6,18.01,Western Himalayan moist temperate forests — Hindu Kush and Swat-Dir Ranges,Western Himalayan subalpine conifer forests,0.512
-7,22.01,Karakoram glaciers and rock — Karakoram (southeastern),Karakoram-West Tibetan Plateau alpine steppe,1.0
-8,20.01,Himalayan subalpine forests and alpine meadows — Western Himalaya,Karakoram-West Tibetan Plateau alpine steppe,0.581
-9,19.02,Hindu Kush–Sulaiman dry temperate forests — Western Himalaya,Western Himalayan subalpine conifer forests,0.769
-10,18.02,Western Himalayan moist temperate forests — Western Himalaya,Northwestern Himalayan alpine shrub and meadows,0.458
-11,17.01,Himalayan chir pine forests — Lesser Himalaya and Siwalik Foothills,Himalayan subtropical pine forests,0.551
-12,11.01,Subtropical olive–phulai scrub forests — Potohar Plateau and Salt Range,Baluchistan xeric woodlands,0.642
-13,12.02,Siwalik dry deciduous forests — Lesser Himalaya and Siwalik Foothills (northwestern),Himalayan subtropical pine forests,0.442
-14,12.01,Siwalik dry deciduous forests — Lesser Himalaya and Siwalik Foothills (southeastern),Western Himalayan subalpine conifer forests,0.529
-15,3.03,Indus plains thorn forests — Northwestern Basins and Ranges (northeastern),Baluchistan xeric woodlands,0.998
-16,18.05,Western Himalayan moist temperate forests — Lesser Himalaya and Siwalik Foothills,Himalayan subtropical pine forests,0.908
-17,17.03,Himalayan chir pine forests — Northwestern Basins and Ranges (northeastern),Baluchistan xeric woodlands,0.603
-18,18.03,Western Himalayan moist temperate forests — Northwestern Basins and Ranges (northeastern),Sulaiman Range alpine meadows,0.627
-19,3.07,Indus plains thorn forests — Northwestern Basins and Ranges (southwestern),Aravalli west thorn scrub forests,1.0
-20,17.04,Himalayan chir pine forests — Northwestern Basins and Ranges (southwestern),Baluchistan xeric woodlands,0.963
-21,3.01,Indus plains thorn forests — Lower Indus Plain and Delta (eastern),Aravalli west thorn scrub forests,0.878
-22,3.02,Indus plains thorn forests — Upper Indus Plain,Aravalli west thorn scrub forests,0.867
-23,18.04,Western Himalayan moist temperate forests — Northwestern Basins and Ranges (southwestern),Sulaiman Range alpine meadows,0.796
-24,2.02,Indus riverine forests — Upper Indus Plain (northern),Aravalli west thorn scrub forests,0.886
-25,4.01,Thal sand desert,Indus Valley desert,0.766
-26,19.03,Hindu Kush–Sulaiman dry temperate forests — Northwestern Basins and Ranges,Baluchistan xeric woodlands,0.591
-27,2.01,Indus riverine forests — Lower Indus Plain and Delta (northern),Aravalli west thorn scrub forests,0.999
-28,3.05,Indus plains thorn forests — Derajat Piedmont Plains (northern),Aravalli west thorn scrub forests,0.933
-29,10.01,Sulaiman–Bugti piedmont scrub — Sulaiman-Toba Kakar Ranges,Baluchistan xeric woodlands,0.605
-30,3.06,Indus plains thorn forests — Derajat Piedmont Plains (southern),Aravalli west thorn scrub forests,0.961
-31,19.01,Hindu Kush–Sulaiman dry temperate forests — Sulaiman-Toba Kakar Ranges (southeastern),Baluchistan xeric woodlands,1.0
-32,19.04,Hindu Kush–Sulaiman dry temperate forests — Sulaiman-Toba Kakar Ranges (northwestern),Baluchistan xeric woodlands,0.964
-33,15.03,Balochistan plateau Artemisia steppe — Sulaiman-Toba Kakar Ranges (northwestern),Baluchistan xeric woodlands,0.753
-34,13.01,Balochistan juniper woodlands — Sulaiman-Toba Kakar Ranges,Sulaiman Range alpine meadows,0.454
-35,2.06,Indus riverine forests — Upper Indus Plain (northeastern),Aravalli west thorn scrub forests,1.0
-36,15.02,Balochistan plateau Artemisia steppe — Sulaiman-Toba Kakar Ranges (southeastern),Baluchistan xeric woodlands,0.981
-37,15.04,Balochistan plateau Artemisia steppe — Central Balochistan Uplands (northeastern),Sulaiman Range alpine meadows,1.0
-38,15.01,Balochistan plateau Artemisia steppe — Central Balochistan Uplands (southwestern),Baluchistan xeric woodlands,0.905
-39,2.05,Indus riverine forests — Upper Indus Plain (southeastern),Aravalli west thorn scrub forests,1.0
-40,13.03,Balochistan juniper woodlands — Central Balochistan Uplands (northern),East Afghan montane conifer forests,0.986
-41,14.01,Balochistan pistachio–ash xeric woodlands — Central Balochistan Uplands (northeastern),Baluchistan xeric woodlands,0.687
-42,14.06,Balochistan pistachio–ash xeric woodlands — Sulaiman-Toba Kakar Ranges,Baluchistan xeric woodlands,1.0
-43,10.02,Sulaiman–Bugti piedmont scrub — Derajat Piedmont Plains,Aravalli west thorn scrub forests,0.91
-44,2.04,Indus riverine forests — Upper Indus Plain (southwestern),Aravalli west thorn scrub forests,0.999
-45,5.01,Thar–Cholistan desert,Thar desert,0.917
-46,16.01,Chagai–Kharan deserts and hamuns,Registan-North Pakistan sandy desert,0.843
-47,6.01,Kachhi–Sibi arid thorn scrub,Aravalli west thorn scrub forests,0.854
-48,14.02,Balochistan pistachio–ash xeric woodlands — Central Balochistan Uplands (western),Baluchistan xeric woodlands,0.972
-49,3.08,Indus plains thorn forests — Kachhi-Sibi Plain (southwestern),Aravalli west thorn scrub forests,0.687
-50,14.03,Balochistan pistachio–ash xeric woodlands — Kharan-Chagai Deserts and Basins (northwestern),Registan-North Pakistan sandy desert,1.0
-51,3.09,Indus plains thorn forests — Kachhi-Sibi Plain (northeastern),Aravalli west thorn scrub forests,0.803
-52,13.02,Balochistan juniper woodlands — Central Balochistan Uplands (southern),Sulaiman Range alpine meadows,0.843
-53,14.05,Balochistan pistachio–ash xeric woodlands — Kharan-Chagai Deserts and Basins (southeastern),Baluchistan xeric woodlands,0.994
-54,3.04,Indus plains thorn forests — Lower Indus Plain and Delta (western),Aravalli west thorn scrub forests,1.0
-55,7.01,Kirthar–Lasbela hill and valley scrub,Baluchistan xeric woodlands,0.648
-56,14.04,Balochistan pistachio–ash xeric woodlands — Central Balochistan Uplands (southern),Baluchistan xeric woodlands,0.978
-57,9.01,Makran ranges dwarf-palm scrub,Baluchistan xeric woodlands,0.592
-58,2.03,Indus riverine forests — Lower Indus Plain and Delta (southern),Aravalli west thorn scrub forests,0.821
-59,8.01,Makran coastal desert,South Iran Nubo-Sindian desert and semi-desert,0.811
-60,1.03,Indus Delta–Arabian Sea mangroves and salt flats — Kirthar-Pab Ranges and Lasbela,Indus River Delta-Arabian Sea mangroves,0.379
-61,1.02,Indus Delta–Arabian Sea mangroves and salt flats — Makran Ranges and Coast (western),South Iran Nubo-Sindian desert and semi-desert,1.0
-62,1.04,Indus Delta–Arabian Sea mangroves and salt flats — Makran Ranges and Coast (eastern),South Iran Nubo-Sindian desert and semi-desert,1.0
-63,1.01,Indus Delta–Arabian Sea mangroves and salt flats — Lower Indus Plain and Delta,Aravalli west thorn scrub forests,0.394
-64,17.02,Himalayan chir pine forests — Hindu Kush and Swat-Dir Ranges,Baluchistan xeric woodlands,0.479
-65,11.02,Subtropical olive–phulai scrub forests — Sulaiman-Toba Kakar Ranges,Baluchistan xeric woodlands,1.0
+2,22.01,Karakoram glaciers and rock — Karakoram (northwestern),Karakoram-West Tibetan Plateau alpine steppe,1.0
+3,20.02,Himalayan subalpine forests and alpine meadows — Hindu Kush and Swat-Dir Ranges,Northwestern Himalayan alpine shrub and meadows,0.553
+4,18.01,Western Himalayan moist temperate forests — Hindu Kush and Swat-Dir Ranges,Northwestern Himalayan alpine shrub and meadows,0.371
+5,22.02,Karakoram glaciers and rock — Karakoram (southeastern),Karakoram-West Tibetan Plateau alpine steppe,1.0
+6,20.01,Himalayan subalpine forests and alpine meadows — Western Himalaya,Karakoram-West Tibetan Plateau alpine steppe,0.581
+7,19.02,Hindu Kush–Sulaiman dry temperate forests — Western Himalaya,Western Himalayan subalpine conifer forests,0.769
+8,17.01,Himalayan chir pine forests — Lesser Himalaya and Siwalik Foothills,Himalayan subtropical pine forests,0.411
+9,11.01,Subtropical olive–phulai scrub forests — Potohar Plateau and Salt Range,Baluchistan xeric woodlands,0.642
+10,12.02,Siwalik dry deciduous forests — Lesser Himalaya and Siwalik Foothills (northwestern),Himalayan subtropical pine forests,0.442
+11,12.01,Siwalik dry deciduous forests — Lesser Himalaya and Siwalik Foothills (southeastern),Western Himalayan subalpine conifer forests,0.529
+12,3.04,Indus plains thorn forests — Northwestern Basins and Ranges (northeastern),Baluchistan xeric woodlands,0.998
+13,18.04,Western Himalayan moist temperate forests — Lesser Himalaya and Siwalik Foothills,Himalayan subtropical pine forests,0.908
+14,17.02,Himalayan chir pine forests — Northwestern Basins and Ranges (northeastern),Baluchistan xeric woodlands,0.603
+15,18.02,Western Himalayan moist temperate forests — Northwestern Basins and Ranges (northeastern),Sulaiman Range alpine meadows,0.627
+16,3.06,Indus plains thorn forests — Northwestern Basins and Ranges (southwestern),Aravalli west thorn scrub forests,1.0
+17,17.03,Himalayan chir pine forests — Northwestern Basins and Ranges (southwestern),Baluchistan xeric woodlands,0.963
+18,3.01,Indus plains thorn forests — Lower Indus Plain and Delta (eastern),Aravalli west thorn scrub forests,0.878
+19,3.02,Indus plains thorn forests — Upper Indus Plain,Aravalli west thorn scrub forests,0.867
+20,18.03,Western Himalayan moist temperate forests — Northwestern Basins and Ranges (southwestern),Sulaiman Range alpine meadows,0.796
+21,2.02,Indus riverine forests — Upper Indus Plain (northern),Aravalli west thorn scrub forests,0.886
+22,4.01,Thal sand desert,Indus Valley desert,0.766
+23,19.03,Hindu Kush–Sulaiman dry temperate forests — Northwestern Basins and Ranges,Baluchistan xeric woodlands,0.591
+24,2.01,Indus riverine forests — Lower Indus Plain and Delta (northern),Aravalli west thorn scrub forests,0.999
+25,3.03,Indus plains thorn forests — Derajat Piedmont Plains,Aravalli west thorn scrub forests,0.943
+26,10.01,Sulaiman–Bugti piedmont scrub — Sulaiman-Toba Kakar Ranges,Baluchistan xeric woodlands,0.605
+27,19.01,Hindu Kush–Sulaiman dry temperate forests — Sulaiman-Toba Kakar Ranges (southeastern),Baluchistan xeric woodlands,1.0
+28,19.04,Hindu Kush–Sulaiman dry temperate forests — Sulaiman-Toba Kakar Ranges (northwestern),Baluchistan xeric woodlands,0.964
+29,15.03,Balochistan plateau Artemisia steppe — Sulaiman-Toba Kakar Ranges (northwestern),Baluchistan xeric woodlands,0.753
+30,13.01,Balochistan juniper woodlands — Sulaiman-Toba Kakar Ranges,Sulaiman Range alpine meadows,0.417
+31,2.06,Indus riverine forests — Upper Indus Plain (northeastern),Aravalli west thorn scrub forests,1.0
+32,15.02,Balochistan plateau Artemisia steppe — Sulaiman-Toba Kakar Ranges (southeastern),Baluchistan xeric woodlands,0.981
+33,15.04,Balochistan plateau Artemisia steppe — Central Balochistan Uplands (northeastern),Sulaiman Range alpine meadows,1.0
+34,15.01,Balochistan plateau Artemisia steppe — Central Balochistan Uplands (southwestern),Baluchistan xeric woodlands,0.905
+35,2.05,Indus riverine forests — Upper Indus Plain (southeastern),Aravalli west thorn scrub forests,1.0
+36,14.01,Balochistan pistachio–ash xeric woodlands — Central Balochistan Uplands (northeastern),Baluchistan xeric woodlands,0.687
+37,14.06,Balochistan pistachio–ash xeric woodlands — Sulaiman-Toba Kakar Ranges,Baluchistan xeric woodlands,1.0
+38,10.02,Sulaiman–Bugti piedmont scrub — Derajat Piedmont Plains,Aravalli west thorn scrub forests,0.91
+39,2.04,Indus riverine forests — Upper Indus Plain (southwestern),Aravalli west thorn scrub forests,0.999
+40,5.01,Thar–Cholistan desert,Thar desert,0.917
+41,16.01,Chagai–Kharan deserts and hamuns,Registan-North Pakistan sandy desert,0.843
+42,6.01,Kachhi–Sibi arid thorn scrub,Aravalli west thorn scrub forests,0.854
+43,14.02,Balochistan pistachio–ash xeric woodlands — Central Balochistan Uplands (western),Baluchistan xeric woodlands,0.972
+44,3.07,Indus plains thorn forests — Kachhi-Sibi Plain (southwestern),Aravalli west thorn scrub forests,0.687
+45,14.03,Balochistan pistachio–ash xeric woodlands — Kharan-Chagai Deserts and Basins (northwestern),Registan-North Pakistan sandy desert,1.0
+46,3.08,Indus plains thorn forests — Kachhi-Sibi Plain (northeastern),Aravalli west thorn scrub forests,0.803
+47,13.02,Balochistan juniper woodlands — Central Balochistan Uplands,Sulaiman Range alpine meadows,0.843
+48,14.05,Balochistan pistachio–ash xeric woodlands — Kharan-Chagai Deserts and Basins (southeastern),Baluchistan xeric woodlands,0.994
+49,3.05,Indus plains thorn forests — Lower Indus Plain and Delta (western),Aravalli west thorn scrub forests,1.0
+50,7.01,Kirthar–Lasbela hill and valley scrub,Baluchistan xeric woodlands,0.648
+51,14.04,Balochistan pistachio–ash xeric woodlands — Central Balochistan Uplands (southern),Baluchistan xeric woodlands,0.978
+52,9.01,Makran ranges dwarf-palm scrub,Baluchistan xeric woodlands,0.592
+53,2.03,Indus riverine forests — Lower Indus Plain and Delta (southern),Aravalli west thorn scrub forests,0.821
+54,8.01,Makran coastal desert,South Iran Nubo-Sindian desert and semi-desert,0.811
+55,1.03,Indus Delta–Arabian Sea mangroves and salt flats — Kirthar-Pab Ranges and Lasbela,Indus River Delta-Arabian Sea mangroves,0.379
+56,1.02,Indus Delta–Arabian Sea mangroves and salt flats — Makran Ranges and Coast (western),South Iran Nubo-Sindian desert and semi-desert,1.0
+57,1.04,Indus Delta–Arabian Sea mangroves and salt flats — Makran Ranges and Coast (eastern),South Iran Nubo-Sindian desert and semi-desert,1.0
+58,1.01,Indus Delta–Arabian Sea mangroves and salt flats — Lower Indus Plain and Delta,Aravalli west thorn scrub forests,0.394
+59,11.02,Subtropical olive–phulai scrub forests — Sulaiman-Toba Kakar Ranges,Baluchistan xeric woodlands,1.0

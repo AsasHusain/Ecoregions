@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 from ecoregions.attributes import aridity_class, compass, texture_class
-from ecoregions.assemble import disambiguate, majority, merge_small_nested
+from ecoregions.assemble import disambiguate, join_same_type, majority, merge_small_nested
 from ecoregions.colors import shade
 from ecoregions.communities import classify, load_rules, northness
 from ecoregions.crosscheck import expectation
@@ -212,3 +212,15 @@ def test_disambiguate_names():
     x = pd.Series([0.0, 10.0, 5.0, 3.0, 3.0]); y = pd.Series([0.0, 0.0, 5.0, 1.0, 1.0])
     out = disambiguate(names, x, y)
     assert out.is_unique and out[0] == "A (western)" and out[1] == "A (eastern)" and out[2] == "B"
+
+
+def test_join_same_type_merges_touching_parts_of_one_type():
+    # 1 and 3 share type A and touch; 2 is type B; 4 is type A but touches only 2
+    lab = np.array([[1, 1, 3, 3, 2, 4],
+                    [1, 1, 3, 3, 2, 4],
+                    [0, 0, 0, 0, 0, 0]])
+    typ = np.array([0, 5, 6, 5, 5])
+    out = join_same_type(lab, typ, rows=1)
+    assert out[0, 0] == out[0, 2] != out[0, 4]
+    assert out[0, 5] not in (out[0, 0], out[0, 4])
+    assert (out[2] == 0).all() and (out[:2] > 0).all()

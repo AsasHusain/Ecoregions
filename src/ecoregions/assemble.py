@@ -101,6 +101,29 @@ def merge_small_nested(lab: np.ndarray, parent: np.ndarray, min_px: int, rounds:
     return lab
 
 
+def join_same_type(lab: np.ndarray, typ: np.ndarray, rows: int = 1024) -> np.ndarray:
+    """Give touching labels of the same type (``typ[label]``) one label: merging small
+    parts into neighbours can join two parts of one type after they were labelled."""
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+
+    n = int(lab.max()) + 1
+    keys = []
+    for r0 in range(0, lab.shape[0], rows):
+        blk = lab[r0:r0 + rows + 1].astype(np.int64)
+        for a, b in ((blk[:, :-1], blk[:, 1:]), (blk[:-1], blk[1:])):
+            m = (a != b) & (a > 0) & (b > 0)
+            keys.append(np.unique(a[m] * n + b[m]))
+    k = np.unique(np.concatenate(keys))
+    a, b = k // n, k % n
+    same = typ[a] == typ[b]
+    g = coo_matrix((np.ones(same.sum()), (a[same], b[same])), shape=(n, n))
+    _, root = connected_components(g, directed=False)
+    root = (root + 1).astype(np.int32)
+    root[0] = 0  # background has no edges, so it is its own component
+    return root[lab]
+
+
 def disambiguate(names: pd.Series, x: pd.Series, y: pd.Series) -> pd.Series:
     """Make repeated names unique: add the position relative to the namesakes'
     centroid ("(northern)"), then a number if two still coincide."""
@@ -178,7 +201,9 @@ def run(cfg) -> None:
     mmu_px = int(ac["mmu_km2"] / grid.cell_km2)
     snapped, _ = make_contiguous(snapped, mmu_px)
     snapped = merge_small_units(snapped, {int(u): mmu_px for u in np.unique(snapped[snapped > 0])})
-    ids = np.unique(snapped[snapped > 0])
+    ns = int(snapped.max()) + 1
+    snapped = join_same_type(snapped, mode_per_label(snapped, cls90, ns, len(tkeys) + 1))
+    ids =np.unique(snapped[snapped > 0])
     remap = np.zeros(int(snapped.max()) + 1, np.int32)
     remap[ids] = np.arange(1, ids.size + 1)
     eco = remap[snapped].astype("uint16")

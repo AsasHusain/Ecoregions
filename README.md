@@ -1,4 +1,4 @@
-# The New Ecoregions of Pakistan (v0.2.1)
+# The New Ecoregions of Pakistan (v0.2.2)
 
 Biodiversity-based ecoregions for Pakistan, Azad Kashmir, Gilgit-Baltistan and
 the Siachen Glacier area, replacing the coarse WWF/RESOLVE *Ecoregions2017*
@@ -9,13 +9,13 @@ with ecoregions built from natural communities and species turnover:
 |---|---|---|---|
 | **Biomes** | RESOLVE biome of each ecoregion type | from the ecoregion types | 7 |
 | **Faunal regions** (overlay) | Areas with distinct vertebrate assemblages | Simpson beta diversity of 849 mammals, birds, reptiles and amphibians (IUCN Red List and BirdLife ranges trimmed to elevation limits) on 10 km cells, UPGMA clustering; boundaries follow the physiographic units. An overlay: faunal boundaries do not cut ecoregions | 15 |
-| **Ecoregions** | Mappable areas of one natural community type — the main deliverable | 38 potential natural vegetation communities mapped at 90 m by explicit rules ([`communities.yaml`](communities.yaml)), grouped into 22 ecoregion types; each ecoregion is one continuous area of one type (not cut by faunal regions, provinces or borders inside the study area), minimum 1,000 km², boundaries snapped to landforms | 65 |
+| **Ecoregions** | Mappable areas of one natural community type — the main deliverable | 38 potential natural vegetation communities mapped at 90 m by explicit rules ([`communities.yaml`](communities.yaml)), grouped into 22 ecoregion types; each ecoregion is one continuous area of one type (not cut by faunal regions, provinces or borders inside the study area), minimum 1,000 km², boundaries snapped to landforms | 59 |
 
-[![Static map](outputs/ecoregions_map_v0.2.1_preview.png)](outputs/ecoregions_map_v0.2.1.png)
+[![Static map](outputs/ecoregions_map_v0.2.2_preview.png)](outputs/ecoregions_map_v0.2.2.png)
 
 *Click the map for the full-resolution version.* Companion layer: the
 physiographic regionalization (17 provinces, 389 units) —
-[map](outputs/physiographic_map_v0.2.1.png), described below.
+[map](outputs/physiographic_map_v0.2.2.png), described below.
 
 > Political boundaries: the study area ends at the Line of Control and includes the Siachen Glacier area; other areas administered by India or China are shown flat gray.
 
@@ -33,12 +33,12 @@ physiographic regionalization (17 provinces, 389 units) —
 The local globe viewer (`site/`, see *v0.2* below) shows the ecoregions on a
 globe, country by country.
 
-### Ecoregion types (v0.2.1)
+### Ecoregion types (v0.2.2)
 
 | Biome | Ecoregion type | Ecoregions | Area (km²) | Still natural | Stability |
 |---|---|---|---|---|---|
 | Mangroves | Indus Delta–Arabian Sea mangroves and salt flats | 4 | 13,538 | 92 % | 95 % |
-| Deserts & Xeric Shrublands | Indus plains thorn forests | 9 | 153,632 | 31 % | 98 % |
+| Deserts & Xeric Shrublands | Indus plains thorn forests | 8 | 153,632 | 31 % | 98 % |
 |  | Thar–Cholistan desert | 1 | 74,970 | 81 % | 100 % |
 |  | Chagai–Kharan deserts and hamuns | 1 | 70,752 | 99 % | 98 % |
 |  | Makran ranges dwarf-palm scrub | 1 | 60,882 | 99 % | 98 % |
@@ -52,22 +52,22 @@ globe, country by country.
 | Tropical & Subtropical Dry Broadleaf Forests | Subtropical olive–phulai scrub forests | 2 | 73,353 | 75 % | 92 % |
 |  | Indus riverine forests | 6 | 20,263 | 26 % | 91 % |
 |  | Siwalik dry deciduous forests | 2 | 8,322 | 70 % | 96 % |
-| Tropical & Subtropical Coniferous Forests | Himalayan chir pine forests | 4 | 15,170 | 90 % | 84 % |
-| Temperate Conifer Forests | Western Himalayan moist temperate forests | 5 | 17,980 | 97 % | 89 % |
-|  | Balochistan juniper woodlands | 3 | 17,804 | 99 % | 88 % |
+| Tropical & Subtropical Coniferous Forests | Himalayan chir pine forests | 3 | 15,170 | 90 % | 84 % |
+| Temperate Conifer Forests | Western Himalayan moist temperate forests | 4 | 17,980 | 97 % | 89 % |
+|  | Balochistan juniper woodlands | 2 | 17,804 | 99 % | 88 % |
 |  | Hindu Kush–Sulaiman dry temperate forests | 4 | 11,253 | 98 % | 78 % |
 | Montane Grasslands & Shrublands | Karakoram–Hindu Kush dry alpine steppe and cold desert | 1 | 49,074 | 100 % | 86 % |
-|  | Himalayan subalpine forests and alpine meadows | 3 | 36,069 | 100 % | 84 % |
-| Rock and Ice | Karakoram glaciers and rock | 3 | 8,646 | 100 % | 91 % |
+|  | Himalayan subalpine forests and alpine meadows | 2 | 36,069 | 100 % | 84 % |
+| Rock and Ice | Karakoram glaciers and rock | 2 | 8,646 | 100 % | 91 % |
 
 *Still natural* = share not mapped as cropland or built-up by ESA WorldCover
 2021 (it does not measure degradation). *Stability* = share of the area keeping
 its type when every rule threshold is perturbed (validation test 3). Median
-ecoregion 4,360 km²; median confidence 0.88 (purity of the
+ecoregion 5,055 km²; median confidence 0.89 (purity of the
 community type and share not mapped by a province fallback rule).
-26 of the 65 ecoregions span more than one faunal region.
+25 of the 59 ecoregions span more than one faunal region. Touching parts of one type are always one ecoregion (v0.2.1 left six such pairs split).
 
-### Validation (v0.2.1)
+### Validation (v0.2.2)
 
 Four tests (`evaluate` stage; tables in `outputs/validation_*.csv`).
 
@@ -78,9 +78,9 @@ partition beats (95 % is the usual bar):
 
 | Partition | All taxa | Birds | Plants |
 |---|---|---|---|
-| **v0.2 ecoregions** (65) | 77 % | 19 % | 80 % |
-| **v0.2 faunal regions** (15) | 90 % | 100 % | 96 % |
-| v0.2 biomes (7) | 71 % | 90 % | 95 % |
+| **v0.2 ecoregions** (59) | 79 % | 21 % | 89 % |
+| **v0.2 faunal regions** (15) | 92 % | 100 % | 97 % |
+| v0.2 biomes (7) | 75 % | 85 % | 91 % |
 | physiographic L3 / L2 | 84 % / 89 % | 79 % / 93 % | 94 % / 84 % |
 | RESOLVE ecoregions | 79 % | 78 % | 96 % |
 | RESOLVE biomes | 99 % | 100 % | 91 % |
@@ -104,17 +104,17 @@ largely the same regions.
 **3. Sensitivity to the rule thresholds.** Twelve runs with every numeric
 threshold shifted at random (elevation σ 5 %, rainfall and aridity 15 %, slope
 and distances 20 %): the median ecoregion keeps its type on 90 % of its area, and
-2 of 65 fall below 70 %. The least stable types are the mountain belts
+2 of 59 fall below 70 %. The least stable types are the mountain belts
 drawn by elevation and rainfall limits (Hindu Kush–Sulaiman dry temperate forests
-78 %, subalpine forests and alpine meadows 84 %, moist temperate and chir pine
-forests 87–88 %). Lowland types score near 100 % partly because their rules rely
+78 %, subalpine forests and alpine meadows 84 %, chir pine and moist temperate
+forests 84–89 %). Lowland types score near 100 % partly because their rules rely
 on provinces rather than thresholds; this test does not check the provinces.
 
 **4. Correspondence with RESOLVE.** The median ecoregion lies 88 % inside one
-RESOLVE ecoregion and 14 of 65 straddle RESOLVE lines; biomes agree on 79 % of
+RESOLVE ecoregion and 11 of 59 straddle RESOLVE lines; biomes agree on 79 % of
 the area. RESOLVE's "Baluchistan xeric woodlands" is the main RESOLVE unit of
-20 v0.2 ecoregions and "Aravalli west thorn scrub forests" (most of
-the Indus plain) of 17.
+19 v0.2 ecoregions and "Aravalli west thorn scrub forests" (most of
+the Indus plain) of 16.
 
 **Review notes.** Weakest parts of v0.2.0: the Balochistan juniper, pistachio and
 Artemisia types form a fine mosaic (type purity 51–69 %) and are not calibrated
@@ -440,7 +440,7 @@ ecoregions**, with v0.1 kept as a companion physiographic layer.
 | Validation sources (`download` stage): Global Mangrove Watch v3, Jung et al. 2020 habitat map lvl2, Hengl et al. 2018 PNV biomes, GBIF plant records (Himalayan Uplands Plant database; Punjab quadrats) | downloaded; `vegcheck` uses them only to check the rules, never as rule inputs |
 | Species presence on a 10 km grid (`fauna`): 1,238 mammals, birds, reptiles and amphibians (IUCN + BirdLife ranges) | done; ranges trimmed to elevation limits (`elev`, default) or to Area of Habitat (`aoh`, sensitivity) |
 | Faunal regions (`faunal`): Simpson beta diversity, UPGMA | first results: natural breaks at 7, 15 and 18 regions |
-| Ecoregion assembly (`assemble`): types within faunal regions, snapped to landforms | done: 85 ecoregions |
+| Ecoregion assembly (`assemble`): continuous areas of one type, snapped to landforms; faunal regions as overlay | done: 59 ecoregions |
 | Validation of the ecoregions against held-out data; refinement of the uncalibrated types | to do |
 
 **Calibration so far.** *Mangroves*: on the DSM they sit at the height of open
