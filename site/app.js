@@ -15,7 +15,7 @@ const map = new maplibregl.Map({
 map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
 map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
 
-const get = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`); return r.json(); });
+const get = (url) => fetch(url, { cache: 'no-cache' }).then((r) => { if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`); return r.json(); });
 const unitLayers = [], provLayers = [], markers = [];
 
 map.on('load', async () => {
@@ -31,11 +31,11 @@ map.on('load', async () => {
     paint: { 'line-color': '#ffffff', 'line-width': 0.4, 'line-opacity': 0.5 } });
 
   for (const [iso, c] of Object.entries(manifest.countries)) {
-    const f = c.files;
-    map.addSource(`${iso}-units`, { type: 'geojson', data: `data/${f.units}` });
-    map.addSource(`${iso}-prov`, { type: 'geojson', data: `data/${f.provinces}` });
-    map.addSource(`${iso}-gray`, { type: 'geojson', data: `data/${f.gray}` });
-    map.addSource(`${iso}-outline`, { type: 'geojson', data: `data/${f.outline}` });
+    const f = c.files, q = `?v=${c.version}`; // version in the URL: a rebuild is never served from the browser cache
+    map.addSource(`${iso}-units`, { type: 'geojson', data: `data/${f.units}${q}` });
+    map.addSource(`${iso}-prov`, { type: 'geojson', data: `data/${f.provinces}${q}` });
+    map.addSource(`${iso}-gray`, { type: 'geojson', data: `data/${f.gray}${q}` });
+    map.addSource(`${iso}-outline`, { type: 'geojson', data: `data/${f.outline}${q}` });
     map.addLayer({ id: `${iso}-units-fill`, type: 'fill', source: `${iso}-units`,
       paint: { 'fill-color': ['get', 'color'], 'fill-opacity': 0.88 } });
     map.addLayer({ id: `${iso}-units-line`, type: 'line', source: `${iso}-units`,
@@ -50,7 +50,7 @@ map.on('load', async () => {
     unitLayers.push(`${iso}-units-fill`, `${iso}-units-line`);
     provLayers.push(`${iso}-prov-line`);
     if (f.labels) {
-      for (const l of (await get(`data/${f.labels}`)).labels) {
+      for (const l of (await get(`data/${f.labels}${q}`)).labels) {
         const el = document.createElement('div');
         el.className = `lbl ${l.kind}`;
         el.textContent = l.text;
