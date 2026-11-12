@@ -1,0 +1,19 @@
+cell_deg,map,units,loss,skill,loss_p5,cells_dev,cells_test,status
+0.25,random contiguous (8),8.0,0.0191,0.3458,0.0167,,,exploratory
+0.25,random contiguous (9),9.0,0.0183,0.3742,0.0164,,,exploratory
+0.25,biomes by the key,9.0,0.0198,0.3242,,1088.0,1097.0,exploratory
+0.25,biomes as hand-set,9.0,0.0228,0.2218,,1088.0,1097.0,exploratory
+0.25,RESOLVE biomes,9.0,0.0248,0.1507,,1088.0,1097.0,exploratory
+0.25,climate k-means (8),9.0,0.0172,0.4107,,1088.0,1097.0,exploratory
+0.25,climate k-means (9),10.0,0.0173,0.4073,,1088.0,1097.0,exploratory
+0.25,overall prior,,0.0292,0.0,,1088.0,1097.0,exploratory
+0.25,spatial-only (nearest development cells),,0.0049,0.8308,,1088.0,1097.0,exploratory
+0.125,random contiguous (8),8.0,0.0214,0.3098,0.0192,,,exploratory
+0.125,random contiguous (9),9.0,0.0206,0.335,0.0184,,,exploratory
+0.125,biomes by the key,9.0,0.0206,0.3346,,4320.0,4348.0,exploratory
+0.125,biomes as hand-set,9.0,0.0231,0.2567,,4320.0,4348.0,exploratory
+0.125,RESOLVE biomes,9.0,0.0254,0.1823,,4320.0,4348.0,exploratory
+0.125,climate k-means (8),9.0,0.0183,0.4114,,4320.0,4348.0,exploratory
+0.125,climate k-means (9),10.0,0.0188,0.3939,,4320.0,4348.0,exploratory
+0.125,overall prior,,0.031,0.0,,4320.0,4348.0,exploratory
+0.125,spatial-only (nearest development cells),,0.0055,0.8217,,4320.0,4348.0,exploratory

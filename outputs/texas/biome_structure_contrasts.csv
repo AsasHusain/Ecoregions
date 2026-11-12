@@ -1,0 +1,17 @@
+cell_deg,candidate,comparator,relative_loss_improvement,ci_low,ci_high,status
+0.25,biomes by the key,RESOLVE biomes,-0.4592,-0.6241,-0.3003,exploratory
+0.25,biomes by the key,climate k-means (7),-0.1875,-0.4355,-0.0216,exploratory
+0.25,biomes by the key,overall prior,0.4148,0.3301,0.4775,exploratory
+0.25,biomes by the key,spatial-only (nearest development cells),-3.0895,-4.0743,-2.3254,exploratory
+0.25,biomes as hand-set,RESOLVE biomes,-0.2042,-0.3024,-0.1241,exploratory
+0.25,biomes as hand-set,climate k-means (7),0.02,-0.1523,0.1311,exploratory
+0.25,biomes as hand-set,overall prior,0.5171,0.4485,0.5798,exploratory
+0.25,biomes as hand-set,spatial-only (nearest development cells),-2.3749,-3.1591,-1.768,exploratory
+0.125,biomes by the key,RESOLVE biomes,-0.4268,-0.6504,-0.2759,exploratory
+0.125,biomes by the key,climate k-means (7),-0.165,-0.3552,-0.0326,exploratory
+0.125,biomes by the key,overall prior,0.399,0.3135,0.4716,exploratory
+0.125,biomes by the key,spatial-only (nearest development cells),-3.2005,-4.0697,-2.4208,exploratory
+0.125,biomes as hand-set,RESOLVE biomes,-0.2153,-0.3641,-0.1391,exploratory
+0.125,biomes as hand-set,climate k-means (7),0.0077,-0.1362,0.1107,exploratory
+0.125,biomes as hand-set,overall prior,0.488,0.4122,0.5497,exploratory
+0.125,biomes as hand-set,spatial-only (nearest development cells),-2.578,-3.2543,-1.9172,exploratory

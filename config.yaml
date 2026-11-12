@@ -1,0 +1,343 @@
+# Ecoregions of the planet, region by region — shared pipeline configuration.
+# Each mapped region's own settings are in regions/<region>.yaml, merged over this file.
+#
+# Every tunable used by the pipeline lives here so that a run is fully described
+# by this file plus the cached raw data. Units are SI (metres, km²) unless noted.
+
+
+paths:
+  raw: data/raw            # cached downloads (git-ignored)
+
+# ---------------------------------------------------------------------------
+# Spatial reference and analysis grid
+# ---------------------------------------------------------------------------
+
+grid:
+  resolution: 90                       # metres, analysis resolution for terrain
+  study_buffer_m: 20000                # processing extent = study area + buffer (hydrology context)
+  coast_window_m: 15000                # coast redrawn from the DEM within this distance of the Natural Earth coast
+  open_sea_m: 5000                     # DEM sea must connect to Natural Earth sea at least this far from land
+  coast_max_inland_m: 10000            # Natural Earth land becomes sea only this close to its coast (creeks, not salt flats)
+  coarse_factor: 3                     # segmentation grid = resolution * coarse_factor (270 m)
+  province_factor: 3                   # L2 grid = segmentation grid * 3 (810 m)
+  tile_size: 4096                      # pixels, for tiled local operators
+  tile_overlap: 256
+
+# ---------------------------------------------------------------------------
+# Data sources (all public, no authentication)
+# ---------------------------------------------------------------------------
+sources:
+  copernicus_dem:
+    url: https://copernicus-dem-90m.s3.amazonaws.com/{name}/{name}.tif
+    tile_list: https://copernicus-dem-90m.s3.amazonaws.com/tileList.txt
+    name: Copernicus_DSM_COG_30_{ns}{lat:02d}_00_{ew}{lon:03d}_00_DEM
+  soilgrids:
+    url: https://files.isric.org/soilgrids/latest/data/{prop}/{prop}_{depth}_mean.vrt
+    properties: [clay, sand, phh2o, soc]
+    depths: {"0-5cm": 5, "5-15cm": 10, "15-30cm": 15}   # depth interval -> thickness weight (cm)
+  chelsa:
+    url: https://os.zhdk.cloud.switch.ch/chelsav2/GLOBAL/climatologies/1981-2010/bio/CHELSA_{var}_1981-2010_V.2.1.tif
+    variables: [bio1, bio4, bio12, bio15, gdd5, ai, hurs_mean, vpd_mean]  # humidity and VPD: information only, no rule uses them
+    # monthly rain for the rain season: summer_rain = rain in summer_months / annual rain (0 winter rain .. 1 monsoon);
+    # fixed months, not CHELSA's warmest quarter, which flips from April-June to June-August across the plains
+    monthly_url: https://os.zhdk.cloud.switch.ch/chelsav2/GLOBAL/climatologies/1981-2010/pr/CHELSA_pr_{month:02d}_1981-2010_V.2.1.tif
+    summer_months: [5, 6, 7, 8, 9, 10]
+  mcd12q2:  # MODIS land-surface phenology 500 m, clipped by NASA AppEEARS; Earthdata login in EARTHDATA_USERNAME / _PASSWORD
+    api: https://appeears.earthdatacloud.nasa.gov/api
+    years: [2001, 2025]
+    layers: [Greenup, Dormancy, NumCycles, EVI_Amplitude, EVI_Area, QA_Overall]
+    max_qa: 2               # QA_Overall 0 best .. 3 poor; poor years are left out of the medians
+  worldcover:
+    url: https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_{ns}{lat:02d}{ew}{lon:03d}_Map.tif
+    read_resolution_m: 80     # read COG overviews; context only, never used for delineation
+  resolve:
+    url: https://storage.googleapis.com/teow2016/Ecoregions2017.zip
+  ghs_pop:
+    # GHS-POP R2023A, epoch 2020, 1 km Mollweide tiles (JRC, CC BY 4.0): residents per cell, for ecoregion populations
+    url: https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_POP_GLOBE_R2023A/GHS_POP_E2020_GLOBE_R2023A_54009_1000/V1-0/tiles/GHS_POP_E2020_GLOBE_R2023A_54009_1000_V1_0_R{row}_C{col}.zip
+  gbif:
+    api: https://api.gbif.org/v1
+    cell_deg: 0.25            # grid for assemblage tests
+    min_records_cell: 100
+    min_species_cell: 25
+    request_pause_s: 0.25
+    threads: 2                # concurrent API requests (GBIF rate-limits above this)
+
+  # --- v0.2 calibration / validation of the vegetation-community layer ---
+  # (validation only: never inputs to the community rules)
+  gmw:                        # Global Mangrove Watch v3 (Bunting et al. 2022), CC BY 4.0
+    files:                    # union 1996-2020 = best proxy for potential extent; 2020 = current
+      gmw_v3_union_gtiff.zip: https://zenodo.org/records/6894273/files/gmw_v3_union_gtiff.zip?download=1
+      gmw_v3_2020_gtiff.zip: https://zenodo.org/records/6894273/files/gmw_v3_2020_gtiff.zip?download=1
+  pnv:                        # Hengl et al. 2018 potential natural vegetation, biome classes 1 km, CC0+terms
+    files:
+      pnv_biome_1km.tif: https://dataverse.harvard.edu/api/access/datafile/3137376
+      pnv_biome_1km_legend.csv: https://dataverse.harvard.edu/api/access/datafile/3137372
+  jung_habitat:               # Jung et al. 2020 IUCN habitat map lvl2, 100 m, v004, CC BY 4.0
+    files:
+      iucn_habitatclassification_composite_lvl2_ver004.zip: https://zenodo.org/records/4058819/files/iucn_habitatclassification_composite_lvl2_ver004.zip?download=1
+      iucn_habitatclassification_code_ver004.zip: https://zenodo.org/records/4058819/files/iucn_habitatclassification_code_ver004.zip?download=1
+
+# ---------------------------------------------------------------------------
+# Terrain derivatives
+# ---------------------------------------------------------------------------
+terrain:
+  tpi_radii_m: [450, 2000, 10000]
+  relief_windows_m: [1000, 5000]
+  geomorphons:
+    search_cells: 50            # 4.5 km
+    skip_cells: 2
+    flatness_deg: 1.5
+  dune:                         # hummocky aeolian texture on the plains / mapped sand
+    tpi_abs_m: 2.5              # |TPI 450 m| at least this ...
+    slope_min_deg: 0.8          # ... and slope at least this
+  hammond:
+    window_m: 9810              # classic Hammond 6-mile window (~9.8 km)
+    gentle_slope_pct: 8
+
+# ---------------------------------------------------------------------------
+# Hydrology
+# ---------------------------------------------------------------------------
+hydrology:
+  burn_min_upland_km2: 1000          # HydroRIVERS reaches burned into the DEM on low-relief terrain
+  burn_depth_m: 15
+  burn_max_relief_m: 60              # only burn where 1 km relief is below this (plains)
+  stream_threshold_km2: 5            # DEM channel initiation
+  plains:
+    max_elev_m: 450
+    max_relief5k_m: 80
+    min_area_km2: 2000
+  rem:
+    # relative elevation model for the alluvial plains: height above the water
+    # surface of the nearest major river (HydroRIVERS, UPLAND_SKM >= this)
+    river_min_upland_km2: 8000
+    reference_resolution_m: 450
+    river_surface_percentile: 10      # of DEM along the channel, robust to banks/trees
+    river_median_km: 8                # along-channel median filter of river samples
+    harmonic_factor: 3                # river surface interpolated harmonically on a 1350 m grid
+    harmonic_iters: 3000
+    smooth_sigma_km: 3
+    dem_median_m: 270                 # despeckle DSM (trees, buildings, canal banks)
+    min_valid_m: -3                   # below this, fall back to flow-path HAND
+  hand_classes:                       # metres above nearest drainage (REM on plains)
+    # class name: [min, max)
+    # Calibrated on REM histograms across the Bari, Rechna and Chaj doabs: the
+    # Bari bars stand only ~4-7 m above the rivers, the Sandal Bar ~8-15 m.
+    active_floodplain: [-50, 2]       # riverine bela / kacho, flooded most years
+    meander_floodplain: [2, 5]        # older meander + cover floodplains
+    bar_upland: [5, 35]               # Pleistocene bar uplands / interfluve surfaces
+    upland: [35, 100000]              # anything higher (piedmont, hills)
+
+# ---------------------------------------------------------------------------
+# L2 physiographic provinces (seeded geodesic partition on an 810 m grid)
+# Seeds are lon/lat anchor points; several per province pin its shape. Edge
+# cost = step length x (1 + alpha * feature difference).
+# ---------------------------------------------------------------------------
+provinces:
+  alpha: 40.0
+  smooth_cells: 3              # Gaussian sigma (810 m cells) applied to features before differencing
+  # Trunk rivers act as barriers between provinces (a doab or a trans-Indus plain
+  # should not leak across the Indus): extra cost, in km-equivalents, to enter a channel cell.
+  river_barrier: {min_upland_km2: 30000, cost_km: 60}
+  features: {elev: 1.0, relief5k: 1.2, relief1k: 0.8, slope: 0.8, rem: 0.6, dune_frac: 1.0, sand: 0.6,
+             bio12: 0.6, bio1: 0.4, ai: 0.5, litho: 1.0}
+
+# ---------------------------------------------------------------------------
+# L3 delineation
+# ---------------------------------------------------------------------------
+segmentation:
+  superpixel_km2: {plains: 20, deserts: 40, plateaus: 20, ranges: 20, coasts: 25, foothills: 12, high_mountains: 15}
+  slic_compactness: 0.15
+  # Minimum mapping unit (km²) by L2 family.
+  mmu_km2: {plains: 50, deserts: 50, plateaus: 30, ranges: 25, coasts: 30, foothills: 15, high_mountains: 15}
+  # Feature weights for clustering, by L2 family. Features are z-scored
+  # within the province before weighting. Absent keys weigh 0.
+  weights:
+    default:   {elev: 1.0, slope: 0.8, relief1k: 0.6, relief5k: 0.8, tpi2k: 0.4, rem: 0.3, hand: 0.4,
+                bar_frac: 0.2, flood_frac: 0.2, litho: 1.0, age: 0.6, clay: 0.4, sand: 0.4, ph: 0.2, soc: 0.3,
+                bio1: 0.7, bio4: 0.3, bio12: 0.8, bio15: 0.4, gdd5: 0.4, ai: 0.6, valley_frac: 0.3, ridge_frac: 0.3}
+    plains:    {elev: 0.4, slope: 0.4, relief1k: 0.6, relief5k: 0.4, rem: 1.6, hand: 0.4, flood_frac: 1.4,
+                meander_frac: 1.0, bar_frac: 1.4, litho: 0.6, clay: 0.8, sand: 1.0, ph: 0.4, soc: 0.4,
+                bio1: 0.4, bio12: 0.6, ai: 0.6, dune_frac: 0.8}
+    deserts:   {elev: 0.6, slope: 0.6, relief1k: 1.2, relief5k: 0.8, rem: 0.8, flood_frac: 0.6, bar_frac: 0.4,
+                litho: 1.0, age: 0.6, clay: 0.6, sand: 1.0, ph: 0.3, bio12: 0.6, ai: 0.6, dune_frac: 1.2}
+    high_mountains: {elev: 1.4, slope: 0.6, relief5k: 0.6, tpi2k: 0.4, litho: 1.0, age: 0.6, soc: 0.4,
+                bio1: 1.0, bio12: 1.0, gdd5: 0.6, ai: 0.6, valley_frac: 0.4, ridge_frac: 0.3, basin: 3.0}
+    foothills: {elev: 1.0, slope: 0.8, relief1k: 0.6, relief5k: 0.8, tpi2k: 0.4, litho: 1.0, age: 0.6, clay: 0.4,
+                sand: 0.4, soc: 0.3, bio1: 0.7, bio12: 0.8, ai: 0.6, valley_frac: 0.3, ridge_frac: 0.3, basin: 2.0}
+    ranges:    {elev: 1.0, slope: 0.8, relief1k: 0.6, relief5k: 0.8, tpi2k: 0.4, litho: 1.0, age: 0.6, clay: 0.4,
+                sand: 0.4, ph: 0.2, soc: 0.3, bio1: 0.7, bio4: 0.3, bio12: 0.8, bio15: 0.4, gdd5: 0.4, ai: 0.6,
+                valley_frac: 0.3, ridge_frac: 0.3, basin: 0.8}
+  connectivity: queen
+  # Basin membership (HydroBASINS level below, one-hot within the province) as a
+  # feature, so that mountain units prefer not to straddle major drainage divides.
+  basin_level: 7
+
+# ---------------------------------------------------------------------------
+# Boundary snapping at 90 m (marker-controlled watershed on a boundary-strength
+# surface). Units are refined only within `band_m` of the provisional line.
+# ---------------------------------------------------------------------------
+snapping:
+  band_m: 1500
+  strength_weights: {ridge: 1.0, divide: 1.0, scarp: 1.2, slope_break: 0.8, geology_contact: 0.4, rem_edge: 1.2}
+  geology_contact_sigma_m: 1500     # geo8ag is ~1:5M; contacts are smeared accordingly
+  promote_min_km2: 100             # detached fragments at least this large become their own unit; smaller ones are absorbed
+
+
+validation:
+  legacy_assemblages: false     # the v0.2-v0.4 ANOSIM tests in evaluate (hours per area); superseded by the scorecard stage
+  random_partitions: 199            # null-model partitions for the ANOSIM comparison
+  anosim_permutations: 999
+  dissimilarities: [jaccard, simpson]   # species-list dissimilarities for the assemblage test (README: effort bias)
+  rarefy:                       # assemblage test on equal effort: each cell's species list from `records` records
+    records: 100                # drawn at random without replacement (= sources.gbif.min_records_cell)
+    runs: 50                    # draws, each with its own fixed seed
+    seed: 11
+    dissimilarity: jaccard
+  seed: 42
+
+# ---------------------------------------------------------------------------
+# Maps. Family hues were validated pairwise for every spatially adjacent family
+# pair (CVD dE >= 8 and normal-vision dE >= 15, OKLab x100); L3 units vary in
+# lightness within their family. L2 outlines and labels are the secondary encoding.
+# ---------------------------------------------------------------------------
+maps:
+  family_colors: {plains: "#5aa04c", deserts: "#ecc35a", plateaus: "#8b5bb0", ranges: "#7d3f35",
+                  coasts: "#23a3a0", foothills: "#e07fa6", high_mountains: "#3f63c9"}
+  faunal_group_colors: {1: "#7b8fc7", 2: "#4f9d8a", 3: "#e0a458", 4: "#d9826b", 5: "#a77fb5", 6: "#8aa356"}
+  river_color: "#2f6fb0"
+  web_simplify_m: 150        # display-only simplification of web geometries
+  hillshade_res_m: 500
+  preview_px: 2400           # README preview of the static map (long side)
+  dpi: 360
+  sea_color: "#d9e6ee"
+  fonts:                     # first available is used (Windows fonts, then portable fallbacks)
+    regions: ["Palatino Linotype", "Georgia", "DejaVu Serif"]
+    units: ["Segoe UI", "Gill Sans MT", "DejaVu Sans"]
+
+# ---------------------------------------------------------------------------
+# v0.2 potential natural vegetation communities (rules in communities.yaml)
+# ---------------------------------------------------------------------------
+communities:
+  tile_size: 4096
+  river_min_upland_km2: 8000   # 'major river' for river_km (as hydrology.rem.river_min_upland_km2)
+  dune_window_m: 990           # dune terrain = dune texture share in this window ...
+  dune_min_share: 0.3          # ... at least this
+  creek_max_m: 1000            # creek_m (distance to WorldCover water / sea) is computed up to this
+
+# checks of the community layer against independent data (never rule inputs)
+vegcheck:
+  gmw_min_pct: 50              # a 90 m cell is 'mangrove' in GMW at this % cover
+  min_table_km2: 50            # drop habitat / biome classes smaller than this from the area tables
+  indicator_radius_km: 5       # GBIF herbarium records are located to ~10 km
+  max_uncertainty_m: 50000     # drop records located only to a province or country (e.g. 500 km centroids)
+  calibration:                 # percentiles of rule inputs at indicator records (outputs/calibration_quantiles.csv)
+    province_cap: 20           # 'capped': at most this many records per L2 province per community (random, seeded)
+    seed: 3
+    quantiles: [5, 95]
+
+# species presence for faunal regions (IUCN + BirdLife ranges; licensed, never redistributed)
+fauna:
+  classes: [MAMMALIA, AVES, REPTILIA, AMPHIBIA]
+  cell_m: 10000                # analysis cells (equal-area)
+  fine_m: 1000                 # nested grid for range cover and Area of Habitat
+  buffer_m: 50000              # around the study area
+  presence: [1, 2]             # extant, probably extant
+  origin: [1, 2]               # native, reintroduced
+  seasonal: [1, 2]             # resident, breeding season
+  min_share: 0.2               # present if the (trimmed) range covers this share of a cell
+  # artificial cells (crops, urban ...) take the IUCN habitat of their potential natural vegetation:
+  # Hengl et al. 2018 PNV biome -> Jung lvl2 code (only the biomes present in Pakistan)
+  pnv_to_habitat: {3: 105, 4: 104, 9: 104, 13: 104, 15: 104, 16: 308, 17: 104, 20: 305, 22: 404, 27: 801, 28: 404}
+
+# faunal regions: UPGMA on Simpson beta diversity between cells
+faunal:
+  presence: elev               # 'range', 'elev' (range within elevation limits) or 'aoh' (+ habitat)
+  min_study_share: 0.5         # cells at least this much inside the study area
+  k_range: [3, 30]             # numbers of regions scanned (turnover explained)
+  k_maps: [6, 8, 10, 12, 15]   # numbers of regions mapped for review
+  min_fragment_cells: 5        # smaller spatial fragments join a neighbour
+  top_species: 15              # characteristic species listed per region
+
+# ---------------------------------------------------------------------------
+# v0.2 community ecoregions (types in communities.yaml -> ecoregion_types)
+# ---------------------------------------------------------------------------
+assemble:
+  smooth_cells: 7              # majority filter of ecoregion types on the 270 m grid (~1.9 km)
+  mmu_km2: 1000                # minimum ecoregion size
+  snap_band_m: 1000            # boundaries snapped to landform edges within this band
+
+# validation of the v0.2 ecoregions (evaluate stage)
+evaluate:
+  runs: 12                     # perturbation runs for the sensitivity test
+  seed: 7
+  sigma:                       # sd of the random shift of every rule threshold (relative; northness additive)
+    elev: 0.05
+    slope: 0.20
+    bio12: 0.15
+    ai: 0.15
+    gdd5: 0.10
+    coast_km: 0.20
+    river_km: 0.20
+    creek_m: 0.20
+    northness: 0.10
+    summer_rain: 0.10
+
+# per-ecoregion audit (audit stage): review list and asterisks in the map key; never changes the map
+audit:
+  min_own: 3                   # indicator records of its own type for 'supported'
+  min_rival: 5                 # 'contradicted': another type's indicators reach this many records ...
+  rival_ratio: 5               # ... and outnumber its own this many times
+  min_resolve_share: 0.5       # flag if less of the area lies in compatible RESOLVE units (unless supported)
+  min_coherence: 0.4           # flag if the community mix is this unlike the rest of its type
+  min_stability: 0.7           # flag if less stable under rule perturbation (unless supported)
+  gap_tolerance_m: 300         # rule gap: fallback cells this far outside the fallback community's elevation band
+  # 'unverified' is split by data: own-type indicators make up a median 0.6 % of the records of supported
+  # ecoregions (0.4-2.4 %), so with fewer records than this, finding none (< min_own) says little
+  min_records_adequate: 500
+scorecard:                      # held-out species tests (scorecard stage; structure after docs/review, 2026-11-11)
+  taxa: [plants, birds]
+  scales: [0.25, 0.125]         # cell sizes (degrees) nesting in the 0.25-degree calibration/held-out checkerboard
+  min_records: 100              # eligible cells: >= this many records and sources.gbif.min_species_cell species
+  depth: 100                    # rarefied records per cell for the endpoints (cells with fewer use all of theirs)
+  draws: 10                     # rarefaction draws
+  prior_cells: 20               # endpoint A: unit frequencies shrunk toward the overall frequency with 20 pseudo-cells
+  knn: 10                       # spatial-only predictor: the 10 nearest development cells
+  random_partitions: 99         # contiguous random maps on the land-cell graph (and Voronoi maps for ANOSIM)
+  bootstrap: 200                # 1-degree block resamples for the paired differences (2,000 for a confirmation)
+  damage_share: 0.15            # control: share of cells moved across boundaries in patches
+  purity_points: 8              # 8 x 8 sample points per cell: each cell takes the unit covering most of it
+  climate_layers: [clim_bio1, clim_bio12, clim_bio4, clim_bio15, clim_ai]   # climate-only k-means baseline
+  seed: 23
+  # Co-primary endpoints (docs/review/EVALUATION_PROTOCOL.md section 6): A, prediction loss of held-out species lists
+  # (relative improvement over each comparator, with block-bootstrap intervals); B, boundary contrast. ANOSIM is
+  # secondary. All results from areas whose held-out cells were viewed during development are exploratory.
+  primary: [prediction_loss, boundary_contrast]
+biomes:                         # global biome key (biomes stage; src/ecoregions/biomes.py); fixed 2026-11-11 before any test
+  use_key: false                # true: biomes from the key; false: the hand-set biome of each type (key not adopted: Texas fails its structure test)
+  key:
+    ice: 0.5                    # share of ice/rock -> Rock & Ice
+    mangrove: 0.3               # share of mangrove -> Mangroves
+    wetland: 0.5                # share of herbaceous wetland -> Flooded Grasslands & Savannas
+    forest: 0.5                 # share of closed forest -> a forest biome (even in a dry climate: azonal forests)
+    alpine: 0.5                 # share above the treeline -> Montane Grasslands & Shrublands
+    montane_tcold: -6.0         # or coldest-month mean below this without closed forest -> Montane
+    desert_aridity: 0.2         # aridity index below (UNEP arid and hyper-arid) -> Deserts & Xeric Shrublands
+    sparse: 0.5                 # or share of sparse vegetation -> Deserts & Xeric Shrublands
+    xeric: {share: 0.5, aridity: 0.5}   # or shrubland + sparse >= half in a semi-arid or drier climate (UNEP < 0.5)
+    woody: 0.5                  # share of forest + woodland -> a forest biome
+    moist_aridity: 0.65         # tropical broadleaf: humid (UNEP) -> moist, else dry
+    subtropical_tcold: 15.0     # coldest-month mean at or above (near frost-free; Koppen tropical is 18) -> tropical & subtropical
+    mediterranean: {summer_rain_max: 0.35, temp_c: [10, 20], tcold_min: 0.0, aridity: [0.2, 0.65]}   # mild-winter winter-rain woodland and scrub
+    # Revised once (xeric shrubland rule, mild-winter condition, 15 C) after reading the types' assignments and before any
+    # biome test; recorded in docs/ledger.md.
+merges:                         # over-split types (merges stage): proposals from one global rule, fixed 2026-11-11 before running
+  folds: 5                      # cross-validation over 1-degree blocks of calibration cells only
+  draws: 2                      # rarefaction draws per fold (scorecard.depth records)
+  rule: one_se                  # fewest types within one standard error of the best cross-validated loss
+  seed: 31
+plots:                          # confirmatory vegetation-plot tests (plots stage; docs/preregistration.md)
+  bootstrap: 2000               # 1-degree block resamples for every paired difference
+  seed: 20261112
+  map_sha256: null              # the frozen map's hash, set in the region file before the plots are opened
+

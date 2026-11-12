@@ -1,0 +1,15 @@
+endpoint,candidate,comparator,prediction_improvement,ci,boundary_difference,ci_b,verdict,blocks_A,blocks_C,plots_A,plots_C,pairs_B,map_sha256
+A+B,ours,RESOLVE,-0.016839609583324762,-0.030 to 0.002,,nan to nan,not demonstrated,5,6,168,122,7946,92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da
+A+B,ours,EPA Level III,-0.017468413213525585,-0.030 to 0.002,,nan to nan,,5,6,168,122,7946,92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da
+A+B,ours,EPA Level IV,-0.008363636385670085,-0.025 to 0.010,,nan to nan,,5,6,168,122,7946,92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da
+A+B,ours,climate k-means (12),-0.002612876630014923,-0.028 to 0.023,,nan to nan,,5,6,168,122,7946,92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da
+A+B,ours,climate k-means (31),-0.018455442076064185,-0.043 to 0.009,,nan to nan,,5,6,168,122,7946,92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da
+A+B,ours,spatial-only (nearest development cells),0.06291918668426878,0.017 to 0.128,,nan to nan,,5,6,168,122,7946,92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da
+A+B,ours coarsened to RESOLVE's 12 units,RESOLVE,-0.017472889908328383,-0.031 to 0.001,,nan to nan,not demonstrated,5,6,168,122,7946,92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da
+A+B,ours coarsened to RESOLVE's 12 units,EPA Level III,-0.018102085152863996,-0.031 to 0.001,,nan to nan,,5,6,168,122,7946,92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da
+A+B,ours coarsened to RESOLVE's 12 units,EPA Level IV,-0.008991637936115019,-0.026 to 0.010,,nan to nan,,5,6,168,122,7946,92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da
+A+B,ours coarsened to RESOLVE's 12 units,climate k-means (12),-0.0032372966490435396,-0.029 to 0.022,,nan to nan,,5,6,168,122,7946,92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da
+A+B,ours coarsened to RESOLVE's 12 units,climate k-means (31),-0.019089728729810816,-0.043 to 0.007,,nan to nan,,5,6,168,122,7946,92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da
+A+B,ours coarsened to RESOLVE's 12 units,spatial-only (nearest development cells),0.062335579558407093,0.017 to 0.127,,nan to nan,,5,6,168,122,7946,92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da
+C,biomes by the key,RESOLVE biomes,-0.125,-0.375 to 0.000,,,not demonstrated,5,6,168,122,7946,92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da
+C,biomes as hand-set,RESOLVE biomes,-0.125,-0.375 to 0.000,,,not demonstrated,5,6,168,122,7946,92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da

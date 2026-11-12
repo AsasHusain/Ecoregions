@@ -1,0 +1,668 @@
+# Potential natural vegetation communities of Pakistan, AJK and Gilgit-Baltistan
+# (LANDFIRE-BpS-like layer at 90 m).                         STATUS: DRAFT v0 for expert review
+#
+# Each community is mapped by explicit rules on the v0.1 rasters. A cell takes the
+# matching community with the highest `priority`; unmatched cells fall back to the
+# province default (`fallback`). Thresholds are first guesses from the literature
+# and are to be calibrated against GMW v3, Jung et al. habitat lvl2, Hengl PNV and
+# HUP / Punjab plot records — every number here is provisional.
+#
+# Indicators: species characteristic of the community, named as in the GBIF backbone (so GBIF
+# records match; e.g. Senegalia modesta = Acacia modesta, Quercus floribunda = Q. dilatata,
+# Sideroxylon mascatense = Monotheca buxifolia, Olea europaea = O. ferruginea). Ubiquitous or
+# widely planted species (Peganum harmala, Capparis spinosa, Dalbergia sissoo, Juglans regia ...)
+# are left out: they cannot tell one community from another.
+#
+# Group = Champion, Seth & Khattak (1965) forest-type group (or the non-forest
+# formation where CSK has none). Exact CSK sub-type codes still to be checked
+# against the book: left out rather than guessed.
+#
+# Rule keys (all conditions AND; [min, max), null = open):
+#   elev      m          dem                         slope   deg     slope
+#   bio1      degC       clim_bio1 (MAT)             bio12   mm/yr   clim_bio12 (MAP)
+#   ai        -          clim_ai (aridity index)     gdd5    degC d  clim_gdd5
+#   hand      class      hand_class names            litho   codes   geo_litho (1 alluvium, 2 aeolian sand, 3 molasse,
+#                                                                    4 Paleogene, 5 Mesozoic, 6 metased., 7 intrusive,
+#                                                                    8 volcanic, 9 Paleozoic, 10 basement, 11 water/ice)
+#   province  L2 codes   l2                          dune    bool    dune texture mask
+#   coast_km  km         distance to sea (NEW, from mask)
+#   northness -1..1      cos(aspect) (NEW, from dem; + = north-facing)
+#   tpi       m          height above the mean within 450 m (tpi_450; negative = hollow)
+#   river_km  km         distance to a major river channel (NEW, flow accumulation >= 8,000 km2)
+#   creek_m   m          distance to open or tidal water (NEW, WorldCover water class + sea; water itself = 0)
+# L2: 01 Upper Indus Plain, 02 Thal, 03 Lower Indus Plain and Delta, 04 Thar, 05 Kachhi,
+#     06 Potohar, 07 NW basins/ranges, 08 Sulaiman, 09 Kirthar, 10 Central Balochistan uplands,
+#     11 Kharan, 12 Makran, 13 Hindu Kush, 14 Karakoram, 15 Western Himalaya, 16 Lesser Himalaya,
+#     17 Derajat, 18 Kashmir Valley, 19 Ladakh Ranges, 20 Western Tibetan Plateau, 21 Pamir,
+#     22 Hazarajat, 23 Amu Darya Plains, 24 Paropamisus, 25 Helmand Basin, 26 Ghazni Plateau
+#     (07 Peshawar, 08 Sulaiman and 13 Hindu Kush extend into Afghanistan)
+
+# structure: the community's physiognomy, for the global biome key (biomes.py): forest_conifer, forest_broadleaf,
+#   woodland_conifer, woodland_broadleaf (open tree cover), savanna, shrubland, grassland, sparse (desert, dunes, salt
+#   flats, outcrops), wetland (herbaceous), mangrove, alpine (above the treeline), ice. Set from each community's
+#   description and sources, never from test data.
+communities:
+
+  # ---------------- Littoral and swamp ----------------
+  - id: mangrove
+    structure: mangrove
+    ecoregion: delta_mangroves
+    name: Indus Delta and Arabian Sea mangroves
+    group: Littoral and swamp forests
+    indicators: [Avicennia marina, Rhizophora mucronata, Ceriops tagal, Aegiceras corniculatum]
+    where: {coast_km: [null, 25], elev: [null, 4], creek_m: [1, 720]}
+    calibrate: >-
+      GMW v3 union 1996-2020 (996 km2 in the study area). Mangroves line tidal creeks; on the DSM they
+      sit at the same height as open mudflats (1-2.5 m), so creek distance separates them. These
+      thresholds map ~2,050 km2 (about 2x GMW; potential > current after reduced Indus outflow) and
+      capture ~73% of GMW cells; 23.5% of GMW cells are WorldCover water (mixed creek-edge pixels),
+      so ~77% is the ceiling for any land rule. creek_m >= 1 excludes open water.
+    priority: 100
+  - id: coastal_halophyte
+    structure: sparse
+    ecoregion: delta_mangroves
+    name: Coastal salt-flat halophytic scrub
+    group: Littoral and swamp forests (non-forest)
+    indicators: [Arthrocaulon macrostachyum, Suaeda fruticosa, Caroxylon imbricatum]
+    where: {coast_km: [null, 40], elev: [null, 8], slope: [null, 2]}
+    priority: 90
+  - id: coastal_dune
+    structure: sparse
+    ecoregion: delta_mangroves
+    name: Coastal dune and beach scrub
+    group: Littoral and swamp forests (non-forest)
+    indicators: [Ipomoea pes-caprae, Halopyrum mucronatum, Urochondra setulosa]
+    where: {coast_km: [null, 3], elev: [null, 30], litho: [1, 2]}
+    priority: 95
+
+  # ---------------- Riverine and wetland ----------------
+  - id: riverine_forest
+    structure: forest_broadleaf
+    ecoregion: riverine
+    name: Indus riverine (bela) forest
+    group: Tropical thorn forests (riverain)
+    indicators: [Populus euphratica, Tamarix dioica, Vachellia nilotica]
+    where: {hand: [active_floodplain], river_km: [null, 5], elev: [null, 600], province: ["01", "02", "03", "17"]}
+    note: river_km keeps it to the kacho/bela belt between the flood embankments (~10-20 km wide on the Indus);
+      HAND alone is < 2 m across much of the flat lower plains. Not in the Kachhi (05), whose Nari is a hill torrent.
+    priority: 80
+  - id: highland_riparian
+    structure: shrubland
+    ecoregion: dry_alpine
+    name: High-valley riparian thickets
+    group: Himalayan dry temperate (riparian)
+    indicators: [Hippophae rhamnoides, Myricaria germanica, Salix spp., Populus ciliata]
+    where: {hand: [active_floodplain], elev: [1200, 3800], province: ["13", "14", "15", "19", "21"]}
+    priority: 80
+  - id: playa_halophyte
+    structure: sparse
+    ecoregion: chagai_kharan
+    name: Inland saline basins (hamun) and salt pans
+    group: Desert (non-forest)
+    indicators: [Tamarix aphylla, Haloxylon stocksii, Suaeda fruticosa, Salsola spp.]
+    where: {province: ["10", "11", "12"], slope: [null, 0.5], hand: [active_floodplain]}
+    note: Hamun-i-Mashkel, Hamun-i-Lora etc. HAND on endorheic flats is weak; may need a depression mask.
+    priority: 85
+
+  # ---------------- Plains and deserts ----------------
+  - id: plains_thorn
+    structure: woodland_broadleaf
+    ecoregion: indus_thorn
+    name: Indus plains tropical thorn forest
+    group: Tropical thorn forests
+    indicators: [Prosopis cineraria, Salvadora oleoides, Capparis decidua, Tamarix aphylla, Ziziphus mauritiana]
+    where: {province: ["01", "03", "05", "07", "17"], elev: [null, 700], slope: [null, 3], dune: false}
+    priority: 20
+  - id: thal_sand
+    structure: sparse
+    ecoregion: thal
+    name: Thal sand-desert scrub
+    group: Tropical thorn forests (desert)
+    indicators: [Calligonum polygonoides, Leptadenia pyrotechnica, Aerva javanica, Prosopis cineraria, Haloxylon salicornicum]
+    where: {province: ["02"]}
+    priority: 30
+  - id: cholistan_thar_dune
+    structure: sparse
+    ecoregion: thar_cholistan
+    name: Thar dune scrub
+    group: Tropical thorn forests (desert)
+    indicators: [Calligonum polygonoides, Leptadenia pyrotechnica, Aerva javanica, Dipterygium glaucum, Lasiurus scindicus]
+    where: {province: ["04"], dune: true}
+    priority: 35
+  - id: thar_interdune
+    structure: savanna
+    ecoregion: thar_cholistan
+    name: Thar interdune thorn parkland
+    group: Tropical thorn forests
+    indicators: [Prosopis cineraria, Salvadora oleoides, Capparis decidua, Ziziphus nummularia]
+    where: {province: ["04"], dune: false}
+    priority: 30
+  - id: kachhi_desert_thorn
+    structure: shrubland
+    ecoregion: kachhi
+    name: Kachhi Plain arid thorn scrub
+    group: Tropical thorn forests (desert)
+    indicators: [Prosopis cineraria, Capparis decidua, Rhazya stricta, Salvadora persica]
+    where: {province: ["05"], bio12: [null, 200]}
+    priority: 25
+  - id: nagarparkar_granite
+    structure: shrubland
+    ecoregion: thar_cholistan
+    name: Nagarparkar granite hill scrub
+    group: Tropical thorn forests
+    indicators: [Euphorbia caducifolia, Senegalia senegal, Commiphora wightii, Grewia tenax]
+    where: {province: ["04"], litho: [10], slope: [5, null]}
+    note: below geo8ag resolution (v0.1 weakness 4); needs a hand-drawn or 1:250k geology mask.
+    priority: 60
+
+  # ---------------- Low hills and piedmont (dry tropical / subtropical) ----------------
+  - id: euphorbia_hill_scrub
+    structure: shrubland
+    ecoregion: kirthar_lasbela
+    name: Kirthar limestone hill scrub
+    group: Tropical thorn forests (Euphorbia scrub)
+    indicators: [Euphorbia caducifolia, Senegalia senegal, Commiphora wightii, Grewia tenax, Nannorrhops ritchieana]
+    where: {province: ["09"], elev: [100, 1200], slope: [3, null]}
+    priority: 40
+  - id: lasbela_thorn
+    structure: shrubland
+    ecoregion: kirthar_lasbela
+    name: Lasbela valley thorn scrub
+    group: Tropical thorn forests
+    indicators: [Prosopis cineraria, Salvadora persica, Vachellia nilotica, Capparis decidua]
+    where: {province: ["09"], slope: [null, 3]}
+    priority: 30
+  - id: makran_coastal_scrub
+    structure: sparse
+    ecoregion: makran_coast
+    name: Makran coastal desert scrub
+    group: Tropical thorn forests (desert)
+    indicators: [Euphorbia caducifolia, Prosopis cineraria, Salvadora persica, Capparis decidua, Vachellia tortilis]
+    where: {province: ["12"], coast_km: [null, 60], elev: [null, 600]}
+    priority: 35
+  - id: makran_range_scrub
+    structure: shrubland
+    ecoregion: makran_ranges
+    name: Makran ranges dwarf-palm and thorn scrub
+    group: Tropical thorn forests (desert)
+    indicators: [Nannorrhops ritchieana, Vachellia nilotica, Ziziphus nummularia, Periploca aphylla]
+    where: {province: ["12"]}
+    priority: 25
+  - id: sulaiman_piedmont_scrub
+    structure: shrubland
+    ecoregion: sulaiman_piedmont
+    name: Sulaiman foothill thorn scrub
+    group: Tropical thorn forests
+    indicators: [Senegalia modesta, Prosopis cineraria, Capparis decidua, Rhazya stricta, Nannorrhops ritchieana]
+    where: {province: ["08", "17"], elev: [null, 900], bio12: [null, 350]}
+    priority: 30
+  - id: olea_acacia_scrub
+    structure: woodland_broadleaf
+    ecoregion: olive_scrub
+    name: Subtropical olive-phulai scrub forest
+    group: Subtropical broadleaved evergreen (dry) forests
+    indicators: [Olea europaea, Senegalia modesta, Dodonaea viscosa, Sideroxylon mascatense, Gymnosporia royleana]
+    where: {elev: [400, 1600], bio12: [350, null], province: ["06", "07", "08", "13", "16"]}
+    note: Salt Range, Kala Chitta, Margalla, Kohat, lower Hazara/Swat/Dir, Sulaiman foothills.
+    priority: 40
+  - id: siwalik_dry_deciduous
+    structure: woodland_broadleaf
+    ecoregion: siwalik
+    name: Siwalik dry deciduous scrub forest
+    group: Tropical dry deciduous forests
+    indicators: [Senegalia catechu, Bombax ceiba, Mallotus philippensis, Lannea coromandelica, Flacourtia indica]
+    where: {province: ["16"], elev: [null, 900], bio12: [800, null]}
+    priority: 45
+  - id: potohar_plateau_scrub
+    structure: shrubland
+    ecoregion: olive_scrub
+    name: Potohar plateau thorn and Acacia scrub
+    group: Tropical thorn forests
+    indicators: [Senegalia modesta, Vachellia nilotica, Ziziphus nummularia, Prosopis cineraria, Capparis decidua]
+    where: {province: ["06"], elev: [null, 600]}
+    priority: 30
+
+  # ---------------- Balochistan uplands (dry temperate / xeric) ----------------
+  - id: ziarat_juniper
+    structure: woodland_conifer
+    ecoregion: juniper
+    name: Ziarat juniper woodland
+    group: Himalayan dry temperate forests (juniper)
+    indicators: [Juniperus excelsa subsp. polycarpos, Fraxinus xanthoxyloides, Pistacia khinjuk, Artemisia maritima]
+    where: {province: ["08", "10"], elev: [2000, null], slope: [4, null]}
+    note: >-
+      Ziarat, Zarghun, Khalifat, Takatu, Shaidu, Murdar, Chiltan; ~2,000-3,000 m in the literature, to
+      the summits (v0.2.2 stopped at 3,000 m, leaving the Ziarat and Zarghun tops to the lowland-scrub
+      fallback; a wild Juniperus record at Ziarat, 3,008 m, sat in that gap). LOW CONFIDENCE: only about
+      a dozen wild Juniperus records in Balochistan (GBIF download 2026), so the extent rests mainly on
+      the literature.
+    priority: 70
+  - id: chilgoza_pine
+    structure: forest_conifer
+    ecoregion: sulaiman_temperate
+    name: Chilgoza pine forest
+    group: Himalayan dry temperate forests
+    indicators: [Pinus gerardiana, Quercus baloot, Cedrus deodara, Fraxinus xanthoxyloides]
+    where: {elev: [1800, 3350], bio12: [200, 700], slope: [12, null], province: ["07", "08"]}
+    note: >-
+      Sulaiman (Takht-i-Sulaiman, Shinghar), Zhob, Kurram, Waziristan. IUCN 2,000-3,350 m. Steep rocky
+      slopes. Hardly any herbarium records here (no coverage, not absence); envelope from the literature.
+    priority: 56
+  - id: chilgoza_pine_north
+    structure: forest_conifer
+    ecoregion: northern_dry_temperate
+    name: Hindu Kush chilgoza pine forest
+    group: Himalayan dry temperate forests
+    indicators: [Pinus gerardiana, Quercus baloot, Cedrus deodara, Fraxinus xanthoxyloides]
+    where: {elev: [1700, 3000], bio12: [300, 700], slope: [25, null], province: ["13", "14", "15"]}
+    note: >-
+      Chitral, Dir Kohistan, Diamer, Astore and Gilgit side valleys: steep slopes between the cold-desert
+      valley floors and the dry deodar belt. Calibrated on GBIF calibration-cell records of Pinus gerardiana
+      (10 of 14 inside, 13 within 5 km; ~3,900 km2). v0.2.2 ranked it below dry deodar and cold-desert
+      scrub, which left it no cells at all; at priority 68 with a wide envelope it took 12,900 km2.
+    priority: 64
+  - id: pistacia_fraxinus_woodland
+    structure: woodland_broadleaf
+    ecoregion: xeric_woodland
+    name: Pistacia-Fraxinus xeric woodland
+    group: Himalayan dry temperate forests (xeric scrub)
+    indicators: [Pistacia khinjuk, Pistacia atlantica, Fraxinus xanthoxyloides, Prunus brahuica, Prunus eburnea]
+    where: {province: ["08", "10", "11"], elev: [1100, 2200], slope: [5, null]}
+    priority: 50
+  - id: balochistan_artemisia_steppe
+    structure: shrubland
+    ecoregion: artemisia
+    name: Balochistan plateau Artemisia steppe
+    group: Desert (dwarf-shrub steppe)
+    indicators: [Artemisia sieberi, Haloxylon griffithii, Convolvulus leiocalycinus, Stipa spp., Caragana ambigua]
+    where: {province: ["08", "10", "11"], elev: [1200, 3000], slope: [null, 5]}
+    priority: 45
+  - id: kharan_sand_desert
+    structure: sparse
+    ecoregion: chagai_kharan
+    name: Kharan sand desert
+    group: Desert
+    indicators: [Haloxylon salicornicum, Calligonum spp., Stipagrostis plumosa, Tamarix aphylla]
+    where: {province: ["11"], dune: true}
+    priority: 40
+  - id: chagai_gravel_desert
+    structure: sparse
+    ecoregion: chagai_kharan
+    name: Kharan gravel desert (hammada)
+    group: Desert
+    indicators: [Haloxylon griffithii, Zygophyllum eurypterum, Rhazya stricta, Ephedra intermedia]
+    where: {province: ["11"]}
+    priority: 20
+
+  # ---------------- Himalaya / Hindu Kush / Karakoram ----------------
+  - id: chir_pine
+    structure: forest_conifer
+    ecoregion: chir
+    name: Chir pine forest
+    group: Subtropical pine forests
+    indicators: [Pinus roxburghii, Myrsine africana, Carissa spinarum]
+    where: {elev: [900, 1800], bio12: [800, null], province: ["13", "15", "16"]}
+    note: >-
+      Swat, Buner, Dir, Hazara, Murree, Azad Kashmir. Not in the Northwestern Basins and Ranges (07): no
+      chir record there, and the Tirah and Waziristan hills it reached in v0.2.2 are olive-holly oak
+      country (RESOLVE: Baluchistan xeric woodlands).
+    priority: 55
+  - id: oak_moist_temperate
+    structure: forest_broadleaf
+    ecoregion: moist_temperate
+    name: Ban oak and mixed broadleaf forest
+    group: Himalayan moist temperate forests
+    indicators: [Quercus leucotrichophora, Quercus floribunda, Rhododendron arboreum]
+    where: {elev: [1500, 2400], bio12: [1000, null], province: ["13", "15", "16"]}
+    priority: 58
+  - id: deodar_bluepine_moist
+    structure: forest_conifer
+    ecoregion: moist_temperate
+    name: Deodar-blue pine moist temperate forest
+    group: Himalayan moist temperate forests
+    indicators: [Cedrus deodara, Pinus wallichiana, Aesculus indica]
+    where: {elev: [1800, 3200], bio12: [800, null], province: ["13", "15", "16", "18"]}
+    note: >-
+      Up to the subalpine belt (3,200 m): stopping at 3,000 m left south-facing slopes at 3,000-3,200 m
+      to the holly-oak fallback. Kurram and Waziristan conifers are a separate community (safed_koh_conifer).
+    priority: 60
+  - id: fir_spruce
+    structure: forest_conifer
+    ecoregion: moist_temperate
+    name: Fir-spruce moist temperate forest
+    group: Himalayan moist temperate forests
+    indicators: [Abies pindrow, Picea smithiana, Taxus wallichiana, Acer caesium]
+    where: {elev: [2400, 3400], bio12: [900, null], northness: [-0.2, null], province: ["13", "14", "15", "16", "18"]}
+    note: GBIF (HUP) - Picea smithiana 23 of 38 and Abies pindrow 6 of 27 records in Karakoram side valleys (L2 14).
+    priority: 65
+  - id: deodar_dry
+    structure: forest_conifer
+    ecoregion: northern_dry_temperate
+    name: Dry deodar and blue pine forest
+    group: Himalayan dry temperate forests
+    indicators: [Cedrus deodara, Pinus wallichiana, Quercus baloot, Juniperus excelsa]
+    where: {elev: [1900, 3300], bio12: [400, 800], province: ["13", "14", "15"]}
+    note: Chitral, Astore, Gilgit side valleys.
+    priority: 62
+  - id: safed_koh_conifer
+    structure: forest_conifer
+    ecoregion: sulaiman_temperate
+    name: Sulaiman deodar-blue pine forest
+    group: Himalayan temperate forests (western outliers)
+    indicators: [Cedrus deodara, Pinus wallichiana, Pinus gerardiana, Juniperus excelsa]
+    where: {elev: [1800, 3600], bio12: [400, null], province: ["07"]}
+    note: >-
+      Kurram (Parachinar, Safed Koh), Tirah tops, Shawal and Shuidar in Waziristan: deodar and blue pine
+      with chilgoza, juniper and holly oak, as in the adjoining Paktia mountains (GBIF records of all four at
+      2,400-2,900 m; RESOLVE: East Afghan montane conifer forests). v0.2.2 called them Western Himalayan
+      moist temperate forests. Up to the alpine belt (3,600 m).
+    priority: 61
+  - id: holly_oak
+    structure: woodland_broadleaf
+    ecoregion: sulaiman_temperate
+    name: Holly oak (baloot) dry woodland
+    group: Himalayan dry temperate forests
+    indicators: [Quercus baloot, Olea europaea, Fraxinus xanthoxyloides, Daphne mucronata]
+    where: {elev: [1400, 2400], bio12: [350, 900], province: ["07", "08"]}
+    priority: 56
+  - id: holly_oak_north
+    structure: woodland_broadleaf
+    ecoregion: northern_dry_temperate
+    name: Hindu Kush holly oak (baloot) woodland
+    group: Himalayan dry temperate forests
+    indicators: [Quercus baloot, Olea europaea, Fraxinus xanthoxyloides, Daphne mucronata]
+    where: {elev: [1400, 2400], bio12: [350, 900], province: ["13"]}
+    note: Chitral and Dir; split from holly_oak (Sulaiman-Waziristan) in v0.2.3 so each region has its own type.
+    priority: 56
+  - id: dry_juniper_north
+    structure: woodland_conifer
+    ecoregion: dry_alpine
+    name: Northern dry juniper woodland
+    group: Himalayan dry temperate forests (juniper)
+    indicators: [Juniperus excelsa subsp. polycarpos, Juniperus semiglobosa, Ephedra gerardiana, Artemisia brevifolia]
+    where: {elev: [2800, 4000], bio12: [150, 600], province: ["13", "14", "15"]}
+    priority: 63
+  - id: subalpine_birch
+    structure: forest_conifer
+    ecoregion: subalpine_alpine
+    name: Subalpine birch-fir forest
+    group: Sub-alpine forests
+    indicators: [Betula utilis, Abies pindrow, Salix denticulata, Rhododendron campanulatum]
+    where: {elev: [3200, 3900], bio12: [600, null], province: ["13", "14", "15", "16", "18", "19"]}
+    priority: 68
+  - id: moist_alpine
+    structure: alpine
+    ecoregion: subalpine_alpine
+    name: Moist alpine meadow and scrub
+    group: Alpine scrub (moist)
+    indicators: [Rhododendron anthopogon, Salix lindleyana, Primula spp., Bistorta affinis, Juniperus squamata]
+    where: {elev: [3600, 4800], bio12: [600, null], province: ["13", "15", "16", "18"]}
+    note: CHELSA shows high snowfall at Karakoram altitudes, so precipitation alone would make the Karakoram 'moist'.
+    priority: 66
+  - id: dry_alpine
+    structure: alpine
+    ecoregion: dry_alpine
+    name: Dry alpine steppe and scrub
+    group: Alpine scrub (dry)
+    indicators: [Juniperus squamata, Caragana versicolor, Ephedra gerardiana, Artemisia spp., Astragalus spp.]
+    where: {elev: [3600, 4900]}
+    note: includes Deosai plateau unless a separate plateau type is warranted.
+    priority: 66
+  - id: cold_desert_valley
+    structure: sparse
+    ecoregion: dry_alpine
+    name: High Asian cold-desert valley scrub
+    group: Desert (cold)
+    indicators: [Artemisia brevifolia, Ephedra intermedia, Haloxylon thomsonii]
+    where: {elev: [1200, 3000], bio12: [null, 400], province: ["13", "14", "15", "21"]}
+    note: Gilgit, Hunza, Skardu, Chitral valley floors; rain-shadow.
+    priority: 57
+  - id: nival
+    structure: ice
+    ecoregion: ice
+    name: Nival zone, glaciers and rock
+    group: Nival (non-vegetated)
+    indicators: []
+    where: {elev: [4900, null], province: ["07", "08", "13", "14", "15", "16", "18", "21", "22"]}
+    note: litho 11 (water/ice) also; RGI v7 would sharpen this.
+    priority: 99
+  - id: nival_trans_himalaya
+    structure: ice
+    ecoregion: ice
+    name: Nival zone of Ladakh and the Tibetan Plateau
+    group: Nival (non-vegetated)
+    indicators: []
+    where: {elev: [5600, null], province: ["19", "20"]}
+    note: the snowline rises to ~5,600-6,000 m in the rain shadow of the Great Himalaya.
+    priority: 99
+
+  # ---------------- Afghanistan (Breckle & Freitag zonation; DRAFT envelopes) ----------------
+  - id: tugai_forest
+    structure: forest_broadleaf
+    ecoregion: tugai
+    name: Tugai riparian forest
+    group: Riparian forest (tugai)
+    indicators: [Populus euphratica, Tamarix ramosissima, Elaeagnus angustifolia, Erianthus ravennae]
+    where: {hand: [active_floodplain], river_km: [null, 5], elev: [null, 1500], province: ["23", "24", "25", "26"]}
+    note: Amu Darya, Kunduz, Hari Rud, Helmand and Arghandab floodplains.
+    priority: 80
+  - id: amu_loess_steppe
+    structure: grassland
+    ecoregion: amu_darya
+    name: Amu Darya loess semi-savanna
+    group: Desert (ephemeral grass steppe)
+    indicators: [Poa bulbosa, Carex pachystylis, Artemisia turanica, Ferula foetida]
+    where: {province: ["23"], elev: [null, 900]}
+    note: Poa bulbosa-Carex pachystylis semi-savanna on the loess plains of northern Afghanistan.
+    priority: 30
+  - id: amu_sand_desert
+    structure: sparse
+    ecoregion: amu_darya
+    name: Amu Darya sand desert
+    group: Desert
+    indicators: [Haloxylon persicum, Calligonum setosum, Carex physodes, Ammodendron conollyi]
+    where: {province: ["23"], dune: true}
+    priority: 40
+  - id: pistachio_woodland
+    structure: woodland_broadleaf
+    ecoregion: pistachio
+    name: Pistachio (Pistacia vera) open woodland
+    group: Xeric woodland (pistachio savanna)
+    indicators: [Pistacia vera, Amygdalus spinosissima, Cercis griffithii, Ferula assa-foetida]
+    where: {province: ["22", "23", "24"], elev: [600, 1800], bio12: [250, 650], slope: [4, null]}
+    note: Badghis, Samangan and the northern foothills of the Hindu Kush and Paropamisus.
+    priority: 50
+  - id: plateau_artemisia
+    structure: shrubland
+    ecoregion: artemisia
+    name: Afghan plateau Artemisia steppe
+    group: Desert (dwarf-shrub steppe)
+    indicators: [Artemisia sieberi, Stipa hohenackeriana, Amygdalus scoparia, Ferula assa-foetida]
+    where: {province: ["22", "24", "26"], elev: [1200, 2900]}
+    priority: 44
+  - id: afghan_juniper
+    structure: woodland_conifer
+    ecoregion: juniper
+    name: Afghan juniper woodland
+    group: Xeric woodland (juniper)
+    indicators: [Juniperus excelsa subsp. polycarpos, Juniperus seravschanica, Lonicera nummulariifolia]
+    where: {province: ["22", "23", "24"], elev: [1900, 3300], bio12: [300, null], slope: [8, null], northness: [0, null]}
+    note: north-facing slopes of the Paropamisus, Hazarajat and the northern Hindu Kush foothills.
+    priority: 52
+  - id: thorn_cushion_steppe
+    structure: shrubland
+    ecoregion: thorn_cushion
+    name: Thorn-cushion steppe
+    group: Montane steppe (thorn cushions)
+    indicators: [Onobrychis cornuta, Acantholimon lycopodioides, Astragalus macrocephalus, Cousinia stocksii]
+    where: {province: ["22", "24", "26"], elev: [2900, 3900]}
+    priority: 55
+  - id: helmand_sand_desert
+    structure: sparse
+    ecoregion: helmand
+    name: Registan sand desert
+    group: Desert
+    indicators: [Calligonum comosum, Haloxylon persicum, Stipagrostis pennata, Convolvulus eremophilus]
+    where: {province: ["25"], dune: true}
+    priority: 40
+  - id: helmand_hamun
+    structure: wetland
+    ecoregion: helmand
+    name: Sistan hamun reed beds and salt flats
+    group: Desert (wetlands and salt flats)
+    indicators: [Phragmites australis, Typha domingensis, Tamarix hispida, Halocnemum strobilaceum]
+    where: {province: ["25"], slope: [null, 0.5], hand: [active_floodplain]}
+    priority: 85
+  - id: helmand_gravel_desert
+    structure: sparse
+    ecoregion: helmand
+    name: Dasht-i-Margo gravel desert
+    group: Desert
+    indicators: [Zygophyllum atriplicoides, Salsola arbuscula, Haloxylon griffithii]
+    where: {province: ["25"]}
+    priority: 20
+
+  # ---------------- Kashmir Valley, Ladakh, Western Tibetan Plateau ----------------
+  - id: kashmir_valley_broadleaf
+    structure: forest_broadleaf
+    ecoregion: kashmir_valley
+    name: Kashmir Valley riparian and broadleaf forest
+    group: Himalayan moist temperate forests (valley broadleaf)
+    indicators: [Ulmus wallichiana, Celtis australis, Salix alba, Populus alba]
+    where: {province: ["18"], elev: [null, 1900]}
+    note: >-
+      Valley floor and karewa terraces (~1,550-1,900 m): elm, hackberry, willow, poplar and the Dal, Wular and
+      Hokersar wetlands; now mostly orchards, paddies and towns. DRAFT: envelope from the literature only.
+    priority: 45
+  - id: ladakh_steppe
+    structure: shrubland
+    ecoregion: dry_alpine
+    name: Ladakh cold-desert steppe
+    group: Desert (cold)
+    indicators: [Krascheninnikovia ceratoides, Caragana versicolor, Artemisia brevifolia, Ephedra gerardiana]
+    where: {province: ["19"], elev: [2500, 4300]}
+    note: Indus, Shyok, Suru and Zanskar valleys and their slopes (Leh ~3,500 m). DRAFT.
+    priority: 67
+  - id: ladakh_alpine
+    structure: alpine
+    ecoregion: dry_alpine
+    name: Ladakh alpine scree and cushion steppe
+    group: Alpine scrub (dry)
+    indicators: [Saussurea gnaphalodes, Thylacospermum caespitosum, Arenaria bryophylla, Waldheimia tomentosa]
+    where: {province: ["19"], elev: [4300, 5600]}
+    note: DRAFT.
+    priority: 67
+  - id: tibetan_steppe
+    structure: alpine
+    ecoregion: tibetan_steppe
+    name: Western Tibetan Plateau alpine steppe
+    group: Alpine steppe (Tibetan Plateau)
+    indicators: [Carex moorcroftii, Stipa purpurea, Krascheninnikovia ceratoides, Leontopodium ochroleucum]
+    where: {province: ["20"], elev: [3800, 5600]}
+    note: >-
+      Changthang, Rupshu, Pangong, Lingzi Tang and Aksai Chin (4,200-5,500 m): sedge and needle-grass steppe,
+      cushion plants, salt lakes. DRAFT.
+    priority: 70
+
+# Ecoregion types: mappable aggregations of the communities above (each community
+# names its type in `ecoregion`). Biomes follow RESOLVE Ecoregions 2017. Names as presented on maps:
+# Title Case, "&" for "and", at most one place name (the region a type is centred on; when a type
+# spreads beyond it, rename it to the enclosing region rather than adding another place). `resolve` lists
+# the RESOLVE ecoregions a type can plausibly lie in (generous: RESOLVE is coarse, and
+# neighbouring zones count); the audit flags ecoregions mostly outside them for review.
+ecoregion_types:
+  delta_mangroves: {name: "Arabian Sea Mangroves & Salt Flats", biome: "Mangroves", color: "#2a9d8f",
+    resolve: ["Indus River Delta-Arabian Sea mangroves", "Rann of Kutch seasonal salt marsh", "South Iran Nubo-Sindian desert and semi-desert"]}
+  riverine: {name: "Indus Riverine Forests", biome: "Tropical & Subtropical Dry Broadleaf Forests", color: "#57a773",
+    resolve: ["Aravalli west thorn scrub forests", "Indus Valley desert", "Thar desert", "Rann of Kutch seasonal salt marsh"]}
+  indus_thorn: {name: "Indus Plains Thorn Forests", biome: "Deserts & Xeric Shrublands", color: "#c9b46a",
+    resolve: ["Aravalli west thorn scrub forests", "Indus Valley desert", "Thar desert", "Rann of Kutch seasonal salt marsh"]}
+  thal: {name: "Thal Sand Desert", biome: "Deserts & Xeric Shrublands", color: "#e9c46a",
+    resolve: ["Indus Valley desert", "Aravalli west thorn scrub forests"]}
+  thar_cholistan: {name: "Thar Desert", biome: "Deserts & Xeric Shrublands", color: "#f4a259",
+    resolve: ["Thar desert", "Aravalli west thorn scrub forests", "Rann of Kutch seasonal salt marsh"]}
+  kachhi: {name: "Kachhi Plain Arid Thorn Scrub", biome: "Deserts & Xeric Shrublands", color: "#d4a373",
+    resolve: ["Aravalli west thorn scrub forests", "Baluchistan xeric woodlands", "Indus Valley desert"]}
+  kirthar_lasbela: {name: "Kirthar Hill & Valley Scrub", biome: "Deserts & Xeric Shrublands", color: "#b5838d",
+    resolve: ["Baluchistan xeric woodlands", "Aravalli west thorn scrub forests", "South Iran Nubo-Sindian desert and semi-desert"]}
+  makran_coast: {name: "Makran Coastal Desert", biome: "Deserts & Xeric Shrublands", color: "#e5b98a",
+    resolve: ["South Iran Nubo-Sindian desert and semi-desert", "Baluchistan xeric woodlands"]}
+  makran_ranges: {name: "Makran Ranges Dwarf-Palm Scrub", biome: "Deserts & Xeric Shrublands", color: "#a68a64",
+    resolve: ["Baluchistan xeric woodlands", "South Iran Nubo-Sindian desert and semi-desert", "Kuh Rud and Eastern Iran montane woodlands", "Registan-North Pakistan sandy desert"]}
+  sulaiman_piedmont: {name: "Sulaiman Foothill Thorn Scrub", biome: "Deserts & Xeric Shrublands", color: "#9c6644",
+    resolve: ["Baluchistan xeric woodlands", "Aravalli west thorn scrub forests"]}
+  olive_scrub: {name: "Subtropical Olive–Phulai Scrub Forests", biome: "Tropical & Subtropical Dry Broadleaf Forests", color: "#8a9a5b",
+    resolve: ["Baluchistan xeric woodlands", "Aravalli west thorn scrub forests", "Himalayan subtropical pine forests", "Western Himalayan broadleaf forests"]}
+  siwalik: {name: "Siwalik Dry Deciduous Forests", biome: "Tropical & Subtropical Dry Broadleaf Forests", color: "#a7c957",
+    resolve: ["Himalayan subtropical pine forests", "Western Himalayan broadleaf forests", "Aravalli west thorn scrub forests"]}
+  juniper: {name: "Iranian Plateau Juniper Woodlands", biome: "Temperate Conifer Forests", color: "#386641",
+    resolve: ["Baluchistan xeric woodlands", "Sulaiman Range alpine meadows", "East Afghan montane conifer forests",
+              "Central Afghan Mountains xeric woodlands", "Paropamisus xeric woodlands", "Ghorat-Hazarajat alpine meadow",
+              "Hindu Kush alpine meadow"]}
+  xeric_woodland: {name: "Balochistan Pistachio–Ash Xeric Woodlands", biome: "Deserts & Xeric Shrublands", color: "#6b705c",
+    resolve: ["Baluchistan xeric woodlands", "Registan-North Pakistan sandy desert", "East Afghan montane conifer forests", "Kuh Rud and Eastern Iran montane woodlands", "Sulaiman Range alpine meadows"]}
+  artemisia: {name: "Iranian Plateau Artemisia Steppe", biome: "Deserts & Xeric Shrublands", color: "#a3b18a",
+    resolve: ["Baluchistan xeric woodlands", "Sulaiman Range alpine meadows", "Registan-North Pakistan sandy desert", "East Afghan montane conifer forests", "Central Afghan Mountains xeric woodlands",
+              "Paropamisus xeric woodlands", "Afghan Mountains semi-desert", "Ghorat-Hazarajat alpine meadow"]}
+  tugai: {name: "Tugai Riparian Forests", biome: "Deserts & Xeric Shrublands", color: "#4a9c8c",
+    resolve: ["Registan-North Pakistan sandy desert", "Badghyz and Karabil semi-desert", "Central Persian desert basins",
+              "Central Afghan Mountains xeric woodlands", "Paropamisus xeric woodlands", "Afghan Mountains semi-desert"]}
+  amu_darya: {name: "Amu Darya Loess Steppe & Sand Desert", biome: "Deserts & Xeric Shrublands", color: "#cdb98f",
+    resolve: ["Badghyz and Karabil semi-desert", "Paropamisus xeric woodlands", "Afghan Mountains semi-desert", "Gissaro-Alai open woodlands"]}
+  pistachio: {name: "Paropamisus Pistachio Woodlands", biome: "Deserts & Xeric Shrublands", color: "#b08d57",
+    resolve: ["Paropamisus xeric woodlands", "Badghyz and Karabil semi-desert", "Afghan Mountains semi-desert",
+              "Central Afghan Mountains xeric woodlands", "Gissaro-Alai open woodlands"]}
+  thorn_cushion: {name: "Hindu Kush Thorn-Cushion Steppe", biome: "Montane Grasslands & Shrublands", color: "#c9a9a6",
+    resolve: ["Ghorat-Hazarajat alpine meadow", "Central Afghan Mountains xeric woodlands", "Hindu Kush alpine meadow", "Paropamisus xeric woodlands"]}
+  helmand: {name: "Helmand Basin Deserts & Hamuns", biome: "Deserts & Xeric Shrublands", color: "#d9b48f",
+    resolve: ["Registan-North Pakistan sandy desert", "Central Persian desert basins", "Baluchistan xeric woodlands",
+              "South Iran Nubo-Sindian desert and semi-desert"]}
+  chagai_kharan: {name: "Kharan Deserts & Hamuns", biome: "Deserts & Xeric Shrublands", color: "#f2e3bc",
+    resolve: ["Registan-North Pakistan sandy desert", "Baluchistan xeric woodlands", "South Iran Nubo-Sindian desert and semi-desert", "Kuh Rud and Eastern Iran montane woodlands"]}
+  chir: {name: "Himalayan Chir Pine Forests", biome: "Tropical & Subtropical Coniferous Forests", color: "#6a994e",
+    resolve: ["Himalayan subtropical pine forests", "Western Himalayan broadleaf forests"]}
+  moist_temperate: {name: "Western Himalayan Moist Temperate Forests", biome: "Temperate Conifer Forests", color: "#1b4332",
+    resolve: ["Western Himalayan broadleaf forests", "Western Himalayan subalpine conifer forests", "Himalayan subtropical pine forests", "Northwestern Himalayan alpine shrub and meadows", "East Afghan montane conifer forests"]}
+  sulaiman_temperate: {name: "Sulaiman Temperate Forests", biome: "Temperate Conifer Forests", color: "#52796f",
+    resolve: ["Baluchistan xeric woodlands", "Sulaiman Range alpine meadows", "East Afghan montane conifer forests", "Kuh Rud and Eastern Iran montane woodlands"]}
+  northern_dry_temperate: {name: "Himalayan Dry Temperate Forests", biome: "Temperate Conifer Forests", color: "#5b8a9a",
+    resolve: ["Western Himalayan subalpine conifer forests", "Northwestern Himalayan alpine shrub and meadows", "Karakoram-West Tibetan Plateau alpine steppe", "Hindu Kush alpine meadow", "Central Afghan Mountains xeric woodlands", "East Afghan montane conifer forests"]}
+  subalpine_alpine: {name: "Himalayan Subalpine Forests & Alpine Meadows", biome: "Montane Grasslands & Shrublands", color: "#95d5b2",
+    resolve: ["Northwestern Himalayan alpine shrub and meadows", "Western Himalayan subalpine conifer forests", "Karakoram-West Tibetan Plateau alpine steppe", "Hindu Kush alpine meadow", "Rock and Ice"]}
+  dry_alpine: {name: "High Asian Dry Alpine Steppe & Cold Desert", biome: "Montane Grasslands & Shrublands", color: "#b8a9c9",
+    resolve: ["Karakoram-West Tibetan Plateau alpine steppe", "Rock and Ice", "Hindu Kush alpine meadow", "Northwestern Himalayan alpine shrub and meadows", "Central Afghan Mountains xeric woodlands"]}
+  ice: {name: "High Asian Glaciers & Rock", biome: "Rock & Ice", color: "#e8f1f8",
+    resolve: ["Rock and Ice", "Karakoram-West Tibetan Plateau alpine steppe", "Hindu Kush alpine meadow", "Northwestern Himalayan alpine shrub and meadows"]}
+  kashmir_valley: {name: "Kashmir Valley Temperate Broadleaf Forests & Wetlands", biome: "Temperate Broadleaf & Mixed Forests", color: "#8fb3c9",
+    resolve: ["Western Himalayan broadleaf forests", "Western Himalayan subalpine conifer forests", "Himalayan subtropical pine forests"]}
+  tibetan_steppe: {name: "Western Tibetan Plateau Alpine Steppe", biome: "Montane Grasslands & Shrublands", color: "#d8c3a5",
+    resolve: ["Karakoram-West Tibetan Plateau alpine steppe", "Rock and Ice"]}
+
+# Province fallbacks for cells no rule claims (reported as low-confidence).
+fallback:
+  "01": plains_thorn
+  "02": thal_sand
+  "03": plains_thorn
+  "04": thar_interdune
+  "05": kachhi_desert_thorn
+  "06": olea_acacia_scrub
+  "07": olea_acacia_scrub
+  "08": sulaiman_piedmont_scrub
+  "09": euphorbia_hill_scrub
+  "10": balochistan_artemisia_steppe
+  "11": chagai_gravel_desert
+  "12": makran_range_scrub
+  "13": holly_oak_north
+  "14": cold_desert_valley
+  "15": deodar_dry
+  "16": chir_pine
+  "17": sulaiman_piedmont_scrub
+  "18": kashmir_valley_broadleaf
+  "19": ladakh_steppe
+  "20": tibetan_steppe
+  "21": cold_desert_valley
+  "22": plateau_artemisia
+  "23": amu_loess_steppe
+  "24": plateau_artemisia
+  "25": helmand_gravel_desert
+  "26": plateau_artemisia

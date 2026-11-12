@@ -1,0 +1,2 @@
+outputs/*.gpkg filter=lfs diff=lfs merge=lfs -text
+outputs/*/*.gpkg filter=lfs diff=lfs merge=lfs -text

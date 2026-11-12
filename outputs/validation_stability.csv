@@ -1,0 +1,84 @@
+unit,code,name,type_name,area_km2,stability
+1,25.02,Himalayan Dry Temperate Forests — Hindu Kush (northern),Himalayan Dry Temperate Forests,7545.0,0.818
+2,23.02,Western Himalayan Moist Temperate Forests — Hindu Kush (northwestern),Western Himalayan Moist Temperate Forests,1203.0,0.659
+3,26.05,Himalayan Subalpine Forests & Alpine Meadows — Hindu Kush (northern) 1,Himalayan Subalpine Forests & Alpine Meadows,3867.0,0.84
+4,17.03,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (northeastern),Amu Darya Loess Steppe & Sand Desert,3185.5,0.843
+5,26.04,Himalayan Subalpine Forests & Alpine Meadows — Hindu Kush (northern) 2,Himalayan Subalpine Forests & Alpine Meadows,4480.5,0.813
+6,18.01,Paropamisus Pistachio Woodlands — Amu Darya Plains,Paropamisus Pistachio Woodlands,59923.9,0.887
+7,17.01,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (northwestern),Amu Darya Loess Steppe & Sand Desert,35389.6,0.969
+8,27.01,High Asian Dry Alpine Steppe & Cold Desert — Ladakh Ranges,High Asian Dry Alpine Steppe & Cold Desert,90239.5,0.868
+9,16.01,Tugai Riparian Forests,Tugai Riparian Forests,1058.6,0.915
+10,28.02,High Asian Glaciers & Rock — Hindu Kush,High Asian Glaciers & Rock,1373.8,0.867
+11,26.01,Himalayan Subalpine Forests & Alpine Meadows — Hindu Kush (southwestern),Himalayan Subalpine Forests & Alpine Meadows,30771.9,0.809
+12,28.01,High Asian Glaciers & Rock — Karakoram,High Asian Glaciers & Rock,24973.5,0.917
+13,17.02,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (southern),Amu Darya Loess Steppe & Sand Desert,5985.6,0.881
+14,25.06,Himalayan Dry Temperate Forests — Hindu Kush (eastern),Himalayan Dry Temperate Forests,1005.4,0.825
+15,25.01,Himalayan Dry Temperate Forests — Hindu Kush (western),Himalayan Dry Temperate Forests,9169.2,0.861
+16,30.01,Western Tibetan Plateau Alpine Steppe,Western Tibetan Plateau Alpine Steppe,47665.4,0.851
+17,26.03,Himalayan Subalpine Forests & Alpine Meadows — Hindu Kush (southeastern),Himalayan Subalpine Forests & Alpine Meadows,11624.2,0.816
+18,17.04,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (western),Amu Darya Loess Steppe & Sand Desert,1901.2,0.915
+19,23.01,Western Himalayan Moist Temperate Forests — Hindu Kush (southeastern),Western Himalayan Moist Temperate Forests,39252.0,0.895
+20,25.04,Himalayan Dry Temperate Forests — Western Himalaya (western),Himalayan Dry Temperate Forests,2630.7,0.849
+21,15.01,Iranian Plateau Artemisia Steppe — Paropamisus,Iranian Plateau Artemisia Steppe,165173.5,0.913
+22,26.02,Himalayan Subalpine Forests & Alpine Meadows — Western Himalaya (northern),Himalayan Subalpine Forests & Alpine Meadows,29850.8,0.834
+23,19.01,Hindu Kush Thorn-Cushion Steppe,Hindu Kush Thorn-Cushion Steppe,55439.8,0.847
+24,25.03,Himalayan Dry Temperate Forests — Hindu Kush (southwestern),Himalayan Dry Temperate Forests,4015.4,0.886
+25,15.04,Iranian Plateau Artemisia Steppe — Hazarajat Highlands,Iranian Plateau Artemisia Steppe,1746.0,0.861
+26,22.01,Himalayan Chir Pine Forests — Lesser Himalaya (northwestern),Himalayan Chir Pine Forests,6386.9,0.918
+27,11.01,Subtropical Olive–Phulai Scrub Forests — Potohar Plateau,Subtropical Olive–Phulai Scrub Forests,72495.7,0.962
+28,18.04,Paropamisus Pistachio Woodlands — Paropamisus (northwestern),Paropamisus Pistachio Woodlands,2156.5,0.797
+29,12.02,Siwalik Dry Deciduous Forests — Lesser Himalaya (northwestern),Siwalik Dry Deciduous Forests,2259.4,0.956
+30,29.01,Kashmir Valley Temperate Broadleaf Forests & Wetlands,Kashmir Valley Temperate Broadleaf Forests & Wetlands,4002.4,0.922
+31,24.01,Sulaiman Temperate Forests — Peshawar Basins and Ranges,Sulaiman Temperate Forests,30755.3,0.872
+32,12.01,Siwalik Dry Deciduous Forests — Lesser Himalaya (southeastern),Siwalik Dry Deciduous Forests,9118.4,0.971
+33,3.03,Indus Plains Thorn Forests — Peshawar Basins and Ranges (northeastern),Indus Plains Thorn Forests,5247.6,0.927
+34,26.06,Himalayan Subalpine Forests & Alpine Meadows — Western Himalaya (southern),Himalayan Subalpine Forests & Alpine Meadows,1399.1,0.907
+35,18.02,Paropamisus Pistachio Woodlands — Hazarajat Highlands,Paropamisus Pistachio Woodlands,4533.7,0.854
+36,18.03,Paropamisus Pistachio Woodlands — Paropamisus (southeastern),Paropamisus Pistachio Woodlands,3905.9,0.829
+37,20.01,Helmand Basin Deserts & Hamuns,Helmand Basin Deserts & Hamuns,186913.3,0.996
+38,13.02,Iranian Plateau Juniper Woodlands — Sulaiman Ranges (northeastern),Iranian Plateau Juniper Woodlands,6145.4,0.838
+39,3.05,Indus Plains Thorn Forests — Peshawar Basins and Ranges (southwestern),Indus Plains Thorn Forests,1826.0,0.919
+40,3.01,Indus Plains Thorn Forests — Upper Indus Plain,Indus Plains Thorn Forests,134409.5,0.988
+41,2.02,Indus Riverine Forests — Upper Indus Plain (northern),Indus Riverine Forests,5165.4,0.936
+42,4.01,Thal Sand Desert,Thal Sand Desert,24328.4,0.996
+43,2.01,Indus Riverine Forests — Lower Indus Plain and Delta (northern),Indus Riverine Forests,6123.2,0.936
+44,3.02,Indus Plains Thorn Forests — Derajat Plains,Indus Plains Thorn Forests,6852.1,0.805
+45,24.02,Sulaiman Temperate Forests — Sulaiman Ranges,Sulaiman Temperate Forests,1886.3,0.689
+46,10.01,Sulaiman Foothill Thorn Scrub — Sulaiman Ranges,Sulaiman Foothill Thorn Scrub,30158.4,0.882
+47,13.01,Iranian Plateau Juniper Woodlands — Sulaiman Ranges (southwestern),Iranian Plateau Juniper Woodlands,12382.2,0.88
+48,2.07,Indus Riverine Forests — Upper Indus Plain (northeastern),Indus Riverine Forests,1129.8,0.97
+49,15.03,Iranian Plateau Artemisia Steppe — Sulaiman Ranges,Iranian Plateau Artemisia Steppe,15378.7,0.852
+50,15.05,Iranian Plateau Artemisia Steppe — Central Balochistan Uplands (northeastern),Iranian Plateau Artemisia Steppe,1249.4,0.924
+51,14.02,Balochistan Pistachio–Ash Xeric Woodlands — Central Balochistan Uplands (northwestern),Balochistan Pistachio–Ash Xeric Woodlands,7931.8,0.905
+52,15.02,Iranian Plateau Artemisia Steppe — Central Balochistan Uplands (southwestern),Iranian Plateau Artemisia Steppe,31649.7,0.935
+53,2.05,Indus Riverine Forests — Upper Indus Plain (southeastern),Indus Riverine Forests,2276.8,0.947
+54,21.01,Kharan Deserts & Hamuns,Kharan Deserts & Hamuns,80878.4,0.986
+55,14.01,Balochistan Pistachio–Ash Xeric Woodlands — Central Balochistan Uplands (northeastern),Balochistan Pistachio–Ash Xeric Woodlands,9453.3,0.883
+56,10.02,Sulaiman Foothill Thorn Scrub — Derajat Plains,Sulaiman Foothill Thorn Scrub,1478.9,0.997
+57,2.04,Indus Riverine Forests — Upper Indus Plain (southwestern),Indus Riverine Forests,2825.1,0.929
+58,5.02,Thar Desert — Thar Desert (northeastern),Thar Desert,36519.5,1.0
+59,6.01,Kachhi Plain Arid Thorn Scrub,Kachhi Plain Arid Thorn Scrub,35312.0,0.911
+60,14.03,Balochistan Pistachio–Ash Xeric Woodlands — Kharan Deserts and Basins (northwestern),Balochistan Pistachio–Ash Xeric Woodlands,4167.9,0.892
+61,3.06,Indus Plains Thorn Forests — Kachhi Plain (southwestern),Indus Plains Thorn Forests,1321.1,0.82
+62,3.07,Indus Plains Thorn Forests — Kachhi Plain (northeastern),Indus Plains Thorn Forests,1162.7,0.801
+63,13.03,Iranian Plateau Juniper Woodlands — Central Balochistan Uplands,Iranian Plateau Juniper Woodlands,2865.3,0.919
+64,14.05,Balochistan Pistachio–Ash Xeric Woodlands — Kharan Deserts and Basins (southeastern),Balochistan Pistachio–Ash Xeric Woodlands,2243.6,0.903
+65,3.04,Indus Plains Thorn Forests — Lower Indus Plain and Delta,Indus Plains Thorn Forests,4926.1,0.988
+66,7.01,Kirthar Hill & Valley Scrub,Kirthar Hill & Valley Scrub,48903.7,0.999
+67,14.04,Balochistan Pistachio–Ash Xeric Woodlands — Central Balochistan Uplands (southern) 1,Balochistan Pistachio–Ash Xeric Woodlands,2558.4,0.943
+68,2.06,Indus Riverine Forests — Lower Indus Plain and Delta (northeastern),Indus Riverine Forests,1475.4,0.929
+69,9.01,Makran Ranges Dwarf-Palm Scrub,Makran Ranges Dwarf-Palm Scrub,60980.5,0.978
+70,14.06,Balochistan Pistachio–Ash Xeric Woodlands — Central Balochistan Uplands (southern) 2,Balochistan Pistachio–Ash Xeric Woodlands,1237.6,0.923
+71,5.01,Thar Desert — Thar Desert (southwestern),Thar Desert,37561.9,1.0
+72,2.03,Indus Riverine Forests — Lower Indus Plain and Delta (southern),Indus Riverine Forests,3205.9,0.928
+73,8.01,Makran Coastal Desert,Makran Coastal Desert,25692.3,0.921
+74,1.03,Arabian Sea Mangroves & Salt Flats — Kirthar Ranges,Arabian Sea Mangroves & Salt Flats,1379.4,0.978
+75,1.02,Arabian Sea Mangroves & Salt Flats — Makran Ranges and Coast,Arabian Sea Mangroves & Salt Flats,1562.4,0.984
+76,1.01,Arabian Sea Mangroves & Salt Flats — Lower Indus Plain and Delta,Arabian Sea Mangroves & Salt Flats,8995.4,0.902
+77,25.05,Himalayan Dry Temperate Forests — Western Himalaya (eastern),Himalayan Dry Temperate Forests,1122.8,0.838
+78,17.05,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (eastern),Amu Darya Loess Steppe & Sand Desert,1149.1,0.939
+79,22.04,Himalayan Chir Pine Forests — Lesser Himalaya (southeastern),Himalayan Chir Pine Forests,1756.2,0.909
+80,27.02,High Asian Dry Alpine Steppe & Cold Desert — Karakoram,High Asian Dry Alpine Steppe & Cold Desert,2091.5,0.837
+81,22.03,Himalayan Chir Pine Forests — Lesser Himalaya (southern),Himalayan Chir Pine Forests,2639.7,0.907
+82,22.02,Himalayan Chir Pine Forests — Hindu Kush,Himalayan Chir Pine Forests,3294.7,0.851
+83,11.02,Subtropical Olive–Phulai Scrub Forests — Sulaiman Ranges,Subtropical Olive–Phulai Scrub Forests,13383.5,0.865

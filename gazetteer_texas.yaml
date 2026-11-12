@@ -1,0 +1,345 @@
+# Gazetteer of named physiographic units of Texas, used to NAME L3 units and to
+# CROSS-CHECK whether the delineation resolves them (same schema as gazetteer.yaml).
+#
+# Names are those used by the Bureau of Economic Geology (Physiographic Map of
+# Texas, 1996), the Handbook of Texas and Texans themselves. Coordinates are
+# approximate reference points (lon, lat; WGS84) placed from town, peak and park
+# coordinates (Wikipedia / GNIS) and standard maps, typically to ±5–10 km. They
+# are anchors inside a feature, NOT boundaries; every point lies inside Texas
+# (Natural Earth admin-1, US-TX). Never placed from EPA ecoregions or TPWD
+# vegetation polygons (validation references only). Correct or add points here
+# and rerun `make names` — no code changes needed.
+#
+# Naming rule: a feature with an `expect` test names a unit only if the unit
+# passes that test; otherwise it is listed under also_contains as not resolved
+# at this scale (e.g. a barrier island or a narrow river bottom absorbed into a
+# plains unit). One place name per name: a feature spanning several named places
+# takes the enclosing region's name, never a hyphen chain.
+#
+# Fields
+#   name      display name (used verbatim for the L3 unit name)
+#   kind      landform class (floodplain, desert, hills, range, plateau, basin,
+#             valley, canyon, escarpment, massif, coast, island, lagoon, delta,
+#             plain, prairie, woodland)
+#   points    one or more anchor points; a feature spanning several L3 units
+#             gets one name per unit with a positional suffix
+#   priority  lower wins when several features fall in one L3 unit
+#   check     include in the cross-check report
+#   expect    character test for "resolved" (optional):
+#               hand_class/min_frac, hand_min (median m), dune_min, relief_min/relief_max (5 km relief, m),
+#               elev_min/elev_max (m), litho (group name substring, SGMC_GROUPS in covariates.py),
+#               slope_min/slope_max (deg)
+#   may_share names of features allowed to fall in the same L3 unit
+
+features:
+  # --- High Plains and the Panhandle -------------------------------------------
+  - {name: Llano Estacado, kind: plateau, points: [[-101.85, 33.58], [-102.4, 34.3], [-102.6, 32.7], [-101.75, 34.55],
+     [-102.1, 32.0], [-102.76, 33.73], [-102.7, 34.7], [-102.43, 35.2]], priority: 2, check: true, expect: {elev_min: 800, slope_max: 2}}
+  - {name: High Plains, kind: plateau, points: [[-102.5, 36.1], [-101.95, 35.9], [-101.2, 36.2], [-100.27, 36.24]], priority: 2,
+     expect: {elev_min: 800, slope_max: 2}}
+  - {name: Canadian Breaks, kind: valley, points: [[-101.55, 35.65], [-102.25, 35.45], [-100.6, 35.85]], priority: 0,
+     check: true, expect: {relief_min: 60}}
+  - {name: Palo Duro Canyon, kind: canyon, points: [[-101.67, 34.94], [-101.45, 34.88]], priority: 0, check: true,
+     expect: {relief_min: 100}}
+  - {name: Tule Canyon, kind: canyon, points: [[-101.3, 34.55]], priority: 0, expect: {relief_min: 60}}
+  - {name: Caprock Escarpment, kind: escarpment, points: [[-101.05, 34.43], [-101.2, 33.65], [-101.35, 33.15]],
+     priority: 0, check: true, expect: {relief_min: 60}}
+  - {name: Yellow House Canyon, kind: canyon, points: [[-101.72, 33.56]], priority: 1, expect: {relief_min: 30}}
+  - {name: Blanco Canyon, kind: canyon, points: [[-101.3, 33.75]], priority: 1, expect: {relief_min: 40}}
+
+  # --- Rolling Plains (North-Central Plains) -----------------------------------
+  - {name: Rolling Plains, kind: plain, points: [[-100.3, 33.6], [-99.73, 32.45], [-100.2, 34.4], [-99.26, 33.59],
+     [-100.86, 32.39], [-100.25, 35.2], [-99.3, 34.15], [-99.3, 32.73],
+     [-99.43, 31.83]], priority: 2, check: true}
+  - {name: Red River Valley, kind: floodplain, points: [[-98.55, 34.08], [-97.2, 33.83], [-96.6, 33.8], [-95.5, 33.82]],
+     priority: 1, expect: {hand_class: active_floodplain, min_frac: 0.25}}
+  - {name: Callahan Divide, kind: hills, points: [[-99.85, 32.25]], priority: 1, expect: {litho: Mesozoic limestone}}
+  - {name: Palo Pinto Mountains, kind: hills, points: [[-98.3, 32.75]], priority: 1, expect: {relief_min: 50}}
+
+  # --- Grand Prairie and the Cross Timbers -------------------------------------
+  - {name: Western Cross Timbers, kind: woodland, points: [[-98.2, 32.22], [-97.85, 32.95], [-97.72, 33.66], [-98.55, 31.85]],
+     priority: 1, check: true}
+  - {name: Grand Prairie, kind: prairie, points: [[-97.4, 32.35], [-97.6, 31.9], [-97.35, 33.6]], priority: 1, check: true,
+     expect: {litho: Mesozoic limestone}}
+  - {name: Lampasas Cut Plain, kind: plain, points: [[-98.18, 31.1], [-98.1, 31.65], [-98.5, 31.35]], priority: 1,
+     check: true}
+  - {name: Eastern Cross Timbers, kind: woodland, points: [[-96.95, 33.45], [-97.12, 32.7]], priority: 1, check: true}
+
+  # --- Blackland Prairies and the Post Oak Belt --------------------------------
+  - {name: Blackland Prairie, kind: prairie, points: [[-96.62, 33.2], [-96.95, 31.55], [-97.41, 30.57], [-97.96, 29.57],
+     [-96.63, 32.33]], priority: 1, check: true, expect: {litho: Mesozoic chalk}}
+  - {name: Fayette Prairie, kind: prairie, points: [[-96.4, 30.15], [-96.75, 29.85]], priority: 1}
+  - {name: Post Oak Savannah, kind: woodland, points: [[-96.48, 31.03], [-97.25, 29.95], [-96.16, 31.72], [-98.16, 29.13]],
+     priority: 1, check: true}
+  - {name: Lost Pines, kind: woodland, points: [[-97.29, 30.11]], priority: 0}
+  - {name: Brazos Bottoms, kind: floodplain, points: [[-96.5, 30.6], [-95.85, 29.65], [-96.85, 31.25]], priority: 1,
+     check: true, expect: {hand_class: active_floodplain, min_frac: 0.25}}
+  - {name: Trinity River Bottoms, kind: floodplain, points: [[-94.82, 30.1], [-95.65, 31.3], [-96.1, 32.1]], priority: 1,
+     expect: {hand_class: active_floodplain, min_frac: 0.25}}
+  - {name: Colorado River Bottoms, kind: floodplain, points: [[-96.54, 29.68], [-95.98, 29.05]], priority: 1,
+     expect: {hand_class: active_floodplain, min_frac: 0.25}}
+
+  # --- Piney Woods ------------------------------------------------------------
+  - {name: Piney Woods, kind: woodland, points: [[-94.73, 31.34], [-94.37, 32.54], [-95.3, 32.35], [-94.97, 33.16],
+     [-94.0, 30.92], [-93.9, 31.45]], priority: 2, check: true}
+  - {name: Big Thicket, kind: woodland, points: [[-94.35, 30.45], [-94.75, 30.6]], priority: 1, check: true}
+  - {name: Redlands, kind: hills, points: [[-94.65, 31.6]], priority: 1}
+  - {name: Caddo Lake, kind: basin, points: [[-94.1, 32.72]], priority: 0}
+  - {name: Sulphur River Bottoms, kind: floodplain, points: [[-95.3, 33.35], [-94.5, 33.3]], priority: 1,
+     expect: {hand_class: active_floodplain, min_frac: 0.25}}
+  - {name: Sabine River Bottoms, kind: floodplain, points: [[-94.8, 32.43], [-95.45, 32.68]], priority: 1,
+     expect: {hand_class: active_floodplain, min_frac: 0.25}}
+  - {name: Neches River Bottoms, kind: floodplain, points: [[-94.1, 30.4], [-95.0, 31.65]], priority: 1,
+     expect: {hand_class: active_floodplain, min_frac: 0.25}}
+  - {name: Angelina River Bottoms, kind: floodplain, points: [[-94.55, 31.3]], priority: 1,
+     expect: {hand_class: active_floodplain, min_frac: 0.25}}
+
+  # --- Coastal Prairies, marshes and barrier islands ---------------------------
+  - {name: Coastal Prairie, kind: prairie, points: [[-95.82, 29.79], [-94.4, 29.85], [-96.27, 29.2], [-97.27, 28.3],
+     [-97.79, 27.79]], priority: 2, check: true, expect: {elev_max: 60}}
+  - {name: Katy Prairie, kind: prairie, points: [[-95.85, 29.88]], priority: 1}
+  - {name: Chenier Plain, kind: coast, points: [[-94.1, 29.7], [-94.35, 29.65]], priority: 0,
+     expect: {elev_max: 5}}
+  - {name: Columbia Bottomlands, kind: floodplain, points: [[-95.65, 29.14], [-95.75, 29.0]], priority: 1}
+  - {name: Coastal Bend, kind: coast, points: [[-97.4, 27.8], [-97.05, 28.05]], priority: 1}
+  - {name: Bolivar Peninsula, kind: island, points: [[-94.57, 29.5]], priority: 0, expect: {elev_max: 10}}
+  - {name: Galveston Island, kind: island, points: [[-94.9, 29.24]], priority: 0, expect: {elev_max: 10}}
+  - {name: Matagorda Peninsula, kind: island, points: [[-95.95, 28.62]], priority: 0, expect: {elev_max: 10}}
+  - {name: Matagorda Island, kind: island, points: [[-96.72, 28.2]], priority: 0, expect: {elev_max: 10}}
+  - {name: San José Island, kind: island, points: [[-96.98, 27.95]], priority: 0, expect: {elev_max: 10}}
+  - {name: Mustang Island, kind: island, points: [[-97.15, 27.7]], priority: 0, expect: {elev_max: 10}}
+  - {name: Padre Island, kind: island, points: [[-97.39, 27.0], [-97.32, 26.65], [-97.19, 26.2]], priority: 0, check: true,
+     expect: {elev_max: 15}}
+  - {name: Blackjack Peninsula, kind: coast, points: [[-96.8, 28.25]], priority: 0}
+  - {name: Trinity Delta, kind: delta, points: [[-94.72, 29.8]], priority: 0, expect: {elev_max: 5}}
+  - {name: Guadalupe Delta, kind: delta, points: [[-96.85, 28.45]], priority: 0, expect: {elev_max: 5}}
+  - {name: Nueces Delta, kind: delta, points: [[-97.57, 27.88]], priority: 0, expect: {elev_max: 5}}
+  - {name: Guadalupe River Bottoms, kind: floodplain, points: [[-97.0, 28.75], [-97.3, 29.1]], priority: 1,
+     expect: {hand_class: active_floodplain, min_frac: 0.25}}
+  - {name: San Antonio River Bottoms, kind: floodplain, points: [[-97.4, 28.68], [-97.9, 29.05]], priority: 1,
+     expect: {hand_class: active_floodplain, min_frac: 0.25}}
+
+  # --- South Texas (Rio Grande Plain) ------------------------------------------
+  - {name: Rio Grande Valley, kind: floodplain, points: [[-97.7, 26.19], [-98.23, 26.2], [-97.95, 26.15]], priority: 1,
+     check: true, expect: {elev_max: 60}, may_share: [Rio Grande Delta]}
+  - {name: Rio Grande Delta, kind: delta, points: [[-97.3, 25.98], [-97.45, 25.95]], priority: 0,
+     expect: {elev_max: 10}, may_share: [Rio Grande Valley]}
+  - {name: South Texas Sand Sheet, kind: desert, points: [[-98.1, 26.95], [-97.8, 26.85], [-98.4, 27.0]], priority: 1,
+     check: true, expect: {litho: aeolian}}
+  - {name: Brush Country, kind: plain, points: [[-99.25, 28.4], [-98.8, 27.4], [-99.3, 27.6], [-98.5, 28.6], [-100.35, 29.0]],
+     priority: 2, check: true}
+  - {name: Nueces Plains, kind: plain, points: [[-99.1, 28.75]], priority: 2}
+  - {name: Winter Garden, kind: plain, points: [[-99.83, 28.6]], priority: 1}
+  - {name: Bordas Escarpment, kind: escarpment, points: [[-98.65, 26.65], [-98.45, 27.0]], priority: 0,
+     expect: {relief_min: 30}}
+  - {name: Nueces River Valley, kind: floodplain, points: [[-97.85, 28.05], [-99.25, 28.4]], priority: 1,
+     expect: {hand_class: active_floodplain, min_frac: 0.25}}
+
+  # --- Edwards Plateau, Hill Country and the Balcones ----------------------------
+  - {name: Edwards Plateau, kind: plateau, points: [[-100.64, 30.57], [-101.2, 30.71], [-100.82, 31.26], [-100.0, 30.35]],
+     priority: 2, check: true, expect: {litho: Mesozoic limestone, elev_min: 450}}
+  - {name: Hill Country, kind: hills, points: [[-99.14, 30.05], [-98.87, 30.27], [-98.42, 30.1]], priority: 1,
+     check: true, expect: {relief_min: 60}, may_share: [Balcones Escarpment]}
+  - {name: Balcones Canyonlands, kind: hills, points: [[-99.55, 29.78], [-100.0, 29.7], [-99.15, 29.72]], priority: 1,
+     expect: {relief_min: 80}}
+  - {name: Balcones Escarpment, kind: escarpment, points: [[-97.78, 30.32], [-98.15, 29.72], [-98.5, 29.62], [-99.45, 29.4]],
+     priority: 0, check: true, expect: {relief_min: 50}, may_share: [Hill Country, Blackland Prairie]}
+  - {name: Llano Uplift, kind: basin, points: [[-98.68, 30.76], [-98.45, 30.65], [-98.96, 30.68]], priority: 1,
+     check: true, expect: {litho: Precambrian}}
+  - {name: Enchanted Rock, kind: hills, points: [[-98.82, 30.5]], priority: 0, expect: {litho: Precambrian}}
+  - {name: Stockton Plateau, kind: plateau, points: [[-102.39, 30.2], [-102.1, 30.4], [-101.95, 30.15]], priority: 1,
+     check: true, expect: {litho: Mesozoic limestone}}
+  - {name: Frio Canyon, kind: canyon, points: [[-99.74, 29.62]], priority: 0, expect: {relief_min: 60}}
+  - {name: Devils River, kind: canyon, points: [[-100.97, 29.93], [-101.05, 30.2]], priority: 0, expect: {relief_min: 60}}
+  - {name: Lower Pecos Canyonlands, kind: canyon, points: [[-101.45, 29.85], [-101.56, 29.88]], priority: 0,
+     expect: {relief_min: 60}}
+  - {name: Concho Valley, kind: valley, points: [[-100.44, 31.46], [-100.15, 31.55]], priority: 1}
+  - {name: San Saba Valley, kind: valley, points: [[-99.45, 30.97], [-99.79, 30.92]], priority: 1}
+  - {name: Llano Valley, kind: valley, points: [[-99.6, 30.52], [-99.25, 30.68]], priority: 1}
+
+  # --- Trans-Pecos: Pecos Valley ------------------------------------------------
+  - {name: Monahans Sandhills, kind: desert, points: [[-102.81, 31.62], [-102.6, 31.55], [-103.0, 31.75]], priority: 0,
+     check: true, expect: {dune_min: 0.1}}
+  - {name: Toyah Basin, kind: basin, points: [[-103.6, 31.3], [-103.3, 31.2], [-103.79, 31.4]], priority: 1,
+     expect: {slope_max: 3}}
+  - {name: Pecos Valley, kind: valley, points: [[-102.4, 31.07], [-101.9, 30.88], [-103.4, 31.46]], priority: 1}
+  - {name: Sierra Madera, kind: hills, points: [[-102.91, 30.6]], priority: 0, expect: {relief_min: 60}}
+  - {name: Gypsum Plain, kind: plain, points: [[-104.35, 31.85]], priority: 0, expect: {litho: Evaporites}}
+
+  # --- Trans-Pecos: basins and ranges -------------------------------------------
+  - {name: Guadalupe Mountains, kind: range, points: [[-104.86, 31.89], [-104.8, 31.95]], priority: 0, check: true,
+     expect: {relief_min: 300}}
+  - {name: Delaware Mountains, kind: range, points: [[-104.6, 31.6], [-104.7, 31.75]], priority: 0, expect: {relief_min: 150}}
+  - {name: Salt Basin, kind: basin, points: [[-105.05, 31.75], [-104.85, 31.4]], priority: 1, check: true,
+     expect: {slope_max: 3}}
+  - {name: Sierra Diablo, kind: range, points: [[-104.85, 31.22]], priority: 0, expect: {relief_min: 200}}
+  - {name: Diablo Plateau, kind: plateau, points: [[-105.5, 31.6], [-105.6, 31.85]], priority: 1, check: true,
+     expect: {elev_min: 1300}}
+  - {name: Hueco Mountains, kind: range, points: [[-106.05, 31.9]], priority: 0, expect: {relief_min: 150}}
+  - {name: Franklin Mountains, kind: range, points: [[-106.49, 31.9]], priority: 0, check: true, expect: {relief_min: 300}}
+  - {name: Hueco Bolson, kind: basin, points: [[-106.25, 31.85], [-105.95, 31.6]], priority: 1, check: true,
+     expect: {elev_max: 1400, slope_max: 3}}
+  - {name: El Paso Valley, kind: floodplain, points: [[-106.3, 31.62], [-106.1, 31.45]], priority: 1,
+     expect: {hand_class: active_floodplain, min_frac: 0.25}}
+  - {name: Eagle Flat, kind: basin, points: [[-105.05, 31.1]], priority: 1, expect: {slope_max: 3}}
+  - {name: Quitman Mountains, kind: range, points: [[-105.35, 31.1]], priority: 0, expect: {relief_min: 150}}
+  - {name: Eagle Mountains, kind: range, points: [[-105.08, 30.93]], priority: 0, expect: {relief_min: 200}}
+  - {name: Van Horn Mountains, kind: range, points: [[-104.75, 30.85]], priority: 0, expect: {relief_min: 150}}
+  - {name: Apache Mountains, kind: range, points: [[-104.35, 31.15]], priority: 0, expect: {relief_min: 150}}
+  - {name: Davis Mountains, kind: range, points: [[-104.17, 30.63], [-103.95, 30.72], [-104.15, 30.45]], priority: 0,
+     check: true, expect: {relief_min: 200}}
+  - {name: Sierra Vieja, kind: range, points: [[-104.65, 30.3]], priority: 0, expect: {relief_min: 150}}
+  - {name: Marfa Plateau, kind: plateau, points: [[-104.02, 30.31], [-103.85, 30.25]], priority: 1, check: true,
+     expect: {elev_min: 1300}}
+  - {name: Chinati Mountains, kind: range, points: [[-104.48, 29.91]], priority: 0, expect: {relief_min: 200}}
+  - {name: Presidio Bolson, kind: basin, points: [[-104.4, 29.7]], priority: 1, expect: {elev_max: 1100}}
+  - {name: Glass Mountains, kind: range, points: [[-103.35, 30.4]], priority: 0, expect: {relief_min: 150}}
+  - {name: Del Norte Mountains, kind: range, points: [[-103.45, 30.15], [-103.55, 30.03]], priority: 0,
+     expect: {relief_min: 150}}
+  - {name: Marathon Basin, kind: basin, points: [[-103.24, 30.2], [-103.1, 30.05]], priority: 1,
+     expect: {litho: Paleozoic}}
+  - {name: Santiago Mountains, kind: range, points: [[-103.38, 29.85]], priority: 0, expect: {relief_min: 150}}
+  - {name: Big Bend, kind: desert, points: [[-103.05, 29.4], [-103.5, 29.2]], priority: 2,
+     may_share: [Chisos Mountains]}
+  - {name: Chisos Mountains, kind: massif, points: [[-103.3, 29.27]], priority: 0, check: true, expect: {relief_min: 300},
+     may_share: [Big Bend]}
+  - {name: Christmas Mountains, kind: range, points: [[-103.47, 29.47]], priority: 0, expect: {relief_min: 150}}
+  - {name: Dead Horse Mountains, kind: range, points: [[-102.95, 29.35]], priority: 0, expect: {relief_min: 150}}
+  - {name: Mariscal Mountain, kind: hills, points: [[-103.17, 29.06]], priority: 0, expect: {relief_min: 150}}
+  - {name: Black Gap, kind: hills, points: [[-102.93, 29.55]], priority: 1}
+  - {name: Solitario, kind: massif, points: [[-103.79, 29.45]], priority: 0, expect: {relief_min: 150}}
+  - {name: Bofecillos Mountains, kind: range, points: [[-104.05, 29.38]], priority: 0, expect: {relief_min: 150}}
+
+# Doab regions (interfluves between two major rivers) are a Punjab feature with no
+# Texas counterpart; the cross-check reads this key, so it stays, empty.
+doabs: []
+
+# Towns for direction references in provisional names (not used as unit names).
+places:
+  - [Amarillo, -101.83, 35.22]
+  - [Lubbock, -101.86, 33.58]
+  - [Dalhart, -102.52, 36.06]
+  - [Dumas, -101.97, 35.87]
+  - [Perryton, -100.8, 36.4]
+  - [Pampa, -100.96, 35.54]
+  - [Canadian, -100.38, 35.91]
+  - [Hereford, -102.4, 34.82]
+  - [Plainview, -101.71, 34.19]
+  - [Muleshoe, -102.73, 34.23]
+  - [Silverton, -101.3, 34.47]
+  - [Clarendon, -100.89, 34.94]
+  - [Childress, -100.2, 34.43]
+  - [Vernon, -99.27, 34.15]
+  - [Wichita Falls, -98.49, 33.91]
+  - [Levelland, -102.38, 33.59]
+  - [Post, -101.38, 33.19]
+  - [Guthrie, -100.32, 33.62]
+  - [Lamesa, -101.95, 32.74]
+  - [Seminole, -102.65, 32.72]
+  - [Snyder, -100.92, 32.72]
+  - [Andrews, -102.55, 32.32]
+  - [Big Spring, -101.48, 32.25]
+  - [Midland, -102.08, 31.99]
+  - [Odessa, -102.37, 31.85]
+  - [Kermit, -103.09, 31.86]
+  - [Monahans, -102.89, 31.59]
+  - [Crane, -102.35, 31.4]
+  - [McCamey, -102.22, 31.13]
+  - [Pecos, -103.49, 31.42]
+  - [Fort Stockton, -102.88, 30.89]
+  - [Iraan, -101.9, 30.91]
+  - [Sanderson, -102.39, 30.14]
+  - [Dell City, -105.2, 31.94]
+  - [El Paso, -106.44, 31.76]
+  - [Sierra Blanca, -105.36, 31.17]
+  - [Van Horn, -104.83, 31.04]
+  - [Fort Davis, -103.89, 30.59]
+  - [Marfa, -104.02, 30.31]
+  - [Alpine, -103.66, 30.36]
+  - [Marathon, -103.24, 30.21]
+  - [Presidio, -104.37, 29.56]
+  - [Terlingua, -103.62, 29.32]
+  - [Langtry, -101.56, 29.81]
+  - [Del Rio, -100.9, 29.36]
+  - [Brackettville, -100.42, 29.31]
+  - [Rocksprings, -100.21, 30.02]
+  - [Ozona, -101.2, 30.71]
+  - [Sonora, -100.64, 30.57]
+  - [Eldorado, -100.6, 30.86]
+  - [Big Lake, -101.46, 31.19]
+  - [San Angelo, -100.44, 31.46]
+  - [Sweetwater, -100.41, 32.47]
+  - [Abilene, -99.73, 32.45]
+  - [Throckmorton, -99.18, 33.18]
+  - [Graham, -98.59, 33.11]
+  - [Coleman, -99.43, 31.83]
+  - [Brownwood, -98.99, 31.71]
+  - [Brady, -99.33, 31.14]
+  - [Menard, -99.79, 30.92]
+  - [Mason, -99.23, 30.75]
+  - [Junction, -99.77, 30.49]
+  - [Llano, -98.68, 30.76]
+  - [Lampasas, -98.18, 31.06]
+  - [Hamilton, -98.12, 31.7]
+  - [Stephenville, -98.2, 32.22]
+  - [Mineral Wells, -98.11, 32.81]
+  - [Decatur, -97.59, 33.23]
+  - [Gainesville, -97.13, 33.63]
+  - [Denton, -97.13, 33.21]
+  - [Fort Worth, -97.33, 32.75]
+  - [Dallas, -96.8, 32.78]
+  - [Sherman, -96.61, 33.64]
+  - [Paris, -95.56, 33.66]
+  - [Texarkana, -94.05, 33.43]
+  - [Mount Pleasant, -94.97, 33.16]
+  - [Tyler, -95.3, 32.35]
+  - [Longview, -94.74, 32.5]
+  - [Marshall, -94.37, 32.54]
+  - [Athens, -95.86, 32.2]
+  - [Corsicana, -96.47, 32.1]
+  - [Waco, -97.15, 31.55]
+  - [Temple, -97.34, 31.1]
+  - [Palestine, -95.63, 31.76]
+  - [Crockett, -95.46, 31.32]
+  - [Nacogdoches, -94.66, 31.6]
+  - [Lufkin, -94.73, 31.34]
+  - [Jasper, -94.0, 30.92]
+  - [Huntsville, -95.55, 30.72]
+  - [Bryan, -96.37, 30.67]
+  - [Austin, -97.74, 30.27]
+  - [Kerrville, -99.14, 30.05]
+  - [Fredericksburg, -98.87, 30.27]
+  - [Bandera, -99.07, 29.73]
+  - [Leakey, -99.76, 29.73]
+  - [Uvalde, -99.79, 29.21]
+  - [San Antonio, -98.49, 29.42]
+  - [Seguin, -97.96, 29.57]
+  - [La Grange, -96.88, 29.91]
+  - [Brenham, -96.4, 30.17]
+  - [Columbus, -96.54, 29.71]
+  - [Houston, -95.37, 29.76]
+  - [Beaumont, -94.1, 30.08]
+  - [Galveston, -94.8, 29.3]
+  - [Bay City, -95.97, 28.98]
+  - [Port Lavaca, -96.63, 28.61]
+  - [Victoria, -97.0, 28.8]
+  - [Beeville, -97.75, 28.4]
+  - [George West, -98.12, 28.33]
+  - [Rockport, -97.05, 28.02]
+  - [Corpus Christi, -97.4, 27.8]
+  - [Kingsville, -97.86, 27.52]
+  - [Alice, -98.07, 27.75]
+  - [Sarita, -97.79, 27.22]
+  - [Falfurrias, -98.14, 27.23]
+  - [Hebbronville, -98.68, 27.31]
+  - [Raymondville, -97.78, 26.48]
+  - [Harlingen, -97.7, 26.19]
+  - [Brownsville, -97.49, 25.92]
+  - [McAllen, -98.23, 26.2]
+  - [Rio Grande City, -98.82, 26.38]
+  - [Zapata, -99.27, 26.91]
+  - [Laredo, -99.48, 27.54]
+  - [Cotulla, -99.24, 28.44]
+  - [Pearsall, -99.1, 28.89]
+  - [Carrizo Springs, -99.86, 28.52]
+  - [Eagle Pass, -100.48, 28.71]

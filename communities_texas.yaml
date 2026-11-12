@@ -1,0 +1,722 @@
+# Potential natural vegetation communities of Texas
+# (LANDFIRE-BpS-like layer at 90 m).                         STATUS: DRAFT v0 for expert review
+#
+# Each community is mapped by explicit rules on the Texas rasters. A cell takes the
+# matching community with the highest `priority`; unmatched cells fall back to the
+# province default (`fallback`). Thresholds are first guesses from the literature (Gould,
+# Hoffman & Rechenthin 1960 and Gould 1975, vegetational areas of Texas; Diamond et al. 1987,
+# vegetation types of Texas; Correll & Johnston 1970; Texas Almanac natural regions; NatureServe
+# ecological systems; Henrich & Hutchins / Powell on the Chihuahuan Desert; Watson and Marks &
+# Harcombe on the Big Thicket), placed on the CHELSA v2.1 (1981-2010) values sampled at known
+# places (`calibrate:` notes). Every number here is provisional. Never tuned on the validation
+# references (EPA Level III/IV ecoregions, TPWD Ecological Mapping Systems, GBIF held-out cells,
+# RESOLVE polygons); RESOLVE names in `resolve:` are only the audit crosswalk.
+#
+# CHELSA values sampled (1 km cell at the place; MAP mm, MAT degC, AI, elevation m from the
+# Copernicus DEM): Kountze/Big Thicket 1533 mm 19.9 C; Jasper 1415, 19.6; Lufkin 1354, 19.3;
+# Nacogdoches 1295, 19.1; Caddo Lake 1319; Texarkana 1311, 17.8; Tyler 1202; Palestine 1198;
+# Huntsville 1268; College Station 1079; Bastrop 891; Austin 833; Waco 967; Dallas 938; Fort Worth
+# 874; Stephenville 870; Brownwood 781; Fredericksburg 793; Kerrville 748; Junction 566; Sonora 559;
+# Ozona 503; Sanderson 401; Langtry 413; Abilene 635; Wichita Falls 796; Childress 685; Amarillo
+# 550 / 14.2 C; Lubbock 515 / 15.8 C; Seminole 471 / 16.6 C; Midland 384 / 17.8 C; Monahans 359;
+# Pecos 303; El Paso 227; Van Horn 282 (1232 m); Marfa 400 (1431 m); Alpine 430; Fort Davis 449
+# (1484 m); Chisos Basin 466 (1649 m); Emory Peak 458 (2201 m, 12.8 C); Mount Livermore 538
+# (2435 m, 10.8 C); The Bowl, Guadalupe Mts 403 (2294 m, 9.6 C); Pine Springs 378 (1699 m);
+# Franklin Mts 318 (1894 m); Anahuac 1611; Houston 1373; Galveston 1315; Victoria 1029; Corpus
+# Christi 854; Kingsville 732; Falfurrias 683; Brownsville 693; McAllen 571; Rio Grande City 552;
+# Laredo 474; Cotulla 568; Uvalde 659; Pleasanton 745.
+#
+# Indicators: species characteristic of the community, named as in the GBIF backbone (so GBIF
+# records match; checked with the species-match API: e.g. Sporobolus alterniflorus = Spartina
+# alterniflora, Sporobolus pumilus = Spartina patens, Sporobolus spartinae = Spartina spartinae,
+# Hilaria mutica = Pleuraphis mutica, Elymus smithii = Pascopyrum smithii, Fraxinus albicans =
+# F. texensis, Porlieria angustifolia = Guaiacum angustifolium, Alloberberis trifoliolata =
+# Mahonia trifoliolata, Condaliopsis obtusifolia = Ziziphus obtusifolia, Andropogon gerardi).
+# Schizachyrium littorale is sunk in S. scoparium by GBIF, so it is not used. Ubiquitous or widely
+# planted species (Celtis laevigata alone, Vachellia farnesiana, Tamarix, Melia ...) are left out.
+#
+# Group = Gould, Hoffman & Rechenthin (1960) vegetational area of Texas, with the formation in
+# parentheses (the Llano Uplift falls in their Edwards Plateau, the Grand Prairie in their
+# Cross Timbers and Prairies).
+#
+# Rule keys (all conditions AND; [min, max), null = open):
+#   elev      m          dem                         slope   deg     slope
+#   bio1      degC       clim_bio1 (MAT)             bio12   mm/yr   clim_bio12 (MAP)
+#   ai        -          clim_ai (aridity index)     gdd5    degC d  clim_gdd5
+#   summer_rain share    clim_summer_rain (May-Oct share of the annual rain)
+#   hand      class      hand_class names            litho   codes   geo_litho, USGS SGMC groups:
+#       1 Quaternary sediments (alluvium, coastal and cover deposits, incl. Blackwater Draw cover sand),
+#       2 Quaternary aeolian sand (South Texas Sand Sheet, Monahans dunes), 3 Cenozoic sand, clay and
+#       gravel (Wilcox ... Yegua, Catahoula, Ogallala, Goliad), 4 Mesozoic limestone (Edwards, Glen
+#       Rose), 5 Mesozoic chalk, marl and clay (Austin Chalk, Eagle Ford, Taylor, Navarro), 6 Mesozoic
+#       sandstone (Woodbine, Paluxy, Antlers, Trinity sands), 7 Permian and Triassic red beds,
+#       8 Evaporites (Blaine, Castile gypsum), 9 Paleozoic sedimentary rocks, 10 Precambrian basement
+#       and intrusive rocks (Llano granite, Trans-Pecos intrusives), 11 Water, 12 Volcanic rocks
+#   province  L2 codes   l2                          dune    bool    dune texture mask
+#   coast_km  km         distance to sea (from the mask)
+#   northness -1..1      cos(aspect) (from dem; + = north-facing)
+#   tpi       m          height above the mean within 450 m (tpi_450; negative = hollow)
+#   river_km  km         distance to a major river channel (flow accumulation >= 8,000 km2)
+#   creek_m   m          distance to open or tidal water (WorldCover water class + sea; water itself = 0)
+# L2: 01 Coastal Prairies and Marshes (incl. the barrier islands), 02 Lower Rio Grande Plain,
+#     03 South Texas Sand Sheet, 04 South Texas Brush Country, 05 Interior Coastal Plains (Post Oak
+#     Belt), 06 Piney Woods, 07 Blackland Prairies, 08 Grand Prairie (incl. the Lampasas Cut Plain),
+#     09 North-Central Plains (Rolling Plains), 10 Edwards Plateau (incl. the Balcones Canyonlands and
+#     the Stockton Plateau), 11 Llano Uplift, 12 High Plains, 13 Trans-Pecos Basins and Ranges,
+#     14 Pecos Valley (Toyah Basin, Monahans Sandhills)
+# HAND classes are still the Punjab-calibrated ones in config.yaml (active < 2 m, meander 2-5 m,
+# bar_upland 5-35 m): Texas floodplains stand higher above their channels, so the riparian and
+# bottomland envelopes below need recalibrating once Texas HAND exists.
+
+# structure: the community's physiognomy, for the global biome key (biomes.py): forest_conifer, forest_broadleaf,
+#   woodland_conifer, woodland_broadleaf (open tree cover), savanna, shrubland, grassland, sparse (desert, dunes, salt
+#   flats, outcrops), wetland (herbaceous), mangrove, alpine (above the treeline), ice. Set from each community's
+#   description and sources, never from test data.
+communities:
+
+  # ---------------- Gulf coast ----------------
+  - id: barrier_dunes
+    structure: grassland
+    ecoregion: coastal_wetlands
+    name: Barrier island and coastal dune grassland
+    group: Gulf Prairies and Marshes (dune grassland)
+    indicators: [Uniola paniculata, Ipomoea pes-caprae, Ipomoea imperati, Panicum amarum, Croton punctatus]
+    where: {coast_km: [null, 3], elev: [2, 15], litho: [1, 2]}
+    note: >-
+      Foredunes and dune ridges of Galveston, Matagorda, San Jose, Mustang and Padre islands and the
+      Bolivar and mainland beaches; sea oats on the foredunes. Barrier flats below 2 m go to the
+      marsh and tidal-flat rules.
+    priority: 95
+  - id: laguna_madre_flats
+    structure: wetland
+    ecoregion: coastal_wetlands
+    name: Laguna Madre wind-tidal flats, black mangrove and saltwort
+    group: Gulf Prairies and Marshes (tidal flats and mangrove)
+    indicators: [Avicennia germinans, Batis maritima, Salicornia bigelovii, Distichlis littoralis, Lycium carolinianum]
+    where: {coast_km: [null, 20], elev: [null, 2], slope: [null, 0.5], bio12: [null, 950]}
+    calibrate: >-
+      South and central coast, where the bays turn hypersaline: Corpus Christi 854 mm, Port Mansfield
+      684 mm, Brownsville 693 mm against 1,315-1,611 mm on the upper coast (Galveston, Anahuac). The
+      950 mm line falls between Corpus Christi and Victoria (1,029 mm), i.e. about Copano-Aransas Bay,
+      the northern limit of black mangrove stands in the literature.
+    priority: 92
+  - id: gulf_salt_marsh
+    structure: wetland
+    ecoregion: coastal_wetlands
+    name: Upper coast salt, brackish and intermediate marsh
+    group: Gulf Prairies and Marshes (marsh)
+    indicators: [Sporobolus alterniflorus, Sporobolus pumilus, Distichlis spicata, Juncus roemerianus, Schoenoplectus americanus]
+    where: {coast_km: [null, 30], elev: [null, 2], creek_m: [null, 800], bio12: [950, null]}
+    note: >-
+      Smooth cordgrass along the bays, marshhay cordgrass-saltgrass behind, Olney bulrush and
+      intermediate marsh inland on the Chenier Plain (Sabine to Galveston Bay). Fresh marsh of the
+      Chenier Plain is not split off (needs salinity, not in the inputs).
+    priority: 90
+  - id: upper_coastal_prairie
+    structure: grassland
+    ecoregion: coastal_prairie
+    name: Upper coastal tallgrass prairie
+    group: Gulf Prairies and Marshes (tallgrass prairie)
+    indicators: [Andropogon gerardi, Tripsacum dactyloides, Paspalum plicatulum, Liatris acidota, Sorghastrum nutans]
+    where: {province: ["01"], bio12: [1000, null]}
+    calibrate: >-
+      Big bluestem-Indiangrass-eastern gamagrass prairie with pimple mounds, Houston (1,373 mm) to
+      Victoria (1,029 mm); the 1,000 mm line separates it from the Coastal Bend.
+    priority: 30
+  - id: coastal_bend_prairie
+    structure: grassland
+    ecoregion: coastal_prairie
+    name: Coastal Bend gulf cordgrass and midgrass prairie
+    group: Gulf Prairies and Marshes (midgrass prairie)
+    indicators: [Sporobolus spartinae, Heteropogon contortus, Chloris cucullata, Borrichia frutescens]
+    where: {province: ["01"], bio12: [null, 1000]}
+    note: >-
+      Gulf cordgrass lowlands and seacoast bluestem-tanglehead uplands from Victoria (1,029 mm) to
+      Kingsville (732 mm), with live oak mottes on the Ingleside sands (not split off: sub-cell).
+    priority: 30
+
+  # ---------------- East Texas bottomlands ----------------
+  - id: cypress_tupelo_swamp
+    structure: forest_broadleaf
+    ecoregion: bottomland
+    name: Baldcypress-water tupelo swamp
+    group: Pineywoods (swamp forest)
+    indicators: [Taxodium distichum, Nyssa aquatica, Planera aquatica, Fraxinus caroliniana]
+    where: {province: ["01", "05", "06"], hand: [active_floodplain], bio12: [1200, null], creek_m: [null, 500]}
+    calibrate: >-
+      Caddo Lake (1,319 mm), Big Thicket sloughs (1,533 mm), lower Neches and Sabine. The 1,200 mm
+      floor keeps it east of Tyler (1,202) and Palestine (1,198); creek_m keeps it to standing or
+      slow water (WorldCover water within 500 m).
+    priority: 85
+  - id: columbia_bottomlands
+    structure: forest_broadleaf
+    ecoregion: bottomland
+    name: Columbia Bottomlands live oak-pecan floodplain forest
+    group: Gulf Prairies and Marshes (floodplain forest)
+    indicators: [Quercus virginiana, Sabal minor, Ulmus crassifolia, Carya illinoinensis]
+    where: {province: ["01"], hand: [active_floodplain, meander_floodplain], river_km: [null, 15], bio12: [1000, 1400]}
+    note: >-
+      Brazos, San Bernard and Colorado floodplains across the coastal prairie (Houston 1,373 mm,
+      Galveston 1,315 mm). The wetter lower Trinity, Neches and Sabine (> 1,400 mm) go to bottomland
+      hardwood. river_km 15: the Brazos-Colorado delta forest was ~40 km wide historically.
+    priority: 81
+  - id: bottomland_hardwood
+    structure: forest_broadleaf
+    ecoregion: bottomland
+    name: East Texas bottomland hardwood forest
+    group: Pineywoods (bottomland forest)
+    indicators: [Quercus lyrata, Quercus pagoda, Carya aquatica, Quercus phellos, Quercus michauxii]
+    where: {province: ["01", "05", "06", "07"], hand: [active_floodplain, meander_floodplain], river_km: [null, 10], bio12: [1000, null]}
+    calibrate: >-
+      Overcup oak-water hickory flats and willow oak-cherrybark oak ridges of the Red, Sulphur,
+      Sabine, Neches, Trinity and Brazos (College Station 1,079 mm). Below 1,000 mm (Waco 967,
+      Dallas 938) the floodplain forest is pecan-elm.
+    priority: 80
+
+  # ---------------- Piney Woods ----------------
+  - id: longleaf_pine
+    structure: forest_conifer
+    ecoregion: big_thicket
+    name: Longleaf pine savanna and upland forest
+    group: Pineywoods (pine savanna)
+    indicators: [Pinus palustris, Quercus incana, Quercus margaretiae, Sarracenia alata]
+    where: {province: ["06"], bio1: [19.4, null], bio12: [1350, null], litho: [3], hand: [bar_upland, upland]}
+    calibrate: >-
+      Southeastern Piney Woods on the Catahoula-Fleming-Willis sands, south of ~31.3 N and east of
+      the Trinity: Jasper 19.6 C / 1,415 mm and Kountze 19.9 C / 1,533 mm inside, Lufkin 19.3 C /
+      1,354 mm and Nacogdoches 19.1 C just outside (shortleaf-loblolly country).
+    priority: 50
+  - id: big_thicket
+    structure: forest_conifer
+    ecoregion: big_thicket
+    name: Big Thicket beech-magnolia-loblolly pine forest
+    group: Pineywoods (mixed forest)
+    indicators: [Fagus grandifolia, Magnolia grandiflora, Ilex opaca, Magnolia virginiana, Symplocos tinctoria]
+    where: {province: ["06"], bio1: [19.5, null], bio12: [1400, null]}
+    calibrate: >-
+      Hardin, Tyler, Polk, Liberty and Jasper counties: Kountze 1,533 mm, Jasper 1,415 mm. Includes
+      the wetland pine savannas (flatwoods) and baygalls of the Pleistocene terraces, not separable
+      without soil drainage.
+    priority: 48
+  - id: shortleaf_loblolly_oak
+    structure: forest_conifer
+    ecoregion: piney_woods
+    name: Shortleaf-loblolly pine-oak-hickory upland forest
+    group: Pineywoods (pine-hardwood forest)
+    indicators: [Pinus echinata, Pinus taeda, Quercus falcata, Carya alba, Cornus florida]
+    where: {province: ["06"]}
+    calibrate: >-
+      Northern and western Piney Woods: Texarkana 1,311 mm / 17.8 C, Nacogdoches 1,295 mm, Tyler
+      1,202 mm. Shortleaf dominant northwards, loblolly on lower slopes.
+    priority: 30
+
+  # ---------------- Post Oak Savanna ----------------
+  - id: post_oak_woods
+    structure: woodland_broadleaf
+    ecoregion: post_oak
+    name: Post oak-black hickory woodland
+    group: Post Oak Savannah (woodland)
+    indicators: [Quercus stellata, Carya texana, Ilex vomitoria, Callicarpa americana]
+    where: {province: ["05"], bio12: [1150, null]}
+    calibrate: >-
+      The wetter eastern Post Oak Belt next to the pines (Palestine 1,198 mm, Huntsville 1,268 mm),
+      where post oak-hickory closes into woodland with yaupon understorey; College Station (1,079 mm)
+      stays savanna.
+    priority: 35
+  - id: post_oak_savanna
+    structure: savanna
+    ecoregion: post_oak
+    name: Post oak-blackjack oak savanna
+    group: Post Oak Savannah (savanna)
+    indicators: [Quercus stellata, Quercus marilandica, Schizachyrium scoparium, Sorghastrum nutans]
+    where: {province: ["05"]}
+    note: >-
+      Post oak and blackjack oak mottes in little bluestem grassland, College Station (1,079 mm) to
+      Bastrop (891 mm) and the drier southern end (Pleasanton 745 mm) where live oak and mesquite join.
+      The Lost Pines (loblolly on Carrizo sand near Bastrop) are below what the inputs can separate.
+    priority: 30
+
+  # ---------------- Blackland, Cross Timbers, Grand Prairie ----------------
+  - id: blackland_tallgrass
+    structure: grassland
+    ecoregion: blackland
+    name: Blackland tallgrass prairie
+    group: Blackland Prairies (tallgrass prairie)
+    indicators: [Andropogon gerardi, Sorghastrum nutans, Tripsacum dactyloides, Silphium albiflorum, Eryngium leavenworthii]
+    where: {province: ["07"]}
+    note: >-
+      Little bluestem-big bluestem-Indiangrass-switchgrass on Vertisols of the Austin Chalk, Eagle
+      Ford, Taylor and Navarro marls (litho 5), Sherman (1,082 mm) to San Antonio (802 mm). Woody
+      strips on chalk escarpments are not split off (90 m slopes too weak a cue).
+    priority: 30
+  - id: cross_timbers
+    structure: woodland_broadleaf
+    ecoregion: cross_timbers
+    name: Cross Timbers post oak-blackjack oak woodland
+    group: Cross Timbers and Prairies (woodland)
+    indicators: [Quercus stellata, Quercus marilandica, Sideroxylon lanuginosum, Schizachyrium scoparium]
+    where: {province: ["07", "08", "09"], litho: [6], bio12: [650, null]}
+    calibrate: >-
+      Eastern Cross Timbers on the Woodbine sand, Western Cross Timbers on the Paluxy, Antlers and
+      Trinity sands (Gainesville 998 mm, Stephenville 870 mm, Brownwood 781 mm); 650 mm keeps it out
+      of the dry western Rolling Plains (Abilene 635). The Palo Pinto Cross Timbers on Pennsylvanian
+      sandstone (litho 9, mixed with limestone) are not included.
+    priority: 45
+  - id: lampasas_oak_juniper
+    structure: woodland_broadleaf
+    ecoregion: grand_prairie
+    name: Grand Prairie oak-juniper slopes and mesas
+    group: Cross Timbers and Prairies (woodland)
+    indicators: [Juniperus ashei, Quercus buckleyi, Quercus sinuata, Fraxinus albicans, Ulmus crassifolia]
+    where: {province: ["08"], slope: [5, null]}
+    note: Escarpments of the Lampasas Cut Plain mesas and the Comanche Peak and Glen Rose slopes.
+    priority: 42
+  - id: grand_prairie_midgrass
+    structure: grassland
+    ecoregion: grand_prairie
+    name: Grand Prairie midgrass prairie on limestone
+    group: Cross Timbers and Prairies (midgrass prairie)
+    indicators: [Bouteloua curtipendula, Nassella leucotricha, Bouteloua rigidiseta, Bouteloua hirsuta]
+    where: {province: ["08"]}
+    note: Little bluestem-sideoats grama-Texas wintergrass on shallow Walnut, Comanche Peak and Goodland limestone soils.
+    priority: 30
+
+  # ---------------- Plains and plateau riparian ----------------
+  - id: pecan_elm_riparian
+    structure: forest_broadleaf
+    ecoregion: plains_riparian
+    name: Pecan-cedar elm floodplain forest
+    group: Cross Timbers and Prairies (floodplain forest)
+    indicators: [Carya illinoinensis, Ulmus crassifolia, Ulmus americana, Juglans nigra]
+    where: {province: ["01", "05", "07", "08", "09"], hand: [active_floodplain, meander_floodplain], river_km: [null, 6], bio12: [700, 1000]}
+    calibrate: >-
+      Brazos at Waco (967 mm), Trinity at Dallas (938), Red River at Wichita Falls (796), lower
+      Guadalupe and San Antonio; east of 1,000 mm bottomland hardwood, west of 700 mm plains cottonwood.
+    priority: 78
+  - id: hill_country_cypress
+    structure: forest_broadleaf
+    ecoregion: plains_riparian
+    name: Hill Country baldcypress-sycamore riparian forest
+    group: Edwards Plateau (riparian forest)
+    indicators: [Taxodium distichum, Platanus occidentalis, Juglans microcarpa, Adiantum capillus-veneris]
+    where: {province: ["10", "11"], hand: [active_floodplain], creek_m: [null, 300], bio12: [550, null]}
+    note: >-
+      Spring-fed Guadalupe, Pedernales, Llano, Frio, Sabinal, Nueces and Devils rivers. These are
+      mostly below the 8,000 km2 'major river' threshold, so creek_m (perennial water visible to
+      WorldCover) stands in for river_km and keeps dry draws out.
+    priority: 78
+  - id: plains_cottonwood
+    structure: forest_broadleaf
+    ecoregion: plains_riparian
+    name: Plains cottonwood-willow riparian woodland
+    group: Rolling Plains (riparian woodland)
+    indicators: [Populus deltoides, Salix nigra, Salix exigua, Sapindus drummondii]
+    where: {province: ["09", "12"], hand: [active_floodplain], river_km: [null, 4], bio12: [null, 700]}
+    note: Canadian, Red (Prairie Dog Town Fork), Pease, Wichita, Brazos forks and Colorado above the Concho; saltcedar today.
+    priority: 78
+  - id: south_texas_riparian
+    structure: forest_broadleaf
+    ecoregion: tamaulipan
+    name: South Texas Mexican ash-anacua riparian forest
+    group: South Texas Plains (riparian forest)
+    indicators: [Fraxinus berlandieriana, Ehretia anacua, Ulmus crassifolia, Salix nigra]
+    where: {province: ["03", "04"], hand: [active_floodplain], river_km: [null, 5]}
+    note: Nueces, Frio, Atascosa and the Rio Grande above Falcon.
+    priority: 78
+  - id: sabal_palm_riparian
+    structure: forest_broadleaf
+    ecoregion: rio_grande_delta
+    name: Rio Grande delta sabal palm and resaca forest
+    group: South Texas Plains (subtropical riparian forest)
+    indicators: [Sabal mexicana, Fraxinus berlandieriana, Ulmus crassifolia, Ebenopsis ebano]
+    where: {province: ["02"], hand: [active_floodplain, meander_floodplain], river_km: [null, 10]}
+    note: >-
+      Rio Grande banks and resacas (abandoned channels) below Rio Grande City; the Sabal Palm
+      Sanctuary near Brownsville is the last large stand. river_km 10 reaches the nearer resacas only.
+    priority: 80
+  - id: desert_riparian
+    structure: woodland_broadleaf
+    ecoregion: desert_riparian
+    name: Chihuahuan Desert willow-screwbean riparian woodland
+    group: Trans-Pecos Mountains and Basins (riparian woodland)
+    indicators: [Salix gooddingii, Strombocarpa pubescens, Baccharis salicifolia, Populus fremontii]
+    where: {province: ["13", "14"], hand: [active_floodplain], river_km: [null, 3]}
+    note: Rio Grande (El Paso to Big Bend) and Pecos; saltcedar and giant cane today.
+    priority: 80
+
+  # ---------------- Edwards Plateau ----------------
+  - id: balcones_canyon
+    structure: woodland_broadleaf
+    ecoregion: balcones
+    name: Balcones canyon Ashe juniper-Texas oak woodland
+    group: Edwards Plateau (woodland)
+    indicators: [Juniperus ashei, Quercus buckleyi, Acer grandidentatum, Ungnadia speciosa, Garrya ovata]
+    where: {province: ["10"], slope: [8, null], bio12: [650, null]}
+    calibrate: >-
+      Dissected eastern and southern plateau margin (Austin 833 mm, Kerrville 748 mm, Fredericksburg
+      793 mm, Uvalde 659 mm), golden-cheeked warbler woodland; bigtooth maple in the Sabinal and
+      Guadalupe canyons. 650 mm keeps the drier western canyons (Junction 566 mm) out.
+    priority: 50
+  - id: live_oak_ashe_juniper
+    structure: woodland_broadleaf
+    ecoregion: edwards
+    name: Plateau live oak-Ashe juniper woodland and savanna
+    group: Edwards Plateau (woodland and savanna)
+    indicators: [Quercus fusiformis, Juniperus ashei, Quercus sinuata, Diospyros texana, Alloberberis trifoliolata]
+    where: {province: ["10"], bio12: [620, null]}
+    calibrate: >-
+      Eastern plateau: Kerrville 748 mm, Fredericksburg 793 mm. The 620 mm line runs between them
+      and Junction (566) / Sonora (559), where Ashe juniper gives way to redberry juniper.
+    priority: 40
+  - id: plateau_savanna
+    structure: savanna
+    ecoregion: edwards
+    name: Live oak-mesquite-redberry juniper savanna
+    group: Edwards Plateau (savanna)
+    indicators: [Quercus fusiformis, Juniperus pinchotii, Hilaria belangeri, Quercus pungens, Neltuma glandulosa]
+    where: {province: ["10"], bio12: [470, 620]}
+    calibrate: Central and western plateau, curly mesquite grassland; Junction 566 mm, Sonora 559 mm, Ozona 503 mm.
+    priority: 38
+  - id: stockton_plateau_scrub
+    structure: shrubland
+    ecoregion: stockton
+    name: Stockton Plateau redberry juniper-sandpaper oak and lechuguilla scrub
+    group: Edwards Plateau (shrubland)
+    indicators: [Juniperus pinchotii, Quercus pungens, Agave lechuguilla, Dasylirion texanum, Rhus virens]
+    where: {province: ["10"], bio12: [null, 470]}
+    calibrate: >-
+      Stockton Plateau and the lower Pecos canyons: Sanderson 401 mm, Langtry 413 mm, against Ozona
+      503 mm on the plateau proper; Chihuahuan shrubs come in below ~470 mm.
+    priority: 38
+
+  # ---------------- Llano Uplift ----------------
+  - id: llano_granite_outcrop
+    structure: sparse
+    ecoregion: llano
+    name: Llano granite dome and outcrop community
+    group: Edwards Plateau (granite outcrop)
+    indicators: [Isoetes lithophila, Selaginella peruviana, Phemeranthus parviflorus]
+    where: {province: ["11"], litho: [10], slope: [8, null]}
+    note: >-
+      Enchanted Rock, Bear Mountain and the Town Mountain granite domes: rock pools, lichen and
+      spikemoss mats. Many domes are smaller than a 90 m cell's slope can show.
+    priority: 65
+  - id: llano_oak_hickory
+    structure: woodland_broadleaf
+    ecoregion: llano
+    name: Llano post oak-blackjack oak-black hickory woodland
+    group: Edwards Plateau (woodland)
+    indicators: [Quercus marilandica, Carya texana, Quercus stellata, Vaccinium arboreum]
+    where: {province: ["11"], litho: [10]}
+    note: >-
+      Sandy granite-gruss soils of the Precambrian core (Enchanted Rock 805 mm, Llano 680 mm), an
+      outlier of the eastern oak-hickory flora. The Cambrian Hickory sandstone carries the same
+      woods but is in litho 9 with the Paleozoic limestones.
+    priority: 45
+  - id: llano_savanna
+    structure: savanna
+    ecoregion: llano
+    name: Llano Uplift live oak-mesquite savanna
+    group: Edwards Plateau (savanna)
+    indicators: [Quercus fusiformis, Quercus sinuata, Juniperus ashei, Bouteloua curtipendula]
+    where: {province: ["11"]}
+    note: Paleozoic limestone and sandstone rims and the Llano and San Saba valleys.
+    priority: 30
+
+  # ---------------- Rolling Plains ----------------
+  - id: rolling_plains_gypsum
+    structure: shrubland
+    ecoregion: rolling_plains
+    name: Gypsum Hills sparse shrubland and gypsophile community
+    group: Rolling Plains (gypsum shrubland)
+    indicators: [Haploesthes greggii, Phacelia integrifolia, Atriplex canescens, Sporobolus airoides]
+    where: {province: ["09", "12"], litho: [8]}
+    note: Blaine and Whitehorse gypsum outcrops (Childress, Hardeman, Stonewall, King counties). Indicator list LOW CONFIDENCE.
+    priority: 65
+  - id: shinnery_sandhills
+    structure: shrubland
+    ecoregion: sandhills
+    name: Shinnery oak-sand sagebrush sandhills
+    group: Rolling Plains (shrubland on sand)
+    indicators: [Quercus havardii, Artemisia filifolia, Andropogon hallii, Sporobolus giganteus, Yucca campestris]
+    where: {province: ["09", "12", "14"], litho: [2]}
+    note: >-
+      Monahans and Kermit sandhills (Monahans 359 mm), Muleshoe and Lamb County dunes, Red River and
+      Wichita sandy lands. The shinnery on the High Plains cover sands is litho 1 in SGMC and is
+      missed; a soil-sand rule would catch it.
+    priority: 55
+  - id: caprock_breaks
+    structure: shrubland
+    ecoregion: rolling_plains
+    name: Caprock Escarpment and Canadian Breaks juniper-mesquite shrubland
+    group: Rolling Plains (breaks shrubland)
+    indicators: [Juniperus pinchotii, Juniperus monosperma, Quercus mohriana, Rhus trilobata, Mimosa borealis]
+    where: {province: ["09", "12"], slope: [6, null], elev: [600, null]}
+    calibrate: >-
+      Palo Duro (878 m floor, 490 mm), Caprock Canyons, Canadian River breaks (Canadian 736 m); one-seed
+      juniper northwards, redberry juniper south. 600 m keeps the lower Rolling Plains (Childress
+      557 m, Vernon 379 m) out.
+    priority: 50
+  - id: mesquite_redberry_juniper
+    structure: shrubland
+    ecoregion: rolling_plains
+    name: Mesquite-redberry juniper shrubland and mixed-grass prairie
+    group: Rolling Plains (shrubland and mixed-grass prairie)
+    indicators: [Neltuma glandulosa, Juniperus pinchotii, Condaliopsis obtusifolia, Hilaria mutica, Bouteloua dactyloides]
+    where: {province: ["09"]}
+    note: Abilene 635 mm, Vernon 704 mm, Childress 685 mm; tobosa and buffalograss on clay flats, sideoats on slopes.
+    priority: 25
+
+  # ---------------- High Plains ----------------
+  - id: playa
+    structure: wetland
+    ecoregion: high_plains
+    name: High Plains playa wetland
+    group: High Plains (playa wetland)
+    indicators: [Eleocharis macrostachya, Elymus smithii, Persicaria bicornis, Marsilea vestita]
+    where: {province: ["12"], hand: [active_floodplain], slope: [null, 0.5], river_km: [10, null], tpi: [null, -1.5]}
+    note: >-
+      ~20,000 closed basins on the Llano Estacado. HAND alone marked 13,500 km2 of the flat High Plains
+      (HAND is near zero on endorheic flats); tpi < -1.5 m keeps the hollows: 1,890 km2, in line with
+      ~19,000 playas of ~6 ha plus their basin floors.
+    priority: 70
+  - id: southern_mesquite_shortgrass
+    structure: grassland
+    ecoregion: high_plains
+    name: Southern High Plains mesquite-shortgrass prairie
+    group: High Plains (shortgrass prairie)
+    indicators: [Bouteloua gracilis, Neltuma glandulosa, Aristida purpurea, Bouteloua dactyloides]
+    where: {province: ["12"], bio1: [16.5, null]}
+    calibrate: Seminole 16.6 C / 471 mm and Midland 17.8 C / 384 mm inside; Lubbock 15.8 C outside.
+    priority: 28
+  - id: shortgrass_prairie
+    structure: grassland
+    ecoregion: high_plains
+    name: Blue grama-buffalograss shortgrass prairie
+    group: High Plains (shortgrass prairie)
+    indicators: [Bouteloua gracilis, Bouteloua dactyloides, Opuntia polyacantha, Sphaeralcea coccinea, Zinnia grandiflora]
+    where: {province: ["12"], bio1: [null, 16.5]}
+    calibrate: Amarillo 14.2 C / 550 mm, Dalhart 13.5 C / 440 mm, Lubbock 15.8 C / 515 mm.
+    priority: 25
+
+  # ---------------- South Texas ----------------
+  - id: sand_sheet_grassland
+    structure: grassland
+    ecoregion: sand_sheet
+    name: South Texas sand sheet grassland with live oak mottes
+    group: South Texas Plains (grassland on sand)
+    indicators: [Paspalum monostachyum, Trachypogon spicatus, Chloris cucullata, Quercus virginiana]
+    where: {province: ["03"]}
+    note: >-
+      Wild Horse Desert (Falfurrias 683 mm): seacoast bluestem-crinkleawn grassland, live oak mottes, active blowouts.
+    priority: 30
+  - id: ebony_anacua_woodland
+    structure: woodland_broadleaf
+    ecoregion: rio_grande_delta
+    name: Texas ebony-anacua subtropical woodland
+    group: South Texas Plains (subtropical woodland)
+    indicators: [Ebenopsis ebano, Ehretia anacua, Havardia pallens, Sideroxylon celastrinum, Leucaena pulverulenta]
+    where: {province: ["02"], bio12: [600, null]}
+    calibrate: >-
+      Lower delta (Brownsville 693 mm, 23.5 C): tall evergreen thorn woodland. Upriver it dries to
+      thornscrub (McAllen 571 mm, Rio Grande City 552 mm); 600 mm sits between.
+    priority: 40
+  - id: tamaulipan_thornscrub
+    structure: shrubland
+    ecoregion: tamaulipan
+    name: Tamaulipan blackbrush-cenizo thornscrub
+    group: South Texas Plains (thornscrub)
+    indicators: [Vachellia rigidula, Leucophyllum frutescens, Porlieria angustifolia, Senegalia berlandieri, Koeberlinia spinosa]
+    where: {province: ["02", "04"], bio12: [null, 620]}
+    calibrate: Laredo 474 mm, Zapata 544 mm, Cotulla 568 mm, McAllen 571 mm; caliche ridges with blackbrush, guajillo and cenizo.
+    priority: 30
+  - id: mesquite_granjeno_parkland
+    structure: savanna
+    ecoregion: tamaulipan
+    name: Mesquite-granjeno parkland and live oak brush
+    group: South Texas Plains (parkland)
+    indicators: [Celtis pallida, Condalia hookeri, Diospyros texana, Opuntia engelmannii, Neltuma glandulosa]
+    where: {province: ["04"], bio12: [620, null]}
+    calibrate: >-
+      Eastern and northern brush country: Uvalde 659 mm, Pleasanton 745 mm; 620 mm between them and Cotulla (568).
+    priority: 30
+
+  # ---------------- Trans-Pecos and Pecos Valley ----------------
+  - id: montane_conifer
+    structure: forest_conifer
+    ecoregion: montane_conifer
+    name: Sky island Douglas fir-ponderosa-southwestern white pine forest
+    group: Trans-Pecos Mountains and Basins (montane conifer forest)
+    indicators: [Pseudotsuga menziesii, Pinus strobiformis, Pinus ponderosa, Hesperocyparis arizonica, Populus tremuloides]
+    where: {province: ["13"], elev: [1950, null], bio12: [380, null]}
+    calibrate: >-
+      Guadalupe high country (The Bowl, 2,294 m, 9.6 C, 403 mm), Davis Mountains (Mount Livermore
+      2,435 m, 538 mm) and Chisos (Boot Spring 2,238 m, 473 mm; Emory Peak 2,201 m). 380 mm excludes
+      the dry Franklin Mountains (1,894 m, 318 mm), which have no conifer forest. CHELSA is 1 km and
+      smooths the peaks, so elevation does the work here.
+    priority: 75
+  - id: pinyon_juniper_oak
+    structure: woodland_conifer
+    ecoregion: pinyon_oak
+    name: Pinyon-alligator juniper-gray oak woodland
+    group: Trans-Pecos Mountains and Basins (woodland)
+    indicators: [Pinus cembroides, Juniperus deppeana, Quercus grisea, Quercus emoryi, Arbutus xalapensis]
+    where: {province: ["13"], elev: [1500, 1950], bio12: [340, null], slope: [5, null]}
+    calibrate: >-
+      Chisos Basin 1,649 m / 466 mm, Davis Mountains slopes (Madera Canyon 1,817 m / 543 mm),
+      Guadalupe foothills (Pine Springs 1,699 m / 378 mm); Pinus edulis replaces P. cembroides in the
+      Guadalupes. Hueco Tanks (1,414 m, 261 mm) and the Franklins (318 mm at 1,894 m) stay scrub.
+    priority: 60
+  - id: plateau_grama_grassland
+    structure: grassland
+    ecoregion: desert_grassland
+    name: Trans-Pecos plateau blue grama grassland
+    group: Trans-Pecos Mountains and Basins (montane grassland)
+    indicators: [Bouteloua gracilis, Bouteloua hirsuta, Eragrostis intermedia, Nolina texana, Dalea formosa]
+    where: {province: ["13"], elev: [1300, 1950], bio12: [380, null], slope: [null, 5]}
+    calibrate: >-
+      Marfa Plateau and Davis Mountains grasslands: Marfa 1,431 m / 400 mm, Alpine 1,365 m / 430 mm, Fort Davis 1,484 m / 449 mm.
+    priority: 50
+  - id: desert_grassland
+    structure: grassland
+    ecoregion: desert_grassland
+    name: Black grama-tobosa desert grassland
+    group: Trans-Pecos Mountains and Basins (desert grassland)
+    indicators: [Bouteloua eriopoda, Hilaria mutica, Bouteloua ramosa, Yucca elata, Dasylirion leiophyllum]
+    where: {province: ["13"], elev: [1100, 1500], bio12: [280, null], slope: [null, 5]}
+    calibrate: >-
+      Van Horn 1,232 m / 282 mm, Panther Junction 1,133 m / 419 mm; below ~1,100 m and 280 mm
+      (Presidio 787 m, Lajitas 711 m, El Paso 227 mm) creosote takes over.
+    priority: 45
+  - id: chihuahuan_gypsum
+    structure: sparse
+    ecoregion: chihuahuan_scrub
+    name: Chihuahuan gypsum outcrop and gypsum dune community
+    group: Trans-Pecos Mountains and Basins (gypsum shrubland)
+    indicators: [Tiquilia hispidissima, Sporobolus nealleyi, Nerisyrenia linearifolia, Anulocaulis leiosolenus, Gaillardia multiceps]
+    where: {province: ["13", "14"], litho: [8]}
+    note: Castile gypsum plain west of the Pecos and the Salt Basin gypsum flats; gypsum dunes mapped as aeolian sand fall to chihuahuan_dunes.
+    priority: 65
+  - id: chihuahuan_dunes
+    structure: sparse
+    ecoregion: chihuahuan_scrub
+    name: Chihuahuan mesquite coppice dunes and sand scrub
+    group: Trans-Pecos Mountains and Basins (dune shrubland)
+    indicators: [Yucca elata, Sporobolus flexuosus, Ephedra torreyana, Atriplex canescens, Neltuma glandulosa]
+    where: {province: ["13"], litho: [2]}
+    note: Salt Basin (Guadalupe) dunes (1,122 m, 241 mm), Hueco Bolson and Kent sands.
+    priority: 55
+  - id: lechuguilla_rocky_scrub
+    structure: shrubland
+    ecoregion: chihuahuan_scrub
+    name: Lechuguilla-sotol-ocotillo rocky slope scrub
+    group: Trans-Pecos Mountains and Basins (succulent shrubland)
+    indicators: [Agave lechuguilla, Euphorbia antisyphilitica, Hechtia texensis, Fouquieria splendens, Dasylirion leiophyllum]
+    where: {province: ["13"], litho: [4, 9, 10, 12], slope: [5, null], elev: [null, 1500]}
+    note: Limestone ranges (Sierra Diablo, Santiago, Dead Horse, Sierra del Carmen foothills) and the lower igneous slopes of the Davis, Chisos and Bofecillos.
+    priority: 40
+  - id: creosote_tarbush
+    structure: shrubland
+    ecoregion: chihuahuan_scrub
+    name: Creosote bush-tarbush desert scrub
+    group: Trans-Pecos Mountains and Basins (desert shrubland)
+    indicators: [Larrea tridentata, Flourensia cernua, Parthenium incanum, Jatropha dioica, Vachellia constricta]
+    where: {province: ["13"]}
+    note: >-
+      Bolsons and bajadas: El Paso 227 mm, Presidio 372 mm, Lajitas 249 mm, Black Gap 360 mm.
+    priority: 25
+  - id: pecos_valley_scrub
+    structure: shrubland
+    ecoregion: chihuahuan_scrub
+    name: Pecos Valley creosote-saltbush scrub and alkali sacaton flats
+    group: Trans-Pecos Mountains and Basins (desert shrubland)
+    indicators: [Larrea tridentata, Atriplex canescens, Sporobolus airoides, Allenrolfea occidentalis, Suaeda nigra]
+    where: {province: ["14"]}
+    note: >-
+      Toyah Basin (Pecos 303 mm, Fort Stockton 360 mm): creosote on the gravels, saltbush and alkali sacaton on saline flats.
+    priority: 25
+
+# Ecoregion types: mappable aggregations of the communities above (each community
+# names its type in `ecoregion`). Biomes follow RESOLVE Ecoregions 2017. Names as presented on maps:
+# Title Case, "&" for "and", at most one place name (the region a type is centred on; when a type
+# spreads beyond it, rename it to the enclosing region rather than adding another place). `resolve` lists
+# the RESOLVE ecoregions a type can plausibly lie in (generous: RESOLVE is coarse, and
+# neighbouring zones count); the audit flags ecoregions mostly outside them for review. Only the 12
+# RESOLVE ecoregions that intersect Texas are used.
+ecoregion_types:
+  coastal_wetlands: {name: "Gulf Coast Marshes, Tidal Flats & Barrier Islands", biome: "Flooded Grasslands & Savannas", color: "#5f9fb5",
+    resolve: ["Western Gulf coastal grasslands", "Tamaulipan mezquital"]}
+  coastal_prairie: {name: "Gulf Coastal Prairies", biome: "Tropical & Subtropical Grasslands, Savannas & Shrublands", color: "#cfd98f",
+    resolve: ["Western Gulf coastal grasslands", "East Central Texas forests", "Piney Woods", "Tamaulipan mezquital", "Texas blackland prairies"]}
+  sand_sheet: {name: "South Texas Sand Sheet Grasslands", biome: "Tropical & Subtropical Grasslands, Savannas & Shrublands", color: "#efdca6",
+    resolve: ["Tamaulipan mezquital", "Western Gulf coastal grasslands"]}
+  rio_grande_delta: {name: "Rio Grande Delta Subtropical Woodlands", biome: "Tropical & Subtropical Dry Broadleaf Forests", color: "#6e9f4f",
+    resolve: ["Tamaulipan mezquital", "Western Gulf coastal grasslands"]}
+  tamaulipan: {name: "Tamaulipan Thornscrub", biome: "Deserts & Xeric Shrublands", color: "#a9874f",
+    resolve: ["Tamaulipan mezquital", "Western Gulf coastal grasslands", "Edwards Plateau savanna", "East Central Texas forests", "Chihuahuan desert"]}
+  bottomland: {name: "East Texas Bottomland Forests & Swamps", biome: "Temperate Broadleaf & Mixed Forests", color: "#3f7f6a",
+    resolve: ["Piney Woods", "East Central Texas forests", "Western Gulf coastal grasslands", "Texas blackland prairies"]}
+  piney_woods: {name: "Piney Woods Pine–Oak Forests", biome: "Temperate Conifer Forests", color: "#2e5e3e",
+    resolve: ["Piney Woods", "East Central Texas forests"]}
+  big_thicket: {name: "Big Thicket Longleaf Pine & Mixed Forests", biome: "Temperate Conifer Forests", color: "#5d8a3a",
+    resolve: ["Piney Woods", "Western Gulf coastal grasslands", "East Central Texas forests"]}
+  post_oak: {name: "Post Oak Savannas & Woodlands", biome: "Temperate Broadleaf & Mixed Forests", color: "#93ab5c",
+    resolve: ["East Central Texas forests", "Piney Woods", "Texas blackland prairies", "Western Gulf coastal grasslands", "Tamaulipan mezquital"]}
+  blackland: {name: "Blackland Tallgrass Prairie", biome: "Temperate Grasslands, Savannas & Shrublands", color: "#a7a35a",
+    resolve: ["Texas blackland prairies", "East Central Texas forests", "Cross-Timbers savanna-woodland", "Edwards Plateau savanna"]}
+  cross_timbers: {name: "Cross Timbers Oak Woodlands", biome: "Temperate Grasslands, Savannas & Shrublands", color: "#7a8f45",
+    resolve: ["Cross-Timbers savanna-woodland", "Texas blackland prairies", "Central-Southern US mixed grasslands", "Edwards Plateau savanna"]}
+  grand_prairie: {name: "Grand Prairie Midgrass Prairie & Oak–Juniper Hills", biome: "Temperate Grasslands, Savannas & Shrublands", color: "#c2c27a",
+    resolve: ["Cross-Timbers savanna-woodland", "Texas blackland prairies", "Edwards Plateau savanna", "Central-Southern US mixed grasslands"]}
+  # Rainfall belts of the central band (regions/texas.yaml, assemble.zones): the Blackland, Post Oak, Cross Timbers
+  # and Grand Prairie communities, regrouped by annual rainfall, because plant species there turn over east-west
+  # with rain rather than across the north-south soil bands (finer GBIF test, 2026-11-11).
+  central_savannas: {name: "Central Texas Oak Savannas & Prairies", biome: "Temperate Grasslands, Savannas & Shrublands", color: "#b0a964",
+    resolve: ["Texas blackland prairies", "Cross-Timbers savanna-woodland", "East Central Texas forests", "Edwards Plateau savanna",
+              "Central-Southern US mixed grasslands", "Western Gulf coastal grasslands", "Tamaulipan mezquital"]}
+  east_oak_prairies: {name: "East Texas Oak Woodlands & Tallgrass Prairies", biome: "Temperate Broadleaf & Mixed Forests", color: "#7d9c55",
+    resolve: ["East Central Texas forests", "Texas blackland prairies", "Piney Woods", "Western Gulf coastal grasslands"]}
+  plains_riparian: {name: "Southern Plains Riparian Forests", biome: "Temperate Broadleaf & Mixed Forests", color: "#5aa38a",
+    resolve: ["Edwards Plateau savanna", "Cross-Timbers savanna-woodland", "Texas blackland prairies", "Central-Southern US mixed grasslands",
+              "Western shortgrass prairie", "East Central Texas forests", "Western Gulf coastal grasslands"]}
+  balcones: {name: "Balcones Canyonlands", biome: "Temperate Grasslands, Savannas & Shrublands", color: "#4c6f5a",
+    resolve: ["Edwards Plateau savanna", "Texas blackland prairies", "Tamaulipan mezquital"]}
+  edwards: {name: "Edwards Plateau Oak–Juniper Woodlands & Savannas", biome: "Temperate Grasslands, Savannas & Shrublands", color: "#9cae7c",
+    resolve: ["Edwards Plateau savanna", "Central-Southern US mixed grasslands", "Tamaulipan mezquital", "Chihuahuan desert"]}
+  stockton: {name: "Stockton Plateau Juniper & Lechuguilla Scrub", biome: "Deserts & Xeric Shrublands", color: "#b88c6a",
+    resolve: ["Edwards Plateau savanna", "Chihuahuan desert", "Tamaulipan mezquital"]}
+  llano: {name: "Llano Uplift Oak Woodlands & Granite Outcrops", biome: "Temperate Grasslands, Savannas & Shrublands", color: "#c59b8f",
+    resolve: ["Edwards Plateau savanna", "Cross-Timbers savanna-woodland"]}
+  rolling_plains: {name: "Rolling Plains Mesquite–Juniper Shrublands & Breaks", biome: "Temperate Grasslands, Savannas & Shrublands", color: "#b7aa6e",
+    resolve: ["Central-Southern US mixed grasslands", "Western shortgrass prairie", "Cross-Timbers savanna-woodland", "Edwards Plateau savanna"]}
+  sandhills: {name: "Shinnery Oak Sandhills", biome: "Temperate Grasslands, Savannas & Shrublands", color: "#f0d58c",
+    resolve: ["Western shortgrass prairie", "Central-Southern US mixed grasslands", "Chihuahuan desert"]}
+  high_plains: {name: "High Plains Shortgrass Prairie & Playas", biome: "Temperate Grasslands, Savannas & Shrublands", color: "#e2d8a6",
+    resolve: ["Western shortgrass prairie", "Central-Southern US mixed grasslands", "Chihuahuan desert"]}
+  chihuahuan_scrub: {name: "Chihuahuan Desert Scrub", biome: "Deserts & Xeric Shrublands", color: "#ecd2b0",
+    resolve: ["Chihuahuan desert", "Edwards Plateau savanna", "Western shortgrass prairie"]}
+  desert_grassland: {name: "Chihuahuan Desert Grasslands", biome: "Deserts & Xeric Shrublands", color: "#c9a96e",
+    resolve: ["Chihuahuan desert", "Sierra Madre Oriental pine-oak forests", "Arizona Mountains forests"]}
+  pinyon_oak: {name: "Trans-Pecos Pinyon–Juniper–Oak Woodlands", biome: "Temperate Conifer Forests", color: "#7c8a62",
+    resolve: ["Chihuahuan desert", "Sierra Madre Oriental pine-oak forests", "Arizona Mountains forests"]}
+  montane_conifer: {name: "Trans-Pecos Montane Conifer Forests", biome: "Temperate Conifer Forests", color: "#284d3e",
+    resolve: ["Sierra Madre Oriental pine-oak forests", "Arizona Mountains forests", "Chihuahuan desert"]}
+  desert_riparian: {name: "Chihuahuan Desert Riparian Woodlands", biome: "Deserts & Xeric Shrublands", color: "#78b3a0",
+    resolve: ["Chihuahuan desert", "Edwards Plateau savanna", "Western shortgrass prairie"]}
+
+# Province fallbacks for cells no rule claims (reported as low-confidence).
+fallback:
+  "01": upper_coastal_prairie
+  "02": tamaulipan_thornscrub
+  "03": sand_sheet_grassland
+  "04": tamaulipan_thornscrub
+  "05": post_oak_savanna
+  "06": shortleaf_loblolly_oak
+  "07": blackland_tallgrass
+  "08": grand_prairie_midgrass
+  "09": mesquite_redberry_juniper
+  "10": live_oak_ashe_juniper
+  "11": llano_savanna
+  "12": shortgrass_prairie
+  "13": creosote_tarbush
+  "14": pecos_valley_scrub

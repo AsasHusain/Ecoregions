@@ -1,0 +1,46 @@
+taxon,cell_deg,partition,units,purity,loss,skill,boundary_contrast,anosim_R_simpson,anosim_z_voronoi
+plants,0.25,ours,37.0,0.8588,0.012,0.0326,0.0107,0.7502,2.5636
+plants,0.25,RESOLVE,19.0,0.8669,0.012,0.0298,0.0097,0.6569,1.6045
+plants,0.25,our faunal ecoregions,15.0,0.932,0.0119,0.0372,0.0075,0.6566,2.0709
+plants,0.25,ours coarsened to RESOLVE's 27 units,19.0,0.9112,0.012,0.0362,0.0002,0.7149,2.8035
+plants,0.25,climate k-means (27),24.0,0.6767,0.0121,0.0262,0.022,0.5885,-0.2888
+plants,0.25,climate k-means (83),54.0,0.5513,0.0122,0.0174,0.0176,0.6222,-1.7817
+plants,0.25,"ours, centre point (old test)",36.0,,0.012,0.032,0.0117,0.7334,1.9842
+plants,0.25,"RESOLVE, centre point (old test)",20.0,,0.0121,0.028,0.0158,0.6632,1.5313
+plants,0.25,"control: ours, units renamed",37.0,0.8588,0.012,0.0326,0.0107,0.7502,2.4168
+plants,0.25,"control: ours, boundary patches moved",38.0,,0.012,0.0309,0.0138,0.7445,1.8259
+plants,0.25,"control: ours, units split in two",58.0,,0.0121,0.0241,0.0113,0.7791,2.8804
+plants,0.25,random contiguous (our count),39.0,,0.0121,0.026,0.008,,
+plants,0.25,random contiguous (RESOLVE's count),18.0,,0.0121,0.0272,0.0104,,
+plants,0.25,overall-frequency prior,,,0.0124,0.0,,,
+plants,0.25,spatial-only (nearest development cells),,,0.0123,0.0113,,,
+plants,0.125,ours,30.0,0.8905,0.0136,0.0353,0.0335,0.7335,2.0885
+plants,0.125,RESOLVE,20.0,0.9106,0.0137,0.022,0.0378,0.6675,1.1822
+plants,0.125,our faunal ecoregions,14.0,0.9531,0.0135,0.0372,0.04,0.6467,1.4811
+plants,0.125,ours coarsened to RESOLVE's 27 units,17.0,0.938,0.0135,0.0369,0.0147,0.6557,1.1223
+plants,0.125,climate k-means (27),23.0,0.7207,0.0137,0.0253,0.027,0.6269,0.3945
+plants,0.125,climate k-means (83),51.0,0.6208,0.0138,0.0167,0.0225,0.668,-0.2992
+plants,0.125,"ours, centre point (old test)",31.0,,0.0136,0.0357,0.0354,0.727,1.7195
+plants,0.125,"RESOLVE, centre point (old test)",21.0,,0.0138,0.0217,0.0408,0.6643,1.0209
+plants,0.125,"control: ours, units renamed",30.0,0.8905,0.0136,0.0353,0.0335,0.7335,2.2641
+plants,0.125,"control: ours, boundary patches moved",31.0,,0.0136,0.0341,0.0236,0.7291,1.9708
+plants,0.125,"control: ours, units split in two",48.0,,0.0137,0.0287,0.0314,0.723,1.2758
+plants,0.125,random contiguous (our count),35.0,,0.0137,0.0287,0.019,,
+plants,0.125,random contiguous (RESOLVE's count),16.0,,0.0137,0.0289,0.0311,,
+plants,0.125,overall-frequency prior,,,0.0141,0.0,,,
+plants,0.125,spatial-only (nearest development cells),,,0.014,0.0075,,,
+birds,0.25,ours,27.0,0.8353,0.0461,0.0993,0.0307,0.7144,2.0093
+birds,0.25,RESOLVE,18.0,0.8538,0.0456,0.1111,0.0445,0.744,2.5531
+birds,0.25,our faunal ecoregions,13.0,0.9348,0.0451,0.1204,0.0364,0.7393,2.3886
+birds,0.25,ours coarsened to RESOLVE's 27 units,21.0,0.8934,0.0456,0.11,0.0333,0.7375,2.6118
+birds,0.25,climate k-means (27),23.0,0.7339,0.0469,0.0857,0.0019,0.7162,1.3655
+birds,0.25,climate k-means (83),48.0,0.6277,0.0483,0.0557,0.0189,0.7354,2.013
+birds,0.25,"ours, centre point (old test)",30.0,,0.0465,0.0929,0.0444,0.7196,1.8516
+birds,0.25,"RESOLVE, centre point (old test)",19.0,,0.0461,0.0997,0.0319,0.699,1.7783
+birds,0.25,"control: ours, units renamed",27.0,0.8353,0.0461,0.0993,0.0307,0.7144,1.6918
+birds,0.25,"control: ours, boundary patches moved",30.0,,0.0466,0.0903,0.0224,0.717,1.5144
+birds,0.25,"control: ours, units split in two",41.0,,0.0472,0.0779,0.011,0.7346,1.8549
+birds,0.25,random contiguous (our count),34.0,,0.0475,0.0704,-0.0006,,
+birds,0.25,random contiguous (RESOLVE's count),18.0,,0.0469,0.0821,0.0072,,
+birds,0.25,overall-frequency prior,,,0.0512,0.0,,,
+birds,0.25,spatial-only (nearest development cells),,,0.0437,0.1423,,,

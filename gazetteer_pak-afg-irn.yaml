@@ -1,0 +1,2266 @@
+# Gazetteer for Pakistan, Afghanistan & Iran: gazetteer.yaml (Pakistan & Afghanistan) plus Iranian features and
+# places (drafted from Fisher 1968, Stocklin 1968, Berberian and standard atlases; 24 coordinates marked unsure in the
+# draft). Same schema as gazetteer.yaml.
+features:
+- name: Sandal Bar
+  kind: bar
+  points:
+  - - 73.05
+    - 31.45
+  - - 72.75
+    - 31.25
+  priority: 1
+  check: true
+  expect:
+    hand_class: bar_upland
+    min_frac: 0.35
+- name: Kirana Bar
+  kind: bar
+  points:
+  - - 72.85
+    - 32.05
+  - - 72.55
+    - 31.85
+  priority: 1
+  check: true
+  expect:
+    hand_class: bar_upland
+    min_frac: 0.35
+- name: Ganji Bar
+  kind: bar
+  points:
+  - - 73.45
+    - 30.75
+  priority: 1
+  check: true
+  expect:
+    hand_class: bar_upland
+    min_frac: 0.35
+- name: Neeli Bar
+  kind: bar
+  points:
+  - - 72.85
+    - 30.15
+  priority: 1
+  check: true
+  expect:
+    hand_class: bar_upland
+    min_frac: 0.35
+- name: Kirana Hills
+  kind: hills
+  points:
+  - - 72.72
+    - 31.97
+  priority: 0
+  check: true
+  expect:
+    litho: Precambrian
+    relief_min: 60
+- name: Thal Desert
+  kind: desert
+  points:
+  - - 71.55
+    - 31.55
+  - - 71.75
+    - 30.95
+  - - 71.35
+    - 32.15
+  priority: 1
+  check: true
+  expect:
+    hand_min: 7
+- name: Cholistan Desert
+  kind: desert
+  points:
+  - - 71.8
+    - 28.6
+  - - 72.6
+    - 29.15
+  - - 71.0
+    - 28.2
+  priority: 1
+  check: true
+  expect:
+    dune_min: 0.08
+- name: Pachad (Sulaiman piedmont, Dera Ghazi Khan)
+  kind: piedmont
+  points:
+  - - 70.58
+    - 30.2
+  - - 70.35
+    - 29.6
+  priority: 1
+  check: true
+  expect:
+    slope_max: 4
+    hand_class: upland
+    min_frac: 0.2
+- name: Daman (Sulaiman piedmont, Dera Ismail Khan)
+  kind: piedmont
+  points:
+  - - 70.55
+    - 31.95
+  priority: 1
+  check: true
+  expect:
+    slope_max: 4
+- name: Chenab-Jhelum active floodplain
+  kind: floodplain
+  points:
+  - - 72.2
+    - 31.0
+  priority: 2
+  expect:
+    hand_class: active_floodplain
+    min_frac: 0.35
+- name: Indus riverine (Punjab kacha)
+  kind: floodplain
+  points:
+  - - 70.9
+    - 30.6
+  - - 71.2
+    - 31.6
+  priority: 2
+  expect:
+    hand_class: active_floodplain
+    min_frac: 0.35
+- name: Bahawalpur plains
+  kind: plain
+  points:
+  - - 71.7
+    - 29.4
+  priority: 3
+- name: Lahore-Gujranwala plains
+  kind: plain
+  points:
+  - - 74.0
+    - 31.9
+  priority: 3
+- name: Siwalik and Pabbi hills
+  kind: hills
+  points:
+  - - 73.85
+    - 32.85
+  priority: 2
+  expect:
+    relief_min: 60
+- name: Potohar Plateau
+  kind: plateau
+  points:
+  - - 72.95
+    - 33.15
+  - - 73.2
+    - 33.4
+  priority: 1
+  check: true
+  expect:
+    elev_min: 300
+    elev_max: 800
+- name: Salt Range
+  kind: range
+  points:
+  - - 72.55
+    - 32.68
+  - - 71.95
+    - 32.75
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Margalla Hills
+  kind: hills
+  points:
+  - - 73.05
+    - 33.76
+  priority: 0
+  check: true
+  expect:
+    relief_min: 300
+- name: Kala Chitta Range
+  kind: range
+  points:
+  - - 72.45
+    - 33.65
+  priority: 1
+  expect:
+    relief_min: 250
+- name: Surghar and Khisor Ranges
+  kind: range
+  points:
+  - - 71.3
+    - 32.85
+  - - 70.85
+    - 32.35
+  priority: 1
+  expect:
+    relief_min: 150
+- name: Peshawar Basin
+  kind: basin
+  points:
+  - - 71.85
+    - 34.1
+  - - 72.15
+    - 34.2
+  priority: 1
+  check: true
+  expect:
+    elev_max: 600
+    slope_max: 5
+- name: Kohat Basin
+  kind: basin
+  points:
+  - - 71.55
+    - 33.5
+  priority: 1
+  check: true
+  expect:
+    elev_max: 1000
+- name: Bannu Basin
+  kind: basin
+  points:
+  - - 70.6
+    - 32.9
+  - - 70.8
+    - 32.6
+  priority: 1
+  check: true
+  expect:
+    elev_max: 600
+    slope_max: 5
+- name: Tirah
+  kind: range
+  points:
+  - - 70.95
+    - 33.8
+  priority: 1
+  check: true
+  expect:
+    relief_min: 400
+- name: North Waziristan
+  kind: range
+  points:
+  - - 70.05
+    - 32.95
+  priority: 1
+  check: true
+  may_share:
+  - South Waziristan
+- name: South Waziristan
+  kind: range
+  points:
+  - - 69.7
+    - 32.35
+  priority: 1
+  check: true
+  may_share:
+  - North Waziristan
+- name: Sulaiman Range
+  kind: range
+  points:
+  - - 69.95
+    - 30.35
+  - - 70.0
+    - 31.55
+  - - 69.85
+    - 29.85
+  priority: 1
+  check: true
+  expect:
+    relief_min: 300
+- name: Marri-Bugti Hills
+  kind: hills
+  points:
+  - - 69.1
+    - 29.15
+  - - 69.0
+    - 29.6
+  priority: 1
+  expect:
+    relief_min: 150
+- name: Zhob Valley
+  kind: valley
+  points:
+  - - 69.2
+    - 31.2
+  - - 68.75
+    - 31.0
+  priority: 1
+  check: true
+- name: Toba Kakar Range
+  kind: range
+  points:
+  - - 67.8
+    - 30.95
+  - - 68.4
+    - 31.15
+  priority: 1
+  check: true
+  expect:
+    elev_min: 1500
+- name: Quetta Valley
+  kind: valley
+  points:
+  - - 67.0
+    - 30.2
+  priority: 0
+  check: true
+  may_share:
+  - Pishin Valley
+  expect:
+    elev_min: 1400
+- name: Pishin Valley
+  kind: valley
+  points:
+  - - 67.0
+    - 30.55
+  priority: 1
+  may_share:
+  - Quetta Valley
+- name: Kachhi Plain
+  kind: plain
+  points:
+  - - 68.0
+    - 28.8
+  - - 67.85
+    - 29.3
+  priority: 1
+  check: true
+  expect:
+    elev_max: 300
+    slope_max: 3
+- name: Bolan Pass
+  kind: valley
+  points:
+  - - 67.55
+    - 29.75
+  priority: 2
+- name: Kirthar Range
+  kind: range
+  points:
+  - - 67.2
+    - 27.0
+  - - 67.35
+    - 26.3
+  priority: 1
+  check: true
+  expect:
+    relief_min: 300
+- name: Sindh Kohistan
+  kind: hills
+  points:
+  - - 67.7
+    - 25.4
+  - - 67.55
+    - 25.75
+  priority: 1
+  check: true
+- name: Laki Range and Manchar
+  kind: hills
+  points:
+  - - 67.8
+    - 26.15
+  priority: 2
+  expect:
+    relief_min: 100
+- name: Lower Indus floodplain
+  kind: floodplain
+  points:
+  - - 68.33
+    - 25.9
+  - - 68.0
+    - 26.7
+  - - 68.75
+    - 27.3
+  priority: 1
+  check: true
+  expect:
+    hand_class: active_floodplain
+    min_frac: 0.3
+- name: Indus Delta and creeks
+  kind: delta
+  points:
+  - - 67.55
+    - 24.15
+  - - 67.9
+    - 24.2
+  priority: 0
+  check: true
+  expect:
+    elev_max: 15
+- name: Rohri Hills
+  kind: hills
+  points:
+  - - 69.0
+    - 27.55
+  priority: 1
+  expect:
+    relief_min: 50
+- name: Nara valley (Achro Thar margin)
+  kind: plain
+  points:
+  - - 69.3
+    - 26.4
+  priority: 2
+- name: Thar Desert
+  kind: desert
+  points:
+  - - 70.25
+    - 25.0
+  - - 70.4
+    - 26.2
+  - - 70.0
+    - 24.6
+  priority: 1
+  check: true
+  expect:
+    dune_min: 0.15
+- name: Nagarparkar granite (Karoonjhar Hills)
+  kind: hills
+  points:
+  - - 70.75
+    - 24.35
+  priority: 0
+  check: true
+  expect:
+    litho: Precambrian
+- name: Rann of Kutch margin
+  kind: coast
+  points:
+  - - 69.8
+    - 24.1
+  priority: 2
+- name: Lasbela Plain
+  kind: plain
+  points:
+  - - 66.5
+    - 25.95
+  priority: 1
+  check: true
+  expect:
+    slope_max: 4
+- name: Pab Range
+  kind: range
+  points:
+  - - 66.85
+    - 25.8
+  priority: 1
+  expect:
+    relief_min: 200
+- name: Hingol
+  kind: valley
+  points:
+  - - 65.5
+    - 25.6
+  priority: 1
+  check: true
+- name: Makran coast
+  kind: coast
+  points:
+  - - 63.8
+    - 25.35
+  - - 62.4
+    - 25.2
+  - - 64.9
+    - 25.3
+  priority: 1
+  check: true
+  expect:
+    elev_max: 200
+- name: Makran Coast Range
+  kind: range
+  points:
+  - - 64.4
+    - 25.6
+  - - 63.4
+    - 25.6
+  priority: 1
+  check: true
+  expect:
+    relief_min: 200
+- name: Central Makran Range
+  kind: range
+  points:
+  - - 64.5
+    - 26.5
+  - - 63.4
+    - 26.45
+  priority: 1
+  check: true
+  expect:
+    relief_min: 200
+- name: Kech Valley
+  kind: valley
+  points:
+  - - 63.05
+    - 26.0
+  priority: 1
+- name: Siahan Range
+  kind: range
+  points:
+  - - 64.5
+    - 27.0
+  priority: 2
+- name: Kharan Desert
+  kind: desert
+  points:
+  - - 64.6
+    - 28.3
+  - - 64.0
+    - 28.0
+  priority: 1
+  check: true
+  expect:
+    dune_min: 0.1
+- name: Hamun-i-Mashkel
+  kind: basin
+  points:
+  - - 63.0
+    - 28.25
+  priority: 1
+- name: Chagai Hills
+  kind: hills
+  points:
+  - - 63.9
+    - 29.45
+  - - 64.6
+    - 29.4
+  priority: 1
+  check: true
+- name: Ras Koh
+  kind: range
+  points:
+  - - 65.1
+    - 28.85
+  priority: 1
+  check: true
+  expect:
+    relief_min: 300
+- name: Western Chagai desert
+  kind: desert
+  points:
+  - - 62.0
+    - 29.2
+  priority: 2
+- name: Kalat Plateau
+  kind: plateau
+  points:
+  - - 66.6
+    - 29.0
+  priority: 1
+  expect:
+    elev_min: 1500
+- name: Khuzdar uplands
+  kind: plateau
+  points:
+  - - 66.6
+    - 27.8
+  priority: 2
+- name: Swat
+  kind: valley
+  points:
+  - - 72.4
+    - 35.0
+  - - 72.5
+    - 35.45
+  priority: 1
+  check: true
+- name: Dir
+  kind: valley
+  points:
+  - - 71.85
+    - 35.15
+  priority: 1
+  check: true
+- name: Chitral
+  kind: valley
+  points:
+  - - 71.8
+    - 35.9
+  - - 72.4
+    - 36.3
+  priority: 1
+  check: true
+- name: Hindu Kush crest (Tirich Mir)
+  kind: massif
+  points:
+  - - 71.85
+    - 36.25
+  priority: 2
+- name: Kaghan Valley
+  kind: valley
+  points:
+  - - 73.6
+    - 34.85
+  priority: 1
+  check: true
+- name: Neelum Valley
+  kind: valley
+  points:
+  - - 74.0
+    - 34.65
+  - - 74.4
+    - 34.8
+  priority: 1
+  check: true
+- name: Hazara hills
+  kind: hills
+  points:
+  - - 73.2
+    - 34.15
+  priority: 2
+- name: Murree hills
+  kind: hills
+  points:
+  - - 73.4
+    - 33.9
+  priority: 2
+- name: Poonch
+  kind: hills
+  points:
+  - - 73.8
+    - 33.85
+  priority: 1
+  check: true
+- name: Mirpur
+  kind: hills
+  points:
+  - - 73.75
+    - 33.2
+  priority: 1
+  check: true
+- name: Nanga Parbat massif
+  kind: massif
+  points:
+  - - 74.6
+    - 35.25
+  priority: 0
+  check: true
+  expect:
+    elev_min: 3000
+- name: Deosai Plateau
+  kind: plateau
+  points:
+  - - 75.45
+    - 35.0
+  priority: 0
+  check: true
+  expect:
+    elev_min: 3800
+    slope_max: 15
+- name: Gilgit
+  kind: valley
+  points:
+  - - 74.3
+    - 35.92
+  priority: 1
+  check: true
+- name: Hunza
+  kind: valley
+  points:
+  - - 74.65
+    - 36.32
+  - - 75.0
+    - 36.6
+  priority: 1
+  check: true
+- name: Baltistan (Skardu-Shigar)
+  kind: valley
+  points:
+  - - 75.6
+    - 35.3
+  - - 75.75
+    - 35.55
+  priority: 1
+  check: true
+- name: Kohistan (Indus gorge)
+  kind: valley
+  points:
+  - - 73.2
+    - 35.3
+  priority: 2
+- name: Astore
+  kind: valley
+  points:
+  - - 74.85
+    - 35.35
+  priority: 2
+- name: Central Karakoram (Baltoro-Hispar)
+  kind: massif
+  points:
+  - - 76.0
+    - 35.8
+  - - 75.2
+    - 36.0
+  priority: 1
+- name: Khunjerab and Shimshal
+  kind: massif
+  points:
+  - - 75.3
+    - 36.75
+  priority: 2
+- name: Gilan Plain
+  kind: plain
+  points:
+  - - 49.55
+    - 37.2
+  - - 50.05
+    - 37.25
+  priority: 1
+  check: true
+  expect:
+    elev_max: 50
+    slope_max: 3
+- name: Sefidrud Delta
+  kind: delta
+  points:
+  - - 49.95
+    - 37.38
+  priority: 0
+  expect:
+    elev_max: 10
+- name: Anzali Lagoon
+  kind: lagoon
+  points:
+  - - 49.4
+    - 37.43
+  priority: 0
+  check: true
+  expect:
+    elev_max: 0
+- name: Mazandaran Plain
+  kind: plain
+  points:
+  - - 52.35
+    - 36.55
+  - - 52.9
+    - 36.6
+  - - 53.4
+    - 36.65
+  priority: 1
+  check: true
+  expect:
+    elev_max: 50
+    slope_max: 3
+- name: Miankaleh Peninsula
+  kind: coast
+  points:
+  - - 53.6
+    - 36.88
+  priority: 0
+  expect:
+    elev_max: 0
+- name: Gorgan Bay
+  kind: lagoon
+  points:
+  - - 53.85
+    - 36.8
+  priority: 0
+- name: Gorgan Plain
+  kind: plain
+  points:
+  - - 54.5
+    - 37.0
+  - - 55.15
+    - 37.3
+  priority: 1
+  check: true
+  expect:
+    slope_max: 3
+- name: Golestan Forest
+  kind: woodland
+  points:
+  - - 55.95
+    - 37.35
+  priority: 0
+  check: true
+- name: Talesh Mountains
+  kind: range
+  points:
+  - - 48.75
+    - 37.75
+  - - 48.7
+    - 38.15
+  priority: 1
+  check: true
+  expect:
+    relief_min: 300
+- name: Chalus Valley
+  kind: valley
+  points:
+  - - 51.3
+    - 36.35
+  priority: 1
+- name: Damavand
+  kind: massif
+  points:
+  - - 52.11
+    - 35.95
+  priority: 0
+  check: true
+  expect:
+    elev_min: 3000
+- name: Alam Kuh
+  kind: massif
+  points:
+  - - 50.95
+    - 36.38
+  priority: 0
+  check: true
+  expect:
+    elev_min: 3000
+- name: Alamut
+  kind: valley
+  points:
+  - - 50.55
+    - 36.42
+  priority: 1
+  check: true
+- name: Sefidrud Gorge
+  kind: valley
+  points:
+  - - 49.4
+    - 36.78
+  priority: 1
+  check: true
+- name: Lake Urmia
+  kind: basin
+  points:
+  - - 45.45
+    - 37.85
+  - - 45.6
+    - 37.45
+  priority: 0
+  check: true
+  expect:
+    elev_max: 1300
+    slope_max: 1
+- name: Urmia Plain
+  kind: plain
+  points:
+  - - 45.15
+    - 37.6
+  priority: 1
+  check: true
+  expect:
+    slope_max: 3
+- name: Miandoab Plain
+  kind: plain
+  points:
+  - - 45.95
+    - 37.1
+  priority: 1
+  check: true
+  expect:
+    slope_max: 2
+- name: Tabriz Plain
+  kind: plain
+  points:
+  - - 46.0
+    - 38.05
+  priority: 1
+  check: true
+- name: Sahand
+  kind: massif
+  points:
+  - - 46.43
+    - 37.73
+  priority: 0
+  check: true
+  expect:
+    elev_min: 2500
+- name: Sabalan
+  kind: massif
+  points:
+  - - 47.82
+    - 38.27
+  priority: 0
+  check: true
+  expect:
+    elev_min: 3000
+- name: Ardabil Plain
+  kind: plain
+  points:
+  - - 48.3
+    - 38.25
+  priority: 1
+  check: true
+  expect:
+    slope_max: 3
+- name: Moghan Plain
+  kind: plain
+  points:
+  - - 47.85
+    - 39.45
+  priority: 1
+  check: true
+  expect:
+    elev_max: 250
+- name: Arasbaran
+  kind: range
+  points:
+  - - 46.85
+    - 38.85
+  - - 47.05
+    - 38.95
+  priority: 1
+  check: true
+  expect:
+    relief_min: 300
+- name: Aras Valley
+  kind: valley
+  points:
+  - - 45.65
+    - 38.92
+  priority: 1
+- name: Qizil Uzun Valley
+  kind: valley
+  points:
+  - - 47.75
+    - 37.35
+  - - 48.2
+    - 37.05
+  priority: 1
+- name: Hawraman
+  kind: range
+  points:
+  - - 46.35
+    - 35.2
+  priority: 1
+  check: true
+  expect:
+    relief_min: 400
+- name: Bijar Plateau
+  kind: plateau
+  points:
+  - - 47.6
+    - 35.9
+  priority: 1
+  expect:
+    elev_min: 1700
+- name: Alvand
+  kind: massif
+  points:
+  - - 48.43
+    - 34.67
+  priority: 0
+  check: true
+  expect:
+    elev_min: 2500
+- name: Hamadan Plain
+  kind: plain
+  points:
+  - - 48.65
+    - 34.95
+  priority: 1
+  expect:
+    slope_max: 3
+- name: Kermanshah Plain
+  kind: plain
+  points:
+  - - 47.1
+    - 34.35
+  priority: 1
+  check: true
+  expect:
+    slope_max: 3
+- name: Bisotun
+  kind: massif
+  points:
+  - - 47.43
+    - 34.43
+  priority: 0
+  expect:
+    relief_min: 600
+- name: Kabir Kuh
+  kind: range
+  points:
+  - - 46.7
+    - 33.55
+  - - 47.2
+    - 33.2
+  priority: 1
+  check: true
+  expect:
+    relief_min: 400
+- name: Khorramabad Valley
+  kind: valley
+  points:
+  - - 48.35
+    - 33.48
+  priority: 1
+- name: Silakhor Plain
+  kind: plain
+  points:
+  - - 48.9
+    - 33.7
+  priority: 1
+  expect:
+    slope_max: 3
+- name: Oshtorankuh
+  kind: massif
+  points:
+  - - 49.3
+    - 33.32
+  priority: 0
+  check: true
+  expect:
+    elev_min: 2500
+- name: Bakhtiari Mountains
+  kind: range
+  points:
+  - - 49.8
+    - 32.0
+  - - 50.4
+    - 31.7
+  priority: 2
+  check: true
+  expect:
+    relief_min: 500
+- name: Zard Kuh
+  kind: massif
+  points:
+  - - 50.07
+    - 32.37
+  priority: 0
+  check: true
+  expect:
+    elev_min: 3000
+- name: Fereydan
+  kind: plateau
+  points:
+  - - 50.15
+    - 32.95
+  priority: 1
+  expect:
+    elev_min: 2000
+- name: Kuh-e Dena
+  kind: massif
+  points:
+  - - 51.42
+    - 30.93
+  priority: 0
+  check: true
+  expect:
+    elev_min: 3000
+- name: Dasht-e Arzhan
+  kind: plain
+  points:
+  - - 51.98
+    - 29.66
+  priority: 0
+- name: Lake Parishan
+  kind: basin
+  points:
+  - - 51.8
+    - 29.52
+  priority: 0
+- name: Marvdasht Plain
+  kind: plain
+  points:
+  - - 52.8
+    - 29.9
+  priority: 1
+  check: true
+  expect:
+    slope_max: 3
+- name: Maharloo Lake
+  kind: basin
+  points:
+  - - 52.8
+    - 29.45
+  priority: 0
+  check: true
+- name: Lake Bakhtegan
+  kind: basin
+  points:
+  - - 53.85
+    - 29.35
+  priority: 0
+  check: true
+- name: Darab Plain
+  kind: plain
+  points:
+  - - 54.55
+    - 28.75
+  priority: 1
+- name: Larestan
+  kind: hills
+  points:
+  - - 54.3
+    - 27.75
+  priority: 2
+- name: Kuh-e Genu
+  kind: massif
+  points:
+  - - 56.3
+    - 27.4
+  priority: 0
+  expect:
+    relief_min: 800
+- name: Khuzestan Plain
+  kind: plain
+  points:
+  - - 48.7
+    - 31.3
+  - - 48.5
+    - 31.8
+  - - 49.2
+    - 30.8
+  priority: 2
+  check: true
+  expect:
+    elev_max: 200
+    slope_max: 2
+- name: Karun Floodplain
+  kind: floodplain
+  points:
+  - - 48.75
+    - 31.65
+  - - 48.45
+    - 30.9
+  priority: 1
+  check: true
+  expect:
+    hand_class: active_floodplain
+    min_frac: 0.25
+- name: Karkheh Floodplain
+  kind: floodplain
+  points:
+  - - 48.3
+    - 31.8
+  priority: 1
+  expect:
+    hand_class: active_floodplain
+    min_frac: 0.25
+- name: Dez Floodplain
+  kind: floodplain
+  points:
+  - - 48.6
+    - 32.0
+  priority: 1
+  expect:
+    hand_class: active_floodplain
+    min_frac: 0.25
+- name: Hawizeh Marshes
+  kind: floodplain
+  points:
+  - - 47.85
+    - 31.55
+  priority: 0
+  check: true
+  expect:
+    elev_max: 15
+- name: Shadegan Marshes
+  kind: floodplain
+  points:
+  - - 48.65
+    - 30.45
+  priority: 0
+  check: true
+  expect:
+    elev_max: 5
+- name: Abadan Island
+  kind: delta
+  points:
+  - - 48.35
+    - 30.25
+  priority: 1
+  expect:
+    elev_max: 10
+- name: Bushehr Peninsula
+  kind: coast
+  points:
+  - - 50.85
+    - 28.92
+  priority: 0
+- name: Dashtestan Plain
+  kind: plain
+  points:
+  - - 51.2
+    - 29.25
+  priority: 1
+  check: true
+  expect:
+    elev_max: 150
+- name: Kharg Island
+  kind: island
+  points:
+  - - 50.32
+    - 29.25
+  priority: 0
+- name: Kish Island
+  kind: island
+  points:
+  - - 53.98
+    - 26.53
+  priority: 0
+  check: true
+- name: Qeshm Island
+  kind: island
+  points:
+  - - 55.9
+    - 26.75
+  - - 55.6
+    - 26.7
+  priority: 0
+  check: true
+- name: Hara Mangroves
+  kind: coast
+  points:
+  - - 55.7
+    - 26.85
+  priority: 0
+  check: true
+  expect:
+    elev_max: 10
+- name: Hormuz Island
+  kind: island
+  points:
+  - - 56.46
+    - 27.06
+  priority: 0
+- name: Greater Tunb
+  kind: island
+  points:
+  - - 55.31
+    - 26.26
+  priority: 0
+- name: Abu Musa
+  kind: island
+  points:
+  - - 55.03
+    - 25.88
+  priority: 0
+- name: Minab Plain
+  kind: plain
+  points:
+  - - 57.0
+    - 27.05
+  priority: 1
+  check: true
+  expect:
+    elev_max: 150
+- name: Chabahar Bay
+  kind: coast
+  points:
+  - - 60.55
+    - 25.35
+  priority: 0
+  check: true
+- name: Bashagard Mountains
+  kind: range
+  points:
+  - - 58.4
+    - 26.4
+  priority: 1
+  check: true
+  expect:
+    relief_min: 300
+- name: Jaz Murian
+  kind: basin
+  points:
+  - - 58.9
+    - 27.35
+  - - 59.3
+    - 27.3
+  priority: 1
+  check: true
+  expect:
+    elev_max: 500
+    slope_max: 2
+- name: Jiroft Plain
+  kind: plain
+  points:
+  - - 57.75
+    - 28.55
+  priority: 1
+  check: true
+- name: Bampur Valley
+  kind: valley
+  points:
+  - - 60.4
+    - 27.2
+  priority: 1
+  check: true
+- name: Sarbaz Valley
+  kind: valley
+  points:
+  - - 61.25
+    - 26.6
+  priority: 1
+- name: Kuh-e Karkas
+  kind: range
+  points:
+  - - 51.8
+    - 33.45
+  priority: 0
+  check: true
+  expect:
+    relief_min: 500
+- name: Kashan Plain
+  kind: plain
+  points:
+  - - 51.5
+    - 34.05
+  priority: 1
+- name: Saveh Plain
+  kind: plain
+  points:
+  - - 50.35
+    - 35.05
+  priority: 1
+- name: Isfahan Plain
+  kind: plain
+  points:
+  - - 51.75
+    - 32.55
+  priority: 1
+  check: true
+  expect:
+    slope_max: 3
+- name: Zayandeh Rud
+  kind: floodplain
+  points:
+  - - 52.1
+    - 32.45
+  priority: 1
+  expect:
+    hand_class: active_floodplain
+    min_frac: 0.2
+- name: Gavkhouni
+  kind: basin
+  points:
+  - - 52.85
+    - 32.25
+  priority: 0
+  check: true
+  expect:
+    slope_max: 1
+- name: Anarak Mountains
+  kind: range
+  points:
+  - - 53.6
+    - 33.25
+  priority: 1
+  expect:
+    relief_min: 300
+- name: Ardakan Plain
+  kind: plain
+  points:
+  - - 54.0
+    - 32.3
+  priority: 1
+- name: Shir Kuh
+  kind: massif
+  points:
+  - - 54.07
+    - 31.62
+  priority: 0
+  check: true
+  expect:
+    elev_min: 3000
+- name: Rafsanjan Plain
+  kind: plain
+  points:
+  - - 56.0
+    - 30.4
+  priority: 1
+- name: Kuh-e Hazar
+  kind: massif
+  points:
+  - - 57.27
+    - 29.5
+  priority: 0
+  check: true
+  expect:
+    elev_min: 3000
+- name: Jebal Barez
+  kind: range
+  points:
+  - - 57.7
+    - 29.1
+  - - 58.2
+    - 28.8
+  priority: 1
+  check: true
+  expect:
+    relief_min: 500
+- name: Tabas Basin
+  kind: basin
+  points:
+  - - 56.9
+    - 33.6
+  priority: 1
+- name: Shotori Mountains
+  kind: range
+  points:
+  - - 57.2
+    - 33.3
+  priority: 1
+  expect:
+    relief_min: 500
+- name: Qazvin Plain
+  kind: plain
+  points:
+  - - 50.2
+    - 36.1
+  - - 49.7
+    - 36.2
+  priority: 1
+  check: true
+  expect:
+    slope_max: 3
+- name: Tehran Plain
+  kind: plain
+  points:
+  - - 51.4
+    - 35.55
+  priority: 1
+  check: true
+- name: Varamin Plain
+  kind: plain
+  points:
+  - - 51.65
+    - 35.3
+  priority: 1
+- name: Damghan Plain
+  kind: plain
+  points:
+  - - 54.3
+    - 36.0
+  priority: 1
+- name: Hoz-e Soltan
+  kind: basin
+  points:
+  - - 51.0
+    - 34.95
+  priority: 0
+  check: true
+  expect:
+    slope_max: 1
+- name: Namak Lake
+  kind: basin
+  points:
+  - - 51.85
+    - 34.75
+  priority: 0
+  check: true
+  expect:
+    slope_max: 1
+- name: Maranjab Desert
+  kind: desert
+  points:
+  - - 51.85
+    - 34.3
+  priority: 1
+  expect:
+    dune_min: 0.08
+- name: Dasht-e Kavir
+  kind: desert
+  points:
+  - - 54.0
+    - 34.6
+  - - 55.0
+    - 34.6
+  - - 53.0
+    - 34.8
+  priority: 2
+  check: true
+  expect:
+    slope_max: 2
+- name: Rig-e Jenn
+  kind: desert
+  points:
+  - - 53.1
+    - 34.3
+  priority: 0
+  check: true
+  expect:
+    dune_min: 0.1
+- name: Dasht-e Lut
+  kind: desert
+  points:
+  - - 58.8
+    - 30.5
+  - - 59.1
+    - 31.2
+  - - 58.9
+    - 29.8
+  priority: 2
+  check: true
+- name: Kalut
+  kind: desert
+  points:
+  - - 58.35
+    - 30.6
+  - - 58.5
+    - 30.2
+  priority: 0
+  check: true
+  expect:
+    relief_min: 60
+- name: Gandom Beryan
+  kind: plateau
+  points:
+  - - 58.85
+    - 30.45
+  priority: 0
+- name: Rig-e Yalan
+  kind: desert
+  points:
+  - - 59.35
+    - 29.6
+  priority: 0
+  check: true
+  expect:
+    dune_min: 0.1
+- name: Kopet Dagh
+  kind: range
+  points:
+  - - 58.4
+    - 37.45
+  - - 57.6
+    - 37.75
+  - - 59.4
+    - 37.25
+  priority: 1
+  check: true
+  expect:
+    relief_min: 400
+- name: Aladagh
+  kind: range
+  points:
+  - - 57.0
+    - 37.2
+  priority: 1
+  check: true
+  expect:
+    relief_min: 400
+- name: Atrek Valley
+  kind: valley
+  points:
+  - - 57.95
+    - 37.35
+  - - 58.45
+    - 37.12
+  priority: 1
+  check: true
+- name: Binalud
+  kind: range
+  points:
+  - - 58.85
+    - 36.35
+  - - 59.3
+    - 36.2
+  priority: 1
+  check: true
+  expect:
+    relief_min: 500
+- name: Hezar Masjed
+  kind: range
+  points:
+  - - 59.5
+    - 36.85
+  - - 60.2
+    - 36.5
+  priority: 1
+  check: true
+  expect:
+    relief_min: 400
+- name: Kashaf Rud Valley
+  kind: valley
+  points:
+  - - 59.4
+    - 36.4
+  - - 60.0
+    - 36.1
+  priority: 1
+  check: true
+- name: Neyshabur Plain
+  kind: plain
+  points:
+  - - 58.85
+    - 36.1
+  priority: 1
+  expect:
+    slope_max: 3
+- name: Sabzevar Plain
+  kind: plain
+  points:
+  - - 57.7
+    - 36.15
+  priority: 1
+- name: Qaenat Highlands
+  kind: plateau
+  points:
+  - - 59.2
+    - 33.7
+  - - 59.6
+    - 33.4
+  priority: 2
+  check: true
+  expect:
+    elev_min: 1400
+- name: Sistan Plain
+  kind: plain
+  points:
+  - - 61.5
+    - 31.05
+  priority: 1
+  check: true
+  expect:
+    elev_max: 600
+    slope_max: 2
+- name: Hamun-e Hirmand
+  kind: basin
+  points:
+  - - 61.25
+    - 30.95
+  priority: 0
+  check: true
+- name: Hamun-e Saberi
+  kind: basin
+  points:
+  - - 61.3
+    - 31.45
+  priority: 0
+  check: true
+- name: Kuh-e Taftan
+  kind: massif
+  points:
+  - - 61.13
+    - 28.6
+  priority: 0
+  check: true
+  expect:
+    elev_min: 2500
+- name: Kuh-e Bazman
+  kind: massif
+  points:
+  - - 60.0
+    - 28.07
+  priority: 0
+  check: true
+  expect:
+    elev_min: 2000
+doabs:
+- name: Bari Doab
+  point:
+  - 73.3
+  - 30.9
+  rivers:
+  - Ravi
+  - Sutlej
+- name: Rechna Doab
+  point:
+  - 73.3
+  - 31.6
+  rivers:
+  - Ravi
+  - Chenab
+- name: Chaj Doab
+  point:
+  - 73.1
+  - 32.3
+  rivers:
+  - Chenab
+  - Jhelum
+- name: Sindh Sagar Doab
+  point:
+  - 71.6
+  - 31.3
+  rivers:
+  - Jhelum
+  - Indus
+places:
+- - Lahore
+  - 74.35
+  - 31.55
+- - Faisalabad
+  - 73.08
+  - 31.42
+- - Multan
+  - 71.47
+  - 30.2
+- - Bahawalpur
+  - 71.68
+  - 29.4
+- - Rahim Yar Khan
+  - 70.3
+  - 28.42
+- - Sargodha
+  - 72.67
+  - 32.08
+- - Jhang
+  - 72.32
+  - 31.27
+- - Sahiwal
+  - 73.1
+  - 30.66
+- - Gujranwala
+  - 74.19
+  - 32.16
+- - Sialkot
+  - 74.53
+  - 32.49
+- - Gujrat
+  - 74.08
+  - 32.57
+- - Jhelum
+  - 73.73
+  - 32.93
+- - Mianwali
+  - 71.54
+  - 32.58
+- - Bhakkar
+  - 71.06
+  - 31.63
+- - Layyah
+  - 70.94
+  - 30.96
+- - Dera Ghazi Khan
+  - 70.63
+  - 30.05
+- - Dera Ismail Khan
+  - 70.9
+  - 31.83
+- - Rawalpindi
+  - 73.05
+  - 33.6
+- - Chakwal
+  - 72.86
+  - 32.93
+- - Attock
+  - 72.36
+  - 33.77
+- - Peshawar
+  - 71.57
+  - 34.0
+- - Mardan
+  - 72.05
+  - 34.2
+- - Kohat
+  - 71.44
+  - 33.58
+- - Bannu
+  - 70.6
+  - 32.99
+- - Abbottabad
+  - 73.21
+  - 34.15
+- - Mingora
+  - 72.36
+  - 34.78
+- - Chitral
+  - 71.79
+  - 35.85
+- - Gilgit
+  - 74.31
+  - 35.92
+- - Skardu
+  - 75.63
+  - 35.3
+- - Muzaffarabad
+  - 73.47
+  - 34.37
+- - Mirpur
+  - 73.75
+  - 33.15
+- - Zhob
+  - 69.45
+  - 31.34
+- - Loralai
+  - 68.6
+  - 30.37
+- - Quetta
+  - 67.0
+  - 30.18
+- - Sibi
+  - 67.88
+  - 29.55
+- - Kalat
+  - 66.58
+  - 29.03
+- - Khuzdar
+  - 66.61
+  - 27.8
+- - Kharan
+  - 65.42
+  - 28.58
+- - Nushki
+  - 66.02
+  - 29.55
+- - Dalbandin
+  - 64.4
+  - 28.89
+- - Panjgur
+  - 64.1
+  - 26.97
+- - Turbat
+  - 63.05
+  - 26.0
+- - Gwadar
+  - 62.32
+  - 25.13
+- - Pasni
+  - 63.47
+  - 25.26
+- - Ormara
+  - 64.64
+  - 25.2
+- - Uthal
+  - 66.62
+  - 25.8
+- - Karachi
+  - 67.01
+  - 24.86
+- - Thatta
+  - 67.92
+  - 24.75
+- - Hyderabad
+  - 68.37
+  - 25.39
+- - Badin
+  - 68.84
+  - 24.65
+- - Mithi
+  - 69.8
+  - 24.74
+- - Umerkot
+  - 69.73
+  - 25.36
+- - Nawabshah
+  - 68.41
+  - 26.24
+- - Sehwan
+  - 67.87
+  - 26.42
+- - Larkana
+  - 68.21
+  - 27.56
+- - Sukkur
+  - 68.86
+  - 27.7
+- - Jacobabad
+  - 68.44
+  - 28.28
+- - Khairpur
+  - 68.76
+  - 27.53
+- - Dera Bugti
+  - 69.15
+  - 29.03
+- - Barkhan
+  - 69.52
+  - 29.9
+- - Kohlu
+  - 69.25
+  - 29.9
+- - Wana
+  - 69.57
+  - 32.3
+- - Miranshah
+  - 70.07
+  - 33.0
+- - Parachinar
+  - 70.1
+  - 33.9
+- - Chilas
+  - 74.1
+  - 35.42
+- - Astore
+  - 74.86
+  - 35.37
+- - Karimabad
+  - 74.66
+  - 36.32
+- - Rawalakot
+  - 73.76
+  - 33.86
+- - Kotli
+  - 73.9
+  - 33.52
+- - Tehran
+  - 51.39
+  - 35.69
+- - Karaj
+  - 50.99
+  - 35.84
+- - Qazvin
+  - 50.0
+  - 36.27
+- - Rasht
+  - 49.58
+  - 37.28
+- - Bandar Anzali
+  - 49.46
+  - 37.47
+- - Lahijan
+  - 50.0
+  - 37.2
+- - Astara
+  - 48.87
+  - 38.43
+- - Ramsar
+  - 50.66
+  - 36.92
+- - Chalus
+  - 51.42
+  - 36.66
+- - Amol
+  - 52.35
+  - 36.47
+- - Babol
+  - 52.68
+  - 36.54
+- - Sari
+  - 53.06
+  - 36.56
+- - Gorgan
+  - 54.43
+  - 36.84
+- - Gonbad-e Kavus
+  - 55.17
+  - 37.25
+- - Semnan
+  - 53.39
+  - 35.57
+- - Damghan
+  - 54.34
+  - 36.17
+- - Shahrud
+  - 54.97
+  - 36.42
+- - Tabriz
+  - 46.29
+  - 38.08
+- - Ardabil
+  - 48.29
+  - 38.25
+- - Urmia
+  - 45.07
+  - 37.55
+- - Khoy
+  - 44.95
+  - 38.55
+- - Maku
+  - 44.52
+  - 39.29
+- - Jolfa
+  - 45.63
+  - 38.94
+- - Ahar
+  - 47.07
+  - 38.48
+- - Kaleybar
+  - 47.04
+  - 38.87
+- - Parsabad
+  - 47.92
+  - 39.65
+- - Mianeh
+  - 47.71
+  - 37.42
+- - Maragheh
+  - 46.24
+  - 37.39
+- - Miandoab
+  - 46.1
+  - 36.97
+- - Mahabad
+  - 45.72
+  - 36.76
+- - Piranshahr
+  - 45.14
+  - 36.7
+- - Zanjan
+  - 48.48
+  - 36.68
+- - Saqqez
+  - 46.27
+  - 36.25
+- - Marivan
+  - 46.18
+  - 35.52
+- - Sanandaj
+  - 46.99
+  - 35.31
+- - Bijar
+  - 47.6
+  - 35.87
+- - Hamadan
+  - 48.51
+  - 34.8
+- - Malayer
+  - 48.82
+  - 34.3
+- - Kermanshah
+  - 47.07
+  - 34.31
+- - Sarpol-e Zahab
+  - 45.86
+  - 34.46
+- - Qasr-e Shirin
+  - 45.58
+  - 34.52
+- - Ilam
+  - 46.42
+  - 33.64
+- - Dehloran
+  - 47.27
+  - 32.69
+- - Khorramabad
+  - 48.36
+  - 33.49
+- - Borujerd
+  - 48.75
+  - 33.9
+- - Aligudarz
+  - 49.69
+  - 33.4
+- - Shahrekord
+  - 50.86
+  - 32.33
+- - Yasuj
+  - 51.59
+  - 30.67
+- - Shiraz
+  - 52.54
+  - 29.6
+- - Marvdasht
+  - 52.8
+  - 29.87
+- - Kazerun
+  - 51.65
+  - 29.62
+- - Firuzabad
+  - 52.57
+  - 28.84
+- - Jahrom
+  - 53.56
+  - 28.5
+- - Fasa
+  - 53.65
+  - 28.94
+- - Darab
+  - 54.54
+  - 28.75
+- - Neyriz
+  - 54.33
+  - 29.2
+- - Abadeh
+  - 52.65
+  - 31.16
+- - Lar
+  - 54.34
+  - 27.68
+- - Ahvaz
+  - 48.68
+  - 31.32
+- - Dezful
+  - 48.4
+  - 32.38
+- - Shushtar
+  - 48.85
+  - 32.05
+- - Shush
+  - 48.25
+  - 32.19
+- - Masjed Soleyman
+  - 49.3
+  - 31.94
+- - Izeh
+  - 49.87
+  - 31.83
+- - Behbahan
+  - 50.24
+  - 30.6
+- - Ramhormoz
+  - 49.6
+  - 31.28
+- - Abadan
+  - 48.3
+  - 30.34
+- - Khorramshahr
+  - 48.17
+  - 30.43
+- - Bandar Mahshahr
+  - 49.2
+  - 30.56
+- - Bushehr
+  - 50.84
+  - 28.97
+- - Borazjan
+  - 51.21
+  - 29.27
+- - Bandar Deylam
+  - 50.17
+  - 30.05
+- - Kangan
+  - 52.06
+  - 27.84
+- - Asaluyeh
+  - 52.61
+  - 27.48
+- - Bandar Lengeh
+  - 54.88
+  - 26.56
+- - Bandar Abbas
+  - 56.27
+  - 27.18
+- - Minab
+  - 57.08
+  - 27.15
+- - Jask
+  - 57.77
+  - 25.64
+- - Qom
+  - 50.88
+  - 34.64
+- - Saveh
+  - 50.36
+  - 35.02
+- - Arak
+  - 49.69
+  - 34.09
+- - Golpayegan
+  - 50.29
+  - 33.45
+- - Kashan
+  - 51.44
+  - 33.98
+- - Natanz
+  - 51.91
+  - 33.51
+- - Isfahan
+  - 51.67
+  - 32.65
+- - Shahreza
+  - 51.87
+  - 32.0
+- - Naein
+  - 53.09
+  - 32.86
+- - Khur
+  - 55.08
+  - 33.78
+- - Jandaq
+  - 54.41
+  - 34.04
+- - Yazd
+  - 54.36
+  - 31.9
+- - Ardakan
+  - 54.0
+  - 32.31
+- - Abarkuh
+  - 53.28
+  - 31.13
+- - Bafq
+  - 55.4
+  - 31.6
+- - Tabas
+  - 56.92
+  - 33.6
+- - Kerman
+  - 57.08
+  - 30.29
+- - Rafsanjan
+  - 55.99
+  - 30.41
+- - Sirjan
+  - 55.68
+  - 29.45
+- - Shahdad
+  - 57.7
+  - 30.42
+- - Bam
+  - 58.36
+  - 29.1
+- - Jiroft
+  - 57.74
+  - 28.68
+- - Kahnuj
+  - 57.7
+  - 27.95
+- - Mashhad
+  - 59.6
+  - 36.3
+- - Neyshabur
+  - 58.8
+  - 36.21
+- - Sabzevar
+  - 57.68
+  - 36.21
+- - Quchan
+  - 58.51
+  - 37.11
+- - Shirvan
+  - 57.93
+  - 37.41
+- - Bojnurd
+  - 57.33
+  - 37.47
+- - Jajarm
+  - 56.38
+  - 36.95
+- - Dargaz
+  - 59.11
+  - 37.44
+- - Kalat-e Naderi
+  - 59.76
+  - 37.0
+- - Torbat-e Heydarieh
+  - 59.22
+  - 35.27
+- - Torbat-e Jam
+  - 60.62
+  - 35.24
+- - Khaf
+  - 60.14
+  - 34.58
+- - Kashmar
+  - 58.46
+  - 35.24
+- - Gonabad
+  - 58.68
+  - 34.35
+- - Sarakhs
+  - 61.16
+  - 36.54
+- - Ferdows
+  - 58.17
+  - 34.02
+- - Qaen
+  - 59.19
+  - 33.73
+- - Birjand
+  - 59.22
+  - 32.87
+- - Nehbandan
+  - 60.04
+  - 31.54
+- - Zabol
+  - 61.49
+  - 31.03
+- - Zahedan
+  - 60.86
+  - 29.5
+- - Khash
+  - 61.22
+  - 28.22
+- - Iranshahr
+  - 60.68
+  - 27.2
+- - Saravan
+  - 62.33
+  - 27.37
+- - Sarbaz
+  - 61.26
+  - 26.63
+- - Nikshahr
+  - 60.21
+  - 26.23
+- - Chabahar
+  - 60.64
+  - 25.29

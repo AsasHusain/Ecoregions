@@ -1,0 +1,34 @@
+feature,kind,status,l3_codes,l3_names,shares_unit_with,character_test,notes
+Llano Estacado,plateau,resolved,"12.11, 12.06, 12.05, 12.13, 12.08, 12.03",Llano Estacado (southeastern) | Llano Estacado (northern) | Llano Estacado (northwestern) | Llano Estacado (northeastern) | Llano Estacado (southern) | Llano Estacado (southwestern),,pass,
+Canadian Breaks,valley,resolved,"12.26, 12.07",Canadian Breaks (eastern) | Canadian Breaks (western),,pass,
+Palo Duro Canyon,canyon,resolved,"12.18, 12.17",Smooth or irregular plains east of Amarillo | Palo Duro Canyon,,pass,relief 45 m < 100
+Caprock Escarpment,escarpment,partly resolved,"09.07, 12.21, 12.20",Caprock Escarpment (northeastern) | Caprock Escarpment (southwestern) | Blanco Canyon,Rolling Plains,pass,relief 48 m < 60
+Rolling Plains,plain,partly resolved,"09.24, 09.07, 09.06, 09.13, 09.14, 09.17, 12.30",Rolling Plains (southeastern) | Caprock Escarpment (northeastern) | Rolling Plains (southwestern) | Rolling Plains (southern 1) | Rolling Plains (southern 2) | Rolling Plains (northern 2) | Rolling Plains (northern 1),Caprock Escarpment,pass,
+Western Cross Timbers,woodland,partly resolved,"08.10, 08.04, 09.28",Western Cross Timbers (northeastern) | Western Cross Timbers and Lampasas Cut Plain | Western Cross Timbers (southwestern),Lampasas Cut Plain,pass,
+Grand Prairie,prairie,partly resolved,"08.12, 08.09, 08.13",Eastern Cross Timbers | Grand Prairie (southern) | Grand Prairie (northern),Eastern Cross Timbers,pass,"dominant substrate is Mesozoic chalk, marl and clay"
+Lampasas Cut Plain,plain,partly resolved,"08.06, 08.04, 08.02",Lampasas Cut Plain (southeastern) | Western Cross Timbers and Lampasas Cut Plain | Lampasas Cut Plain (northwestern),Western Cross Timbers,pass,
+Eastern Cross Timbers,woodland,partly resolved,"07.17, 08.12",Eastern Cross Timbers and Blackland Prairie | Eastern Cross Timbers,Blackland Prairie,pass,
+Blackland Prairie,prairie,partly resolved,"07.20, 07.04, 07.01, 07.14, 07.17",Blackland Prairie (northern) | Gently sloping plain north of Austin | Gently sloping plain near Seguin | Blackland Prairie (southern) | Eastern Cross Timbers and Blackland Prairie,Eastern Cross Timbers,pass,"dominant substrate is Mesozoic limestone | dominant substrate is Cenozoic sand, clay and gravel"
+Post Oak Savannah,woodland,resolved,"05.04, 05.18, 05.24, 05.08",Post Oak Savannah (southwestern) | Post Oak Savannah (northern) | Post Oak Savannah (northeastern) | Post Oak Savannah (southern),,pass,
+Brazos Bottoms,floodplain,not resolved,"01.26, 05.19, 07.10",Alluvial bar upland (old interfluve surface) west of Houston | Alluvial bar upland (old interfluve surface) southwest of Bryan (1) | Alluvial bar upland (old interfluve surface) near Waco,,fail,active_floodplain share 1% < 25% | active_floodplain share 2% < 25% | active_floodplain share 2% < 25%
+Piney Woods,woodland,resolved,"06.20, 06.10, 06.06",Piney Woods (southeastern) | Piney Woods (northwestern) | Redlands,,pass,
+Big Thicket,woodland,resolved,"06.18, 06.13",Big Thicket (southeastern) | Big Thicket (northwestern),,pass,
+Coastal Prairie,prairie,resolved,"01.27, 01.28, 01.33, 01.14, 01.01",Columbia Bottomlands | Katy Prairie | Coastal Prairie (northeastern) | Coastal Prairie (southwestern 2) | Coastal Prairie (southwestern 1),,pass,
+Padre Island,island,resolved,03.07,Padre Island,,pass,
+Rio Grande Valley,floodplain,resolved,"02.02, 02.05",Rio Grande Valley (western) | Rio Grande Valley (eastern),,pass,
+South Texas Sand Sheet,desert,resolved,"03.06, 03.04",South Texas Sand Sheet (eastern) | South Texas Sand Sheet (western),,pass,
+Brush Country,plain,resolved,"04.24, 04.17, 04.03, 04.14, 04.23",Brush Country (northeastern) | Brush Country (southeastern 1) | Brush Country (northwestern) | Brush Country (southern) | Brush Country (southeastern 2),,pass,
+Edwards Plateau,plateau,resolved,"10.13, 10.24",Edwards Plateau | San Saba Valley (western),,pass,
+Hill Country,hills,resolved,"10.37, 10.36",Hill Country (southeastern) | Hill Country (northwestern),,pass,
+Balcones Escarpment,escarpment,resolved,"04.11, 10.39",Balcones Escarpment (southwestern) | Balcones Escarpment (northeastern),,pass,
+Llano Uplift,basin,resolved,"11.04, 11.06",Llano Uplift | Enchanted Rock,,pass,
+Stockton Plateau,plateau,resolved,"10.10, 10.09, 10.07",Stockton Plateau (southern) | Stockton Plateau (northern) | Sierra Madera,,pass,
+Monahans Sandhills,desert,not resolved,14.08,Smooth or irregular plains east of Monahans,,fail,dune share 0% < 10%
+Guadalupe Mountains,range,resolved,13.13,Guadalupe Mountains,,pass,
+Salt Basin,basin,resolved,13.11,Salt Basin,,pass,
+Diablo Plateau,plateau,resolved,13.06,Diablo Plateau and Eagle Flat,,pass,
+Franklin Mountains,range,resolved,13.01,Franklin Mountains,,pass,
+Hueco Bolson,basin,partly resolved,13.02,Hueco Mountains,,pass,
+Davis Mountains,range,partly resolved,"13.25, 13.24",Marfa Plateau | Davis Mountains,Marfa Plateau,pass,relief 117 m < 200
+Marfa Plateau,plateau,resolved,13.25,Marfa Plateau,,pass,
+Chisos Mountains,massif,resolved,13.32,Chisos Mountains,,pass,

@@ -1,0 +1,54 @@
+feature,kind,status,l3_codes,l3_names,shares_unit_with,character_test,notes
+Sandal Bar,bar,resolved,01.13,Sandal Bar,,pass,
+Kirana Bar,bar,resolved,01.12,Kirana Bar,,pass,
+Ganji Bar,bar,resolved,01.11,Ganji Bar,,pass,
+Neeli Bar,bar,not resolved,01.02,Active river floodplain (bela/kacha) southeast of Multan,,fail,bar_upland share 0% < 35%
+Kirana Hills,hills,not resolved,01.12,Kirana Bar,Kirana Bar,fail,relief 16 m < 60; dominant substrate is Quaternary alluvium and fans
+Thal Desert,desert,resolved,"02.06, 02.05",Thal Desert | Alluvial bar upland (old interfluve surface) north of Multan,,pass,median height above drainage 6.5 m < 7
+Cholistan Desert,desert,resolved,"04.18, 04.14",Active river floodplain (bela/kacha) southeast of Bahawalpur | Cholistan Desert,,pass,dune share 2% < 8%
+"Pachad (Sulaiman piedmont, Dera Ghazi Khan)",piedmont,not resolved,"17.02, 17.06",Alluvial bar upland (old interfluve surface) southwest of Dera Ghazi Khan | Alluvial bar upland (old interfluve surface) north of Dera Ghazi Khan,,fail,upland share 0% < 20% | upland share 0% < 20%
+"Daman (Sulaiman piedmont, Dera Ismail Khan)",piedmont,resolved,17.08,"Daman (Sulaiman piedmont, Dera Ismail Khan)",,pass,
+Potohar Plateau,plateau,resolved,"06.13, 06.12",Potohar Plateau (northern) | Potohar Plateau (southern),,pass,
+Salt Range,range,resolved,"06.11, 06.08",Salt Range | Plains with hills northeast of Mianwali,,pass,relief 130 m < 250
+Margalla Hills,hills,not resolved,06.13,Potohar Plateau (northern),Potohar Plateau,fail,relief 177 m < 300
+Peshawar Basin,basin,resolved,"07.43, 07.41",Plains with mountains east of Mardan | Peshawar Basin,,pass,slope 6.7° > 5
+Kohat Basin,basin,resolved,07.38,Kohat Basin,,pass,
+Bannu Basin,basin,resolved,"06.01, 07.30",Surghar and Khisor Ranges and Bannu Basin | Bannu Basin,,pass,
+Tirah,range,resolved,07.27,Tirah,,pass,
+North Waziristan,range,resolved,07.20,North Waziristan,,pass,
+South Waziristan,range,resolved,07.10,South Waziristan,,pass,
+Sulaiman Range,range,resolved,"08.23, 08.32, 08.28",Sulaiman Range (southwestern) | Sulaiman Range (northern) | Sulaiman Range (southeastern),,pass,
+Zhob Valley,valley,partly resolved,"08.15, 08.07",Zhob Valley and Toba Kakar Range | Zhob Valley,Toba Kakar Range,pass,
+Toba Kakar Range,range,partly resolved,"08.01, 08.15",Toba Kakar Range | Zhob Valley and Toba Kakar Range,Zhob Valley,pass,
+Quetta Valley,valley,resolved,10.18,Quetta Valley,,pass,
+Kachhi Plain,plain,resolved,05.04,Kachhi Plain,,pass,
+Kirthar Range,range,resolved,"09.24, 09.16",Plains with hills northwest of Sehwan | Kirthar Range,,pass,relief 204 m < 300
+Sindh Kohistan,hills,resolved,"03.08, 09.21",Sindh Kohistan (southeastern) | Sindh Kohistan (northwestern),,pass,
+Lower Indus floodplain,floodplain,not resolved,"03.20, 03.33",Older meander and cover floodplain east of Sehwan | Dune field south of Khairpur (3),,fail,active_floodplain share 28% < 30% | active_floodplain share 1% < 30%
+Indus Delta and creeks,delta,resolved,"03.28, 03.07",Indus Delta and creeks (eastern) | Indus Delta and creeks (western),,pass,
+Thar Desert,desert,resolved,"04.07, 04.10",Thar Desert (western) | Thar Desert (eastern),,pass,
+Nagarparkar granite (Karoonjhar Hills),hills,not resolved,04.12,Alluvial bar upland (old interfluve surface) east of Mithi,,fail,dominant substrate is Quaternary alluvium and fans
+Lasbela Plain,plain,resolved,09.04,Lasbela Plain,,pass,
+Hingol,valley,resolved,12.25,Hingol,,pass,
+Makran coast,coast,not mapped,,,,,anchor point(s) fall outside the study area or on no unit
+Makran Coast Range,range,not resolved,"12.06, 12.17",Kech Valley | Plains with hills northwest of Ormara,,fail,relief 174 m < 200 | relief 151 m < 200
+Central Makran Range,range,resolved,12.10,Central Makran Range,,pass,
+Kharan Desert,desert,resolved,"11.15, 11.17",Kharan Desert | Smooth or irregular plains south of Dalbandin,,pass,dune share 3% < 10%
+Chagai Hills,hills,resolved,"11.16, 25.20",Chagai Hills (eastern) | Chagai Hills (western),,pass,
+Ras Koh,range,resolved,11.22,Ras Koh,,pass,
+Swat,valley,resolved,"13.32, 13.35",Swat (southern) | Swat (northern),,pass,
+Dir,valley,resolved,13.28,Dir,,pass,
+Chitral,valley,resolved,"13.29, 13.34",Chitral (southwestern) | Chitral (northeastern),,pass,
+Kaghan Valley,valley,resolved,15.05,Kaghan Valley,,pass,
+Neelum Valley,valley,resolved,"15.17, 15.10",Neelum Valley (eastern) | Neelum Valley (western),,pass,
+Poonch,hills,resolved,16.10,Poonch,,pass,
+Mirpur,hills,resolved,16.12,Mirpur,,pass,
+Nanga Parbat massif,massif,resolved,15.12,Nanga Parbat massif,,pass,
+Deosai Plateau,plateau,not resolved,15.27,High mountains south of Skardu (3),,fail,slope 20.9° > 15
+Gilgit,valley,resolved,14.01,Gilgit,,pass,
+Hunza,valley,resolved,"14.08, 14.02",Hunza (eastern) | Hunza (western),,pass,
+Baltistan (Skardu-Shigar),valley,resolved,"14.18, 15.24",Central Karakoram (Baltoro-Hispar) and Baltistan (Skardu-Shigar) | Baltistan (Skardu-Shigar),,pass,
+Bari Doab,doab,resolved,"01.29, 01.11",,,,"doab area 30,324 km²; interfluve purity 100% (2 interfluve units inside, 0 straddle a bounding river; 17 river-corridor units excluded)"
+Rechna Doab,doab,resolved,"01.24, 01.13, 01.36, 01.39, 01.37",,,,"doab area 31,381 km²; interfluve purity 98% (5 interfluve units inside, 7 straddle a bounding river; 18 river-corridor units excluded)"
+Chaj Doab,doab,partly resolved,"01.12, 01.25, 01.21",,,,"doab area 13,967 km²; interfluve purity 80% (3 interfluve units inside, 6 straddle a bounding river; 7 river-corridor units excluded)"
+Sindh Sagar Doab,doab,resolved,"02.06, 02.07, 02.04, 02.09, 02.05, 02.10",,,,"doab area 32,003 km²; interfluve purity 88% (6 interfluve units inside, 1 straddle a bounding river; 14 river-corridor units excluded)"

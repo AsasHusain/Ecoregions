@@ -1,0 +1,32 @@
+unit,code,name,resolve_main,resolve_share
+1,22.01,High Plains Shortgrass Prairie & Playas,Western shortgrass prairie,0.972
+2,21.02,Shinnery Oak Sandhills — High Plains (northern),Western shortgrass prairie,1.0
+3,20.01,Rolling Plains Mesquite–Juniper Shrublands & Breaks,Central-Southern US mixed grasslands,0.471
+4,21.03,Shinnery Oak Sandhills — North-Central Plains,Central-Southern US mixed grasslands,0.985
+5,7.01,Piney Woods Pine–Oak Forests,Piney Woods,0.791
+6,14.01,East Texas Oak Woodlands & Tallgrass Prairies — Blackland Prairies,Texas blackland prairies,0.666
+7,13.01,Central Texas Oak Savannas & Prairies — Interior Coastal Plains,Cross-Timbers savanna-woodland,0.352
+8,21.01,Shinnery Oak Sandhills — High Plains (southern),Western shortgrass prairie,0.768
+9,13.02,Central Texas Oak Savannas & Prairies — North-Central Plains,Cross-Timbers savanna-woodland,0.997
+10,17.01,Edwards Plateau Oak–Juniper Woodlands & Savannas,Edwards Plateau savanna,0.834
+11,23.01,Chihuahuan Desert Scrub,Chihuahuan desert,0.859
+12,24.02,Chihuahuan Desert Grasslands — Trans-Pecos Basins and Ranges (northwestern),Chihuahuan desert,1.0
+13,14.04,East Texas Oak Woodlands & Tallgrass Prairies — Interior Coastal Plains (northern),East Central Texas forests,0.993
+14,14.02,East Texas Oak Woodlands & Tallgrass Prairies — Interior Coastal Plains (northeastern),East Central Texas forests,0.808
+15,18.02,Stockton Plateau Juniper & Lechuguilla Scrub — Edwards Plateau (northeastern),Edwards Plateau savanna,0.996
+16,19.01,Llano Uplift Oak Woodlands & Granite Outcrops,Edwards Plateau savanna,0.856
+17,8.01,Big Thicket Longleaf Pine & Mixed Forests,Piney Woods,0.965
+18,24.01,Chihuahuan Desert Grasslands — Trans-Pecos Basins and Ranges (southeastern),Chihuahuan desert,0.97
+19,18.01,Stockton Plateau Juniper & Lechuguilla Scrub — Edwards Plateau (southwestern),Chihuahuan desert,0.899
+20,25.01,Trans-Pecos Pinyon–Juniper–Oak Woodlands,Sierra Madre Oriental pine-oak forests,0.533
+21,2.01,Gulf Coastal Prairies,Western Gulf coastal grasslands,0.658
+22,14.03,East Texas Oak Woodlands & Tallgrass Prairies — Interior Coastal Plains (southern),Texas blackland prairies,0.806
+23,1.01,"Gulf Coast Marshes, Tidal Flats & Barrier Islands — South Texas Sand Sheet",Western Gulf coastal grasslands,1.0
+24,6.01,East Texas Bottomland Forests & Swamps — Coastal Prairies and Marshes (western),Western Gulf coastal grasslands,1.0
+25,5.01,Tamaulipan Thornscrub,Tamaulipan mezquital,0.926
+26,6.02,East Texas Bottomland Forests & Swamps — Coastal Prairies and Marshes (eastern),Western Gulf coastal grasslands,1.0
+27,3.01,South Texas Sand Sheet Grasslands,Western Gulf coastal grasslands,0.88
+28,4.01,Rio Grande Delta Subtropical Woodlands,Western Gulf coastal grasslands,0.997
+29,1.04,"Gulf Coast Marshes, Tidal Flats & Barrier Islands — Coastal Prairies and Marshes (northeastern) 1",Western Gulf coastal grasslands,1.0
+30,1.03,"Gulf Coast Marshes, Tidal Flats & Barrier Islands — Coastal Prairies and Marshes (southwestern)",Western Gulf coastal grasslands,1.0
+31,1.02,"Gulf Coast Marshes, Tidal Flats & Barrier Islands — Coastal Prairies and Marshes (northeastern) 2",Western Gulf coastal grasslands,0.997

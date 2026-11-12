@@ -1,0 +1,4 @@
+a,b,k,adjusted_rand,nmi
+all,birds,15,0.766,0.785
+all,mammals+reptiles+amphibians,15,0.587,0.727
+birds,mammals+reptiles+amphibians,15,0.515,0.671

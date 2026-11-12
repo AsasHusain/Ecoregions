@@ -1,0 +1,224 @@
+# Gazetteer of named physiographic units used to NAME L3 units and to CROSS-CHECK
+# whether the delineation resolves them.
+#
+# Coordinates are approximate reference points (lon, lat; WGS84) placed from
+# general geographic knowledge and standard maps, typically to ±5–10 km. They
+# are anchors inside a feature, NOT boundaries. Correct or add points here and
+# rerun `make names` — no code changes needed.
+#
+# Naming rule: a feature with an `expect` test names a unit only if the unit
+# passes that test; otherwise it is listed under also_contains as not resolved
+# at this scale (e.g. small inselbergs absorbed into a plains unit).
+#
+# Fields
+#   name      display name (used verbatim for the L3 unit name)
+#   kind      landform class (bar, doab, floodplain, desert, hills, range,
+#             plateau, basin, valley, massif, coast, delta, plain, piedmont)
+#   points    one or more anchor points; a feature spanning several L3 units
+#             gets one name per unit with a positional suffix
+#   priority  lower wins when several features fall in one L3 unit
+#   check     include in the cross-check report (the list requested in the brief)
+#   expect    character test for "resolved" (optional):
+#               hand_class/min_frac, hand_min (median m), dune_min, relief_min/relief_max (5 km relief, m),
+#               elev_min/elev_max (m), litho (group name substring), slope_min/slope_max (deg)
+#   may_share names of features allowed to fall in the same L3 unit
+
+features:
+  # --- Punjab doab interfluves (bars) and plains ---------------------------
+  - {name: Sandal Bar, kind: bar, points: [[73.05, 31.45], [72.75, 31.25]], priority: 1, check: true,
+     expect: {hand_class: bar_upland, min_frac: 0.35}}
+  - {name: Kirana Bar, kind: bar, points: [[72.85, 32.05], [72.55, 31.85]], priority: 1, check: true,
+     expect: {hand_class: bar_upland, min_frac: 0.35}}
+  - {name: Ganji Bar, kind: bar, points: [[73.45, 30.75]], priority: 1, check: true,
+     expect: {hand_class: bar_upland, min_frac: 0.35}}
+  - {name: Neeli Bar, kind: bar, points: [[72.85, 30.15]], priority: 1, check: true,
+     expect: {hand_class: bar_upland, min_frac: 0.35}}
+  - {name: Kirana Hills, kind: hills, points: [[72.72, 31.97]], priority: 0, check: true,
+     expect: {litho: Precambrian, relief_min: 60}}
+  - {name: Thal Desert, kind: desert, points: [[71.55, 31.55], [71.75, 30.95], [71.35, 32.15]], priority: 1, check: true,
+     expect: {hand_min: 7}}
+  - {name: Cholistan Desert, kind: desert, points: [[71.8, 28.6], [72.6, 29.15], [71.0, 28.2]], priority: 1, check: true,
+     expect: {dune_min: 0.08}}
+  - {name: "Pachad (Sulaiman piedmont, Dera Ghazi Khan)", kind: piedmont, points: [[70.58, 30.2], [70.35, 29.6]],
+     priority: 1, check: true, expect: {slope_max: 4, hand_class: upland, min_frac: 0.2}}
+  - {name: "Daman (Sulaiman piedmont, Dera Ismail Khan)", kind: piedmont, points: [[70.55, 31.95]], priority: 1, check: true,
+     expect: {slope_max: 4}}
+  - {name: Chenab-Jhelum active floodplain, kind: floodplain, points: [[72.2, 31.0]], priority: 2,
+     expect: {hand_class: active_floodplain, min_frac: 0.35}}
+  - {name: Indus riverine (Punjab kacha), kind: floodplain, points: [[70.9, 30.6], [71.2, 31.6]], priority: 2,
+     expect: {hand_class: active_floodplain, min_frac: 0.35}}
+  - {name: Bahawalpur plains, kind: plain, points: [[71.7, 29.4]], priority: 3}
+  - {name: Lahore-Gujranwala plains, kind: plain, points: [[74.0, 31.9]], priority: 3}
+  - {name: Siwalik and Pabbi hills, kind: hills, points: [[73.85, 32.85]], priority: 2, expect: {relief_min: 60}}
+
+  # --- Potohar, Salt Range and the northwest -------------------------------
+  - {name: Potohar Plateau, kind: plateau, points: [[72.95, 33.15], [73.2, 33.4]], priority: 1, check: true,
+     expect: {elev_min: 300, elev_max: 800}}
+  - {name: Salt Range, kind: range, points: [[72.55, 32.68], [71.95, 32.75]], priority: 0, check: true,
+     expect: {relief_min: 250}}
+  - {name: Margalla Hills, kind: hills, points: [[73.05, 33.76]], priority: 0, check: true, expect: {relief_min: 300}}
+  - {name: Kala Chitta Range, kind: range, points: [[72.45, 33.65]], priority: 1, expect: {relief_min: 250}}
+  - {name: Surghar and Khisor Ranges, kind: range, points: [[71.3, 32.85], [70.85, 32.35]], priority: 1, expect: {relief_min: 150}}
+  - {name: Peshawar Basin, kind: basin, points: [[71.85, 34.1], [72.15, 34.2]], priority: 1, check: true,
+     expect: {elev_max: 600, slope_max: 5}}
+  - {name: Kohat Basin, kind: basin, points: [[71.55, 33.5]], priority: 1, check: true, expect: {elev_max: 1000}}
+  - {name: Bannu Basin, kind: basin, points: [[70.6, 32.9], [70.8, 32.6]], priority: 1, check: true,
+     expect: {elev_max: 600, slope_max: 5}}
+  - {name: Tirah, kind: range, points: [[70.95, 33.8]], priority: 1, check: true, expect: {relief_min: 400}}
+  - {name: North Waziristan, kind: range, points: [[70.05, 32.95]], priority: 1, check: true, may_share: [South Waziristan]}
+  - {name: South Waziristan, kind: range, points: [[69.7, 32.35]], priority: 1, check: true, may_share: [North Waziristan]}
+
+  # --- Sulaiman, Toba Kakar, Quetta, Kachhi --------------------------------
+  - {name: Sulaiman Range, kind: range, points: [[69.95, 30.35], [70.0, 31.55], [69.85, 29.85]], priority: 1, check: true,
+     expect: {relief_min: 300}}
+  - {name: Marri-Bugti Hills, kind: hills, points: [[69.1, 29.15], [69.0, 29.6]], priority: 1, expect: {relief_min: 150}}
+  - {name: Zhob Valley, kind: valley, points: [[69.2, 31.2], [68.75, 31.0]], priority: 1, check: true}
+  - {name: Toba Kakar Range, kind: range, points: [[67.8, 30.95], [68.4, 31.15]], priority: 1, check: true,
+     expect: {elev_min: 1500}}
+  - {name: Quetta Valley, kind: valley, points: [[67.0, 30.2]], priority: 0, check: true, may_share: [Pishin Valley],
+     expect: {elev_min: 1400}}
+  - {name: Pishin Valley, kind: valley, points: [[67.0, 30.55]], priority: 1, may_share: [Quetta Valley]}
+  - {name: Kachhi Plain, kind: plain, points: [[68.0, 28.8], [67.85, 29.3]], priority: 1, check: true,
+     expect: {elev_max: 300, slope_max: 3}}
+  - {name: Bolan Pass, kind: valley, points: [[67.55, 29.75]], priority: 2}
+
+  # --- Kirthar, Sindh, Thar --------------------------------------------------
+  - {name: Kirthar Range, kind: range, points: [[67.2, 27.0], [67.35, 26.3]], priority: 1, check: true,
+     expect: {relief_min: 300}}
+  - {name: Sindh Kohistan, kind: hills, points: [[67.7, 25.4], [67.55, 25.75]], priority: 1, check: true}
+  - {name: Laki Range and Manchar, kind: hills, points: [[67.8, 26.15]], priority: 2, expect: {relief_min: 100}}
+  - {name: Lower Indus floodplain, kind: floodplain, points: [[68.33, 25.9], [68.0, 26.7], [68.75, 27.3]], priority: 1,
+     check: true, expect: {hand_class: active_floodplain, min_frac: 0.3}}
+  - {name: Indus Delta and creeks, kind: delta, points: [[67.55, 24.15], [67.9, 24.2]], priority: 0, check: true,
+     expect: {elev_max: 15}}
+  - {name: Rohri Hills, kind: hills, points: [[69.0, 27.55]], priority: 1, expect: {relief_min: 50}}
+  - {name: Nara valley (Achro Thar margin), kind: plain, points: [[69.3, 26.4]], priority: 2}
+  - {name: Thar Desert, kind: desert, points: [[70.25, 25.0], [70.4, 26.2], [70.0, 24.6]], priority: 1, check: true,
+     expect: {dune_min: 0.15}}
+  - {name: Nagarparkar granite (Karoonjhar Hills), kind: hills, points: [[70.75, 24.35]], priority: 0, check: true,
+     expect: {litho: Precambrian}}
+  - {name: Rann of Kutch margin, kind: coast, points: [[69.8, 24.1]], priority: 2}
+
+  # --- Balochistan -------------------------------------------------------------
+  - {name: Lasbela Plain, kind: plain, points: [[66.5, 25.95]], priority: 1, check: true, expect: {slope_max: 4}}
+  - {name: Pab Range, kind: range, points: [[66.85, 25.8]], priority: 1, expect: {relief_min: 200}}
+  - {name: Hingol, kind: valley, points: [[65.5, 25.6]], priority: 1, check: true}
+  - {name: Makran coast, kind: coast, points: [[63.8, 25.35], [62.4, 25.2], [64.9, 25.3]], priority: 1, check: true,
+     expect: {elev_max: 200}}
+  - {name: Makran Coast Range, kind: range, points: [[64.4, 25.6], [63.4, 25.6]], priority: 1, check: true,
+     expect: {relief_min: 200}}
+  - {name: Central Makran Range, kind: range, points: [[64.5, 26.5], [63.4, 26.45]], priority: 1, check: true,
+     expect: {relief_min: 200}}
+  - {name: Kech Valley, kind: valley, points: [[63.05, 26.0]], priority: 1}
+  - {name: Siahan Range, kind: range, points: [[64.5, 27.0]], priority: 2}
+  - {name: Kharan Desert, kind: desert, points: [[64.6, 28.3], [64.0, 28.0]], priority: 1, check: true,
+     expect: {dune_min: 0.1}}
+  - {name: Hamun-i-Mashkel, kind: basin, points: [[63.0, 28.25]], priority: 1}
+  - {name: Chagai Hills, kind: hills, points: [[63.9, 29.45], [64.6, 29.4]], priority: 1, check: true}
+  - {name: Ras Koh, kind: range, points: [[65.1, 28.85]], priority: 1, check: true, expect: {relief_min: 300}}
+  - {name: Western Chagai desert, kind: desert, points: [[62.0, 29.2]], priority: 2}
+  - {name: Kalat Plateau, kind: plateau, points: [[66.6, 29.0]], priority: 1, expect: {elev_min: 1500}}
+  - {name: Khuzdar uplands, kind: plateau, points: [[66.6, 27.8]], priority: 2}
+
+  # --- Northern mountains ----------------------------------------------------
+  - {name: Swat, kind: valley, points: [[72.4, 35.0], [72.5, 35.45]], priority: 1, check: true}
+  - {name: Dir, kind: valley, points: [[71.85, 35.15]], priority: 1, check: true}
+  - {name: Chitral, kind: valley, points: [[71.8, 35.9], [72.4, 36.3]], priority: 1, check: true}
+  - {name: Hindu Kush crest (Tirich Mir), kind: massif, points: [[71.85, 36.25]], priority: 2}
+  - {name: Kaghan Valley, kind: valley, points: [[73.6, 34.85]], priority: 1, check: true}
+  - {name: Neelum Valley, kind: valley, points: [[74.0, 34.65], [74.4, 34.8]], priority: 1, check: true}
+  - {name: Hazara hills, kind: hills, points: [[73.2, 34.15]], priority: 2}
+  - {name: Murree hills, kind: hills, points: [[73.4, 33.9]], priority: 2}
+  - {name: Poonch, kind: hills, points: [[73.8, 33.85]], priority: 1, check: true}
+  - {name: Mirpur, kind: hills, points: [[73.75, 33.2]], priority: 1, check: true}
+  - {name: Nanga Parbat massif, kind: massif, points: [[74.6, 35.25]], priority: 0, check: true,
+     expect: {elev_min: 3000}}
+  - {name: Deosai Plateau, kind: plateau, points: [[75.45, 35.0]], priority: 0, check: true,
+     expect: {elev_min: 3800, slope_max: 15}}
+  - {name: Gilgit, kind: valley, points: [[74.3, 35.92]], priority: 1, check: true}
+  - {name: Hunza, kind: valley, points: [[74.65, 36.32], [75.0, 36.6]], priority: 1, check: true}
+  - {name: Baltistan (Skardu-Shigar), kind: valley, points: [[75.6, 35.3], [75.75, 35.55]], priority: 1, check: true}
+  - {name: Kohistan (Indus gorge), kind: valley, points: [[73.2, 35.3]], priority: 2}
+  - {name: Astore, kind: valley, points: [[74.85, 35.35]], priority: 2}
+  - {name: Central Karakoram (Baltoro-Hispar), kind: massif, points: [[76.0, 35.8], [75.2, 36.0]], priority: 1}
+  - {name: Khunjerab and Shimshal, kind: massif, points: [[75.3, 36.75]], priority: 2}
+
+# Doabs are checked as regions: the alluvial plain is cut along the major river
+# channels and the component containing the point is the doab.
+doabs:
+  - {name: Bari Doab, point: [73.3, 30.9], rivers: [Ravi, Sutlej]}
+  - {name: Rechna Doab, point: [73.3, 31.6], rivers: [Ravi, Chenab]}
+  - {name: Chaj Doab, point: [73.1, 32.3], rivers: [Chenab, Jhelum]}
+  - {name: Sindh Sagar Doab, point: [71.6, 31.3], rivers: [Jhelum, Indus]}
+
+# Towns for direction references in provisional names (not used as unit names).
+places:
+  - [Lahore, 74.35, 31.55]
+  - [Faisalabad, 73.08, 31.42]
+  - [Multan, 71.47, 30.2]
+  - [Bahawalpur, 71.68, 29.4]
+  - [Rahim Yar Khan, 70.3, 28.42]
+  - [Sargodha, 72.67, 32.08]
+  - [Jhang, 72.32, 31.27]
+  - [Sahiwal, 73.1, 30.66]
+  - [Gujranwala, 74.19, 32.16]
+  - [Sialkot, 74.53, 32.49]
+  - [Gujrat, 74.08, 32.57]
+  - [Jhelum, 73.73, 32.93]
+  - [Mianwali, 71.54, 32.58]
+  - [Bhakkar, 71.06, 31.63]
+  - [Layyah, 70.94, 30.96]
+  - [Dera Ghazi Khan, 70.63, 30.05]
+  - [Dera Ismail Khan, 70.9, 31.83]
+  - [Rawalpindi, 73.05, 33.6]
+  - [Chakwal, 72.86, 32.93]
+  - [Attock, 72.36, 33.77]
+  - [Peshawar, 71.57, 34.0]
+  - [Mardan, 72.05, 34.2]
+  - [Kohat, 71.44, 33.58]
+  - [Bannu, 70.6, 32.99]
+  - [Abbottabad, 73.21, 34.15]
+  - [Mingora, 72.36, 34.78]
+  - [Chitral, 71.79, 35.85]
+  - [Gilgit, 74.31, 35.92]
+  - [Skardu, 75.63, 35.3]
+  - [Muzaffarabad, 73.47, 34.37]
+  - [Mirpur, 73.75, 33.15]
+  - [Zhob, 69.45, 31.34]
+  - [Loralai, 68.6, 30.37]
+  - [Quetta, 67.0, 30.18]
+  - [Sibi, 67.88, 29.55]
+  - [Kalat, 66.58, 29.03]
+  - [Khuzdar, 66.61, 27.8]
+  - [Kharan, 65.42, 28.58]
+  - [Nushki, 66.02, 29.55]
+  - [Dalbandin, 64.4, 28.89]
+  - [Panjgur, 64.1, 26.97]
+  - [Turbat, 63.05, 26.0]
+  - [Gwadar, 62.32, 25.13]
+  - [Pasni, 63.47, 25.26]
+  - [Ormara, 64.64, 25.2]
+  - [Uthal, 66.62, 25.8]
+  - [Karachi, 67.01, 24.86]
+  - [Thatta, 67.92, 24.75]
+  - [Hyderabad, 68.37, 25.39]
+  - [Badin, 68.84, 24.65]
+  - [Mithi, 69.8, 24.74]
+  - [Umerkot, 69.73, 25.36]
+  - [Nawabshah, 68.41, 26.24]
+  - [Sehwan, 67.87, 26.42]
+  - [Larkana, 68.21, 27.56]
+  - [Sukkur, 68.86, 27.7]
+  - [Jacobabad, 68.44, 28.28]
+  - [Khairpur, 68.76, 27.53]
+  - [Dera Bugti, 69.15, 29.03]
+  - [Barkhan, 69.52, 29.9]
+  - [Kohlu, 69.25, 29.9]
+  - [Wana, 69.57, 32.3]
+  - [Miranshah, 70.07, 33.0]
+  - [Parachinar, 70.1, 33.9]
+  - [Chilas, 74.1, 35.42]
+  - [Astore, 74.86, 35.37]
+  - [Karimabad, 74.66, 36.32]
+  - [Rawalakot, 73.76, 33.86]
+  - [Kotli, 73.9, 33.52]

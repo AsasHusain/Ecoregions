@@ -1,0 +1,52 @@
+taxon,cell_deg,partition,units,purity,loss,skill,boundary_contrast,anosim_R_simpson,anosim_z_voronoi
+plants,0.25,ours,27.0,0.9066,0.009,0.0682,0.0085,0.6325,0.6243
+plants,0.25,RESOLVE,10.0,0.9297,0.0089,0.0713,0.0068,0.5458,0.0519
+plants,0.25,our faunal ecoregions,13.0,0.9257,0.0089,0.0718,-0.0016,0.5883,0.2993
+plants,0.25,EPA Level III,12.0,0.9095,0.0089,0.071,0.0063,0.5807,0.4486
+plants,0.25,EPA Level IV,43.0,0.8089,0.009,0.0634,0.0074,0.6313,-0.357
+plants,0.25,ours coarsened to RESOLVE's 12 units,13.0,0.9269,0.009,0.0708,0.0054,0.623,1.1746
+plants,0.25,climate k-means (12),13.0,0.93,0.0089,0.0719,-0.0006,0.6357,1.4469
+plants,0.25,climate k-means (31),31.0,0.8775,0.009,0.0666,0.0011,0.6731,1.3179
+plants,0.25,"ours, centre point (old test)",27.0,,0.009,0.0686,0.0097,0.6347,0.5362
+plants,0.25,"RESOLVE, centre point (old test)",13.0,,0.0089,0.0712,0.0096,0.5399,-0.5324
+plants,0.25,"control: ours, units renamed",27.0,0.9066,0.009,0.0682,0.0085,0.6325,0.2827
+plants,0.25,"control: ours, boundary patches moved",27.0,,0.009,0.0649,0.0042,0.6245,0.3797
+plants,0.25,"control: ours, units split in two",45.0,,0.009,0.0648,0.0052,0.6696,0.9027
+plants,0.25,random contiguous (our count),31.0,,0.009,0.064,-0.0016,,
+plants,0.25,random contiguous (RESOLVE's count),12.0,,0.009,0.064,-0.0024,,
+plants,0.25,overall-frequency prior,,,0.0096,0.0,,,
+plants,0.25,spatial-only (nearest development cells),,,0.0091,0.0596,,,
+plants,0.125,ours,27.0,0.9355,0.0085,0.0775,0.0088,0.6145,2.1104
+plants,0.125,RESOLVE,12.0,0.9515,0.0085,0.078,0.0073,0.5396,0.9687
+plants,0.125,our faunal ecoregions,13.0,0.9484,0.0085,0.0787,-0.0028,0.5256,0.7266
+plants,0.125,EPA Level III,13.0,0.9422,0.0086,0.0765,0.006,0.5417,0.9554
+plants,0.125,EPA Level IV,49.0,0.8661,0.0086,0.0764,0.0096,0.6048,1.3053
+plants,0.125,ours coarsened to RESOLVE's 12 units,13.0,0.9485,0.0086,0.0749,0.0067,0.5911,2.0141
+plants,0.125,climate k-means (12),13.0,0.9455,0.0085,0.0785,-0.0051,0.5773,1.6574
+plants,0.125,climate k-means (31),32.0,0.9113,0.0085,0.0801,-0.0007,0.6109,1.6606
+plants,0.125,"ours, centre point (old test)",28.0,,0.0085,0.0796,0.008,0.6179,2.1913
+plants,0.125,"RESOLVE, centre point (old test)",13.0,,0.0086,0.0772,0.0075,0.5426,1.021
+plants,0.125,"control: ours, units renamed",27.0,0.9355,0.0085,0.0775,0.0088,0.6145,1.9584
+plants,0.125,"control: ours, boundary patches moved",28.0,,0.0086,0.0755,0.0059,0.5962,1.4855
+plants,0.125,"control: ours, units split in two",49.0,,0.0086,0.0742,0.0081,0.6054,1.4447
+plants,0.125,random contiguous (our count),32.0,,0.0086,0.0762,-0.0003,,
+plants,0.125,random contiguous (RESOLVE's count),13.0,,0.0086,0.071,-0.0013,,
+plants,0.125,overall-frequency prior,,,0.0093,0.0,,,
+plants,0.125,spatial-only (nearest development cells),,,0.0087,0.0651,,,
+birds,0.25,ours,29.0,0.9103,0.0406,0.1249,0.001,0.4921,-0.8116
+birds,0.25,RESOLVE,10.0,0.9343,0.0401,0.1369,-0.002,0.4209,-0.5906
+birds,0.25,our faunal ecoregions,13.0,0.9284,0.0401,0.1366,0.0059,0.4935,0.5053
+birds,0.25,EPA Level III,12.0,0.9141,0.0399,0.1402,0.0023,0.4602,-0.0238
+birds,0.25,EPA Level IV,43.0,0.8171,0.0409,0.1192,0.007,0.5012,-0.8609
+birds,0.25,ours coarsened to RESOLVE's 12 units,13.0,0.9304,0.0404,0.1311,0.0012,0.4823,0.3096
+birds,0.25,climate k-means (12),13.0,0.934,0.0403,0.1321,0.0014,0.4977,0.7482
+birds,0.25,climate k-means (31),31.0,0.8835,0.0409,0.1201,0.0054,0.5278,0.5869
+birds,0.25,"ours, centre point (old test)",29.0,,0.0406,0.1249,0.0038,0.4921,-0.23
+birds,0.25,"RESOLVE, centre point (old test)",13.0,,0.0401,0.1356,0.0041,0.4166,-1.2713
+birds,0.25,"control: ours, units renamed",29.0,0.9103,0.0406,0.1249,0.001,0.4921,-0.4465
+birds,0.25,"control: ours, boundary patches moved",29.0,,0.0409,0.1187,0.0017,0.4871,-0.7324
+birds,0.25,"control: ours, units split in two",48.0,,0.0411,0.1152,0.0034,0.4906,-1.4708
+birds,0.25,random contiguous (our count),31.0,,0.0409,0.1179,-0.0026,,
+birds,0.25,random contiguous (RESOLVE's count),12.0,,0.0407,0.1232,-0.003,,
+birds,0.25,overall-frequency prior,,,0.0464,0.0,,,
+birds,0.25,spatial-only (nearest development cells),,,0.04,0.1394,,,

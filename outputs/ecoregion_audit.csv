@@ -1,0 +1,84 @@
+code,name,type,area_km2,plant_records,records_per_1000km2,own_records,top_rival,rival_records,evidence,resolve_compatible,resolve_main,coherence,stability,flags,review
+01.01,Arabian Sea Mangroves & Salt Flats — Lower Indus Plain and Delta,delta_mangroves,8995.4,23,5.0,0,,0,"unverified, sparse data",0.494,Aravalli west thorn scrub forests,0.84,0.902,49 % in compatible RESOLVE units (main: Aravalli west thorn scrub forests),True
+01.02,Arabian Sea Mangroves & Salt Flats — Makran Ranges and Coast,delta_mangroves,1562.4,4,4.7,0,chagai_kharan,1,"unverified, sparse data",1.0,South Iran Nubo-Sindian desert and semi-desert,0.78,0.984,,False
+01.03,Arabian Sea Mangroves & Salt Flats — Kirthar Ranges,delta_mangroves,1379.4,2,3.3,0,,0,"unverified, sparse data",0.568,Indus River Delta-Arabian Sea mangroves,0.87,0.978,,False
+02.01,Indus Riverine Forests — Lower Indus Plain and Delta (northern),riverine,6123.2,43,13.5,0,,0,"unverified, sparse data",1.0,Aravalli west thorn scrub forests,0.93,0.936,,False
+02.02,Indus Riverine Forests — Upper Indus Plain (northern),riverine,5165.4,13,5.3,0,,0,"unverified, sparse data",0.926,Aravalli west thorn scrub forests,0.95,0.936,,False
+02.03,Indus Riverine Forests — Lower Indus Plain and Delta (southern),riverine,3205.9,9,5.3,0,,0,"unverified, sparse data",1.0,Aravalli west thorn scrub forests,0.98,0.928,,False
+02.04,Indus Riverine Forests — Upper Indus Plain (southwestern),riverine,2825.1,13,10.6,0,,0,"unverified, sparse data",1.0,Aravalli west thorn scrub forests,0.91,0.929,,False
+02.05,Indus Riverine Forests — Upper Indus Plain (southeastern),riverine,2276.8,9,7.8,0,,0,"unverified, sparse data",1.0,Aravalli west thorn scrub forests,0.73,0.947,,False
+02.06,Indus Riverine Forests — Lower Indus Plain and Delta (northeastern),riverine,1475.4,29,30.9,0,,0,"unverified, sparse data",1.0,Aravalli west thorn scrub forests,0.95,0.929,,False
+02.07,Indus Riverine Forests — Upper Indus Plain (northeastern),riverine,1129.8,3,7.0,0,,0,"unverified, sparse data",1.0,Aravalli west thorn scrub forests,0.94,0.97,,False
+03.01,Indus Plains Thorn Forests — Upper Indus Plain,indus_thorn,134409.5,1555,23.2,0,delta_mangroves,2,"unverified, adequate data but no indicators",0.929,Aravalli west thorn scrub forests,0.93,0.988,,False
+03.02,Indus Plains Thorn Forests — Derajat Plains,indus_thorn,6852.1,32,8.9,0,,0,"unverified, sparse data",0.943,Aravalli west thorn scrub forests,0.91,0.805,,False
+03.03,Indus Plains Thorn Forests — Peshawar Basins and Ranges (northeastern),indus_thorn,5247.6,569,223.8,0,olive_scrub,2,"unverified, adequate data but no indicators",0.0,Baluchistan xeric woodlands,0.9,0.927,0 % in compatible RESOLVE units (main: Baluchistan xeric woodlands),True
+03.04,Indus Plains Thorn Forests — Lower Indus Plain and Delta,indus_thorn,4926.1,6,2.5,0,,0,"unverified, sparse data",1.0,Aravalli west thorn scrub forests,0.97,0.988,,False
+03.05,Indus Plains Thorn Forests — Peshawar Basins and Ranges (southwestern),indus_thorn,1826.0,94,109.6,0,,0,"unverified, sparse data",1.0,Aravalli west thorn scrub forests,0.92,0.919,,False
+03.06,Indus Plains Thorn Forests — Kachhi Plain (southwestern),indus_thorn,1321.1,11,17.8,0,,0,"unverified, sparse data",0.647,Aravalli west thorn scrub forests,0.85,0.82,,False
+03.07,Indus Plains Thorn Forests — Kachhi Plain (northeastern),indus_thorn,1162.7,2,4.2,0,,0,"unverified, sparse data",0.802,Aravalli west thorn scrub forests,0.89,0.801,,False
+04.01,Thal Sand Desert,thal,24328.4,194,16.0,0,indus_thorn,1,untestable,1.0,Indus Valley desert,,0.996,,False
+05.01,Thar Desert — Thar Desert (southwestern),thar_cholistan,37561.9,23,1.2,0,,0,"unverified, sparse data",1.0,Thar desert,0.34,1.0,vegetation differs from the rest of its type (similarity 0.34),True
+05.02,Thar Desert — Thar Desert (northeastern),thar_cholistan,36519.5,462,25.4,3,delta_mangroves,5,supported,1.0,Thar desert,0.34,1.0,vegetation differs from the rest of its type (similarity 0.34),True
+06.01,Kachhi Plain Arid Thorn Scrub,kachhi,35312.0,80,4.5,0,xeric_woodland,1,untestable,0.998,Aravalli west thorn scrub forests,,0.911,,False
+07.01,Kirthar Hill & Valley Scrub,kirthar_lasbela,48903.7,86,3.5,0,delta_mangroves,1,untestable,0.989,Baluchistan xeric woodlands,,0.999,,False
+08.01,Makran Coastal Desert,makran_coast,25692.3,27,2.1,0,chagai_kharan,1,untestable,1.0,South Iran Nubo-Sindian desert and semi-desert,,0.921,,False
+09.01,Makran Ranges Dwarf-Palm Scrub,makran_ranges,60980.5,92,3.0,1,thar_cholistan,1,"unverified, sparse data",1.0,Baluchistan xeric woodlands,,0.978,,False
+10.01,Sulaiman Foothill Thorn Scrub — Sulaiman Ranges,sulaiman_piedmont,30158.4,539,35.4,0,riverine,1,untestable,1.0,Baluchistan xeric woodlands,0.92,0.882,,False
+10.02,Sulaiman Foothill Thorn Scrub — Derajat Plains,sulaiman_piedmont,1478.9,15,24.6,0,,0,untestable,0.922,Aravalli west thorn scrub forests,0.92,0.997,,False
+11.01,Subtropical Olive–Phulai Scrub Forests — Potohar Plateau,olive_scrub,72495.7,5922,163.8,36,siwalik,11,supported,0.938,Baluchistan xeric woodlands,0.57,0.962,,False
+11.02,Subtropical Olive–Phulai Scrub Forests — Sulaiman Ranges,olive_scrub,13383.5,184,27.2,0,indus_thorn,1,"unverified, sparse data",1.0,Baluchistan xeric woodlands,0.57,0.865,,False
+12.01,Siwalik Dry Deciduous Forests — Lesser Himalaya (southeastern),siwalik,9118.4,473,110.9,2,chir,6,"unverified, sparse data",0.655,Himalayan subtropical pine forests,0.93,0.971,,False
+12.02,Siwalik Dry Deciduous Forests — Lesser Himalaya (northwestern),siwalik,2259.4,260,234.5,0,,0,"unverified, sparse data",0.499,Baluchistan xeric woodlands,0.93,0.956,50 % in compatible RESOLVE units (main: Baluchistan xeric woodlands),True
+13.01,Iranian Plateau Juniper Woodlands — Sulaiman Ranges (southwestern),juniper,12382.2,299,48.1,0,xeric_woodland,3,"unverified, sparse data",1.0,Sulaiman Range alpine meadows,0.88,0.88,,False
+13.02,Iranian Plateau Juniper Woodlands — Sulaiman Ranges (northeastern),juniper,6145.4,22,7.2,0,xeric_woodland,1,"unverified, sparse data",1.0,East Afghan montane conifer forests,0.81,0.838,,False
+13.03,Iranian Plateau Juniper Woodlands — Central Balochistan Uplands,juniper,2865.3,17,10.8,0,xeric_woodland,1,"unverified, sparse data",1.0,Sulaiman Range alpine meadows,0.9,0.919,,False
+14.01,Balochistan Pistachio–Ash Xeric Woodlands — Central Balochistan Uplands (northeastern),xeric_woodland,9453.3,235,50.5,1,olive_scrub,1,"unverified, sparse data",1.0,Baluchistan xeric woodlands,0.73,0.883,,False
+14.02,Balochistan Pistachio–Ash Xeric Woodlands — Central Balochistan Uplands (northwestern),xeric_woodland,7931.8,14,3.4,0,,0,"unverified, sparse data",1.0,Baluchistan xeric woodlands,0.85,0.905,,False
+14.03,Balochistan Pistachio–Ash Xeric Woodlands — Kharan Deserts and Basins (northwestern),xeric_woodland,4167.9,4,1.7,0,,0,"unverified, sparse data",1.0,Registan-North Pakistan sandy desert,0.87,0.892,,False
+14.04,Balochistan Pistachio–Ash Xeric Woodlands — Central Balochistan Uplands (southern) 1,xeric_woodland,2558.4,1,0.8,0,,0,"unverified, sparse data",1.0,Baluchistan xeric woodlands,0.9,0.943,,False
+14.05,Balochistan Pistachio–Ash Xeric Woodlands — Kharan Deserts and Basins (southeastern),xeric_woodland,2243.6,3,2.7,0,,0,"unverified, sparse data",1.0,Baluchistan xeric woodlands,0.68,0.903,,False
+14.06,Balochistan Pistachio–Ash Xeric Woodlands — Central Balochistan Uplands (southern) 2,xeric_woodland,1237.6,1,1.3,0,,0,"unverified, sparse data",1.0,Baluchistan xeric woodlands,0.83,0.923,,False
+15.01,Iranian Plateau Artemisia Steppe — Paropamisus,artemisia,165173.5,1614,19.5,0,amu_darya,6,contradicted,0.841,Central Afghan Mountains xeric woodlands,0.11,0.913,"GBIF: 6 records of amu_darya indicators, 0 of its own; vegetation differs from the rest of its type (similarity 0.11)",True
+15.02,Iranian Plateau Artemisia Steppe — Central Balochistan Uplands (southwestern),artemisia,31649.7,949,60.6,1,xeric_woodland,4,"unverified, adequate data but no indicators",1.0,Baluchistan xeric woodlands,0.15,0.935,vegetation differs from the rest of its type (similarity 0.15),True
+15.03,Iranian Plateau Artemisia Steppe — Sulaiman Ranges,artemisia,15378.7,204,26.9,0,olive_scrub,2,"unverified, sparse data",1.0,Baluchistan xeric woodlands,0.22,0.852,vegetation differs from the rest of its type (similarity 0.22),True
+15.04,Iranian Plateau Artemisia Steppe — Hazarajat Highlands,artemisia,1746.0,57,59.8,0,xeric_woodland,1,"unverified, sparse data",1.0,Afghan Mountains semi-desert,0.69,0.861,,False
+15.05,Iranian Plateau Artemisia Steppe — Central Balochistan Uplands (northeastern),artemisia,1249.4,0,0.0,0,,0,"unverified, sparse data",1.0,Sulaiman Range alpine meadows,0.22,0.924,vegetation differs from the rest of its type (similarity 0.22),True
+16.01,Tugai Riparian Forests,tugai,1058.6,0,0.0,0,,0,"unverified, sparse data",1.0,Badghyz and Karabil semi-desert,,0.915,,False
+17.01,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (northwestern),amu_darya,35389.6,444,24.8,3,tugai,2,supported,1.0,Badghyz and Karabil semi-desert,0.63,0.969,,False
+17.02,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (southern),amu_darya,5985.6,17,5.8,0,,0,"unverified, sparse data",0.991,Paropamisus xeric woodlands,0.56,0.881,,False
+17.03,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (northeastern),amu_darya,3185.5,26,15.9,0,,0,"unverified, sparse data",1.0,Paropamisus xeric woodlands,0.82,0.843,,False
+17.04,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (western),amu_darya,1901.2,3,3.7,0,,0,"unverified, sparse data",1.0,Paropamisus xeric woodlands,0.7,0.915,,False
+17.05,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (eastern),amu_darya,1149.1,88,175.5,0,,0,"unverified, sparse data",1.0,Paropamisus xeric woodlands,0.85,0.939,,False
+18.01,Paropamisus Pistachio Woodlands — Amu Darya Plains,pistachio,59923.9,1034,34.5,4,amu_darya,7,supported,0.981,Paropamisus xeric woodlands,0.75,0.887,,False
+18.02,Paropamisus Pistachio Woodlands — Hazarajat Highlands,pistachio,4533.7,1,0.5,0,,0,"unverified, sparse data",0.742,Central Afghan Mountains xeric woodlands,0.67,0.854,,False
+18.03,Paropamisus Pistachio Woodlands — Paropamisus (southeastern),pistachio,3905.9,2,1.0,0,,0,"unverified, sparse data",0.808,Central Afghan Mountains xeric woodlands,0.82,0.829,,False
+18.04,Paropamisus Pistachio Woodlands — Paropamisus (northwestern),pistachio,2156.5,6,6.4,0,,0,"unverified, sparse data",0.733,Central Afghan Mountains xeric woodlands,0.8,0.797,,False
+19.01,Hindu Kush Thorn-Cushion Steppe,thorn_cushion,55439.8,1476,52.6,0,xeric_woodland,3,"unverified, adequate data but no indicators",0.938,Ghorat-Hazarajat alpine meadow,,0.847,,False
+20.01,Helmand Basin Deserts & Hamuns,helmand,186913.3,481,5.1,2,chagai_kharan,3,"unverified, sparse data",0.813,Registan-North Pakistan sandy desert,,0.996,,False
+21.01,Kharan Deserts & Hamuns,chagai_kharan,80878.4,99,2.4,0,helmand,3,"unverified, sparse data",1.0,Registan-North Pakistan sandy desert,,0.986,,False
+22.01,Himalayan Chir Pine Forests — Lesser Himalaya (northwestern),chir,6386.9,2832,833.2,12,moist_temperate,18,supported,0.929,Himalayan subtropical pine forests,0.86,0.918,,False
+22.02,Himalayan Chir Pine Forests — Hindu Kush,chir,3294.7,611,330.4,0,makran_ranges,3,"unverified, adequate data but no indicators",0.063,Baluchistan xeric woodlands,0.83,0.851,6 % in compatible RESOLVE units (main: Baluchistan xeric woodlands),True
+22.03,Himalayan Chir Pine Forests — Lesser Himalaya (southern),chir,2639.7,207,131.8,1,olive_scrub,3,"unverified, sparse data",0.987,Himalayan subtropical pine forests,0.86,0.907,,False
+22.04,Himalayan Chir Pine Forests — Lesser Himalaya (southeastern),chir,1756.2,115,122.5,0,siwalik,1,"unverified, sparse data",0.907,Himalayan subtropical pine forests,0.91,0.909,,False
+23.01,Western Himalayan Moist Temperate Forests — Hindu Kush (southeastern),moist_temperate,39252.0,5148,285.4,25,dry_alpine,20,supported,0.851,Western Himalayan broadleaf forests,0.82,0.895,,False
+23.02,Western Himalayan Moist Temperate Forests — Hindu Kush (northwestern),moist_temperate,1203.0,0,0.0,0,,0,"unverified, sparse data",0.0,Paropamisus xeric woodlands,0.82,0.659,0 % in compatible RESOLVE units (main: Paropamisus xeric woodlands); unstable under rule changes (66 %),True
+24.01,Sulaiman Temperate Forests — Peshawar Basins and Ranges,sulaiman_temperate,30755.3,816,52.9,0,moist_temperate,5,untestable,0.995,Baluchistan xeric woodlands,0.39,0.872,vegetation differs from the rest of its type (similarity 0.39),True
+24.02,Sulaiman Temperate Forests — Sulaiman Ranges,sulaiman_temperate,1886.3,0,0.0,0,,0,untestable,0.349,Central Afghan Mountains xeric woodlands,0.39,0.689,vegetation differs from the rest of its type (similarity 0.39); 35 % in compatible RESOLVE units (main: Central Afghan Mountains xeric woodlands); unstable under rule changes (69 %),True
+25.01,Himalayan Dry Temperate Forests — Hindu Kush (western),northern_dry_temperate,9169.2,417,90.1,0,,0,untestable,0.187,Paropamisus xeric woodlands,0.77,0.861,19 % in compatible RESOLVE units (main: Paropamisus xeric woodlands),True
+25.02,Himalayan Dry Temperate Forests — Hindu Kush (northern),northern_dry_temperate,7545.0,204,59.3,0,dry_alpine,1,untestable,0.271,Paropamisus xeric woodlands,0.82,0.818,27 % in compatible RESOLVE units (main: Paropamisus xeric woodlands),True
+25.03,Himalayan Dry Temperate Forests — Hindu Kush (southwestern),northern_dry_temperate,4015.4,374,203.0,0,dry_alpine,2,untestable,0.704,Central Afghan Mountains xeric woodlands,0.74,0.886,,False
+25.04,Himalayan Dry Temperate Forests — Western Himalaya (western),northern_dry_temperate,2630.7,66,52.2,0,makran_ranges,1,untestable,1.0,Western Himalayan subalpine conifer forests,0.63,0.849,,False
+25.05,Himalayan Dry Temperate Forests — Western Himalaya (eastern),northern_dry_temperate,1122.8,693,1057.5,0,dry_alpine,16,untestable,1.0,Karakoram-West Tibetan Plateau alpine steppe,0.59,0.838,,False
+25.06,Himalayan Dry Temperate Forests — Hindu Kush (eastern),northern_dry_temperate,1005.4,741,1006.4,0,dry_alpine,4,untestable,1.0,Northwestern Himalayan alpine shrub and meadows,0.86,0.825,,False
+26.01,Himalayan Subalpine Forests & Alpine Meadows — Hindu Kush (southwestern),subalpine_alpine,30771.9,775,50.1,2,dry_alpine,6,"unverified, adequate data but no indicators",0.659,Hindu Kush alpine meadow,0.93,0.809,,False
+26.02,Himalayan Subalpine Forests & Alpine Meadows — Western Himalaya (northern),subalpine_alpine,29850.8,4240,275.5,51,dry_alpine,45,supported,0.913,Karakoram-West Tibetan Plateau alpine steppe,0.87,0.834,,False
+26.03,Himalayan Subalpine Forests & Alpine Meadows — Hindu Kush (southeastern),subalpine_alpine,11624.2,705,114.4,1,dry_alpine,12,contradicted,1.0,Northwestern Himalayan alpine shrub and meadows,0.93,0.816,"GBIF: 12 records of dry_alpine indicators, 1 of its own",True
+26.04,Himalayan Subalpine Forests & Alpine Meadows — Hindu Kush (northern) 2,subalpine_alpine,4480.5,47,20.6,0,,0,"unverified, sparse data",0.631,Hindu Kush alpine meadow,0.8,0.813,,False
+26.05,Himalayan Subalpine Forests & Alpine Meadows — Hindu Kush (northern) 1,subalpine_alpine,3867.0,2,1.0,0,,0,"unverified, sparse data",0.667,Hindu Kush alpine meadow,0.66,0.84,,False
+26.06,Himalayan Subalpine Forests & Alpine Meadows — Western Himalaya (southern),subalpine_alpine,1399.1,151,162.8,3,tugai,1,supported,0.0,Western Himalayan broadleaf forests,0.7,0.907,,False
+27.01,High Asian Dry Alpine Steppe & Cold Desert — Ladakh Ranges,dry_alpine,90239.5,18248,409.8,446,subalpine_alpine,93,supported,0.898,Karakoram-West Tibetan Plateau alpine steppe,0.47,0.868,,False
+27.02,High Asian Dry Alpine Steppe & Cold Desert — Karakoram,dry_alpine,2091.5,66,64.8,1,,0,"unverified, sparse data",1.0,Karakoram-West Tibetan Plateau alpine steppe,0.47,0.837,,False
+28.01,High Asian Glaciers & Rock — Karakoram,ice,24973.5,378,30.1,0,dry_alpine,12,untestable,0.637,Karakoram-West Tibetan Plateau alpine steppe,0.88,0.917,,False
+28.02,High Asian Glaciers & Rock — Hindu Kush,ice,1373.8,34,38.6,0,thorn_cushion,1,untestable,0.807,Karakoram-West Tibetan Plateau alpine steppe,0.88,0.867,,False
+29.01,Kashmir Valley Temperate Broadleaf Forests & Wetlands,kashmir_valley,4002.4,643,296.3,2,moist_temperate,2,"unverified, adequate data but no indicators",1.0,Western Himalayan broadleaf forests,,0.922,,False
+30.01,Western Tibetan Plateau Alpine Steppe,tibetan_steppe,47665.4,4259,178.2,100,dry_alpine,130,supported,0.468,Karakoram-West Tibetan Plateau alpine steppe,,0.851,,False

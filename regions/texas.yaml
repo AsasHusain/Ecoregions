@@ -1,0 +1,158 @@
+# Texas: everything specific to this mapped region (merged over config.yaml).
+# Started 2026-11-11: GBIF data in place; boundaries, hydrology, geology, provinces, communities and
+# names still to add, so only the download of the GBIF archive runs for this region so far.
+
+project:
+  name: texas-ecoregions
+  version: "0.2.0"
+  area: Texas
+paths:
+  raw_region: data/raw/regions/texas   # downloads clipped or tiled to this region (git-ignored)
+  interim: data/regions/texas/interim   # derived rasters on the analysis grid (git-ignored)
+  outputs: outputs/texas
+  qa: outputs/texas/qa
+
+crs:
+  # Texas Centric Albers Equal Area (EPSG:3083 parameters, WGS84 datum as the other regions)
+  proj4: "+proj=aea +lat_0=18 +lon_0=-100 +lat_1=27.5 +lat_2=35 +x_0=1500000 +y_0=6000000 +datum=WGS84 +units=m +no_defs"
+qa_zooms:   # close-up QA figures (lon/lat boxes W, S, E, N)
+  dem: {tilecorner: [-97.2, 30.8, -96.8, 31.2]}
+  terrain: {balcones: [-98.2, 29.6, -97.5, 30.1]}
+  hand: {brazos_bottoms: [-96.6, 29.8, -95.6, 30.8], lower_rio_grande: [-98.3, 25.8, -97.2, 26.6]}
+  snap: {balcones_escarpment: [-98.4, 29.3, -97.4, 30.5], llano_uplift: [-99.2, 30.4, -98.2, 31.0],
+         caprock_escarpment: [-101.6, 33.3, -100.6, 34.3], davis_mountains: [-104.4, 30.3, -103.6, 31.0]}
+grid:
+  bbox_lonlat: [-107.0, 25.5, -93.3, 36.7]  # download / processing extent (W, S, E, N)
+  countries: []
+  states: [US-TX]                      # Natural Earth admin-1, ISO 3166-2 codes
+sources:
+  natural_earth:
+    base: https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/10m_cultural
+    layers: [ne_10m_admin_0_countries, ne_10m_admin_0_disputed_areas, ne_10m_admin_1_states_provinces, ne_10m_populated_places]
+    extensions: [shp, shx, dbf, prj, cpg]
+  geology:
+    # USGS State Geologic Map Compilation (Horton 2017, https://doi.org/10.5066/F7WH2N65), public domain;
+    # Texas from the Geologic Atlas of Texas (1:250,000)
+    url: https://www.sciencebase.gov/catalog/file/get/5888bf4fe4b05ccb964bab9d?f=__disk__24%2Ff6%2Fe1%2F24f6e139c181fd9fe43df2aaf7f50b1c5b3b6297
+    file: USGS_SGMC_Geodatabase.zip
+    format: sgmc
+    gdb: USGS_SGMC_Geodatabase/USGS_StateGeologicMapCompilation_ver1.1.gdb
+    polygons: SGMC_Geology
+    lines: SGMC_Structure
+    label: USGS SGMC
+    credit: USGS State Geologic Map Compilation (Horton 2017)
+  hydrorivers:
+    url: https://data.hydrosheds.org/file/HydroRIVERS/HydroRIVERS_v10_na_shp.zip
+  hydrobasins:
+    url: https://data.hydrosheds.org/file/HydroBASINS/standard/hybas_na_lev01-12_v1c.zip
+    levels: [6, 7, 8, 9, 10]
+  gbif_dwca:
+    downloads:
+      - key: 0001333-261110092616502   # GBIF.org (11 November 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.gv4z7m
+        doi: 10.15468/dl.gv4z7m        # Texas plus a margin; plants only
+        url: https://api.gbif.org/v1/occurrence/download/request/0001333-261110092616502.zip
+        records: 3858807
+provinces:
+  # L2 physiographic provinces after the Bureau of Economic Geology's Physiographic Map of Texas (1996), with the
+  # Gulf Coastal Plains and the Trans-Pecos split where landform and substrate change (Lower Rio Grande delta,
+  # South Texas Sand Sheet, Piney Woods, Pecos Valley). Seeds: lon/lat anchors placed from standard maps.
+  # Never drawn from EPA ecoregions or TPWD vegetation (validation references only).
+  units:
+    - code: "01"
+      name: Coastal Prairies and Marshes (incl. the barrier islands)
+      region: Gulf Coastal Plains
+      family: plains
+      seeds: [[-94.5, 29.9], [-95.9, 29.2], [-96.7, 28.9], [-97.5, 28.1], [-95.6, 29.75], [-97.3, 27.6]]
+    - code: "02"
+      name: Lower Rio Grande Plain
+      region: Gulf Coastal Plains
+      family: plains
+      seeds: [[-97.9, 26.25], [-97.6, 26.05], [-98.3, 26.25]]
+    - code: "03"
+      name: South Texas Sand Sheet
+      region: Gulf Coastal Plains
+      family: deserts
+      seeds: [[-98.15, 27.0], [-98.4, 26.85], [-97.85, 26.8]]
+    - code: "04"
+      name: South Texas Brush Country
+      region: Gulf Coastal Plains
+      family: plains
+      seeds: [[-99.25, 28.3], [-98.7, 27.6], [-99.8, 28.6], [-98.5, 28.6], [-98.8, 27.1], [-99.4, 27.5]]
+    - code: "05"
+      name: Interior Coastal Plains (Post Oak Belt)
+      region: Gulf Coastal Plains
+      family: plains
+      seeds: [[-96.5, 31.0], [-97.4, 29.75], [-98.15, 29.1], [-96.0, 31.9], [-96.9, 30.3]]
+    - code: "06"
+      name: Piney Woods
+      region: Gulf Coastal Plains
+      family: plains
+      seeds: [[-94.7, 31.3], [-94.4, 32.5], [-94.3, 30.6], [-95.3, 32.35], [-94.9, 33.4], [-95.0, 31.9]]
+    - code: "07"
+      name: Blackland Prairies
+      region: Gulf Coastal Plains
+      family: plains
+      seeds: [[-96.6, 33.2], [-97.0, 31.6], [-97.4, 30.6], [-97.95, 29.6], [-96.3, 33.6], [-96.8, 32.3]]
+    - code: "08"
+      name: Grand Prairie (incl. the Lampasas Cut Plain)
+      family: plateaus
+      seeds: [[-97.4, 32.35], [-97.75, 31.45], [-97.6, 33.2], [-98.1, 31.1]]
+    - code: "09"
+      name: North-Central Plains (Rolling Plains)
+      family: plains
+      seeds: [[-99.7, 32.5], [-98.5, 33.9], [-100.2, 33.6], [-99.4, 31.8], [-100.2, 34.4], [-98.7, 32.9]]
+    - code: "10"
+      name: Edwards Plateau (incl. the Balcones Canyonlands and the Stockton Plateau)
+      family: plateaus
+      seeds: [[-100.6, 30.55], [-99.1, 30.05], [-101.2, 30.7], [-100.9, 31.3], [-98.1, 30.0], [-102.4, 30.2], [-99.8, 29.85]]
+    - code: "11"
+      name: Llano Uplift
+      region: Central Texas
+      family: foothills
+      seeds: [[-98.7, 30.75], [-98.95, 30.6], [-98.45, 30.6]]
+    - code: "12"
+      name: High Plains (Llano Estacado and the Panhandle)
+      family: plateaus
+      seeds: [[-101.9, 33.6], [-101.8, 35.2], [-102.55, 32.35], [-100.95, 35.55], [-102.7, 34.25], [-101.4, 34.6]]
+    - code: "13"
+      name: Trans-Pecos Basins and Ranges
+      region: Trans-Pecos
+      family: ranges
+      seeds: [[-104.0, 30.6], [-103.25, 29.3], [-105.4, 31.4], [-104.85, 31.9], [-104.4, 29.95], [-106.4, 31.85], [-103.6, 29.9]]
+    - code: "14"
+      name: Pecos Valley (Toyah Basin and Monahans Sandhills)
+      region: Trans-Pecos
+      family: deserts
+      seeds: [[-103.5, 31.4], [-102.85, 31.6], [-102.4, 31.35]]
+segmentation:
+  # L3 units requested per L2 province (expert-tunable): set from area and internal heterogeneity
+  target_units: {"01": 24, "02": 6, "03": 8, "04": 26, "05": 22, "06": 22, "07": 18, "08": 12, "09": 30,
+                 "10": 30, "11": 6, "12": 28, "13": 30, "14": 10}
+snapping:
+  geology_contact_sigma_m: 500     # SGMC in Texas is 1:250,000 (Geologic Atlas of Texas)
+validation:
+  references:   # compared with the finished map only, never used to build it
+    - {name: EPA Level III, field: US_L3NAME, file: tx_eco_l4.zip,
+       url: "https://dmap-prod-oms-edc.s3.us-east-1.amazonaws.com/ORD/Ecoregions/tx/tx_eco_l4.zip"}
+    - {name: EPA Level IV, field: US_L4NAME, file: tx_eco_l4.zip,
+       url: "https://dmap-prod-oms-edc.s3.us-east-1.amazonaws.com/ORD/Ecoregions/tx/tx_eco_l4.zip"}
+vegcheck:
+  mangrove_communities: [laguna_madre_flats]   # black mangrove is part of it; compared with Global Mangrove Watch
+naming:
+  gazetteer: gazetteer_texas.yaml
+communities:
+  rules: communities_texas.yaml
+assemble:
+  zones:
+    # The central band's soil-based types regrouped into rainfall belts (CHELSA bio12, mm/yr). Chosen on calibration
+    # 0.1-degree cells only (scratch test 2026-11-11): two belts beat three and beat belts x soil type; the best break
+    # with every belt >= 10 % of the band is 1,100 mm (1,175 mm scored higher but left a 4 % sliver on ~17 cells).
+    - raster: clim_bio12
+      types: [blackland, cross_timbers, grand_prairie, post_oak]
+      breaks: [1100]
+      into: [central_savannas, east_oak_prairies]
+  faunal_k: 12                 # faunal regions (one of faunal.k_maps): turnover explained 0.68, flat from 12 to 16
+  faunal_group_k: 6            # the key groups them (nests exactly; the big step in turnover explained, 0.48 -> 0.58)
+plots:   # docs/preregistration.md: the frozen v0.2.0 map, hashed before the sPlotOpen plots were opened (2026-11-12)
+  map_sha256: 92c7d6901afd66889a3b177dedad45f08b2557bf1e9464bce430f3e58d6e63da
+
