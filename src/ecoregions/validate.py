@@ -205,7 +205,8 @@ def assemblage_cells(cfg) -> list:
     from .confirm import load_mask
 
     m = load_mask(cfg)
-    sealed = None if m is None or m.get("open") else m["_conf"].union(m["_buf"])  # confirmation and buffer cells left out
+    is_open = m is not None and (m.get("open") or (cfg.get("confirmation") or {}).get("open"))
+    sealed = None if m is None or is_open else m["_conf"].union(m["_buf"])  # confirmation and buffer cells left out
     cells = []
     for lat in np.arange(np.floor(s / cd) * cd, n, cd):
         for lon in np.arange(np.floor(w / cd) * cd, e, cd):

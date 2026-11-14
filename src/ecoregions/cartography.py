@@ -99,7 +99,8 @@ def region_map(cfg, paths, out, mode: str = "floral") -> list[str]:
     ax.set_aspect("equal")
     ax.set_axis_off()
 
-    relief = np.ma.masked_invalid(np.where(np.isnan(elev), np.nan, hs))
+    # no relief where the DEM is exactly 0 m: land beyond the downloaded tiles is filled with 0 (a flat wedge otherwise)
+    relief = np.ma.masked_invalid(np.where(np.isnan(elev) | (elev == 0), np.nan, hs))
     ctx.plot(ax=ax, color="#efede6", edgecolor="#b4b2aa", linewidth=0.5, zorder=1)
     ax.imshow(relief, extent=ext, cmap="gray", vmin=0, vmax=1, alpha=0.35, zorder=2, interpolation="bilinear")
     g.plot(ax=ax, color=g.color, linewidth=0, alpha=0.92, zorder=3)
@@ -139,7 +140,10 @@ def region_map(cfg, paths, out, mode: str = "floral") -> list[str]:
         return land.intersection(box(x0_, y0_, x1_, y1_)).area
     corners = {"upper left": (0, 1), "upper right": (1, 1), "lower left": (0, 0), "lower right": (1, 0.07)}
     loc = min(corners, key=lambda c: (cover(key(c, corners[c])), c != "upper left"))  # least cover; ties keep upper left
-    leg = key(loc, corners[loc])
+    anchor = corners[loc]
+    if cover(key(loc, anchor)) > 0:  # every corner hides mapped land: put the key beside the map
+        loc, anchor = "upper left", (1.005, 1)
+    leg = key(loc, anchor)
     leg.get_frame().set_edgecolor("#c9c6bd")
     leg.get_frame().set_linewidth(0.6)
     for t, h in zip(leg.get_texts(), handles):

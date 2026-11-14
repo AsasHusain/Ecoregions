@@ -65,6 +65,31 @@ def role(mask: dict | None, lon, lat) -> np.ndarray:
     return out
 
 
+def cell_roles(mask: dict, cells: list) -> np.ndarray:
+    """Role of each (lon0, lat0, deg, ...) cell: 'confirmation' if wholly inside the confirmation squares, 'development'
+    if it touches neither squares nor buffer, '' if it crosses a role boundary (left out, preregistration section 4)."""
+    sealed = mask["_conf"].union(mask["_buf"])
+    out = []
+    for c in cells:
+        b = shapely.box(c[0], c[1], c[0] + c[2], c[1] + c[2])
+        out.append("confirmation" if mask["_conf"].contains(b) else "" if b.intersects(sealed) else "development")
+    return np.array(out, dtype=object)
+
+
+def opened(cfg, gpkg) -> bool:
+    """True when the confirmation records may be read: ``confirmation.open`` set and the map's hash equal to the frozen
+    ``confirmation.map_sha256`` (recorded in the ledger first). Any mismatch stops the run."""
+    import hashlib
+
+    c = cfg.get("confirmation") or {}
+    if not c.get("open"):
+        return False
+    sha = hashlib.sha256(gpkg.read_bytes()).hexdigest()
+    if sha != c.get("map_sha256"):
+        raise SystemExit(f"confirmation: the map's hash {sha} differs from the frozen confirmation.map_sha256; refusing")
+    return True
+
+
 def run(cfg) -> None:
     """Draw and write the mask for ``confirmation.area`` (ISO3 in Natural Earth), refusing to overwrite an existing one."""
     paths = Paths(cfg)

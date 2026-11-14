@@ -9,3 +9,5 @@ __pycache__/
 .ipynb_checkpoints/
 *.egg-info/
 .pytest_cache/
+# over GitHub's 100 MB limit: committed zipped (*.gpkg.zip); the freeze hash is of the unzipped file
+outputs/pak-afg-irn/*.gpkg

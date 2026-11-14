@@ -105,6 +105,31 @@ def coast_from_dem(ne: np.ndarray, sea_dem: np.ndarray, open_sea_cells: int, max
     return out
 
 
+def inland_sea(dem: np.ndarray, level: float, min_cells: int) -> np.ndarray:
+    """Cells of connected patches where the DEM sits exactly at ``level`` (Copernicus flattens water surfaces), at
+    least ``min_cells`` large: the open water of an inland sea. Lagoons and shores at other heights stay land."""
+    lab, _ = ndi.label(np.abs(dem - level) < 0.01)
+    big = np.flatnonzero(np.bincount(lab.ravel()) >= min_cells)
+    return np.isin(lab, big[big > 0])
+
+
+def sea_window(dem: np.ndarray, grid, sea: dict) -> np.ndarray:
+    """Full-grid boolean of one ``grid.inland_seas`` entry (name, level_m, bbox_lonlat, min_km2)."""
+    from pyproj import Transformer
+
+    t = Transformer.from_crs("EPSG:4326", grid.crs, always_xy=True)
+    w, s, e, n = sea["bbox_lonlat"]
+    xs, ys = t.transform([w, w, e, e], [s, n, s, n])
+    inv = ~grid.transform
+    cols, rows = zip(*(inv * (x, y) for x, y in zip(xs, ys)))
+    r0, r1 = max(0, int(min(rows))), min(dem.shape[0], int(max(rows)) + 1)
+    c0, c1 = max(0, int(min(cols))), min(dem.shape[1], int(max(cols)) + 1)
+    out = np.zeros(dem.shape, bool)
+    out[r0:r1, c0:c1] = inland_sea(dem[r0:r1, c0:c1], sea["level_m"], round(sea["min_km2"] / grid.cell_km2))
+    log.info("inland sea %s: %.0f km² set to sea", sea["name"], out.sum() * grid.cell_km2)
+    return out
+
+
 def run(cfg) -> None:
     paths = Paths(cfg)
     grid = Grid.load(paths.grid_json)
@@ -132,6 +157,8 @@ def run(cfg) -> None:
         log.info("coast from the DEM: %.0f km² of Natural Earth land is sea, %.0f km² of its sea is land "
                  "(study area %.0f -> %.0f km²)", changed["sea_added"].sum() * grid.cell_km2,
                  changed["land_added"].sum() * grid.cell_km2, (ne == 1).sum() * grid.cell_km2, (mask == 1).sum() * grid.cell_km2)
+    for sea in cfg["grid"].get("inland_seas", []):  # e.g. the Caspian (surface at -28 m, so not sea by the 0 m test above)
+        mask[sea_window(dem, grid, sea)] = 0
     write(paths.raster("mask"), mask, grid, nodata=None, tags=dict(values="0 sea, 1 study area, 3 other land",
                                                                    coast="Copernicus GLO-90 (0 m ocean)"))
     from .boundaries import raster_borders
@@ -142,6 +169,11 @@ def run(cfg) -> None:
     land = mask > 0
     void = land & np.isnan(dem)
     log.info("voids on land before fill: %d cells", int(void.sum()))
+    study_void = (void & (mask == 1)).sum() / (mask == 1).sum()  # outside the study area the grid may reach past the tiles
+    log.info("study area without DEM before fill: %.3f%%", 100 * study_void)
+    if study_void > 0.005:  # whole tiles missing, not GLO-90's small voids
+        raise SystemExit(f"dem: {100 * study_void:.1f}% of the study area has no DEM; missing tiles? "
+                         f"(compare {paths.raw_region / 'copernicus_dem'} with the download stage's tile list)")
     if void.any():
         valid = (~np.isnan(dem)).astype("uint8")
         dem = fillnodata(np.nan_to_num(dem, nan=0), mask=valid, max_search_distance=200)

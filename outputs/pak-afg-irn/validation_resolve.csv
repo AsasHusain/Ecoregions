@@ -1,0 +1,166 @@
+unit,code,name,resolve_main,resolve_share
+1,35.01,Azerbaijan Plateau Steppe & Salt Flats,Eastern Anatolian montane steppe,0.598
+2,34.02,Arasbaran Oak–Hornbeam Forests — Azerbaijan Plateau (southwestern),Zagros Mountains forest steppe,0.556
+3,34.01,Arasbaran Oak–Hornbeam Forests — Azerbaijan Plateau (eastern),Elburz Range forest steppe,0.382
+4,31.01,Hyrcanian Lowland Forests & Wetlands — Caspian Lowlands & Northern Alborz (western),Caspian Hyrcanian mixed forests,0.881
+5,32.01,Hyrcanian Montane Forests — Caspian Lowlands & Northern Alborz (northwestern),Elburz Range forest steppe,0.625
+6,25.02,Himalayan Dry Temperate Forests — Hindu Kush (northeastern),Paropamisus xeric woodlands,0.411
+7,26.04,Himalayan Subalpine Forests & Alpine Meadows — Hindu Kush (northern),Hindu Kush alpine meadow,0.656
+8,23.02,Western Himalayan Moist Temperate Forests — Hindu Kush (northwestern),Paropamisus xeric woodlands,0.584
+9,17.03,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (northeastern),Paropamisus xeric woodlands,0.992
+10,15.06,Iranian Plateau Artemisia Steppe — Khorasan Uplands & Kopet Dagh (northwestern),Kopet Dag woodlands and forest steppe,0.695
+11,33.01,Gorgan Steppe & Salt Marshes,Kopet Dag semi-desert,0.484
+12,26.03,Himalayan Subalpine Forests & Alpine Meadows — Hindu Kush (northeastern),Hindu Kush alpine meadow,0.648
+13,18.06,Paropamisus Pistachio Woodlands — Khorasan Uplands & Kopet Dagh (northern),Kopet Dag woodlands and forest steppe,1.0
+14,37.05,Zagros Montane Steppe — Northern Zagros (northwestern),Eastern Anatolian montane steppe,1.0
+15,36.01,Zagros Oak Woodlands — Central & Southern Zagros,Zagros Mountains forest steppe,0.933
+16,13.03,Iranian Plateau Juniper Woodlands — Khorasan Uplands & Kopet Dagh (northeastern),Kopet Dag woodlands and forest steppe,0.857
+17,18.01,Paropamisus Pistachio Woodlands — Amu Darya Plains,Paropamisus xeric woodlands,0.574
+18,27.01,High Asian Dry Alpine Steppe & Cold Desert — Ladakh Ranges,Karakoram-West Tibetan Plateau alpine steppe,0.869
+19,18.03,Paropamisus Pistachio Woodlands — Khorasan Uplands & Kopet Dagh (southern),Central Persian desert basins,0.404
+20,17.01,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (northwestern),Badghyz and Karabil semi-desert,0.87
+21,13.06,Iranian Plateau Juniper Woodlands — Khorasan Uplands & Kopet Dagh (northwestern),Elburz Range forest steppe,0.797
+22,32.02,Hyrcanian Montane Forests — Caspian Lowlands & Northern Alborz (southern),Caspian Hyrcanian mixed forests,0.88
+23,15.01,Iranian Plateau Artemisia Steppe — Central Iranian Ranges & Basins,Central Persian desert basins,0.589
+24,28.01,High Asian Glaciers & Rock — Karakoram,Karakoram-West Tibetan Plateau alpine steppe,0.643
+25,19.03,Iranian Plateau Thorn-Cushion Steppe — Alborz (northwestern),Elburz Range forest steppe,0.709
+26,28.02,High Asian Glaciers & Rock — Hindu Kush,Karakoram-West Tibetan Plateau alpine steppe,0.815
+27,13.01,Iranian Plateau Juniper Woodlands — Alborz,Elburz Range forest steppe,0.661
+28,16.01,Tugai Riparian Forests,Badghyz and Karabil semi-desert,1.0
+29,26.01,Himalayan Subalpine Forests & Alpine Meadows — Hindu Kush (southern),Hindu Kush alpine meadow,0.366
+30,37.01,Zagros Montane Steppe — Northern Zagros (eastern),Zagros Mountains forest steppe,1.0
+31,30.01,Western Tibetan Plateau Alpine Steppe,Karakoram-West Tibetan Plateau alpine steppe,0.466
+32,36.02,Zagros Oak Woodlands — Northern Zagros,Zagros Mountains forest steppe,1.0
+33,32.03,Hyrcanian Montane Forests — Caspian Lowlands & Northern Alborz (southeastern),Caspian Hyrcanian mixed forests,0.989
+34,13.08,Iranian Plateau Juniper Woodlands — Khorasan Uplands & Kopet Dagh (eastern),Central Persian desert basins,0.676
+35,13.13,Iranian Plateau Juniper Woodlands — Khorasan Uplands & Kopet Dagh (western),Elburz Range forest steppe,0.731
+36,17.02,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (southern),Paropamisus xeric woodlands,0.99
+37,15.09,Iranian Plateau Artemisia Steppe — Khorasan Uplands & Kopet Dagh (southeastern),Kopet Dag woodlands and forest steppe,0.985
+38,15.12,Iranian Plateau Artemisia Steppe — Alborz (western),Elburz Range forest steppe,0.921
+39,25.01,Himalayan Dry Temperate Forests — Hindu Kush (southwestern),Paropamisus xeric woodlands,0.649
+40,25.04,Himalayan Dry Temperate Forests — Western Himalaya (western),Western Himalayan subalpine conifer forests,0.71
+41,19.04,Iranian Plateau Thorn-Cushion Steppe — Alborz (southeastern),Elburz Range forest steppe,1.0
+42,15.11,Iranian Plateau Artemisia Steppe — Alborz (eastern),Elburz Range forest steppe,0.996
+43,23.01,Western Himalayan Moist Temperate Forests — Hindu Kush (southeastern),Western Himalayan broadleaf forests,0.41
+44,26.02,Himalayan Subalpine Forests & Alpine Meadows — Western Himalaya (northern),Karakoram-West Tibetan Plateau alpine steppe,0.457
+45,17.04,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (southwestern),Paropamisus xeric woodlands,0.997
+46,15.07,Iranian Plateau Artemisia Steppe — Paropamisus,Badghyz and Karabil semi-desert,0.937
+47,25.03,Himalayan Dry Temperate Forests — Hindu Kush (southern),Central Afghan Mountains xeric woodlands,0.595
+48,38.01,Zagros Foothill Thorn Scrub,South Iran Nubo-Sindian desert and semi-desert,0.557
+49,19.01,Iranian Plateau Thorn-Cushion Steppe — Hazarajat Highlands,Ghorat-Hazarajat alpine meadow,0.703
+50,41.01,Central Iranian Kavirs & Sand Deserts — Dasht-e Kavir & Namak Basin (eastern),Central Persian desert basins,1.0
+51,13.07,Iranian Plateau Juniper Woodlands — Khorasan Uplands & Kopet Dagh (southeastern),Kuh Rud and Eastern Iran montane woodlands,0.668
+52,22.01,Himalayan Chir Pine Forests — Lesser Himalaya (northwestern),Himalayan subtropical pine forests,0.666
+53,15.1,Iranian Plateau Artemisia Steppe — Hazarajat Highlands,Afghan Mountains semi-desert,0.876
+54,37.04,Zagros Montane Steppe — Northern Zagros (southwestern),Zagros Mountains forest steppe,1.0
+55,37.06,Zagros Montane Steppe — Northern Zagros (southeastern),Zagros Mountains forest steppe,1.0
+56,11.01,Subtropical Olive–Phulai Scrub Forests — Potohar Plateau,Baluchistan xeric woodlands,0.678
+57,15.02,Iranian Plateau Artemisia Steppe — Ghazni Plateau,Central Afghan Mountains xeric woodlands,0.723
+58,41.02,Central Iranian Kavirs & Sand Deserts — Central Iranian Ranges & Basins (eastern),Central Persian desert basins,0.949
+59,29.01,Kashmir Valley Temperate Broadleaf Forests & Wetlands,Western Himalayan broadleaf forests,1.0
+60,41.13,Central Iranian Kavirs & Sand Deserts — Khorasan Uplands & Kopet Dagh,Central Persian desert basins,1.0
+61,12.02,Siwalik Dry Deciduous Forests — Lesser Himalaya (northwestern),Baluchistan xeric woodlands,0.445
+62,12.01,Siwalik Dry Deciduous Forests — Lesser Himalaya (southeastern),Himalayan subtropical pine forests,0.396
+63,41.12,Central Iranian Kavirs & Sand Deserts — Central Iranian Ranges & Basins (northeastern),Central Persian desert basins,1.0
+64,3.03,Indus Plains Thorn Forests — Peshawar Basins and Ranges (northeastern),Baluchistan xeric woodlands,0.998
+65,24.01,Sulaiman Temperate Forests — Peshawar Basins and Ranges,Baluchistan xeric woodlands,0.672
+66,26.05,Himalayan Subalpine Forests & Alpine Meadows — Western Himalaya (southern),Western Himalayan broadleaf forests,0.732
+67,39.02,Iranian Plateau Pistachio–Almond Woodlands — East Iranian Ranges,Kuh Rud and Eastern Iran montane woodlands,0.933
+68,18.05,Paropamisus Pistachio Woodlands — Paropamisus (northwestern),Central Afghan Mountains xeric woodlands,0.725
+69,13.15,Iranian Plateau Juniper Woodlands — Central Iranian Ranges & Basins (northwestern),Central Persian desert basins,1.0
+70,39.05,Iranian Plateau Pistachio–Almond Woodlands — Central Iranian Ranges & Basins (northern),Central Persian desert basins,0.517
+71,13.16,Iranian Plateau Juniper Woodlands — Central & Southern Zagros (northwestern) 1,Zagros Mountains forest steppe,1.0
+72,13.05,Iranian Plateau Juniper Woodlands — Central & Southern Zagros (northwestern) 2,Zagros Mountains forest steppe,1.0
+73,18.02,Paropamisus Pistachio Woodlands — Hazarajat Highlands,Central Afghan Mountains xeric woodlands,0.718
+74,18.04,Paropamisus Pistachio Woodlands — Paropamisus (southeastern),Central Afghan Mountains xeric woodlands,0.812
+75,3.01,Indus Plains Thorn Forests — Lower Indus Plain and Delta (eastern),Aravalli west thorn scrub forests,0.877
+76,3.02,Indus Plains Thorn Forests — Upper Indus Plain,Aravalli west thorn scrub forests,0.801
+77,2.02,Indus Riverine Forests — Upper Indus Plain (northern),Aravalli west thorn scrub forests,0.899
+78,42.01,Lut Hyperarid Desert,Central Persian desert basins,0.659
+79,13.04,Iranian Plateau Juniper Woodlands — Sulaiman Ranges (northeastern),East Afghan montane conifer forests,0.525
+80,3.07,Indus Plains Thorn Forests — Peshawar Basins and Ranges (southwestern),Aravalli west thorn scrub forests,1.0
+81,20.01,Helmand Basin Deserts & Hamuns,Registan-North Pakistan sandy desert,0.833
+82,41.14,Central Iranian Kavirs & Sand Deserts — Central Iranian Ranges & Basins (western),Central Persian desert basins,1.0
+83,4.01,Thal Sand Desert,Indus Valley desert,0.764
+84,43.01,Mesopotamian Shrub Desert,South Iran Nubo-Sindian desert and semi-desert,0.524
+85,2.01,Indus Riverine Forests — Lower Indus Plain and Delta (northern),Aravalli west thorn scrub forests,0.999
+86,3.05,Indus Plains Thorn Forests — Derajat Plains (northern),Aravalli west thorn scrub forests,0.922
+87,24.02,Sulaiman Temperate Forests — Sulaiman Ranges,Central Afghan Mountains xeric woodlands,0.61
+88,10.01,Sulaiman Foothill Thorn Scrub — Sulaiman Ranges,Baluchistan xeric woodlands,0.601
+89,41.07,Central Iranian Kavirs & Sand Deserts — Dasht-e Lut,Central Persian desert basins,1.0
+90,3.06,Indus Plains Thorn Forests — Derajat Plains (southern),Aravalli west thorn scrub forests,0.963
+91,2.06,Indus Riverine Forests — Upper Indus Plain (northeastern),Aravalli west thorn scrub forests,1.0
+92,13.14,Iranian Plateau Juniper Woodlands — Central & Southern Zagros (southeastern) 1,Zagros Mountains forest steppe,1.0
+93,13.02,Iranian Plateau Juniper Woodlands — Sulaiman Ranges (southwestern),Sulaiman Range alpine meadows,0.485
+94,41.09,Central Iranian Kavirs & Sand Deserts — Central Iranian Ranges & Basins (southwestern),Central Persian desert basins,1.0
+95,41.04,Central Iranian Kavirs & Sand Deserts — East Iranian Ranges (northern),Registan-North Pakistan sandy desert,1.0
+96,37.02,Zagros Montane Steppe — Central & Southern Zagros (northern),Zagros Mountains forest steppe,0.525
+97,15.04,Iranian Plateau Artemisia Steppe — Sulaiman Ranges,Baluchistan xeric woodlands,0.975
+98,44.01,Mesopotamian Marshes,South Iran Nubo-Sindian desert and semi-desert,0.688
+99,13.1,Iranian Plateau Juniper Woodlands — Central & Southern Zagros (southeastern) 2,Zagros Mountains forest steppe,0.975
+100,1.01,Arabian Sea Mangroves & Salt Flats — Khuzestan Plain,South Iran Nubo-Sindian desert and semi-desert,0.834
+101,13.11,Iranian Plateau Juniper Woodlands — Central & Southern Zagros (southeastern) 3,Zagros Mountains forest steppe,0.699
+102,2.05,Indus Riverine Forests — Upper Indus Plain (southeastern),Aravalli west thorn scrub forests,1.0
+103,15.14,Iranian Plateau Artemisia Steppe — Central Balochistan Uplands (northern),Sulaiman Range alpine meadows,1.0
+104,21.01,Kharan Deserts & Hamuns — Kharan Deserts and Basins,Registan-North Pakistan sandy desert,0.853
+105,15.13,Iranian Plateau Artemisia Steppe — Kharan Deserts and Basins,Registan-North Pakistan sandy desert,0.72
+106,14.01,Balochistan Pistachio–Ash Xeric Woodlands — Central Balochistan Uplands (western),Baluchistan xeric woodlands,0.975
+107,15.03,Iranian Plateau Artemisia Steppe — Central Balochistan Uplands (southern),Baluchistan xeric woodlands,0.904
+108,2.03,Indus Riverine Forests — Upper Indus Plain (southwestern),Aravalli west thorn scrub forests,1.0
+109,45.02,Persian Gulf Coastal Thorn Savanna — Persian Gulf & Gulf of Oman Coastal Plain (northwestern) 1,South Iran Nubo-Sindian desert and semi-desert,0.907
+110,5.01,Thar Desert,Thar desert,0.911
+111,39.01,Iranian Plateau Pistachio–Almond Woodlands — Central & Southern Zagros (northwestern),Zagros Mountains forest steppe,0.765
+112,10.02,Sulaiman Foothill Thorn Scrub — Derajat Plains,Aravalli west thorn scrub forests,0.878
+113,14.02,Balochistan Pistachio–Ash Xeric Woodlands — Central Balochistan Uplands (northeastern),Baluchistan xeric woodlands,0.699
+114,14.07,Balochistan Pistachio–Ash Xeric Woodlands — Sulaiman Ranges,Baluchistan xeric woodlands,1.0
+115,37.07,Zagros Montane Steppe — Central & Southern Zagros (western),Zagros Mountains forest steppe,1.0
+116,41.1,Central Iranian Kavirs & Sand Deserts — Central & Southern Zagros,Zagros Mountains forest steppe,1.0
+117,6.01,Kachhi Plain Arid Thorn Scrub,Aravalli west thorn scrub forests,0.836
+118,1.05,Arabian Sea Mangroves & Salt Flats — Persian Gulf & Gulf of Oman Coastal Plain (northwestern),South Iran Nubo-Sindian desert and semi-desert,1.0
+119,41.03,Central Iranian Kavirs & Sand Deserts — East Iranian Ranges (southeastern),Registan-North Pakistan sandy desert,0.912
+120,19.02,Iranian Plateau Thorn-Cushion Steppe — Central Iranian Ranges & Basins,Kuh Rud and Eastern Iran montane woodlands,0.898
+121,15.08,Iranian Plateau Artemisia Steppe — Central & Southern Zagros (northern),Zagros Mountains forest steppe,0.981
+122,41.11,Central Iranian Kavirs & Sand Deserts — Central Iranian Ranges & Basins (southern),Central Persian desert basins,1.0
+123,3.08,Indus Plains Thorn Forests — Kachhi Plain (southwestern),Aravalli west thorn scrub forests,0.679
+124,45.06,Persian Gulf Coastal Thorn Savanna — Persian Gulf & Gulf of Oman Coastal Plain (northwestern) 2,Zagros Mountains forest steppe,1.0
+125,3.09,Indus Plains Thorn Forests — Kachhi Plain (northeastern),Aravalli west thorn scrub forests,0.806
+126,14.03,Balochistan Pistachio–Ash Xeric Woodlands — Kharan Deserts and Basins (northeastern),Registan-North Pakistan sandy desert,1.0
+127,37.03,Zagros Montane Steppe — Central & Southern Zagros (southeastern),Zagros Mountains forest steppe,1.0
+128,13.12,Iranian Plateau Juniper Woodlands — Central Iranian Ranges & Basins (southeastern),Kuh Rud and Eastern Iran montane woodlands,0.823
+129,13.09,Iranian Plateau Juniper Woodlands — Central Balochistan Uplands,Sulaiman Range alpine meadows,0.845
+130,39.03,Iranian Plateau Pistachio–Almond Woodlands — Central Iranian Ranges & Basins (southern),South Iran Nubo-Sindian desert and semi-desert,0.516
+131,3.04,Indus Plains Thorn Forests — Lower Indus Plain and Delta (western),Aravalli west thorn scrub forests,0.999
+132,14.06,Balochistan Pistachio–Ash Xeric Woodlands — Kharan Deserts and Basins (eastern),Baluchistan xeric woodlands,0.994
+133,9.01,Makran Ranges Dwarf-Palm Scrub,South Iran Nubo-Sindian desert and semi-desert,0.64
+134,15.05,Iranian Plateau Artemisia Steppe — Central & Southern Zagros (southern),South Iran Nubo-Sindian desert and semi-desert,0.73
+135,7.01,Kirthar Hill & Valley Scrub,Baluchistan xeric woodlands,0.656
+136,41.06,Central Iranian Kavirs & Sand Deserts — East Iranian Ranges (southwestern),South Iran Nubo-Sindian desert and semi-desert,0.979
+137,14.05,Balochistan Pistachio–Ash Xeric Woodlands — Central Balochistan Uplands (southern),Baluchistan xeric woodlands,0.973
+138,14.04,Balochistan Pistachio–Ash Xeric Woodlands — Kharan Deserts and Basins (southwestern),Registan-North Pakistan sandy desert,0.979
+139,45.07,Persian Gulf Coastal Thorn Savanna — Persian Gulf & Gulf of Oman Coastal Plain (western),South Iran Nubo-Sindian desert and semi-desert,1.0
+140,39.04,Iranian Plateau Pistachio–Almond Woodlands — Central & Southern Zagros (southeastern),South Iran Nubo-Sindian desert and semi-desert,0.799
+141,45.04,Persian Gulf Coastal Thorn Savanna — Persian Gulf & Gulf of Oman Coastal Plain (southwestern),South Iran Nubo-Sindian desert and semi-desert,1.0
+142,21.02,Kharan Deserts & Hamuns — Makran Ranges and Coast,South Iran Nubo-Sindian desert and semi-desert,1.0
+143,45.01,Persian Gulf Coastal Thorn Savanna — Persian Gulf & Gulf of Oman Coastal Plain (eastern),South Iran Nubo-Sindian desert and semi-desert,1.0
+144,1.09,Arabian Sea Mangroves & Salt Flats — Persian Gulf & Gulf of Oman Coastal Plain (eastern),South Iran Nubo-Sindian desert and semi-desert,1.0
+145,45.03,Persian Gulf Coastal Thorn Savanna — Persian Gulf & Gulf of Oman Coastal Plain (southern),South Iran Nubo-Sindian desert and semi-desert,1.0
+146,2.04,Indus Riverine Forests — Lower Indus Plain and Delta (southern),Aravalli west thorn scrub forests,0.834
+147,45.05,Persian Gulf Coastal Thorn Savanna — Persian Gulf & Gulf of Oman Coastal Plain (southeastern),South Iran Nubo-Sindian desert and semi-desert,1.0
+148,1.04,Arabian Sea Mangroves & Salt Flats — Persian Gulf & Gulf of Oman Coastal Plain (southeastern),South Iran Nubo-Sindian desert and semi-desert,1.0
+149,8.01,Makran Coastal Desert,South Iran Nubo-Sindian desert and semi-desert,0.906
+150,1.07,Arabian Sea Mangroves & Salt Flats — Kirthar Ranges,Indus River Delta-Arabian Sea mangroves,0.563
+151,1.06,Arabian Sea Mangroves & Salt Flats — Makran Ranges and Coast (eastern),South Iran Nubo-Sindian desert and semi-desert,1.0
+152,1.08,Arabian Sea Mangroves & Salt Flats — Makran Ranges and Coast (western) 1,South Iran Nubo-Sindian desert and semi-desert,1.0
+153,1.03,Arabian Sea Mangroves & Salt Flats — Makran Ranges and Coast (western) 2,South Iran Nubo-Sindian desert and semi-desert,1.0
+154,1.02,Arabian Sea Mangroves & Salt Flats — Lower Indus Plain and Delta,Aravalli west thorn scrub forests,0.505
+155,25.05,Himalayan Dry Temperate Forests — Western Himalaya (eastern),Karakoram-West Tibetan Plateau alpine steppe,0.99
+156,22.04,Himalayan Chir Pine Forests — Lesser Himalaya (southeastern),Western Himalayan broadleaf forests,0.508
+157,17.05,Amu Darya Loess Steppe & Sand Desert — Amu Darya Plains (eastern),Paropamisus xeric woodlands,1.0
+158,34.03,Arasbaran Oak–Hornbeam Forests — Azerbaijan Plateau (northwestern),Eastern Anatolian montane steppe,0.766
+159,27.02,High Asian Dry Alpine Steppe & Cold Desert — Karakoram,Karakoram-West Tibetan Plateau alpine steppe,1.0
+160,22.03,Himalayan Chir Pine Forests — Lesser Himalaya (southern),Himalayan subtropical pine forests,0.918
+161,41.08,Central Iranian Kavirs & Sand Deserts — Central Iranian Ranges & Basins (northwestern),Central Persian desert basins,0.931
+162,22.02,Himalayan Chir Pine Forests — Hindu Kush,Baluchistan xeric woodlands,0.554
+163,41.05,Central Iranian Kavirs & Sand Deserts — Dasht-e Kavir & Namak Basin (western),Central Persian desert basins,0.875
+164,31.02,Hyrcanian Lowland Forests & Wetlands — Caspian Lowlands & Northern Alborz (eastern),Caspian Hyrcanian mixed forests,0.676
+165,11.02,Subtropical Olive–Phulai Scrub Forests — Sulaiman Ranges,Baluchistan xeric woodlands,1.0

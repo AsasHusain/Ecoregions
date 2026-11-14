@@ -399,10 +399,16 @@ def run(cfg) -> None:
     k_res_domain = len(np.unique(res_c[(eco_c > 0) & (res_c > 0)]))  # RESOLVE units within the study area
     lmap = level_map(tree, eco_df.unit.astype(int).tolist(), k_res_domain)
     study_km2 = float(eco_df.area_km2.sum())
-    rows, contrasts, cover = [], [], []
+    from .confirm import cell_roles, load_mask, opened
+
+    conf_open = opened(cfg, paths.outputs / "ecoregions.gpkg")  # pre-registered confirmation run (hash-locked, once)
+    status = "confirmatory" if conf_open else STATUS
+    if conf_open and (paths.outputs / "confirmation_contrasts.csv").exists():
+        raise SystemExit("confirmation results exist: the sealed records are opened and tested once only")
+    rows, contrasts, cover, decisions = [], [], [], []
     for taxon, deg in [(t, s) for t in sc["taxa"] for s in sc["scales"]]:
         if taxon == "plants" and cfg["sources"].get("gbif_dwca", {}).get("downloads"):
-            cells = local_plant_cells(cfg, paths, deg)
+            cells = local_plant_cells(cfg, paths, deg, ("development", "confirmation") if conf_open else ("development",))
         elif deg == gc["cell_deg"]:
             cells = api_cells(cfg, paths, taxon)
         else:
@@ -426,12 +432,15 @@ def run(cfg) -> None:
         xy = np.column_stack([cx, cy])
         held = holdout(clon, clat, gc["cell_deg"])  # cells nest in the checkerboard: one role per cell
         dev, test = np.flatnonzero(~held), np.flatnonzero(held)
+        if conf_open:  # sealed cells are the test; frequencies from development calibration cells, as in scorecard
+            rl = cell_roles(load_mask(cfg), cells)
+            dev, test = np.flatnonzero((rl == "development") & ~held), np.flatnonzero(rl == "confirmation")
         if len(test) < 30 or len(dev) < 30:
             log.info("scorecard %s %.3f deg: %d development / %d held-out cells; skipped", taxon, deg, len(dev), len(test))
             continue
         blocks = (np.floor(clon) * 1000 + np.floor(clat)).astype(int)  # 1-degree blocks
         cell_km2 = (deg * 111.32) ** 2 * np.cos(np.radians(clat))
-        for role, sel in (("development", dev), ("held-out", test)):
+        for role, sel in (("development", dev), ("confirmation" if conf_open else "held-out", test)):
             cover.append(dict(taxon=taxon, cell_deg=deg, role=role, cells=len(sel), blocks=len(np.unique(blocks[sel])),
                               land_km2=round(float((cell_km2[sel] * land[sel]).sum())), study_km2=round(study_km2),
                               share=round(float((cell_km2[sel] * land[sel]).sum()) / study_km2, 3)))
@@ -528,6 +537,9 @@ def run(cfg) -> None:
                                  skill=1 - block_mean(l_, blocks[test]) / block_mean(base, blocks[test])))
         # ---- paired contrasts with block bootstrap (losses averaged over draws per cell)
         L = {k: np.mean(v, 0) for k, v in loss_draws.items()}
+        Dbar = np.mean([d for d, _ in bc_draws["ours"]], 0)  # draw-averaged pair dissimilarity (decision intervals)
+        bidx = np.searchsorted(ub, blocks[test])
+        pw = [w[bidx[pr[:, 0]]] * w[bidx[pr[:, 1]]] for w in bw]
         for cand in ["ours", f"ours coarsened to RESOLVE's {k_res_domain} units", FAUNAL, "ours, types merged"]:
             if cand not in L:
                 continue
@@ -540,6 +552,15 @@ def run(cfg) -> None:
                 contrasts.append(dict(taxon=taxon, cell_deg=deg, candidate=cand, comparator=comp,
                                       relative_loss_improvement=est, ci_low=np.percentile(bs, 2.5), ci_high=np.percentile(bs, 97.5),
                                       boundary_contrast_difference=float(np.median(bcc)) if bcc else np.nan))
+                if comp == "RESOLVE":  # preregistration section 6: both endpoints' 95 % lower bounds
+                    acr = lambda name: bc_draws[name][0][1]  # noqa: E731
+                    bcd = lambda w=None: boundary_contrast(Dbar, acr(cand), pbin, w) - boundary_contrast(Dbar, acr(comp), pbin, w)  # noqa: E731
+                    lo_a, lo_b = np.percentile(bs, 2.5), np.nanpercentile([bcd(w) for w in pw], 2.5)
+                    verdict = ("improvement" if cand != "ours" and lo_a > 0.02 and lo_b > 0.02 else
+                               "non-inferior" if lo_a > -0.01 and lo_b > -0.01 else "not demonstrated")
+                    decisions.append(dict(taxon=taxon, cell_deg=deg, candidate=cand, prediction_improvement=est,
+                                          prediction_ci_low=lo_a, boundary_difference=bcd(), boundary_ci_low=lo_b, blocks=len(ub),
+                                          verdict=verdict if len(ub) >= 20 else f"descriptive only ({len(ub)} blocks < 20): {verdict}"))
         # ---- secondary: ANOSIM on full lists (Simpson), z against Voronoi partitions
         from .faunal import beta_sim
 
@@ -553,13 +574,16 @@ def run(cfg) -> None:
             rows.append(dict(taxon=taxon, cell_deg=deg, draw=-1, partition=pname, anosim_R_simpson=R, anosim_z_voronoi=zr))
         log.info("scorecard %s %.3f deg: %d development, %d held-out cells, %d pairs, %.0f s", taxon, deg, len(dev), len(test),
                  len(pr), time.time() - t0)
-    df = pd.DataFrame(rows).assign(status=STATUS)
-    df.to_csv(paths.outputs / "scorecard.csv", index=False)
+    stem = "confirmation" if conf_open else "scorecard"
+    df = pd.DataFrame(rows).assign(status=status)
+    df.to_csv(paths.outputs / f"{stem}.csv", index=False)
     summ = df.groupby(["taxon", "cell_deg", "partition"], sort=False).median(numeric_only=True).drop(columns="draw")
-    summ.round(4).to_csv(paths.outputs / "scorecard_summary.csv")
-    pd.DataFrame(contrasts).assign(status=STATUS).round(4).to_csv(paths.outputs / "scorecard_contrasts.csv", index=False)
-    pd.DataFrame(cover).to_csv(paths.outputs / "scorecard_coverage.csv", index=False)
-    log.info("scorecard (%s):\n%s\n%s", STATUS, summ[["units", "purity", "loss", "skill", "boundary_contrast", "anosim_z_voronoi"]]
+    summ.round(4).to_csv(paths.outputs / f"{stem}_summary.csv")
+    pd.DataFrame(cover).to_csv(paths.outputs / f"{stem}_coverage.csv", index=False)
+    pd.DataFrame(decisions).assign(status=status).round(4).to_csv(paths.outputs / f"{stem}_decisions.csv", index=False)
+    # contrasts last: in confirmation mode their file is the once-only lock
+    pd.DataFrame(contrasts).assign(status=status).round(4).to_csv(paths.outputs / f"{stem}_contrasts.csv", index=False)
+    log.info("scorecard (%s):\n%s\n%s\n%s", status, pd.DataFrame(decisions).round(3).to_string(), summ[["units", "purity", "loss", "skill", "boundary_contrast", "anosim_z_voronoi"]]
              .round(3).to_string(), pd.DataFrame(contrasts).round(3).to_string())
 
 

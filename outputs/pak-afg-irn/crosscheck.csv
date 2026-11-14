@@ -1,0 +1,125 @@
+feature,kind,status,l3_codes,l3_names,shares_unit_with,character_test,notes
+Sandal Bar,bar,resolved,01.14,Sandal Bar,,pass,
+Kirana Bar,bar,resolved,01.12,Kirana Bar,,pass,
+Ganji Bar,bar,resolved,01.13,Ganji Bar,,pass,
+Neeli Bar,bar,not resolved,01.04,Chenab-Jhelum active floodplain,,fail,bar_upland share 0% < 35%
+Kirana Hills,hills,not resolved,01.12,Kirana Bar,Kirana Bar,fail,relief 16 m < 60; dominant substrate is Quaternary alluvium and fans
+Thal Desert,desert,resolved,"02.03, 02.07",Thal Desert (northern) | Thal Desert (southern),,pass,
+Cholistan Desert,desert,resolved,"04.09, 04.16, 04.18",Cholistan Desert | Active river floodplain (bela/kacha) south of Bahawalpur | Active river floodplain (bela/kacha) east of Bahawalpur,,pass,dune share 7% < 8% | dune share 1% < 8%
+"Pachad (Sulaiman piedmont, Dera Ghazi Khan)",piedmont,not resolved,"17.03, 17.07",Alluvial bar upland (old interfluve surface) south of Dera Ghazi Khan | Alluvial bar upland (old interfluve surface) near Dera Ghazi Khan,,fail,upland share 2% < 20% | upland share 0% < 20%
+"Daman (Sulaiman piedmont, Dera Ismail Khan)",piedmont,resolved,17.06,"Daman (Sulaiman piedmont, Dera Ismail Khan)",,pass,
+Potohar Plateau,plateau,resolved,"06.11, 06.12",Potohar Plateau (southern) | Potohar Plateau (northern),,pass,
+Salt Range,range,resolved,"06.06, 06.10",Plains with hills southeast of Kohat | Salt Range,,pass,relief 128 m < 250
+Margalla Hills,hills,not resolved,06.12,Potohar Plateau (northern),Potohar Plateau,fail,relief 164 m < 300
+Peshawar Basin,basin,resolved,"07.47, 07.46",Plains with mountains east of Mardan | Peshawar Basin,,pass,slope 5.8° > 5
+Kohat Basin,basin,resolved,07.40,Kohat Basin,,pass,
+Bannu Basin,basin,resolved,"06.01, 07.34",Bannu Basin (southeastern) | Bannu Basin (northwestern),,pass,
+Tirah,range,resolved,07.31,Tirah,,pass,
+North Waziristan,range,resolved,07.22,North Waziristan,,pass,
+South Waziristan,range,resolved,07.17,South Waziristan,,pass,
+Sulaiman Range,range,resolved,"08.31, 08.25, 08.30",Sulaiman Range (northern) | Sulaiman Range (southern 1) | Sulaiman Range (southern 2),,pass,
+Zhob Valley,valley,partly resolved,"08.04, 08.21",Zhob Valley and Toba Kakar Range | Zhob Valley,Toba Kakar Range,pass,
+Toba Kakar Range,range,partly resolved,"08.08, 08.04",Toba Kakar Range | Zhob Valley and Toba Kakar Range,Zhob Valley,pass,
+Quetta Valley,valley,resolved,10.23,Quetta Valley,,pass,
+Kachhi Plain,plain,resolved,"05.07, 05.04",Kachhi Plain (southeastern) | Kachhi Plain (northwestern),,pass,
+Kirthar Range,range,resolved,"09.22, 09.18",Plains with hills northwest of Sehwan | Kirthar Range,,pass,relief 279 m < 300
+Sindh Kohistan,hills,resolved,"03.08, 09.24",Sindh Kohistan (southeastern) | Sindh Kohistan (northwestern),,pass,
+Lower Indus floodplain,floodplain,resolved,"03.19, 03.23, 03.30",Older meander and cover floodplain northeast of Sehwan | Lower Indus floodplain | Dune field south of Khairpur (2),,pass,active_floodplain share 19% < 30% | active_floodplain share 2% < 30%
+Indus Delta and creeks,delta,resolved,"03.32, 03.10",Indus Delta and creeks (eastern) | Indus Delta and creeks (western),,pass,
+Thar Desert,desert,resolved,"04.06, 04.10",Thar Desert (southwestern) | Thar Desert (northeastern),,pass,
+Nagarparkar granite (Karoonjhar Hills),hills,not resolved,04.13,Alluvial bar upland (old interfluve surface) east of Mithi,,fail,dominant substrate is Quaternary alluvium and fans
+Lasbela Plain,plain,resolved,09.04,Lasbela Plain,,pass,
+Hingol,valley,resolved,12.62,Hingol,,pass,
+Makran coast,coast,not mapped,,,,,anchor point(s) fall outside the study area or on no unit
+Makran Coast Range,range,not resolved,12.48,Plains with hills northwest of Pasni,,fail,relief 117 m < 200
+Central Makran Range,range,resolved,"12.59, 12.49",Central Makran Range (eastern) | Central Makran Range (western),,pass,
+Kharan Desert,desert,not resolved,"11.09, 11.19",Hamun-i-Mashkel | Smooth or irregular plains southwest of Kharan,,fail,dune share 5% < 10% | dune share 8% < 10%
+Chagai Hills,hills,resolved,"11.16, 25.23",Chagai Hills (eastern) | Chagai Hills (western),,pass,
+Ras Koh,range,resolved,11.22,Ras Koh,,pass,
+Swat,valley,resolved,"13.37, 13.36",Swat (northern) | Swat (southern),,pass,
+Dir,valley,resolved,13.32,Dir,,pass,
+Chitral,valley,resolved,"13.31, 13.35",Chitral (southwestern) | Chitral (northeastern),,pass,
+Kaghan Valley,valley,resolved,15.05,Kaghan Valley,,pass,
+Neelum Valley,valley,resolved,15.15,Neelum Valley,,pass,
+Poonch,hills,resolved,16.08,Poonch,,pass,
+Mirpur,hills,resolved,16.11,Mirpur,,pass,
+Nanga Parbat massif,massif,resolved,15.19,Nanga Parbat massif,,pass,
+Deosai Plateau,plateau,not resolved,15.29,High mountains south of Skardu (2),,fail,slope 20.9° > 15
+Gilgit,valley,resolved,14.03,Gilgit,,pass,
+Hunza,valley,resolved,"14.06, 14.02",Hunza (northeastern) | Hunza (southwestern),,pass,
+Baltistan (Skardu-Shigar),valley,resolved,"14.14, 15.28",Baltistan (Skardu-Shigar) (northern) | Baltistan (Skardu-Shigar) (southern),,pass,
+Gilan Plain,plain,merged,"27.03, 27.02",Sefidrud Delta and Anzali Lagoon | Plains with mountains near Bandar Anzali,Anzali Lagoon,pass,slope 3.1° > 3
+Anzali Lagoon,lagoon,merged,27.03,Sefidrud Delta and Anzali Lagoon,Gilan Plain,pass,
+Mazandaran Plain,plain,resolved,"27.13, 27.12, 27.10",High mountains east of Sari | Miankaleh Peninsula | Mazandaran Plain,,pass,median elevation 543 m > 50; slope 11.3° > 3
+Gorgan Plain,plain,resolved,"27.21, 27.16",Gorgan Plain (northeastern) | Gorgan Plain (southwestern),,pass,
+Golestan Forest,woodland,resolved,27.19,Golestan Forest,,pass,
+Talesh Mountains,range,resolved,27.04,Talesh Mountains,,pass,
+Damavand,massif,not resolved,28.09,High mountains southwest of Amol,,fail,median elevation 2843 m < 3000
+Alam Kuh,massif,not resolved,28.05,High mountains southwest of Chalus,,fail,median elevation 2860 m < 3000
+Alamut,valley,resolved,28.03,Alamut,,pass,
+Sefidrud Gorge,valley,resolved,27.01,Sefidrud Gorge,,pass,
+Lake Urmia,basin,not resolved,29.13,Urmia Plain and Tabriz Plain,"Tabriz Plain, Urmia Plain",fail,slope 1.7° > 1
+Urmia Plain,plain,partly resolved,29.13,Urmia Plain and Tabriz Plain,Tabriz Plain,pass,
+Miandoab Plain,plain,not resolved,30.10,Plains with hills southeast of Miandoab,,fail,slope 3.3° > 2
+Tabriz Plain,plain,merged,29.13,Urmia Plain and Tabriz Plain,Urmia Plain,pass,
+Sahand,massif,not resolved,29.16,High mountains northeast of Maragheh,,fail,median elevation 2347 m < 2500
+Sabalan,massif,not resolved,29.32,High mountains west of Ardabil (1),,fail,median elevation 2906 m < 3000
+Ardabil Plain,plain,not resolved,29.41,Plains with mountains northwest of Ardabil,,fail,slope 3.9° > 3
+Moghan Plain,plain,resolved,29.38,Moghan Plain,,pass,
+Arasbaran,range,resolved,"29.20, 29.25",Arasbaran (western) | Arasbaran (eastern),,pass,
+Hawraman,range,resolved,30.06,Hawraman,,pass,
+Alvand,massif,not resolved,30.30,High mountains west of Hamadan,,fail,median elevation 2196 m < 2500
+Kermanshah Plain,plain,not resolved,30.12,Plains with mountains northwest of Kermanshah,,fail,slope 4.3° > 3
+Kabir Kuh,range,resolved,31.04,Kabir Kuh,,pass,
+Oshtorankuh,massif,not resolved,31.15,High mountains northeast of Masjed Soleyman,,fail,median elevation 2194 m < 2500
+Bakhtiari Mountains,range,resolved,"31.14, 31.19",Bakhtiari Mountains (northwestern) | Bakhtiari Mountains (southeastern),,pass,
+Zard Kuh,massif,not resolved,31.17,High mountains northwest of Shahrekord (1),,fail,median elevation 2762 m < 3000
+Kuh-e Dena,massif,resolved,31.29,Kuh-e Dena,,pass,
+Marvdasht Plain,plain,not resolved,31.41,Plains with mountains near Marvdasht,,fail,slope 3.2° > 3
+Maharloo Lake,basin,resolved,31.38,Maharloo Lake,,pass,
+Lake Bakhtegan,basin,resolved,31.50,Lake Bakhtegan,,pass,
+Khuzestan Plain,plain,partly resolved,"32.08, 32.06, 32.07",Khuzestan Plain | Shadegan Marshes | Karun Floodplain and Dez Floodplain,"Karun Floodplain, Shadegan Marshes",pass,
+Karun Floodplain,floodplain,partly resolved,"32.03, 32.07",Older meander and cover floodplain southwest of Ahvaz | Karun Floodplain and Dez Floodplain,Khuzestan Plain,pass,active_floodplain share 7% < 25%
+Hawizeh Marshes,floodplain,resolved,32.02,Hawizeh Marshes,,pass,
+Shadegan Marshes,floodplain,partly resolved,32.06,Shadegan Marshes,Khuzestan Plain,pass,
+Dashtestan Plain,plain,partly resolved,33.01,Bushehr Peninsula,,pass,
+Kish Island,island,resolved,33.13,Kish Island,,pass,
+Qeshm Island,island,resolved,33.21,Qeshm Island,,pass,
+Hara Mangroves,coast,not mapped,,,,,anchor point(s) fall outside the study area or on no unit
+Minab Plain,plain,resolved,33.25,Minab Plain,,pass,
+Chabahar Bay,coast,not mapped,,,,,anchor point(s) fall outside the study area or on no unit
+Bashagard Mountains,range,resolved,12.20,Bashagard Mountains,,pass,
+Jaz Murian,basin,resolved,12.16,Jaz Murian,,pass,
+Jiroft Plain,plain,resolved,12.08,Jiroft Plain,,pass,
+Bampur Valley,valley,resolved,12.22,Bampur Valley,,pass,
+Kuh-e Karkas,range,resolved,34.06,Kuh-e Karkas,,pass,
+Isfahan Plain,plain,resolved,34.11,Isfahan Plain and Zayandeh Rud,,pass,
+Gavkhouni,basin,not resolved,34.21,Plains with hills north of Abarkuh,,fail,slope 1.1° > 1
+Shir Kuh,massif,not resolved,34.29,High mountains southwest of Yazd,,fail,median elevation 2453 m < 3000
+Kuh-e Hazar,massif,not resolved,34.72,Jebal Barez (northwestern),Jebal Barez,fail,median elevation 2898 m < 3000
+Jebal Barez,range,resolved,"34.72, 36.06",Jebal Barez (northwestern) | Jebal Barez (southeastern),,pass,
+Qazvin Plain,plain,partly resolved,35.06,Qazvin Plain and Tehran Plain,Tehran Plain,pass,
+Tehran Plain,plain,merged,35.06,Qazvin Plain and Tehran Plain,Qazvin Plain,pass,
+Hoz-e Soltan,basin,not resolved,35.06,Qazvin Plain and Tehran Plain,"Qazvin Plain, Tehran Plain",fail,slope 1.3° > 1
+Namak Lake,basin,resolved,35.10,Namak Lake,,pass,
+Dasht-e Kavir,desert,resolved,"35.19, 35.13",Dasht-e Kavir | Plains with mountains south of Semnan,,pass,slope 5.6° > 2
+Rig-e Jenn,desert,not resolved,35.19,Dasht-e Kavir,Dasht-e Kavir,fail,dune share 0% < 10%
+Dasht-e Lut,desert,resolved,"36.05, 36.09",Gandom Beryan | Dasht-e Lut,,pass,
+Kalut,desert,resolved,36.07,Kalut,,pass,
+Rig-e Yalan,desert,not resolved,36.14,Plains with hills west of Zahedan,,fail,dune share 2% < 10%
+Kopet Dagh,range,partly resolved,"37.26, 37.33",Kopet Dagh and Hezar Masjed | Open mountains near Dargaz,Hezar Masjed,pass,relief 310 m < 400
+Aladagh,range,resolved,37.18,Aladagh,,pass,
+Atrek Valley,valley,partly resolved,"37.31, 37.16",Atrek Valley and Kashaf Rud Valley | Atrek Valley,Kashaf Rud Valley,pass,
+Binalud,range,resolved,"37.29, 37.35",Binalud (western) | Binalud (eastern),,pass,
+Hezar Masjed,range,merged,"37.26, 37.44",Kopet Dagh and Hezar Masjed | Open mountains southwest of Sarakhs,Kopet Dagh,pass,relief 393 m < 400
+Kashaf Rud Valley,valley,partly resolved,"37.31, 37.43",Atrek Valley and Kashaf Rud Valley | Kashaf Rud Valley,Atrek Valley,pass,
+Qaenat Highlands,plateau,resolved,"38.04, 38.09",Qaenat Highlands (northwestern) | Qaenat Highlands (southeastern),,pass,
+Sistan Plain,plain,merged,25.03,Hamun-e Hirmand and Hamun-e Saberi,"Hamun-e Hirmand, Hamun-e Saberi",pass,
+Hamun-e Hirmand,basin,partly resolved,25.03,Hamun-e Hirmand and Hamun-e Saberi,"Hamun-e Saberi, Sistan Plain",pass,
+Hamun-e Saberi,basin,merged,25.03,Hamun-e Hirmand and Hamun-e Saberi,"Hamun-e Hirmand, Sistan Plain",pass,
+Kuh-e Taftan,massif,not resolved,38.28,High mountains north of Khash,,fail,median elevation 2491 m < 2500
+Kuh-e Bazman,massif,not resolved,38.08,Open mountains northwest of Iranshahr,,fail,median elevation 1088 m < 2000
+Bari Doab,doab,resolved,"01.28, 01.13",,,,"doab area 30,313 km²; interfluve purity 100% (2 interfluve units inside, 0 straddle a bounding river; 16 river-corridor units excluded)"
+Rechna Doab,doab,resolved,"01.27, 01.14, 01.35, 01.38, 01.36, 01.41, 01.34",,,,"doab area 31,374 km²; interfluve purity 100% (7 interfluve units inside, 5 straddle a bounding river; 18 river-corridor units excluded)"
+Chaj Doab,doab,resolved,"01.25, 01.24, 01.12",,,,"doab area 13,966 km²; interfluve purity 87% (3 interfluve units inside, 7 straddle a bounding river; 8 river-corridor units excluded)"
+Sindh Sagar Doab,doab,resolved,"02.06, 02.05, 02.02, 02.09, 02.03, 02.04, 02.07, 02.10",,,,"doab area 31,995 km²; interfluve purity 91% (8 interfluve units inside, 1 straddle a bounding river; 10 river-corridor units excluded)"

@@ -1,0 +1,10 @@
+taxon,cell_deg,candidate,prediction_improvement,prediction_ci_low,boundary_difference,boundary_ci_low,blocks,verdict,status
+plants,0.25,ours,0.0019,-0.0029,0.0004,-0.0507,93,not demonstrated,exploratory
+plants,0.25,ours coarsened to RESOLVE's 39 units,0.0067,0.0026,-0.0153,-0.0737,93,not demonstrated,exploratory
+plants,0.25,our faunal ecoregions,0.0068,0.0035,0.0161,-0.023,93,not demonstrated,exploratory
+plants,0.125,ours,0.0118,0.0043,-0.0073,-0.086,71,not demonstrated,exploratory
+plants,0.125,ours coarsened to RESOLVE's 39 units,0.0142,0.0069,-0.0305,-0.1051,71,not demonstrated,exploratory
+plants,0.125,our faunal ecoregions,0.0126,0.0061,0.0167,-0.0188,71,not demonstrated,exploratory
+birds,0.25,ours,-0.0251,-0.0354,-0.004,-0.04,107,not demonstrated,exploratory
+birds,0.25,ours coarsened to RESOLVE's 39 units,-0.0016,-0.0098,0.0019,-0.0328,107,not demonstrated,exploratory
+birds,0.25,our faunal ecoregions,0.0128,0.0035,0.0233,-0.0116,107,not demonstrated,exploratory

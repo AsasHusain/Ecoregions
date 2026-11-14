@@ -205,7 +205,8 @@ def plot(ids: np.ndarray, comms: list, path: Path, max_px: int = 2400) -> None:
 
     step = max(1, int(np.ceil(max(ids.shape) / max_px)))
     a = ids[::step, ::step]
-    cols = [plt.get_cmap(m)(i) for m in ("tab20", "tab20b", "tab20c") for i in range(20)][: len(comms)]
+    cols = [plt.get_cmap(m)(i) for m in ("tab20", "tab20b", "tab20c") for i in range(20)]
+    cols = [cols[j % len(cols)] for j in range(len(comms))]  # 60 colours: repeat for larger rule sets
     fig, ax = plt.subplots(figsize=(16, 13), dpi=130)
     ax.imshow(np.ma.masked_equal(a, 0), cmap=ListedColormap(cols), vmin=0.5, vmax=len(comms) + 0.5,
               interpolation="nearest")
