@@ -21,7 +21,18 @@ grid:
   overlap: {km: 75, into: [IRN]}       # parcel: strip into the mapped neighbours, clipped at the join
   inland_seas:                         # water the coast-from-DEM step would call land; Copernicus flattens each to one height
   - {name: Caspian Sea, level_m: -28.0, bbox_lonlat: [48.5, 37.5, 51.3, 42.5], min_km2: 1000}
-  # large lakes (heights to be read from the tiles before the build)
+  # lakes and reservoirs over ~200 km2: the modal Copernicus height in each box (flat area in brackets, 2026-11-14).
+  # Tuz Golu (902.5 m, flat only ~600 of ~1,600 km2) dries to a salt pan each summer and stays land, as Lake Urmia does
+  - {name: Lake Van, level_m: 1647.5, bbox_lonlat: [42.25, 38.25, 43.75, 39.05], min_km2: 1000}            # 3,589
+  - {name: Lake Sevan, level_m: 1900.5, bbox_lonlat: [44.9, 40.1, 45.65, 40.65], min_km2: 500}             # 1,269
+  - {name: Lake Beysehir, level_m: 1122.0, bbox_lonlat: [31.35, 37.55, 31.75, 37.95], min_km2: 200}        # 610
+  - {name: Lake Egirdir, level_m: 916.5, bbox_lonlat: [30.75, 37.75, 31.0, 38.3], min_km2: 200}            # 459
+  - {name: Ataturk Reservoir, level_m: 537.0, bbox_lonlat: [38.3, 37.3, 39.3, 37.95], min_km2: 300}        # 748
+  - {name: Keban Reservoir, level_m: 835.5, bbox_lonlat: [38.5, 38.7, 39.6, 39.2], min_km2: 150}           # 422
+  - {name: Mingachevir Reservoir, level_m: 75.5, bbox_lonlat: [46.6, 40.7, 47.1, 41.1], min_km2: 150}      # 400
+  - {name: Lake Iznik, level_m: 83.0, bbox_lonlat: [29.35, 40.35, 29.75, 40.5], min_km2: 100}              # 295
+  - {name: Karakaya Reservoir, level_m: 688.5, bbox_lonlat: [38.3, 38.2, 39.2, 38.75], min_km2: 100}       # 233
+  - {name: Hirfanli Reservoir, level_m: 848.0, bbox_lonlat: [33.4, 39.05, 33.85, 39.4], min_km2: 100}      # 212
 sources:
   natural_earth:
     base: https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/10m_cultural
