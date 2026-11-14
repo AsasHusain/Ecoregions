@@ -55,22 +55,14 @@ sources:
     # never committed). Each unpacked to occurrences_<key>.csv.gz with a `cultivated` flag; the polygons
     # overlap, so readers drop repeated gbifIDs.
     downloads:
-      - key: 0005035-261104105008071   # GBIF.org (7 November 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.22b9a4
-        doi: 10.15468/dl.22b9a4        # Pakistan, Jammu and Kashmir, Ladakh, Aksai Chin
-        url: https://api.gbif.org/v1/occurrence/download/request/0005035-261104105008071.zip
-        records: 2847286
-      - key: 0007088-261104105008071   # GBIF.org (9 November 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.6t43nn
-        doi: 10.15468/dl.6t43nn        # Afghanistan
-        url: https://api.gbif.org/v1/occurrence/download/request/0007088-261104105008071.zip
-        records: 175987
       - key: 0001335-261110092616502   # GBIF.org (11 November 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.u2kux5
         doi: 10.15468/dl.u2kux5        # Iran plus a margin; all taxa (sealed records filtered out by the confirmation mask)
         url: https://api.gbif.org/v1/occurrence/download/request/0001335-261110092616502.zip
         records: 1646532
-      - key: 0007052-261110092616502   # GBIF.org (14 November 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.77g6hc
-        doi: 10.15468/dl.77g6hc        # Turkmenistan, Uzbekistan, Tajikistan, Kyrgyzstan plus 0.5 degrees; all taxa (sealed records filtered out)
-        url: https://api.gbif.org/v1/occurrence/download/request/0007052-261110092616502.zip
-        records: 833901
+      - key: 0007079-261110092616502   # GBIF.org (14 November 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.tywnkz
+        doi: 10.15468/dl.tywnkz        # Turkiye, Armenia, Azerbaijan, Georgia plus a margin; all taxa (sealed records filtered out)
+        url: https://api.gbif.org/v1/occurrence/download/request/0007079-261110092616502.zip
+        records: 7653713
 provinces:
   drop_outside_seeds: true     # parcel: provinces seeded only outside it drop out
   units:
