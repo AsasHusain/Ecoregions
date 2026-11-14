@@ -88,7 +88,7 @@ def run(cfg) -> None:
     paths = Paths(cfg)
     grid = Grid.load(paths.grid_json)
     cg = grid.coarsen(cfg["grid"]["coarse_factor"])
-    gaz = yaml.safe_load(paths.gazetteer.read_text(encoding="utf-8"))
+    gaz = paths.load_gazetteer()
     att = pd.read_csv(paths.interim / "l3_attributes.csv", dtype={"code": str, "l2_code": str}).set_index("unit")
     hits = {k: v for k, v in json.loads((paths.interim / "gazetteer_hits.json").read_text()).items()}
     checked = [f for f in gaz["features"] if f.get("check")]

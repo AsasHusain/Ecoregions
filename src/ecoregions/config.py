@@ -105,3 +105,15 @@ class Paths:
     @property
     def gazetteer(self) -> Path:
         return self.root / self.cfg["naming"]["gazetteer"]
+
+    def load_gazetteer(self, path: Path | None = None) -> dict:
+        """The gazetteer, with any ``include``d gazetteers' features, doabs and places first."""
+        import yaml
+
+        path = path or self.gazetteer
+        g = yaml.safe_load(path.read_text(encoding="utf-8"))
+        for inc in g.pop("include", []):
+            base = self.load_gazetteer(path.parent / inc)
+            for k in ("features", "doabs", "places"):
+                g[k] = (base.get(k) or []) + (g.get(k) or [])
+        return g

@@ -365,7 +365,7 @@ segmentation:
 vegcheck:
   mangrove_communities: [mangrove]   # compared with Global Mangrove Watch
 naming:
-  gazetteer: gazetteer_pak-afg-irn.yaml
+  gazetteer: gazetteer_central-asia.yaml
 qa_zooms:   # close-up QA figures (lon/lat boxes W, S, E, N)
   dem: {tilecorner: [71.8, 30.8, 72.2, 31.2]}
   terrain: {saltrange: [72.5, 32.4, 73.2, 32.9]}

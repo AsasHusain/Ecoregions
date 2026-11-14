@@ -371,7 +371,7 @@ def finalize(cfg, lab: np.ndarray | None = None) -> None:
     df = pd.read_csv(paths.interim / "l3_stats.csv", dtype={"l2_code": str})
     for c in ("conf_boundary", "conf_homogeneity", "conf_l2_margin"):
         df[c] = df[c].fillna(df[c].median())  # tiny units can lack a sample on the coarse grids
-    gaz = yaml.safe_load(paths.gazetteer.read_text(encoding="utf-8"))
+    gaz = paths.load_gazetteer()
     df, feat_units = assign_names(df, lab, grid, gaz)
     df["conf_named"] = (df.name_basis == "gazetteer").astype(float)
     df["confidence"] = (0.35 * df.conf_boundary + 0.35 * df.conf_homogeneity + 0.15 * df.conf_l2_margin

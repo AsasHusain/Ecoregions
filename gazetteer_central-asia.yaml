@@ -1,0 +1,718 @@
+# Gazetteer for Central Asia: the Pakistan, Afghanistan & Iran gazetteer (for the overlap strip) plus Central Asian
+# features and towns, from standard atlases (coordinates approximate; ranges checked for relief). Same schema.
+include:
+- gazetteer_pak-afg-irn.yaml
+features:
+- name: Karakum
+  kind: desert
+  points:
+  - - 59.0
+    - 39.5
+  - - 60.5
+    - 39.0
+  - - 61.6
+    - 38.5
+  - - 58.2
+    - 40.0
+  priority: 2
+  check: false
+- name: Zaunguz Karakum
+  kind: desert
+  points:
+  - - 58.6
+    - 41.0
+  - - 60.0
+    - 40.9
+  priority: 2
+  check: false
+- name: Sundukli Sands
+  kind: desert
+  points:
+  - - 63.6
+    - 39.2
+  - - 64.2
+    - 38.8
+  priority: 2
+  check: false
+- name: Kyzylkum
+  kind: desert
+  points:
+  - - 63.0
+    - 42.0
+  - - 64.5
+    - 41.6
+  - - 65.5
+    - 42.4
+  - - 62.3
+    - 43.0
+  priority: 2
+  check: false
+- name: Aralkum
+  kind: desert
+  points:
+  - - 59.6
+    - 44.6
+  - - 60.5
+    - 45.0
+  - - 61.0
+    - 44.2
+  priority: 2
+  check: false
+- name: Ustyurt Plateau
+  kind: plateau
+  points:
+  - - 56.5
+    - 43.0
+  - - 57.5
+    - 44.0
+  - - 56.2
+    - 44.6
+  priority: 2
+  check: false
+- name: Krasnovodsk Plateau
+  kind: plateau
+  points:
+  - - 54.6
+    - 40.35
+  - - 54.2
+    - 40.6
+  priority: 2
+  check: false
+- name: Karabil
+  kind: plateau
+  points:
+  - - 63.8
+    - 36.4
+  - - 64.3
+    - 36.6
+  priority: 2
+  check: false
+- name: Badkhyz
+  kind: plateau
+  points:
+  - - 61.8
+    - 35.8
+  - - 62.4
+    - 36.0
+  priority: 2
+  check: false
+- name: Big Balkhan
+  kind: range
+  points:
+  - - 54.65
+    - 39.6
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Kugitang
+  kind: range
+  points:
+  - - 66.55
+    - 37.9
+  - - 66.4
+    - 38.1
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Babatag
+  kind: range
+  points:
+  - - 68.2
+    - 37.8
+  - - 68.1
+    - 38.1
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Gissar Range
+  kind: range
+  points:
+  - - 68.8
+    - 38.95
+  - - 69.4
+    - 39.0
+  - - 68.2
+    - 38.9
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Zeravshan Range
+  kind: range
+  points:
+  - - 68.4
+    - 39.35
+  - - 69.2
+    - 39.4
+  - - 67.8
+    - 39.3
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Turkestan Range
+  kind: range
+  points:
+  - - 69.4
+    - 39.65
+  - - 70.3
+    - 39.6
+  - - 68.7
+    - 39.7
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Alay Range
+  kind: range
+  points:
+  - - 72.0
+    - 39.8
+  - - 73.0
+    - 39.9
+  - - 71.2
+    - 39.7
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Trans-Alay Range
+  kind: range
+  points:
+  - - 73.0
+    - 39.3
+  - - 72.3
+    - 39.3
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Darvaz Range
+  kind: range
+  points:
+  - - 71.0
+    - 38.6
+  - - 71.5
+    - 38.9
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Peter the Great Range
+  kind: range
+  points:
+  - - 70.6
+    - 39.0
+  - - 71.0
+    - 39.1
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Rushan Range
+  kind: range
+  points:
+  - - 72.0
+    - 38.05
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Shugnan Range
+  kind: range
+  points:
+  - - 71.9
+    - 37.5
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Fergana Range
+  kind: range
+  points:
+  - - 73.5
+    - 41.3
+  - - 73.9
+    - 41.0
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Chatkal Range
+  kind: range
+  points:
+  - - 71.0
+    - 41.6
+  - - 71.6
+    - 41.8
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Kurama Range
+  kind: range
+  points:
+  - - 70.1
+    - 40.95
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Pskem Range
+  kind: range
+  points:
+  - - 70.6
+    - 41.95
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Talas Ala-Too
+  kind: range
+  points:
+  - - 72.2
+    - 42.2
+  - - 73.0
+    - 42.1
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Kyrgyz Ala-Too
+  kind: range
+  points:
+  - - 74.5
+    - 42.55
+  - - 75.4
+    - 42.6
+  - - 73.6
+    - 42.45
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Kungey Ala-Too
+  kind: range
+  points:
+  - - 77.5
+    - 42.95
+  - - 78.2
+    - 43.0
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Terskey Ala-Too
+  kind: range
+  points:
+  - - 77.8
+    - 42.15
+  - - 78.6
+    - 42.2
+  - - 76.8
+    - 42.0
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Kokshaal-Too
+  kind: range
+  points:
+  - - 78.0
+    - 40.85
+  - - 77.0
+    - 40.6
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: At-Bashy Range
+  kind: range
+  points:
+  - - 76.0
+    - 40.85
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Nuratau
+  kind: range
+  points:
+  - - 66.4
+    - 40.55
+  - - 66.9
+    - 40.6
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Aktau
+  kind: range
+  points:
+  - - 65.6
+    - 40.4
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Eastern Pamir
+  kind: plateau
+  points:
+  - - 73.9
+    - 38.2
+  - - 74.3
+    - 38.8
+  - - 73.5
+    - 37.9
+  priority: 2
+  check: false
+- name: Fergana Valley
+  kind: valley
+  points:
+  - - 71.8
+    - 40.6
+  - - 72.6
+    - 40.8
+  - - 70.9
+    - 40.4
+  priority: 2
+  check: false
+- name: Chuy Valley
+  kind: valley
+  points:
+  - - 74.6
+    - 42.85
+  - - 75.3
+    - 42.8
+  priority: 2
+  check: false
+- name: Talas Valley
+  kind: valley
+  points:
+  - - 72.3
+    - 42.5
+  priority: 2
+  check: false
+- name: Issyk-Kul Basin
+  kind: basin
+  points:
+  - - 77.3
+    - 42.4
+  - - 76.6
+    - 42.4
+  priority: 2
+  check: false
+- name: Naryn Valley
+  kind: valley
+  points:
+  - - 75.5
+    - 41.4
+  - - 74.6
+    - 41.6
+  priority: 2
+  check: false
+- name: Alay Valley
+  kind: valley
+  points:
+  - - 73.0
+    - 39.6
+  priority: 2
+  check: false
+- name: Zeravshan Valley
+  kind: valley
+  points:
+  - - 66.6
+    - 39.6
+  - - 65.5
+    - 39.8
+  priority: 2
+  check: false
+- name: Kashkadarya Valley
+  kind: valley
+  points:
+  - - 65.8
+    - 38.9
+  - - 66.4
+    - 38.9
+  priority: 2
+  check: false
+- name: Surkhandarya Valley
+  kind: valley
+  points:
+  - - 67.6
+    - 37.7
+  - - 67.8
+    - 38.1
+  priority: 2
+  check: false
+- name: Vakhsh Valley
+  kind: valley
+  points:
+  - - 68.8
+    - 37.6
+  - - 69.0
+    - 38.0
+  priority: 2
+  check: false
+- name: Hissar Valley
+  kind: valley
+  points:
+  - - 68.5
+    - 38.55
+  priority: 2
+  check: false
+- name: Murgab Delta
+  kind: delta
+  points:
+  - - 61.8
+    - 37.5
+  priority: 2
+  check: false
+- name: Tejen Delta
+  kind: delta
+  points:
+  - - 60.5
+    - 37.4
+  priority: 2
+  check: false
+- name: Hungry Steppe
+  kind: plain
+  points:
+  - - 68.6
+    - 40.5
+  - - 68.2
+    - 40.6
+  priority: 2
+  check: false
+- name: Karshi Steppe
+  kind: plain
+  points:
+  - - 65.5
+    - 38.8
+  priority: 2
+  check: false
+- name: Akhal
+  kind: piedmont
+  points:
+  - - 58.2
+    - 38.1
+  - - 57.2
+    - 38.4
+  priority: 2
+  check: false
+- name: Amu Darya Delta
+  kind: delta
+  points:
+  - - 59.2
+    - 43.3
+  - - 59.6
+    - 42.7
+  priority: 2
+  check: false
+- name: Khorezm
+  kind: plain
+  points:
+  - - 60.6
+    - 41.5
+  - - 60.2
+    - 41.7
+  priority: 2
+  check: false
+- name: Sarygamysh Basin
+  kind: basin
+  points:
+  - - 57.4
+    - 41.9
+  priority: 2
+  check: false
+- name: Aydarkul Basin
+  kind: basin
+  points:
+  - - 66.8
+    - 40.9
+  priority: 2
+  check: false
+places:
+- - Ashgabat
+  - 58.38
+  - 37.95
+- - Turkmenbashi
+  - 52.97
+  - 40.02
+- - Balkanabat
+  - 54.37
+  - 39.51
+- - Dashoguz
+  - 59.97
+  - 41.84
+- - Mary
+  - 61.83
+  - 37.6
+- - Turkmenabat
+  - 63.58
+  - 39.08
+- - Tejen
+  - 60.5
+  - 37.38
+- - Serdar
+  - 56.27
+  - 38.98
+- - Bereket
+  - 55.42
+  - 39.25
+- - Kerki
+  - 65.22
+  - 37.83
+- - Gazojak
+  - 61.4
+  - 41.18
+- - Koneurgench
+  - 59.15
+  - 42.33
+- - Kaka
+  - 59.6
+  - 37.35
+- - Serhetabat
+  - 62.35
+  - 35.28
+- - Tashkent
+  - 69.24
+  - 41.31
+- - Samarkand
+  - 66.96
+  - 39.65
+- - Bukhara
+  - 64.42
+  - 39.77
+- - Nukus
+  - 59.61
+  - 42.46
+- - Urgench
+  - 60.63
+  - 41.55
+- - Navoiy
+  - 65.37
+  - 40.1
+- - Qarshi
+  - 65.79
+  - 38.86
+- - Termez
+  - 67.28
+  - 37.22
+- - Andijan
+  - 72.34
+  - 40.78
+- - Namangan
+  - 71.67
+  - 41.0
+- - Fergana
+  - 71.79
+  - 40.39
+- - Jizzakh
+  - 67.84
+  - 40.12
+- - Gulistan
+  - 68.78
+  - 40.49
+- - Zarafshan
+  - 64.2
+  - 41.57
+- - Moynaq
+  - 58.92
+  - 43.77
+- - Uchquduq
+  - 63.55
+  - 42.16
+- - Denov
+  - 67.9
+  - 38.27
+- - Shahrisabz
+  - 66.83
+  - 39.06
+- - Dushanbe
+  - 68.78
+  - 38.56
+- - Khujand
+  - 69.62
+  - 40.28
+- - Bokhtar
+  - 68.78
+  - 37.84
+- - Kulob
+  - 69.78
+  - 37.91
+- - Khorog
+  - 71.55
+  - 37.49
+- - Murghab
+  - 73.97
+  - 38.17
+- - Panjakent
+  - 67.61
+  - 39.5
+- - Istaravshan
+  - 69.0
+  - 39.91
+- - Rasht
+  - 70.3
+  - 39.03
+- - Kalaikhumb
+  - 70.77
+  - 38.46
+- - Ishkashim
+  - 71.61
+  - 36.73
+- - Bishkek
+  - 74.59
+  - 42.87
+- - Osh
+  - 72.8
+  - 40.53
+- - Jalal-Abad
+  - 73.0
+  - 40.93
+- - Karakol
+  - 78.39
+  - 42.49
+- - Naryn
+  - 75.99
+  - 41.43
+- - Talas
+  - 72.24
+  - 42.52
+- - Balykchy
+  - 76.18
+  - 42.46
+- - Cholpon-Ata
+  - 77.08
+  - 42.65
+- - Kyzyl-Kyya
+  - 72.13
+  - 40.26
+- - Batken
+  - 70.82
+  - 40.06
+- - Toktogul
+  - 72.94
+  - 41.87
+- - Kazarman
+  - 74.03
+  - 41.4
+- - At-Bashy
+  - 75.8
+  - 41.17
+- - Sary-Tash
+  - 73.25
+  - 39.73
+- - Kochkor
+  - 75.78
+  - 42.21
+- - Tokmok
+  - 75.3
+  - 42.84
+- - Kara-Balta
+  - 73.85
+  - 42.81
