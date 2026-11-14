@@ -3,7 +3,7 @@
 
 project:
   name: caucasus-anatolia-ecoregions
-  version: "0.1.0"
+  version: "0.7.0"
   area: Caucasus & Anatolia     # map titles              # 0.1.x physiographic; 0.2.0 = first biodiversity-based release
 paths:
   raw_region: data/raw/regions/caucasus-anatolia   # downloads clipped or tiled to this region (git-ignored)
@@ -388,7 +388,7 @@ qa_zooms:   # close-up QA figures (lon/lat boxes W, S, E, N)
 communities:
   rules: communities_caucasus-anatolia.yaml
 assemble:
-  faunal_k: 20                 # faunal regions: turnover explained 0.578, a step from 0.568 then flat to 23 (as Texas: start of a plateau)
+  faunal_k: 20                 # placeholder: set from this area's turnover curve after the faunal stage, before assemble
   faunal_group_k: 8            # the key groups them (nests exactly; the largest step in turnover explained above 5 regions, 0.40 -> 0.46)
 confirmation:   # docs/preregistration.md, section 8: sealed squares of the world mask inside Central Asia (rank cut-off from
   # scripts/sealed_counts.py, record counts only); their records and buffer are not read until the map is frozen
