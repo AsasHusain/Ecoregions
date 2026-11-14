@@ -388,8 +388,8 @@ qa_zooms:   # close-up QA figures (lon/lat boxes W, S, E, N)
 communities:
   rules: communities_caucasus-anatolia.yaml
 assemble:
-  faunal_k: 20                 # placeholder: set from this area's turnover curve after the faunal stage, before assemble
-  faunal_group_k: 8            # the key groups them (nests exactly; the largest step in turnover explained above 5 regions, 0.40 -> 0.46)
+  faunal_k: 19                 # faunal regions: turnover explained 0.520, a step from 0.458 then at most +0.006 per region to 25 (start of a plateau)
+  faunal_group_k: 9            # the key groups them (nests exactly; the largest step above 5 regions, 0.290 -> 0.382)
 confirmation:   # docs/preregistration.md, section 8: sealed squares of the world mask inside Central Asia (rank cut-off from
   # scripts/sealed_counts.py, record counts only); their records and buffer are not read until the map is frozen
   world_mask: docs/confirmation/world_mask.json
@@ -399,4 +399,4 @@ confirmation:   # docs/preregistration.md, section 8: sealed squares of the worl
   open: false
   map_sha256: null
 faunal:
-  k_maps: [8, 15, 20]          # 20 regions grouped into 8 (assemble.faunal_k / faunal_group_k)
+  k_maps: [9, 15, 19]          # 19 regions grouped into 9 (assemble.faunal_k / faunal_group_k)
