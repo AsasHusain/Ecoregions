@@ -98,7 +98,7 @@ def run(cfg) -> None:
     ax.annotate("N", xy=(x0 - 60000, y0 + 90000), xytext=(x0 - 60000, y0), ha="center", fontsize=11,  # left of the scale bar, clear of the key
                 weight="bold", arrowprops=dict(arrowstyle="-|>", color="#1b1b1a", lw=1.4))
 
-    ax.set_title(f"Revised Ecoregions of {cfg['project']['area']} — v{cfg['project']['version']}\n"
+    ax.set_title(f"Physiographic Units of {cfg['project']['area']} — v{cfg['project']['version']}\n"
                  f"{len(l3)} Level III units within {len(l2)} Level II physiographic provinces (Omernik-style weight-of-evidence delineation)",
                  fontsize=13, loc="left")
     credit = ("Data: Copernicus GLO-90 DEM (ESA/Airbus); HydroSHEDS/HydroRIVERS (WWF, Lehner & Grill 2013); " + cfg["sources"]["geology"]["credit"] + "; "

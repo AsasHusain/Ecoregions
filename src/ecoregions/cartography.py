@@ -59,11 +59,11 @@ def region_map(cfg, paths, out, mode: str = "floral") -> list[str]:
         groups = pd_groupby_keep_order([(types[t]["biome"], (types[t]["name"] + (" *" if t in flagged else ""),
                                                              types[t]["color"])) for t in order])
         if flagged:
-            notes.append("* includes ecoregions flagged for review")
-        key_title = "ECOREGIONS"
-        title = (f"Revised Ecoregions of {cfg['project']['area']} — v{v}\n"
-                 f"{len(g)} ecoregions of {g['type'].nunique()} types in {g.biome.nunique()} biomes")
-        credit = ("Ecoregions: potential natural vegetation communities (rules on Copernicus GLO-90, CHELSA v2.1, "
+            notes.append("* includes Floral Ecoregions flagged for review")
+        key_title = "FLORAL ECOREGIONS"
+        title = (f"Floral Ecoregions of {cfg['project']['area']} — v{v}\n"
+                 f"{len(g)} Floral Ecoregions of {g['type'].nunique()} types in {g.biome.nunique()} biomes")
+        credit = ("Floral Ecoregions: potential natural vegetation communities (rules on Copernicus GLO-90, CHELSA v2.1, "
                   f"SoilGrids, {cfg['sources']['geology']['label']}, HydroSHEDS), boundaries snapped to landforms at 90 m.\n"
                   "Checked against Global Mangrove Watch v3, Jung et al. 2020, Hengl et al. 2018, GBIF, RESOLVE 2017. ")
     else:
@@ -74,9 +74,9 @@ def region_map(cfg, paths, out, mode: str = "floral") -> list[str]:
         groups = pd_groupby_keep_order([(r.group_name, (r.faunal_name, r.color)) for r in g.itertuples()])
         key_title = "FAUNAL ECOREGIONS"
         title = (f"Faunal Ecoregions of {cfg['project']['area']} — v{v}\n"
-                 f"{len(g)} faunal ecoregions in {g.group.nunique()} groups")
+                 f"{len(g)} Faunal Ecoregions in {g.group.nunique()} groups")
         nsp = int((paths.interim / "faunal" / "n_species.txt").read_text())
-        credit = (f"Faunal ecoregions: Simpson beta diversity of {nsp:,} mammals, birds, reptiles and amphibians (IUCN Red List "
+        credit = (f"Faunal Ecoregions: Simpson beta diversity of {nsp:,} mammals, birds, reptiles and amphibians (IUCN Red List "
                   "and BirdLife ranges trimmed to elevation limits) on 10 km cells, UPGMA clustering; boundaries follow "
                   "landforms.\n")
     credit += "Albers equal-area."

@@ -51,6 +51,9 @@ def zoom(arr: np.ndarray, grid, lonlat_bbox, path: Path, title="", cmap="viridis
     r0, r1 = int(max(0, min(rows))), int(min(arr.shape[0], max(rows)))
     c0, c1 = int(max(0, min(cols))), int(min(arr.shape[1], max(cols)))
     sub = arr[r0:r1, c0:c1]
+    if sub.size == 0 or (sub.dtype.kind == "f" and np.isnan(sub).all()):  # box outside this grid (e.g. a parcel)
+        log.info("QA zoom %s: box outside the grid, skipped", path.name)
+        return None
     o = overlay[r0:r1, c0:c1] if overlay is not None else None
     return quicklook(sub, path, title, cmap, vmin, vmax, max_px=2400, categorical=categorical, outline=o)
 
