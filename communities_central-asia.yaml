@@ -19,6 +19,24 @@ communities:
     dune: true
   note: Karakum, Zaunguz, Kyzylkum, Central Fergana and Sundukli sands (Walter & Box 1983).
   priority: 45
+- id: ca_sand_black_saxaul
+  structure: shrubland
+  ecoregion: amu_darya
+  name: Black saxaul woodland in the sand deserts
+  group: Desert (black saxaul)
+  indicators: [Haloxylon aphyllum, Salsola richteri, Carex physodes]
+  where:
+    province: ['40', '43', '45']
+    elev: [null, 500]
+    slope: [null, 4]
+    bio12: [null, 200]
+    hand: [bar_upland, upland]
+  note: >-
+    Haloxylon aphyllum stands in interdune depressions and on the flat sands of the Karakum and Kyzylkum, part of the
+    sand-desert mosaic (Walter & Box 1983). Added 2026-11-14 after development data showed the dune texture reaches only
+    17-27% of these deserts (fixed, vegetated ridge sands), so the black saxaul rule had typed most of the Karakum as a
+    gypsum & clay desert.
+  priority: 30
 - id: ca_black_saxaul
   structure: shrubland
   ecoregion: turan_clay
@@ -26,7 +44,7 @@ communities:
   group: Desert (black saxaul)
   indicators: [Haloxylon aphyllum, Salsola orientalis, Anabasis aphylla, Artemisia diffusa]
   where:
-    province: ['40', '41', '43', '44', '45', '46', '54']
+    province: ['41', '44', '46', '54']
     elev: [null, 500]
     slope: [null, 4]
     bio12: [null, 200]
@@ -84,7 +102,9 @@ communities:
   ecoregion: tugai
   name: Central Asian tugai riparian forest
   group: Riparian forest (tugai)
-  indicators: [Populus euphratica, Populus pruinosa, Tamarix ramosissima, Elaeagnus angustifolia, Erianthus ravennae]
+  indicators: [Populus euphratica, Populus pruinosa, Erianthus ravennae, Halimodendron halodendron]
+  # not Tamarix ramosissima (every desert wash and solonchak) or Elaeagnus angustifolia (planted windbreaks): development
+  # records put 77 and 40 of them outside tugai, in desert, steppe and juniper units (2026-11-14)
   where:
     province: ['40', '43', '44', '45', '46', '48', '51', '52', '53', '54']
     hand: [active_floodplain, meander_floodplain]
@@ -97,7 +117,7 @@ communities:
   ecoregion: tugai
   name: Amu Darya delta reed marsh
   group: Riparian wetland
-  indicators: [Phragmites australis, Typha angustifolia, Tamarix ramosissima]
+  indicators: [Phragmites australis, Typha angustifolia]
   where:
     province: ['44']
     hand: [active_floodplain]
@@ -199,7 +219,7 @@ communities:
   group: Mountain steppe
   indicators: [Festuca valesiaca, Stipa capillata, Ziziphora clinopodioides, Artemisia dracunculus]
   where:
-    province: ['47', '48', '49', '50', '51', '52', '55']
+    province: ['47', '48', '49', '50', '51', '52', '54', '55']  # 54: upper Kashkadarya and Zeravshan foothills (fallback reached 1,800 m)
     elev: [1100, 3000]
     bio12: [250, null]
   priority: 40
