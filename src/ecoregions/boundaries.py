@@ -52,6 +52,17 @@ def mapped_states(cfg, paths: Paths) -> gpd.GeoDataFrame:
     return st
 
 
+def mapped_area(cfg, paths: Paths, countries: gpd.GeoDataFrame, disputed: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+    """The area this region maps (its countries, states and, with Pakistan, the areas drawn with it), without a
+    parcel's overlap strip (lon/lat, one row)."""
+    mapped = cfg["grid"].get("countries", [])
+    states = mapped_states(cfg, paths)
+    study = pd.concat([countries.loc[countries.ADM0_A3.isin(mapped), ["geometry"]], states[["geometry"]]]
+                      + ([disputed.loc[disputed.BRK_A3.isin(WITH_PAKISTAN + WITH_CHINA), ["geometry"]]] if "PAK" in mapped else []))
+    study["name"] = cfg["project"]["area"]
+    return study.dissolve().reset_index(drop=True)
+
+
 def display_countries(countries: gpd.GeoDataFrame, disputed: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     """Country shapes as drawn: Pakistan with the areas in ``WITH_PAKISTAN``, China with
     ``WITH_CHINA``, India without either (lon/lat, same columns as ``countries``)."""
@@ -111,12 +122,7 @@ def run(cfg) -> None:
     countries, disputed = load_boundaries(paths)
     bbox = box(*cfg["grid"]["bbox_lonlat"])
 
-    mapped = cfg["grid"].get("countries", [])
-    states = mapped_states(cfg, paths)
-    study = pd.concat([countries.loc[countries.ADM0_A3.isin(mapped), ["geometry"]], states[["geometry"]]]
-                      + ([disputed.loc[disputed.BRK_A3.isin(WITH_PAKISTAN + WITH_CHINA), ["geometry"]]] if "PAK" in mapped else []))
-    study["name"] = cfg["project"]["area"]
-    study = study.dissolve().reset_index(drop=True)
+    study = mapped_area(cfg, paths, countries, disputed)
     ov = cfg["grid"].get("overlap")  # a parcel: a strip into its neighbours, built for context and clipped at the join
     if ov:
         sp = study.to_crs(crs).union_all()

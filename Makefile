@@ -16,7 +16,7 @@ RUN      = $(PY) -m ecoregions --config $(CONFIG) --region $(REGION)
 DONE    := $(shell PYTHONPATH=src $(PY) -c "from ecoregions.config import load_config; print(load_config(None, '$(strip $(REGION))')['paths']['interim'])")/.done
 SRC      = src/ecoregions
 
-STAGES = download preflight grid dem terrain hydro covariates features provinces segment snap attributes communities vegcheck fauna faunal assemble evaluate audit validate crosscheck package webmap staticmap
+STAGES = download preflight grid dem terrain hydro covariates features provinces segment snap attributes communities vegcheck fauna faunal assemble evaluate audit validate crosscheck package join webmap staticmap
 
 .PHONY: all clean distclean test names $(STAGES)
 all: $(DONE)/staticmap $(DONE)/webmap $(DONE)/crosscheck $(DONE)/vegcheck $(DONE)/faunal $(DONE)/audit
@@ -46,15 +46,16 @@ $(DONE)/audit:      $(DONE)/evaluate $(SRC)/audit.py communities.yaml $(CONFIG) 
 $(DONE)/validate:   $(DONE)/attributes $(SRC)/validate.py $(CONFIG) regions/$(REGION).yaml | $(DONE) ; $(RUN) validate   && touch $@
 $(DONE)/crosscheck: $(DONE)/attributes $(SRC)/crosscheck.py gazetteer.yaml | $(DONE) ; $(RUN) crosscheck && touch $@
 $(DONE)/package:    $(DONE)/validate $(DONE)/assemble $(SRC)/package.py          | $(DONE) ; $(RUN) package    && touch $@
-$(DONE)/webmap:     $(DONE)/package    $(SRC)/webmap.py $(SRC)/colors.py $(CONFIG) regions/$(REGION).yaml | $(DONE) ; $(RUN) webmap     && touch $@
-$(DONE)/staticmap:  $(DONE)/package $(DONE)/audit    $(SRC)/staticmap.py $(SRC)/colors.py $(CONFIG) regions/$(REGION).yaml | $(DONE) ; $(RUN) staticmap  && touch $@
+$(DONE)/join:       $(DONE)/package    $(SRC)/join.py | $(DONE) ; $(RUN) join       && touch $@
+$(DONE)/webmap:     $(DONE)/join       $(SRC)/webmap.py $(SRC)/colors.py $(CONFIG) regions/$(REGION).yaml | $(DONE) ; $(RUN) webmap     && touch $@
+$(DONE)/staticmap:  $(DONE)/join $(DONE)/audit    $(SRC)/staticmap.py $(SRC)/colors.py $(CONFIG) regions/$(REGION).yaml | $(DONE) ; $(RUN) staticmap  && touch $@
 
 # convenience aliases: `make snap` runs up to and including that stage
 $(STAGES): %: $(DONE)/%
 
 # rename/re-check units after editing gazetteer.yaml, without re-segmenting or re-vectorizing
 names:
-	$(RUN) names && $(RUN) crosscheck && $(RUN) package && $(RUN) webmap && $(RUN) staticmap
+	$(RUN) names && $(RUN) crosscheck && $(RUN) package && $(RUN) join && $(RUN) webmap && $(RUN) staticmap
 
 test:
 	$(PY) -m pytest -q

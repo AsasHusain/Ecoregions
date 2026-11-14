@@ -42,6 +42,7 @@ STAGES = {
     "validate": "ecoregions.validate",
     "crosscheck": "ecoregions.crosscheck",
     "package": "ecoregions.package",
+    "join": "ecoregions.join",
     "webmap": "ecoregions.webmap",
     "staticmap": "ecoregions.staticmap",
 }
