@@ -72,8 +72,12 @@ GEO_UNITS = {
     "QT": (3, 0.5), "NPg": (3, 1.5), "PgK": (4, 2.5), "PZ": (9, 6.5), "DS": (9, 7), "OCm": (9, 7.5), "Pi": (7, 6.5),
     "TKi": (7, 2.5), "PtAi": (10, 8), "Pt": (10, 8), "Z": (10, 8), "Y": (10, 8), "X": (10, 8), "A": (10, 8),
     "CmPt": (10, 7.5), "Ice": (11, 0), "oth": (0, float("nan")),
+    # Europe including Turkey (USGS geo4_2l): m = metamorphic fill on the source sheets, u = upper; i, m = age unknown
+    "Cz": (3, 1.5), "Mzm": (6, 4), "MzPzm": (6, 5), "Pzm": (6, 6.5), "PzpCmm": (6, 7.5), "Pzu": (9, 6), "i": (7, 4),
+    "m": (6, 6), "ice": (11, 0), "unk": (0, float("nan")),
+    "Sea1": (11, 0), "Sea2": (11, 0), "Sea3": (11, 0), "Sea4": (11, 0), "Sea5": (11, 0),
 }
-OUTSIDE = {"H20", "U", "SEA", "oth"}  # outside a map's coverage or open sea: dropped, so overlapping maps never overwrite real units
+OUTSIDE = {"H20", "U", "SEA", "oth", "unk", "Sea1", "Sea2", "Sea3", "Sea4", "Sea5"}  # outside a map's coverage or open sea: dropped, so overlapping maps never overwrite real units
 # USGS State Geologic Map Compilation (SGMC, Horton 2017), conterminous US: groups by rock type, then age.
 # Assigned from each unit's major lithology (MAJOR1), generalized lithology, name and age (Age table, Ma).
 SGMC_GROUPS = {
