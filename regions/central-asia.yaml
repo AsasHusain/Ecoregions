@@ -77,6 +77,10 @@ sources:
         doi: 10.15468/dl.u2kux5        # Iran plus a margin; all taxa (sealed records filtered out by the confirmation mask)
         url: https://api.gbif.org/v1/occurrence/download/request/0001335-261110092616502.zip
         records: 1646532
+      - key: 0007052-261110092616502   # GBIF.org (14 November 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.77g6hc
+        doi: 10.15468/dl.77g6hc        # Turkmenistan, Uzbekistan, Tajikistan, Kyrgyzstan plus 0.5 degrees; all taxa (sealed records filtered out)
+        url: https://api.gbif.org/v1/occurrence/download/request/0007052-261110092616502.zip
+        records: 833901
 provinces:
   drop_outside_seeds: true     # parcel: provinces seeded only outside it drop out
   units:
