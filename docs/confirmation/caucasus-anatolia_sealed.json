@@ -1,0 +1,24 @@
+{
+ "area": "caucasus-anatolia",
+ "countries": [
+  "TUR",
+  "ARM",
+  "AZE",
+  "GEO"
+ ],
+ "squares_in_area": 40,
+ "squares_sealed": 10,
+ "rank_cut": 1699,
+ "eligible": {
+  "plants": {
+   "cells": 203,
+   "blocks": 30
+  },
+  "birds": {
+   "cells": 285,
+   "blocks": 35
+  }
+ },
+ "descriptive_only": [],
+ "note": "record counts only (GBIF occurrence search, limit=0); no names, dates or other fields read"
+}
