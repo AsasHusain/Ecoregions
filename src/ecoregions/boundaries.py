@@ -144,7 +144,7 @@ def run(cfg) -> None:
     study_p = study.to_crs(crs)
     study_p.to_file(out, layer="study_area")
     ctx.to_crs(crs).to_file(out, layer="countries_context")
-    ne_lines = border_lines(countries, disputed, crs, mapped, states)
+    ne_lines = border_lines(countries, disputed, crs, cfg["grid"].get("countries", []), mapped_states(cfg, paths))
     ne_lines.to_file(out, layer="borders_ne")  # Natural Earth lines, matching RESOLVE's land
     ne_lines.to_file(out, layer="borders")     # replaced by the 90 m lines in the dem stage
     log.info("study area %.0f km²", study_p.area.sum() / 1e6)
