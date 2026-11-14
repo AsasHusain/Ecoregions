@@ -1,0 +1,424 @@
+# Caucasus & Anatolia (Turkiye, Armenia, Azerbaijan, Georgia): the Pakistan, Afghanistan & Iran library plus
+# communities drafted from the literature before any GBIF record of the area was read (Zohary 1973; Davis, Flora of
+# Turkey, phytogeographical introduction; Mayer & Aksoy 1986, Walder der Turkei; Atalay 2014, Ecoregions of Turkey;
+# Kurschner & Parolly 2012; Nakhutsrishvili 2013, Vegetation of Georgia; Fayvush & Aleksanyan 2016, Habitats of Armenia;
+# Prilipko 1970, Azerbaijan; Zazanashvili et al. 2000). New rules are limited to provinces 60-75 or the Iranian
+# provinces that continue here (27 Talysh, 30 Hakkari). Thresholds are first guesses, to be calibrated on development
+# records (sealed squares excluded).
+include: [communities_pak-afg-irn.yaml]
+
+communities:
+# ---- Mediterranean belt
+- id: cau_maquis
+  structure: shrubland
+  ecoregion: med_sclerophyll
+  name: Eastern Mediterranean maquis
+  group: Sclerophyll scrub (maquis)
+  indicators: [Quercus coccifera, Arbutus andrachne, Phillyrea latifolia, Pistacia lentiscus, Myrtus communis]
+  where:
+    province: ['60', '61', '62', '63']
+    elev: [null, 500]
+    bio1: [14, null]
+    bio12: [400, null]
+  priority: 50
+- id: cau_brutia_pine
+  structure: forest_conifer
+  ecoregion: med_pine
+  name: Turkish red pine (Pinus brutia) forest
+  group: Mediterranean pine forest
+  indicators: [Pinus brutia, Styrax officinalis, Cistus creticus, Quercus infectoria]
+  where:
+    province: ['60', '61', '62', '63']
+    elev: [100, 1200]
+    bio1: [11, null]
+    bio12: [400, null]
+    slope: [5, null]
+  priority: 52
+- id: cau_taurus_conifer
+  structure: forest_conifer
+  ecoregion: taurus_conifer
+  name: Taurus cedar, fir and black pine forest
+  group: Mediterranean montane conifer forest
+  indicators: [Cedrus libani, Abies cilicica, Pinus nigra, Juniperus excelsa]
+  where:
+    province: ['61', '62', '63']
+    elev: [1000, 2100]
+    bio12: [450, null]
+    slope: [5, null]
+  priority: 55
+- id: cau_thorn_cushion
+  structure: shrubland
+  ecoregion: thorn_cushion
+  name: Anatolian and Armenian mountain thorn-cushion steppe
+  group: Thorn-cushion steppe (tragacanth)
+  indicators: [Astragalus microcephalus, Acantholimon acerosum, Onobrychis cornuta, Festuca oreophila]
+  where:
+    province: ['61', '62', '64', '67', '68', '72']
+    elev: [2100, 3300]
+  priority: 58
+# ---- Central and southeastern Anatolia
+- id: cau_anatolian_steppe
+  structure: grassland
+  ecoregion: anatolian_steppe
+  name: Central Anatolian Artemisia and feather-grass steppe
+  group: Steppe
+  indicators: [Artemisia santonicum, Festuca valesiaca, Stipa holosericea, Thymus sipyleus]
+  where:
+    province: ['64', '67', '68', '69']
+    elev: [700, 2000]
+    bio12: [null, 450]
+  priority: 35
+- id: cau_tuz_halophyte
+  structure: sparse
+  ecoregion: anatolian_steppe
+  name: Tuz Golu salt steppe and salt flats
+  group: Halophyte steppe
+  indicators: [Halocnemum strobilaceum, Limonium iconicum, Frankenia hirsuta, Salicornia perennans]
+  where:
+    province: ['64']
+    slope: [null, 0.3]
+    hand: [active_floodplain]
+  priority: 80
+- id: cau_anatolian_oak
+  structure: woodland_broadleaf
+  ecoregion: anatolian_oak
+  name: Anatolian oak forest-steppe (Quercus pubescens and Q. cerris)
+  group: Deciduous oak woodland
+  indicators: [Quercus pubescens, Quercus cerris, Quercus infectoria, Juniperus oxycedrus]
+  where:
+    province: ['61', '64', '67', '68']
+    elev: [600, 1800]
+    bio12: [450, null]
+    slope: [3, null]
+  priority: 45
+- id: cau_eastern_oak
+  structure: woodland_broadleaf
+  ecoregion: zagros_oak
+  name: Eastern Anatolian Brant's and Lebanon oak woodland
+  group: Deciduous oak woodland (Zagros type)
+  indicators: [Quercus brantii, Quercus libani, Quercus infectoria, Pistacia atlantica]
+  where:
+    province: ['68', '69']
+    elev: [800, 1900]
+    bio12: [450, null]
+    slope: [5, null]
+  note: The Southeastern Taurus, continuous with the Zagros oak belt (RESOLVE Eastern Anatolian deciduous forests).
+  priority: 46
+- id: cau_upper_mesopotamia
+  structure: grassland
+  ecoregion: upper_mesopotamia
+  name: Upper Mesopotamian steppe with wild cereals
+  group: Steppe (Fertile Crescent)
+  indicators: [Triticum dicoccoides, Aegilops speltoides, Poa bulbosa, Carex stenophylla]
+  where:
+    province: ['63', '69']
+    elev: [null, 900]
+    bio12: [250, 600]
+  priority: 34
+# ---- Black Sea (Euxine) and Colchis
+- id: cau_euxine_lowland
+  structure: forest_broadleaf
+  ecoregion: euxine
+  name: Euxine lowland and lower montane broadleaf forest
+  group: Mesophytic deciduous forest (Euxine)
+  indicators: [Castanea sativa, Carpinus betulus, Rhododendron ponticum, Prunus laurocerasus]
+  where:
+    province: ['60', '65', '66', '70']
+    elev: [null, 1100]
+    bio12: [700, null]
+  priority: 50
+- id: cau_euxine_beech
+  structure: forest_broadleaf
+  ecoregion: euxine
+  name: Euxine oriental beech forest
+  group: Beech forest
+  indicators: [Fagus orientalis, Acer cappadocicum, Epimedium pubigerum, Trachystemon orientalis]
+  where:
+    province: ['65', '66', '70']
+    elev: [600, 1700]
+    bio12: [800, null]
+    slope: [5, null]
+  priority: 52
+- id: cau_colchic_wetland
+  structure: wetland
+  ecoregion: euxine
+  name: Colchic alder swamp and mire
+  group: Riparian and swamp forest
+  indicators: [Alnus glutinosa, Pterocarya fraxinifolia, Hibiscus ponticus]
+  where:
+    province: ['70']
+    elev: [null, 50]
+    hand: [active_floodplain]
+  priority: 82
+- id: cau_fir_spruce
+  structure: forest_conifer
+  ecoregion: euxine_conifer
+  name: Oriental spruce and Nordmann fir forest
+  group: Montane conifer forest
+  indicators: [Picea orientalis, Abies nordmanniana, Vaccinium arctostaphylos, Rhododendron ponticum]
+  where:
+    province: ['65', '66', '70', '71', '72']
+    elev: [1200, 2200]
+    bio12: [900, null]
+    slope: [8, null]
+    northness: [-0.2, null]
+  priority: 56
+- id: cau_scots_pine
+  structure: forest_conifer
+  ecoregion: north_anatolian
+  name: Inner Pontic Scots pine, black pine and sessile oak forest
+  group: Montane pine forest
+  indicators: [Pinus sylvestris, Pinus nigra, Quercus petraea, Juniperus oxycedrus]
+  where:
+    province: ['65', '66', '67', '72']
+    elev: [800, 2200]
+    bio12: [450, 900]
+    slope: [5, null]
+  priority: 48
+- id: cau_thrace_oak
+  structure: forest_broadleaf
+  ecoregion: balkan
+  name: Thracian and Marmara deciduous oak forest
+  group: Deciduous oak forest
+  indicators: [Quercus frainetto, Quercus cerris, Carpinus orientalis, Tilia tomentosa]
+  where:
+    province: ['60']
+    elev: [null, 1000]
+    bio12: [550, null]
+  priority: 46
+# ---- Caucasus
+- id: cau_caucasus_oak_hornbeam
+  structure: forest_broadleaf
+  ecoregion: caucasus_broadleaf
+  name: Caucasian oak and hornbeam forest
+  group: Mesophytic deciduous forest (Caucasus)
+  indicators: [Quercus petraea subsp. iberica, Carpinus betulus, Carpinus orientalis, Acer campestre]
+  where:
+    province: ['71', '72', '74']
+    elev: [400, 1400]
+    bio12: [500, null]
+    slope: [3, null]
+  priority: 50
+- id: cau_caucasus_beech
+  structure: forest_broadleaf
+  ecoregion: caucasus_broadleaf
+  name: Caucasian oriental beech forest
+  group: Beech forest
+  indicators: [Fagus orientalis, Acer velutinum, Carpinus betulus, Ilex colchica]
+  where:
+    province: ['71', '72']
+    elev: [900, 1900]
+    bio12: [700, null]
+    slope: [5, null]
+  priority: 52
+- id: cau_subalpine
+  structure: woodland_broadleaf
+  ecoregion: caucasus_alpine
+  name: Caucasian subalpine birch krummholz and tall-herb meadow
+  group: Subalpine woodland and tall herbs
+  indicators: [Betula litwinowii, Rhododendron caucasicum, Sorbus aucuparia, Heracleum sosnowskyi]
+  where:
+    province: ['66', '70', '71', '72']
+    elev: [1900, 2500]
+    bio12: [600, null]
+  priority: 60
+- id: cau_alpine_meadow
+  structure: alpine
+  ecoregion: caucasus_alpine
+  name: Caucasian and Pontic alpine meadow
+  group: Alpine meadow
+  indicators: [Festuca varia, Alchemilla caucasica, Gentiana septemfida, Carex tristis]
+  where:
+    province: ['66', '68', '71', '72']
+    elev: [2400, 3400]
+    bio12: [500, null]
+  priority: 62
+- id: cau_nival_greater
+  structure: sparse
+  ecoregion: ice
+  name: Greater Caucasus nival belt
+  group: Nival
+  indicators: [Saxifraga flagellaris]
+  where:
+    province: ['71']
+    elev: [3400, null]
+  priority: 99
+- id: cau_nival_high
+  structure: sparse
+  ecoregion: ice
+  name: Armenian Highland and Pontic nival belt
+  group: Nival
+  indicators: [Saxifraga flagellaris]
+  where:
+    province: ['66', '68', '72']
+    elev: [3800, null]
+  priority: 99
+- id: cau_highland_steppe
+  structure: grassland
+  ecoregion: highland_steppe
+  name: Armenian Highland mountain steppe
+  group: Mountain steppe
+  indicators: [Festuca valesiaca, Koeleria macrantha, Stipa tirsa, Thymus kotschyanus]
+  where:
+    province: ['68', '72', '75']
+    elev: [1400, 2500]
+    bio12: [300, 700]
+  priority: 40
+- id: cau_arid_open_woodland
+  structure: woodland_broadleaf
+  ecoregion: caucasus_xeric
+  name: Caucasian arid open woodland (Pistacia mutica and juniper)
+  group: Xeric open woodland
+  indicators: [Pistacia mutica, Juniperus foetidissima, Celtis glabrata, Paliurus spina-christi]
+  where:
+    province: ['72', '73', '74', '75']
+    elev: [400, 1300]
+    bio12: [300, 550]
+    slope: [5, null]
+  priority: 44
+- id: cau_kura_semidesert
+  structure: shrubland
+  ecoregion: kura_desert
+  name: Kura Artemisia and Salsola semi-desert
+  group: Semi-desert
+  indicators: [Artemisia lerchiana, Salsola dendroides, Salsola nodulosa, Petrosimonia brachiata]
+  where:
+    province: ['73', '74']
+    elev: [null, 600]
+    bio12: [null, 350]
+  priority: 35
+- id: cau_ararat_semidesert
+  structure: shrubland
+  ecoregion: kura_desert
+  name: Ararat plain Artemisia semi-desert
+  group: Semi-desert
+  indicators: [Artemisia fragrans, Salsola ericoides, Calligonum polygonoides, Kalidium caspicum]
+  where:
+    province: ['75']
+    elev: [null, 1400]
+    bio12: [null, 350]
+  priority: 36
+- id: cau_kura_halophyte
+  structure: sparse
+  ecoregion: kura_desert
+  name: Kura and Araxes solonchak
+  group: Halophyte desert
+  indicators: [Halocnemum strobilaceum, Kalidium caspicum, Salicornia perennans, Halostachys belangeriana]
+  where:
+    province: ['73', '75']
+    slope: [null, 0.3]
+    hand: [active_floodplain]
+    river_km: [3, null]
+  priority: 78
+- id: cau_kura_floodplain
+  structure: forest_broadleaf
+  ecoregion: tugai
+  name: Kura and Araxes floodplain forest
+  group: Riparian forest
+  indicators: [Populus nigra, Tamarix ramosissima, Periploca graeca, Elaeagnus angustifolia]
+  where:
+    province: ['73', '74', '75']
+    hand: [active_floodplain, meander_floodplain]
+    river_km: [null, 3]
+    elev: [null, 500]
+  priority: 80
+
+ecoregion_types:
+  thorn_cushion:   # extends from the Iranian plateau to the Taurus and the Armenian Highland
+    name: Mountain Thorn-Cushion Steppe
+    biome: Montane Grasslands & Shrublands
+    color: '#b5a088'
+    resolve: [Eastern Anatolian montane steppe, Southern Anatolian montane conifer and deciduous forests, Central Anatolian steppe]
+  med_sclerophyll:
+    name: Eastern Mediterranean Maquis
+    biome: Mediterranean Forests, Woodlands & Scrub
+    color: '#9c8f3a'
+    resolve: [Aegean and Western Turkey sclerophyllous and mixed forests, Eastern Mediterranean conifer-broadleaf forests]
+  med_pine:
+    name: Eastern Mediterranean Pine Forests
+    biome: Mediterranean Forests, Woodlands & Scrub
+    color: '#6f8f3a'
+    resolve: [Eastern Mediterranean conifer-broadleaf forests, Aegean and Western Turkey sclerophyllous and mixed forests, Anatolian conifer and deciduous mixed forests]
+  taurus_conifer:
+    name: Taurus Montane Conifer Forests
+    biome: Temperate Conifer Forests
+    color: '#3e5f3a'
+    resolve: [Southern Anatolian montane conifer and deciduous forests]
+  anatolian_steppe:
+    name: Central Anatolian Steppe & Salt Flats
+    biome: Temperate Grasslands, Savannas & Shrublands
+    color: '#d6c98f'
+    resolve: [Central Anatolian steppe, Central Anatolian steppe and woodlands]
+  anatolian_oak:
+    name: Anatolian Oak Forest-Steppe
+    biome: Temperate Broadleaf & Mixed Forests
+    color: '#9aa65c'
+    resolve: [Central Anatolian steppe and woodlands, Anatolian conifer and deciduous mixed forests]
+  upper_mesopotamia:
+    name: Upper Mesopotamian Steppe
+    biome: Temperate Grasslands, Savannas & Shrublands
+    color: '#d9c27a'
+    resolve: [Syrian xeric grasslands and shrublands, Eastern Anatolian deciduous forests]
+  euxine:
+    name: Euxine Broadleaf Forests
+    biome: Temperate Broadleaf & Mixed Forests
+    color: '#2f7d4a'
+    resolve: [Euxine-Colchic broadleaf forests, Northern Anatolian conifer and deciduous forests]
+  euxine_conifer:
+    name: Euxine Fir & Spruce Forests
+    biome: Temperate Conifer Forests
+    color: '#24533a'
+    resolve: [Northern Anatolian conifer and deciduous forests, Caucasus mixed forests, Euxine-Colchic broadleaf forests]
+  north_anatolian:
+    name: Inner Pontic Pine & Oak Forests
+    biome: Temperate Conifer Forests
+    color: '#4b6e4a'
+    resolve: [Northern Anatolian conifer and deciduous forests]
+  balkan:
+    name: Balkan Mixed Forests
+    biome: Temperate Broadleaf & Mixed Forests
+    color: '#6f9a4f'
+    resolve: [Balkan mixed forests]
+  caucasus_broadleaf:
+    name: Caucasus Mixed Forests
+    biome: Temperate Broadleaf & Mixed Forests
+    color: '#3f7f52'
+    resolve: [Caucasus mixed forests]
+  caucasus_alpine:
+    name: Caucasus Subalpine & Alpine Meadows
+    biome: Montane Grasslands & Shrublands
+    color: '#a3cfa3'
+    resolve: [Caucasus mixed forests, Eastern Anatolian montane steppe]
+  highland_steppe:
+    name: Armenian Highland Montane Steppe
+    biome: Temperate Grasslands, Savannas & Shrublands
+    color: '#c9c48a'
+    resolve: [Eastern Anatolian montane steppe]
+  caucasus_xeric:
+    name: Caucasus Arid Open Woodlands
+    biome: Deserts & Xeric Shrublands
+    color: '#a99470'
+    resolve: [Azerbaijan shrub desert and steppe, Caucasus mixed forests]
+  kura_desert:
+    name: Kura Shrub Desert & Steppe
+    biome: Deserts & Xeric Shrublands
+    color: '#dccaa0'
+    resolve: [Azerbaijan shrub desert and steppe]
+
+fallback:
+  '60': cau_thrace_oak
+  '61': cau_brutia_pine
+  '62': cau_brutia_pine
+  '63': cau_maquis
+  '64': cau_anatolian_steppe
+  '65': cau_euxine_beech
+  '66': cau_euxine_beech
+  '67': cau_anatolian_oak
+  '68': cau_highland_steppe
+  '69': cau_upper_mesopotamia
+  '70': cau_euxine_lowland
+  '71': cau_caucasus_oak_hornbeam
+  '72': cau_highland_steppe
+  '73': cau_kura_semidesert
+  '74': cau_arid_open_woodland
+  '75': cau_ararat_semidesert
