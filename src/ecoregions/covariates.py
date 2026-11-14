@@ -68,8 +68,12 @@ GEO_UNITS = {
     "acid": (7, 2), "basic": (7, 2), "inter": (7, 2), "CzMzi": (7, 2.5), "MzPzi": (7, 5),
     "Io": (7, 3), "Mzo": (7, 3.5), "To": (7, 1.5),
     "U": (0, float("nan")), "SEA": (11, 0),
+    # Former Soviet Union (USGS OFR 97-470-E, geo1ec), codes as in its metadata: X, Y, Z, A = Proterozoic and Archean
+    "QT": (3, 0.5), "NPg": (3, 1.5), "PgK": (4, 2.5), "PZ": (9, 6.5), "DS": (9, 7), "OCm": (9, 7.5), "Pi": (7, 6.5),
+    "TKi": (7, 2.5), "PtAi": (10, 8), "Pt": (10, 8), "Z": (10, 8), "Y": (10, 8), "X": (10, 8), "A": (10, 8),
+    "CmPt": (10, 7.5), "Ice": (11, 0), "oth": (0, float("nan")),
 }
-OUTSIDE = {"H20", "U", "SEA"}  # outside a map's coverage or open sea: dropped, so overlapping maps never overwrite real units
+OUTSIDE = {"H20", "U", "SEA", "oth"}  # outside a map's coverage or open sea: dropped, so overlapping maps never overwrite real units
 # USGS State Geologic Map Compilation (SGMC, Horton 2017), conterminous US: groups by rock type, then age.
 # Assigned from each unit's major lithology (MAJOR1), generalized lithology, name and age (Age table, Ma).
 SGMC_GROUPS = {

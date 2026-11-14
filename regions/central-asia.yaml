@@ -41,10 +41,12 @@ sources:
     # USGS OFR 97-470C, "Geologic map of South Asia (geo8ag)", ScienceBase item 60c3b89fd34e86b93897ef19
     url: https://www.sciencebase.gov/catalog/file/get/60c3b89fd34e86b93897ef19
     file: geo8ag.zip
-    label: USGS geo8ag and geo2cg # short name on maps and in descriptions
-    credit: USGS OFR 97-470C geo8ag and OFR 97-470G geo2cg
+    label: USGS geo1ec, geo8ag and geo2cg # short name on maps and in descriptions
+    credit: USGS OFR 97-470E geo1ec, OFR 97-470C geo8ag and OFR 97-470G geo2cg
     also:   # Iran: USGS OFR 97-470-G, "Surficial geology of Iran (geo2cg)", ScienceBase 60ad3db2d34e4043c850f2a0, doi:10.5066/P93ZEPFY
       - {url: "https://www.sciencebase.gov/catalog/file/get/60ad3db2d34e4043c850f2a0", file: geo2cg.zip, polygons: geo2cg/geo2cg.shp}
+      # Central Asia: USGS OFR 97-470-E, "Generalized geology of the Former Soviet Union (geo1ec)", doi:10.5066/P9GUL0PQ
+      - {url: "https://www.sciencebase.gov/catalog/file/get/60ad3d53d34e4043c850f275", file: geo1ec.zip, polygons: geo1ec/geo1ec.shp}
     polygons: geo8apg/geo8apg.shp
     lines: geo8alg/geo8alg.shp
   rgi:  # RGI 7.0 glacier outlines (NSIDC-0770 v7, Earthdata login); zips placed by hand in data/raw/rgi
