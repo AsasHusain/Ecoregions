@@ -20,11 +20,20 @@ grid:
   bbox_lonlat: [51.5, 34.2, 81.2, 46.4]  # download / processing extent (W, S, E, N)
   countries: [TKM, UZB, TJK, KGZ]      # Natural Earth ADM0_A3 codes mapped as one continuous area
   overlap: {km: 75, into: [IRN, AFG]}  # parcel: strip into the mapped neighbours, clipped at the join
-  inland_seas:                         # below-sea-level water the coast-from-DEM step would call land; Copernicus flattens it to one height
+  inland_seas:                         # water the coast-from-DEM step would call land (below sea level, or lakes); Copernicus flattens each to one height
   - name: Caspian Sea
     level_m: -28.0
-    bbox_lonlat: [51.5, 36.4, 54.5, 46.4]   # the Turkmen coast; Garabogazkol (a separate basin) to be checked on the DEM
+    bbox_lonlat: [51.5, 36.4, 55.0, 46.4]   # the Turkmen coast and Garabogazkol (also at -28.0 m in the DEM)
     min_km2: 1000
+  # large lakes: Copernicus flattens each to one height (read from the tiles, 2026-11-14); mapped as water, not land
+  - {name: Issyk-Kul, level_m: 1606.5, bbox_lonlat: [76.0, 42.1, 78.5, 42.9], min_km2: 500}
+  - {name: Aral Sea (western basin), level_m: 27.0, bbox_lonlat: [57.8, 44.0, 59.0, 46.0], min_km2: 300}
+  - {name: Sarygamysh, level_m: 5.5, bbox_lonlat: [56.8, 41.2, 58.0, 42.4], min_km2: 300}
+  - {name: Aydarkul, level_m: 245.0, bbox_lonlat: [65.8, 40.6, 68.0, 41.2], min_km2: 300}
+  - {name: Toktogul Reservoir, level_m: 879.0, bbox_lonlat: [72.4, 41.6, 73.2, 42.0], min_km2: 100}
+  - {name: Kairakkum Reservoir, level_m: 344.5, bbox_lonlat: [69.6, 40.1, 70.5, 40.5], min_km2: 100}
+  - {name: Song-Kul, level_m: 3014.0, bbox_lonlat: [74.9, 41.7, 75.4, 41.95], min_km2: 100}
+  - {name: Karakul, level_m: 3918.5, bbox_lonlat: [73.3, 38.8, 73.7, 39.2], min_km2: 100}
 sources:
   natural_earth:
     base: https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/10m_cultural
