@@ -1,0 +1,757 @@
+# Gazetteer for Caucasus & Anatolia: the Pakistan, Afghanistan & Iran gazetteer (for the overlap strip) plus features
+# and towns from standard atlases (coordinates approximate; ranges and massifs checked for relief). Same schema.
+include:
+- gazetteer_pak-afg-irn.yaml
+features:
+- name: Thrace
+  kind: plain
+  points:
+  - - 27.3
+    - 41.4
+  - - 26.9
+    - 41.1
+  priority: 2
+  check: false
+- name: Marmara Basin
+  kind: basin
+  points:
+  - - 28.6
+    - 40.3
+  - - 29.4
+    - 40.5
+  priority: 2
+  check: false
+- name: Uludag
+  kind: massif
+  points:
+  - - 29.15
+    - 40.08
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Gediz Graben
+  kind: valley
+  points:
+  - - 27.9
+    - 38.6
+  - - 28.4
+    - 38.55
+  priority: 2
+  check: false
+- name: Menderes Graben
+  kind: valley
+  points:
+  - - 27.8
+    - 37.85
+  - - 28.6
+    - 37.9
+  priority: 2
+  check: false
+- name: Western Taurus
+  kind: range
+  points:
+  - - 30.2
+    - 36.9
+  - - 29.9
+    - 37.3
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Central Taurus
+  kind: range
+  points:
+  - - 32.6
+    - 37.0
+  - - 33.6
+    - 37.1
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Bolkar Mountains
+  kind: range
+  points:
+  - - 34.6
+    - 37.4
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Aladaglar
+  kind: massif
+  points:
+  - - 35.2
+    - 37.8
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Antalya Plain
+  kind: plain
+  points:
+  - - 30.8
+    - 36.95
+  priority: 2
+  check: false
+- name: Cukurova
+  kind: plain
+  points:
+  - - 35.4
+    - 36.9
+  - - 35.0
+    - 36.8
+  priority: 2
+  check: false
+- name: Amanos Mountains
+  kind: range
+  points:
+  - - 36.3
+    - 36.8
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Konya Plain
+  kind: plain
+  points:
+  - - 32.6
+    - 37.8
+  - - 33.2
+    - 37.6
+  priority: 2
+  check: false
+- name: Tuz Golu Basin
+  kind: basin
+  points:
+  - - 33.4
+    - 38.8
+  priority: 2
+  check: false
+- name: Cappadocia
+  kind: plateau
+  points:
+  - - 34.8
+    - 38.6
+  priority: 2
+  check: false
+- name: Erciyes
+  kind: massif
+  points:
+  - - 35.45
+    - 38.53
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Ankara Upland
+  kind: plateau
+  points:
+  - - 32.8
+    - 39.9
+  priority: 2
+  check: false
+- name: Koroglu Mountains
+  kind: range
+  points:
+  - - 32.3
+    - 40.6
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Ilgaz Mountains
+  kind: range
+  points:
+  - - 33.7
+    - 41.05
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Kure Mountains
+  kind: range
+  points:
+  - - 33.6
+    - 41.6
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Canik Mountains
+  kind: range
+  points:
+  - - 36.6
+    - 41.0
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Kackar Mountains
+  kind: range
+  points:
+  - - 41.1
+    - 40.85
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Zigana Mountains
+  kind: range
+  points:
+  - - 39.4
+    - 40.6
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Kelkit Valley
+  kind: valley
+  points:
+  - - 37.8
+    - 40.2
+  - - 38.6
+    - 40.0
+  priority: 2
+  check: false
+- name: Sivas Basin
+  kind: basin
+  points:
+  - - 37.0
+    - 39.75
+  priority: 2
+  check: false
+- name: Erzurum Plain
+  kind: plain
+  points:
+  - - 41.3
+    - 39.9
+  priority: 2
+  check: false
+- name: Kars Plateau
+  kind: plateau
+  points:
+  - - 43.1
+    - 40.6
+  priority: 2
+  check: false
+- name: Mount Ararat
+  kind: massif
+  points:
+  - - 44.3
+    - 39.7
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Lake Van Basin
+  kind: basin
+  points:
+  - - 43.0
+    - 38.6
+  - - 42.4
+    - 38.8
+  priority: 2
+  check: false
+- name: Mus Plain
+  kind: plain
+  points:
+  - - 41.6
+    - 38.75
+  priority: 2
+  check: false
+- name: Hakkari Mountains
+  kind: range
+  points:
+  - - 43.8
+    - 37.55
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Southeastern Taurus
+  kind: range
+  points:
+  - - 40.0
+    - 38.3
+  - - 41.5
+    - 38.2
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Harran Plain
+  kind: plain
+  points:
+  - - 39.0
+    - 36.9
+  priority: 2
+  check: false
+- name: Karacadag
+  kind: massif
+  points:
+  - - 39.8
+    - 37.7
+  priority: 0
+  check: false
+- name: Mardin Threshold
+  kind: plateau
+  points:
+  - - 40.7
+    - 37.3
+  priority: 2
+  check: false
+- name: Colchis Lowland
+  kind: plain
+  points:
+  - - 41.9
+    - 42.2
+  - - 42.4
+    - 42.35
+  priority: 2
+  check: false
+- name: Adjara
+  kind: range
+  points:
+  - - 42.0
+    - 41.65
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Svaneti
+  kind: range
+  points:
+  - - 42.7
+    - 43.0
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Kazbegi
+  kind: massif
+  points:
+  - - 44.55
+    - 42.65
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Tusheti
+  kind: range
+  points:
+  - - 45.6
+    - 42.35
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Kartli Plain
+  kind: plain
+  points:
+  - - 44.0
+    - 42.0
+  priority: 2
+  check: false
+- name: Alazani Valley
+  kind: valley
+  points:
+  - - 45.6
+    - 41.8
+  - - 46.0
+    - 41.6
+  priority: 2
+  check: false
+- name: Iori Plateau
+  kind: plateau
+  points:
+  - - 45.6
+    - 41.4
+  priority: 2
+  check: false
+- name: Javakheti Plateau
+  kind: plateau
+  points:
+  - - 43.6
+    - 41.35
+  priority: 2
+  check: false
+- name: Lake Sevan Basin
+  kind: basin
+  points:
+  - - 45.2
+    - 40.4
+  priority: 2
+  check: false
+- name: Aragats
+  kind: massif
+  points:
+  - - 44.2
+    - 40.53
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Zangezur Mountains
+  kind: range
+  points:
+  - - 46.0
+    - 39.4
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Karabakh Range
+  kind: range
+  points:
+  - - 46.6
+    - 39.9
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Shirvan Plain
+  kind: plain
+  points:
+  - - 48.4
+    - 40.4
+  priority: 2
+  check: false
+- name: Mugan Plain
+  kind: plain
+  points:
+  - - 48.4
+    - 39.7
+  priority: 2
+  check: false
+- name: Mil Plain
+  kind: plain
+  points:
+  - - 47.4
+    - 39.9
+  priority: 2
+  check: false
+- name: Absheron Peninsula
+  kind: coast
+  points:
+  - - 49.8
+    - 40.45
+  priority: 2
+  check: false
+- name: Talysh Mountains
+  kind: range
+  points:
+  - - 48.6
+    - 38.75
+  priority: 0
+  check: true
+  expect:
+    relief_min: 250
+- name: Lankaran Lowland
+  kind: plain
+  points:
+  - - 48.85
+    - 38.7
+  priority: 2
+  check: false
+- name: Ararat Plain
+  kind: plain
+  points:
+  - - 44.4
+    - 40.0
+  priority: 2
+  check: false
+- name: Nakhchivan Plain
+  kind: plain
+  points:
+  - - 45.4
+    - 39.2
+  priority: 2
+  check: false
+places:
+- - Istanbul
+  - 28.98
+  - 41.01
+- - Edirne
+  - 26.56
+  - 41.68
+- - Tekirdag
+  - 27.51
+  - 40.98
+- - Canakkale
+  - 26.41
+  - 40.15
+- - Bursa
+  - 29.06
+  - 40.18
+- - Balikesir
+  - 27.88
+  - 39.65
+- - Izmir
+  - 27.14
+  - 38.42
+- - Manisa
+  - 27.43
+  - 38.61
+- - Aydin
+  - 27.84
+  - 37.85
+- - Denizli
+  - 29.09
+  - 37.78
+- - Usak
+  - 29.41
+  - 38.68
+- - Afyonkarahisar
+  - 30.54
+  - 38.76
+- - Kutahya
+  - 29.98
+  - 39.42
+- - Eskisehir
+  - 30.52
+  - 39.78
+- - Antalya
+  - 30.71
+  - 36.9
+- - Isparta
+  - 30.55
+  - 37.76
+- - Burdur
+  - 30.29
+  - 37.72
+- - Mugla
+  - 28.36
+  - 37.22
+- - Alanya
+  - 32.0
+  - 36.54
+- - Mersin
+  - 34.64
+  - 36.81
+- - Adana
+  - 35.32
+  - 37.0
+- - Antakya
+  - 36.16
+  - 36.2
+- - Iskenderun
+  - 36.17
+  - 36.59
+- - Osmaniye
+  - 36.25
+  - 37.07
+- - Konya
+  - 32.49
+  - 37.87
+- - Karaman
+  - 33.22
+  - 37.18
+- - Aksaray
+  - 34.03
+  - 38.37
+- - Nigde
+  - 34.68
+  - 37.97
+- - Kayseri
+  - 35.49
+  - 38.73
+- - Nevsehir
+  - 34.71
+  - 38.62
+- - Kirsehir
+  - 34.17
+  - 39.15
+- - Ankara
+  - 32.85
+  - 39.93
+- - Corum
+  - 34.95
+  - 40.55
+- - Yozgat
+  - 34.81
+  - 39.82
+- - Sivas
+  - 37.02
+  - 39.75
+- - Tokat
+  - 36.55
+  - 40.31
+- - Amasya
+  - 35.83
+  - 40.65
+- - Bolu
+  - 31.61
+  - 40.74
+- - Kastamonu
+  - 33.78
+  - 41.38
+- - Sinop
+  - 35.15
+  - 42.03
+- - Zonguldak
+  - 31.79
+  - 41.45
+- - Samsun
+  - 36.33
+  - 41.29
+- - Ordu
+  - 37.88
+  - 40.98
+- - Giresun
+  - 38.39
+  - 40.91
+- - Trabzon
+  - 39.72
+  - 41.0
+- - Rize
+  - 40.52
+  - 41.02
+- - Artvin
+  - 41.82
+  - 41.18
+- - Erzincan
+  - 39.49
+  - 39.75
+- - Erzurum
+  - 41.27
+  - 39.9
+- - Kars
+  - 43.1
+  - 40.6
+- - Agri
+  - 43.05
+  - 39.72
+- - Igdir
+  - 44.04
+  - 39.92
+- - Van
+  - 43.38
+  - 38.5
+- - Mus
+  - 41.49
+  - 38.74
+- - Bitlis
+  - 42.11
+  - 38.4
+- - Hakkari
+  - 43.74
+  - 37.58
+- - Malatya
+  - 38.31
+  - 38.35
+- - Elazig
+  - 39.22
+  - 38.68
+- - Tunceli
+  - 39.55
+  - 39.11
+- - Bingol
+  - 40.5
+  - 38.88
+- - Diyarbakir
+  - 40.23
+  - 37.91
+- - Batman
+  - 41.13
+  - 37.88
+- - Mardin
+  - 40.74
+  - 37.31
+- - Sanliurfa
+  - 38.79
+  - 37.16
+- - Gaziantep
+  - 37.38
+  - 37.07
+- - Kahramanmaras
+  - 36.94
+  - 37.58
+- - Adiyaman
+  - 38.28
+  - 37.76
+- - Siirt
+  - 41.94
+  - 37.93
+- - Sirnak
+  - 42.46
+  - 37.52
+- - Tbilisi
+  - 44.79
+  - 41.72
+- - Kutaisi
+  - 42.7
+  - 42.27
+- - Batumi
+  - 41.64
+  - 41.65
+- - Zugdidi
+  - 41.87
+  - 42.51
+- - Poti
+  - 41.67
+  - 42.15
+- - Gori
+  - 44.11
+  - 41.98
+- - Telavi
+  - 45.47
+  - 41.92
+- - Akhaltsikhe
+  - 42.98
+  - 41.64
+- - Mestia
+  - 42.73
+  - 43.04
+- - Stepantsminda
+  - 44.64
+  - 42.66
+- - Yerevan
+  - 44.51
+  - 40.18
+- - Gyumri
+  - 43.85
+  - 40.79
+- - Vanadzor
+  - 44.49
+  - 40.81
+- - Sevan
+  - 44.95
+  - 40.55
+- - Goris
+  - 46.34
+  - 39.51
+- - Kapan
+  - 46.41
+  - 39.21
+- - Baku
+  - 49.87
+  - 40.41
+- - Ganja
+  - 46.36
+  - 40.68
+- - Sumqayit
+  - 49.67
+  - 40.59
+- - Mingachevir
+  - 47.06
+  - 40.77
+- - Shaki
+  - 47.17
+  - 41.19
+- - Lankaran
+  - 48.85
+  - 38.75
+- - Shirvan
+  - 48.92
+  - 39.94
+- - Quba
+  - 48.51
+  - 41.36
+- - Nakhchivan
+  - 45.41
+  - 39.21
+- - Yevlakh
+  - 47.15
+  - 40.62
