@@ -8,12 +8,12 @@ done.
 
 | Area | Version | Land area | Ecoregions | Types | Faunal ecoregions | Maps |
 |---|---|---|---|---|---|---|
-| Pakistan & Afghanistan (with Kashmir, Aksai Chin and the Shaksgam Valley) | 0.4.2 | 1,659,683 km² | 83 | 30 | 15 | [ecoregions](outputs/ecoregions_map_v0.4.2.png) · [faunal](outputs/faunal_map_v0.4.2.png) |
+| Pakistan, Afghanistan & Iran (with Kashmir, Aksai Chin and the Shaksgam Valley) | 0.5.0 | 3,281,449 km² | 165 | 44 | 20 | [ecoregions](outputs/pak-afg-irn/ecoregions_map_v0.5.0.png) · [faunal](outputs/pak-afg-irn/faunal_map_v0.5.0.png) |
 | Texas | 0.2.0 | 685,641 km² | 31 | 19 | 12 | [ecoregions](outputs/texas/ecoregions_map_v0.2.0.png) · [faunal](outputs/texas/faunal_map_v0.2.0.png) |
-| **Mapped so far** | | **2,345,324 km²** | **114** | | | **1.6 % of the world's land** |
+| **Mapped so far** | | **3,967,090 km²** | **196** | | | **2.7 % of the world's land** |
 
-World land: 146.7 million km² (Natural Earth, equal-area, Antarctica included). Next: Iran,
-as an extension of the Pakistan & Afghanistan map.
+World land: 146.7 million km² (Natural Earth, equal-area, Antarctica included). Next: Central Asia, built as its
+own area and joined to its neighbours at the border.
 
 | Date | Done |
 |---|---|
@@ -22,6 +22,7 @@ as an extension of the Pakistan & Afghanistan map.
 | 2026-11-09 | Afghanistan (v0.4.0) |
 | 2026-11-11 | Pakistan & Afghanistan v0.4.2; Texas v0.1.0 |
 | 2026-11-12 | Texas v0.2.0 (central band regrouped by rainfall); held-out scorecard and pre-registered confirmation tests |
+| 2026-11-13 | Iran: Pakistan, Afghanistan & Iran v0.5.0; first confirmation test on sealed records |
 
 ## How the maps are made
 
@@ -41,27 +42,39 @@ Each map is tested on GBIF species records: half the sample cells (a checkerboar
 calibration and used only for testing, against RESOLVE, reference maps (comparison only), a climate-only
 clustering and random maps of the same size.
 
-> **All results so far are exploratory.** The held-out cells of both areas were looked at many times while the
+> **The held-out results are exploratory.** The held-out cells were looked at many times while the
 > maps were developed (every such analysis is listed in [`docs/ledger.md`](docs/ledger.md)), so they cannot
-> confirm an improvement independently. An independent methodological review set out the
+> confirm an improvement independently. Iran's sealed records are the first confirmation test (below). An independent methodological review set out the
 > protocol a confirmation must follow: fresh, spatially separated observations, two pre-declared measures
 > (prediction of held-out species lists, and species turnover across boundaries) and fixed decision rules.
 
-## Pakistan & Afghanistan (v0.4.2)
+## Pakistan, Afghanistan & Iran (v0.5.0)
 
-[![Ecoregions of Pakistan & Afghanistan](outputs/ecoregions_map_v0.4.2_preview.png)](outputs/ecoregions_map_v0.4.2.png)
+[![Ecoregions of Pakistan, Afghanistan & Iran](outputs/pak-afg-irn/ecoregions_map_v0.5.0_preview.png)](outputs/pak-afg-irn/ecoregions_map_v0.5.0.png)
 
-[![Faunal ecoregions of Pakistan & Afghanistan](outputs/faunal_map_v0.4.2_preview.png)](outputs/faunal_map_v0.4.2.png)
+[![Faunal ecoregions of Pakistan, Afghanistan & Iran](outputs/pak-afg-irn/faunal_map_v0.5.0_preview.png)](outputs/pak-afg-irn/faunal_map_v0.5.0.png)
 
-> Borders: Afghanistan's border is drawn solid. Pakistan's border is drawn solid around Pakistan, the Siachen Glacier area, Jammu and Kashmir and Demchok; the line where Jammu and Kashmir meets the rest of Pakistan is dotted. Aksai Chin and the Shaksgam Valley are shown as part of China. All of these areas are mapped.
+> Borders: Afghanistan's and Iran's borders are drawn solid. Pakistan's border is drawn solid around Pakistan, the Siachen Glacier area, Jammu and Kashmir and Demchok; the line where Jammu and Kashmir meets the rest of Pakistan is dotted. Aksai Chin and the Shaksgam Valley are shown as part of China. All of these areas are mapped.
 
 Exploratory, held-out GBIF cells (`scorecard`): how much better each map predicts held-out species lists than
 RESOLVE 2017 (positive: ours better; 95 % interval from resampling 1-degree blocks):
 
 | | Ours vs RESOLVE | Land tested |
 |---|---|---|
-| Plants, floral ecoregions, 0.25 / 0.125 degrees | +0.3 % (-0.2 to +0.7) / +1.4 % (+0.6 to +2.4) | 6.5 % / 1.9 % |
-| Birds, faunal ecoregions, 0.25 degrees | +1.0 % (0.0 to +2.1) | 5 % |
+| Plants, floral ecoregions, 0.25 / 0.125 degrees | +0.2 % (-0.3 to +0.6) / +1.2 % (+0.4 to +1.9) | 3.8 % / 1.1 % |
+| Birds, faunal ecoregions, 0.25 degrees | +1.3 % (+0.4 to +2.3) | 5 % |
+
+**Confirmation (pre-registered, run once on the frozen map).** Iranian records in 14 sealed two-degree squares, and
+all sPlotOpen vegetation plots in Iran, were opened only after the map's hash was committed:
+
+| Test | Result | Verdict by the registered rules |
+|---|---|---|
+| Birds, sealed GBIF cells (26 blocks) | ours -2.9 % (-4.6 to -1.6); faunal map -0.9 % (-3.4 to +1.0) | **Not demonstrated**: RESOLVE predicts the sealed bird lists better |
+| Plants, sealed GBIF cells | 29 cells, below the minimum of 30 | Not testable |
+| Vegetation plots (12 blocks; 20 required) | species lists -1.0 % (-2.5 to +0.9); biome agreement 94 % vs 54 % | Descriptive only |
+
+So the improvement seen on the held-out cells did not hold up for birds on fresh, spatially separate records, and
+plants could not be tested. Details in [`docs/ledger.md`](docs/ledger.md).
 
 ## Texas (v0.2.0)
 
@@ -87,7 +100,8 @@ descriptive in [`docs/ledger.md`](docs/ledger.md).
 
 ## Outputs
 
-Pakistan & Afghanistan in `outputs/`, every other area in `outputs/<area>/`:
+Pakistan & Afghanistan v0.4.2 in `outputs/`, every other area in `outputs/<area>/` (Pakistan, Afghanistan & Iran in
+`outputs/pak-afg-irn/`, its GeoPackages zipped to stay under GitHub's file limit):
 
 | File | Contents |
 |---|---|

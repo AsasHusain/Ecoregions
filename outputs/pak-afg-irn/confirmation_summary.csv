@@ -1,0 +1,16 @@
+taxon,cell_deg,partition,units,purity,loss,skill,boundary_contrast,anosim_R_simpson,anosim_z_voronoi
+birds,0.25,ours,13.0,0.8765,0.0434,0.0379,0.0003,0.3452,-0.8478
+birds,0.25,RESOLVE,8.0,0.9459,0.0423,0.0641,-0.0132,0.3923,0.7812
+birds,0.25,our faunal ecoregions,6.0,0.9323,0.0426,0.0561,0.0896,0.3961,1.2017
+birds,0.25,ours coarsened to RESOLVE's 39 units,7.0,0.9623,0.0423,0.0617,-0.0045,0.3707,0.5664
+birds,0.25,climate k-means (39),13.0,0.779,0.0438,0.0291,-0.0003,0.4694,1.6696
+birds,0.25,climate k-means (165),27.0,0.6892,0.0448,0.0062,0.0363,0.6163,2.4939
+birds,0.25,"ours, centre point (old test)",15.0,,0.0436,0.0336,0.0053,0.2841,-2.4658
+birds,0.25,"RESOLVE, centre point (old test)",7.0,,0.0422,0.0644,-0.0095,0.388,0.7028
+birds,0.25,"control: ours, units renamed",13.0,0.8765,0.0434,0.0379,0.0003,0.3452,-0.7932
+birds,0.25,"control: ours, boundary patches moved",14.0,,0.0434,0.0372,0.0017,0.3384,-0.7964
+birds,0.25,"control: ours, units split in two",18.0,,0.0442,0.0187,0.001,0.3817,-0.7358
+birds,0.25,random contiguous (our count),22.0,,0.0449,0.004,0.0006,,
+birds,0.25,random contiguous (RESOLVE's count),12.0,,0.044,0.0275,0.0038,,
+birds,0.25,overall-frequency prior,,,0.0451,0.0,,,
+birds,0.25,spatial-only (nearest development cells),,,0.0441,0.0255,,,

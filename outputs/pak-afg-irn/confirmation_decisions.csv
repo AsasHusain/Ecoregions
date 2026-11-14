@@ -1,0 +1,4 @@
+taxon,cell_deg,candidate,prediction_improvement,prediction_ci_low,boundary_difference,boundary_ci_low,blocks,verdict,status
+birds,0.25,ours,-0.0289,-0.0458,0.0185,-0.0291,26,not demonstrated,confirmatory
+birds,0.25,ours coarsened to RESOLVE's 39 units,-0.0031,-0.0161,0.0075,-0.0248,26,not demonstrated,confirmatory
+birds,0.25,our faunal ecoregions,-0.0091,-0.0335,0.1063,-0.0045,26,not demonstrated,confirmatory

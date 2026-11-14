@@ -298,7 +298,7 @@ confirmation:   # docs/preregistration.md: Iran's records in these squares and t
   min_land: 0.25
   buffer_km: 50
   seed: 20261111
-  open: false            # set true only after the frozen map's hash is committed to docs/ledger.md
+  open: true             # opened 2026-11-13 after the freeze commit 6c3d523 (hash in docs/ledger.md)
   map_sha256: a8c404051828a80cf3f0670604227b191cc0585ece5da56005bd69700d9e8351   # SHA-256 of outputs/pak-afg-irn/ecoregions.gpkg at the freeze (v0.5.0)
 faunal:
   k_maps: [8, 15, 20]          # 20 regions grouped into 8 (assemble.faunal_k / faunal_group_k)

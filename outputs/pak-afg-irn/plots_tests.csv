@@ -1,0 +1,20 @@
+endpoint,name,value,skill,p5,p95
+A prediction,ours,0.03283827899222379,0.018757861241830875,,
+A prediction,RESOLVE,0.032513382737243,0.028466101316999226,,
+A prediction,ours coarsened to RESOLVE's 39 units,0.032694297237067065,0.023060186750594402,,
+A prediction,climate k-means (39),0.03320179247481981,0.007895697995869755,,
+A prediction,climate k-means (165),0.033095956561634186,0.011058185830152278,,
+A prediction,overall-frequency prior,0.03346603014194125,0.0,,
+A prediction,spatial-only (nearest development cells),0.03500360202544909,-0.04594425681762826,,
+A prediction,random contiguous (39),0.03305122412632147,0.012394837805991377,0.032718740012580225,0.0332765081921183
+A prediction,random contiguous (165),0.0332033255287074,0.007849888741497724,0.03298198001945648,0.03342114333973174
+B boundary contrast,ours,0.1763026714039645,,,
+B boundary contrast,RESOLVE,-0.06078158389201613,,,
+B boundary contrast,ours coarsened to RESOLVE's 39 units,0.14504142833336975,,,
+B boundary contrast,climate k-means (39),0.010739462999662053,,,
+B boundary contrast,climate k-means (165),0.09173625575936332,,,
+B boundary contrast,random contiguous (39),0.04270009267063696,,,
+B boundary contrast,random contiguous (165),0.04270009267063696,,,
+C biome structure,biomes by the key,0.9412587412587413,,,
+C biome structure,biomes as hand-set,0.9412587412587413,,,
+C biome structure,RESOLVE biomes,0.5438311688311689,,,
