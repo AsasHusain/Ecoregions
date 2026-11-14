@@ -51,6 +51,11 @@ BOOLEAN = {"dune": None}
 def load_rules(path: Path) -> dict:
     """Read and validate the rules file; fail on anything we would silently ignore."""
     doc = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
+    for inc in doc.pop("include", []):  # a shared rule file first: its communities, types and fallbacks, then this file's
+        base = load_rules(Path(path).parent / inc)
+        doc["communities"] = base["communities"] + doc.get("communities", [])
+        doc["ecoregion_types"] = {**base.get("ecoregion_types", {}), **doc.get("ecoregion_types", {})}
+        doc["fallback"] = {**base["fallback"], **doc.get("fallback", {})}
     comms, ids = doc["communities"], [c["id"] for c in doc["communities"]]
     if len(set(ids)) != len(ids):
         raise ValueError(f"duplicate community ids in {path}")

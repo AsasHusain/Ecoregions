@@ -1,0 +1,24 @@
+{
+ "area": "central-asia",
+ "countries": [
+  "TKM",
+  "UZB",
+  "TJK",
+  "KGZ"
+ ],
+ "squares_in_area": 50,
+ "squares_sealed": 18,
+ "rank_cut": 2411,
+ "eligible": {
+  "plants": {
+   "cells": 92,
+   "blocks": 20
+  },
+  "birds": {
+   "cells": 72,
+   "blocks": 21
+  }
+ },
+ "descriptive_only": [],
+ "note": "record counts only (GBIF occurrence search, limit=0); no names, dates or other fields read"
+}

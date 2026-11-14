@@ -84,7 +84,16 @@ def load_mask(cfg) -> dict | None:
     c = cfg.get("confirmation")
     if not c:
         return None
-    f = Paths(cfg).root / c["mask"]
+    paths = Paths(cfg)
+    if "world_mask" in c:  # areas after Iran: the world mask, this area's rank cut-off (sealed_counts.py), clipped to it
+        m = json.loads((paths.root / c["world_mask"]).read_text(encoding="utf-8"))
+        cut = json.loads((paths.root / c["sealed"]).read_text(encoding="utf-8"))["rank_cut"]
+        ne = gpd.read_file(paths.raw / "naturalearth" / "ne_10m_admin_0_countries.shp").to_crs(4326)
+        area = ne[ne.ADM0_A3.isin(c["area"])].union_all()
+        conf, buf = world_sealed(m, c["buffer_km"], cut, within=area)
+        inside = area.buffer(0.02)  # only the area's own records: its neighbours' were used in development
+        return dict(m, _conf=conf.intersection(inside), _buf=buf.intersection(inside))
+    f = paths.root / c["mask"]
     m = json.loads(f.read_text(encoding="utf-8"))
     m["_conf"] = shapely.from_geojson(m["confirmation"])
     m["_buf"] = shapely.from_geojson(m["buffer"])

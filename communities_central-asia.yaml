@@ -1,0 +1,331 @@
+# Central Asia (Turkmenistan, Uzbekistan, Tajikistan, Kyrgyzstan): the Pakistan, Afghanistan & Iran library plus
+# Central Asian communities, drafted from the literature before any GBIF record of the area was read (Walter & Box
+# 1983, Middle Asian deserts; Rachkovskaya et al. 2003, Botanical geography of Kazakhstan and Middle Asia; Kamelin 1973;
+# Grisa et al. 2008, Tien Shan spruce; Beer et al. 2008, walnut-fruit forests; Breckle et al. 2012, Aralkum; Djamali et
+# al. 2012, Irano-Turanian bioclimate). Every new rule is limited to the Central Asian provinces (40-55) or the
+# provinces that continue across the border (21 Pamir, 24 Paropamisus/Badkhyz, 37 Kopet Dagh), so the included rules
+# behave as in v0.5.0. Thresholds are first guesses, to be calibrated on development records (sealed squares excluded).
+include: [communities_pak-afg-irn.yaml]
+
+communities:
+- id: ca_sand_desert
+  structure: sparse
+  ecoregion: amu_darya
+  name: Turanian sand desert (white saxaul and Calligonum)
+  group: Desert (psammophyte)
+  indicators: [Haloxylon persicum, Calligonum setosum, Carex physodes, Salsola richteri, Ammodendron conollyi]
+  where:
+    province: ['40', '41', '43', '44', '45', '46', '48', '53', '54']
+    dune: true
+  note: Karakum, Zaunguz, Kyzylkum, Central Fergana and Sundukli sands (Walter & Box 1983).
+  priority: 45
+- id: ca_black_saxaul
+  structure: shrubland
+  ecoregion: turan_clay
+  name: Black saxaul and Salsola desert on old alluvium
+  group: Desert (black saxaul)
+  indicators: [Haloxylon aphyllum, Salsola orientalis, Anabasis aphylla, Artemisia diffusa]
+  where:
+    province: ['40', '41', '43', '44', '45', '46', '54']
+    elev: [null, 500]
+    slope: [null, 4]
+    bio12: [null, 200]
+    hand: [bar_upland, upland]
+  priority: 30
+- id: ca_ustyurt_desert
+  structure: sparse
+  ecoregion: turan_clay
+  name: Ustyurt gypsum desert (Artemisia terrae-albae and Anabasis salsa)
+  group: Desert (gypsophyte)
+  indicators: [Artemisia terrae-albae, Anabasis salsa, Salsola arbusculiformis, Nanophyton erinaceum]
+  where:
+    province: ['41', '42']
+    elev: [50, 400]
+    slope: [null, 6]
+  note: Ustyurt and the Krasnovodsk Plateau; gypsum caps (Rachkovskaya et al. 2003).
+  priority: 35
+- id: ca_halophyte
+  structure: sparse
+  ecoregion: turan_halophyte
+  name: Turanian solonchak and takyr halophyte desert
+  group: Desert (halophyte)
+  indicators: [Halocnemum strobilaceum, Kalidium caspicum, Halostachys belangeriana, Tamarix hispida]
+  where:
+    province: ['40', '41', '42', '43', '44', '45', '46', '48', '53', '54']
+    slope: [null, 0.3]
+    hand: [active_floodplain]
+    river_km: [5, null]
+  priority: 75
+- id: ca_aralkum
+  structure: sparse
+  ecoregion: turan_halophyte
+  name: Aralkum dried seabed halophyte desert
+  group: Desert (halophyte)
+  indicators: [Salicornia perennans, Suaeda acuminata, Tamarix hispida, Halocnemum strobilaceum]
+  where:
+    province: ['44']
+    elev: [null, 53]
+    slope: [null, 0.5]
+  note: The former Aral seabed below the 1960 shoreline (~53 m; Breckle et al. 2012).
+  priority: 76
+- id: ca_caspian_coast
+  structure: sparse
+  ecoregion: turan_halophyte
+  name: Turkmen Caspian coastal solonchak
+  group: Desert (halophyte)
+  indicators: [Halocnemum strobilaceum, Nitraria schoberi, Halostachys belangeriana, Aeluropus littoralis]
+  where:
+    province: ['41']
+    elev: [null, -10]
+    slope: [null, 1]
+  priority: 70
+- id: ca_tugai
+  structure: forest_broadleaf
+  ecoregion: tugai
+  name: Central Asian tugai riparian forest
+  group: Riparian forest (tugai)
+  indicators: [Populus euphratica, Populus pruinosa, Tamarix ramosissima, Elaeagnus angustifolia, Erianthus ravennae]
+  where:
+    province: ['40', '43', '44', '45', '46', '48', '51', '52', '53', '54']
+    hand: [active_floodplain, meander_floodplain]
+    river_km: [null, 3]
+    elev: [null, 1200]
+  note: Amu Darya, Syr Darya, Zeravshan, Murgab, Tejen, Vakhsh, Kafirnigan, Surkhandarya and Chuy floodplains.
+  priority: 80
+- id: ca_delta_reed
+  structure: wetland
+  ecoregion: tugai
+  name: Amu Darya delta reed marsh
+  group: Riparian wetland
+  indicators: [Phragmites australis, Typha angustifolia, Tamarix ramosissima]
+  where:
+    province: ['44']
+    hand: [active_floodplain]
+    creek_m: [null, 1000]
+  priority: 82
+- id: ca_loess_semisavanna
+  structure: grassland
+  ecoregion: amu_darya
+  name: Turanian loess piedmont semi-savanna (Poa bulbosa and Carex pachystylis)
+  group: Desert (ephemeral grass steppe)
+  indicators: [Poa bulbosa, Carex pachystylis, Psoralea drupacea, Ferula foetida]
+  where:
+    province: ['45', '46', '47', '48', '49', '52', '53', '54', '55']
+    elev: [250, 1100]
+    bio12: [180, 450]
+  note: The adyr and loess foothill belt (Walter & Box 1983), continuous with the Afghan Amu Darya loess steppe.
+  priority: 30
+- id: ca_pistachio
+  structure: woodland_broadleaf
+  ecoregion: pistachio
+  name: Middle Asian wild pistachio open woodland
+  group: Xeric woodland (pistachio savanna)
+  indicators: [Pistacia vera, Amygdalus bucharica, Cercis griffithii, Ferula tadshikorum]
+  where:
+    province: ['47', '52', '55']
+    elev: [600, 1500]
+    bio12: [250, 600]
+    slope: [5, null]
+  note: Babatag, Kugitang, Vakhsh and Kafirnigan foothills, southern Gissar.
+  priority: 50
+- id: ca_alay_shrubland
+  structure: woodland_broadleaf
+  ecoregion: alay_woodland
+  name: Alay deciduous shrubland and open woodland
+  group: Xeric deciduous woodland (shiblyak)
+  indicators: [Acer pubescens, Celtis caucasica, Amygdalus bucharica, Lonicera nummulariifolia, Crataegus pontica]
+  where:
+    province: ['47', '48', '49', '52', '55']
+    elev: [900, 2200]
+    bio12: [350, null]
+    slope: [5, null]
+  priority: 52
+- id: ca_walnut_fruit
+  structure: forest_broadleaf
+  ecoregion: walnut_fruit
+  name: Walnut-fruit forest
+  group: Deciduous broadleaf forest (walnut-fruit)
+  indicators: [Malus sieversii, Acer turkestanicum, Pyrus korshinskyi, Prunus sogdiana, Crataegus turkestanica]
+  where:
+    province: ['47', '48', '49']
+    elev: [1000, 2100]
+    bio12: [600, null]
+    slope: [8, null]
+  note: Fergana and Chatkal ranges (Arslanbob), western Gissar; 600-1,000 mm (Beer et al. 2008). Juglans regia is left out
+    as an indicator (widely planted).
+  priority: 60
+- id: ca_juniper
+  structure: woodland_conifer
+  ecoregion: ca_juniper
+  name: Central Asian juniper (archa) woodland
+  group: Juniper woodland (archa)
+  indicators: [Juniperus seravschanica, Juniperus semiglobosa, Juniperus pseudosabina, Rosa fedtschenkoana]
+  where:
+    province: ['21', '47', '49', '50', '51', '52', '55']
+    elev: [1500, 3300]
+    bio12: [250, null]
+    slope: [8, null]
+  priority: 54
+- id: ca_balkhan_juniper
+  structure: woodland_conifer
+  ecoregion: juniper
+  name: Balkhan juniper woodland
+  group: Juniper woodland
+  indicators: [Juniperus excelsa subsp. polycarpos, Acer monspessulanum, Ephedra equisetina]
+  where:
+    province: ['41']
+    elev: [900, null]
+    slope: [8, null]
+  note: Big Balkhan, ~1,000-1,880 m, as on the Kopet Dagh.
+  priority: 53
+- id: ca_spruce
+  structure: forest_conifer
+  ecoregion: tienshan_spruce
+  name: Tien Shan spruce forest
+  group: Boreal-montane conifer forest
+  indicators: [Picea schrenkiana, Abies semenovii, Sorbus tianschanica, Lonicera stenantha]
+  where:
+    province: ['49', '50', '51']
+    elev: [1800, 3000]
+    bio12: [400, null]
+    slope: [10, null]
+    northness: [0.2, null]
+  note: North-facing slopes of the Kyrgyz Ala-Too, Terskey and Kungey ranges; fir in the Talas Ala-Too (Grisa et al. 2008).
+  priority: 62
+- id: ca_mountain_steppe
+  structure: grassland
+  ecoregion: ca_steppe
+  name: Central Asian mountain steppe (Festuca valesiaca and Stipa)
+  group: Mountain steppe
+  indicators: [Festuca valesiaca, Stipa capillata, Ziziphora clinopodioides, Artemisia dracunculus]
+  where:
+    province: ['47', '48', '49', '50', '51', '52', '55']
+    elev: [1100, 3000]
+    bio12: [250, null]
+  priority: 40
+- id: ca_desert_steppe
+  structure: shrubland
+  ecoregion: ca_steppe
+  name: Central Asian mountain desert steppe
+  group: Mountain desert steppe
+  indicators: [Stipa caucasica, Anabasis eriopoda, Ephedra intermedia, Artemisia sublessingiana]
+  where:
+    province: ['47', '49', '50', '51', '52']
+    elev: [700, 3000]
+    bio12: [null, 250]
+  note: Western Issyk-Kul, Naryn and Kochkor basins, the dry Alay foothills.
+  priority: 38
+- id: ca_alpine_meadow
+  structure: alpine
+  ecoregion: ca_meadow
+  name: Central Asian subalpine and alpine meadow
+  group: Alpine meadow
+  indicators: [Kobresia capilliformis, Geranium saxatile, Primula algida, Alchemilla sibirica]
+  where:
+    province: ['21', '47', '49', '50', '51']
+    elev: [2700, 3800]
+    bio12: [350, null]
+  priority: 64
+- id: ca_syrt
+  structure: alpine
+  ecoregion: dry_alpine
+  name: Inner Tien Shan syrt cold steppe
+  group: Alpine steppe (cold desert)
+  indicators: [Krascheninnikovia ceratoides, Stipa purpurea, Artemisia rhodantha, Kobresia capilliformis]
+  where:
+    province: ['47', '50']
+    elev: [2900, 3800]
+    bio12: [null, 350]
+    slope: [null, 8]
+  note: Arpa, At-Bashy, Ak-Sai and Chatyr-Kul syrts; the upper Alay valley.
+  priority: 63
+- id: ca_nival
+  structure: sparse
+  ecoregion: ice
+  name: Tien Shan nival belt
+  group: Nival
+  indicators: [Saussurea gnaphalodes]
+  where:
+    province: ['49', '50', '51']
+    elev: [4000, null]
+  priority: 99
+- id: ca_nival_alay
+  structure: sparse
+  ecoregion: ice
+  name: Alay nival belt
+  group: Nival
+  indicators: [Saussurea gnaphalodes]
+  where:
+    province: ['47']
+    elev: [4300, null]
+  priority: 99
+
+ecoregion_types:
+  amu_darya:   # extends from northern Afghanistan across the Turan lowland
+    name: Turanian Sand Deserts & Loess Steppe
+    biome: Deserts & Xeric Shrublands
+    color: '#d8b98a'
+    resolve: [Central Asian southern desert, Badghyz and Karabil semi-desert, Central Asian northern desert]
+  pistachio:
+    name: Middle Asian Pistachio Woodlands
+    biome: Deserts & Xeric Shrublands
+    color: '#b39b5e'
+    resolve: [Paropamisus xeric woodlands, Badghyz and Karabil semi-desert, Gissaro-Alai open woodlands]
+  turan_clay:
+    name: Turanian Gypsum & Clay Deserts
+    biome: Deserts & Xeric Shrublands
+    color: '#c7b299'
+    resolve: [Central Asian northern desert, Central Asian southern desert, Caspian lowland desert]
+  turan_halophyte:
+    name: Turanian Solonchaks & Takyrs
+    biome: Deserts & Xeric Shrublands
+    color: '#e6dcc8'
+    resolve: [Central Asian southern desert, Central Asian northern desert, Caspian lowland desert]
+  alay_woodland:
+    name: Alay Mountain Open Woodlands
+    biome: Temperate Grasslands, Savannas & Shrublands
+    color: '#8fa35a'
+    resolve: [Gissaro-Alai open woodlands]
+  walnut_fruit:
+    name: Walnut-Fruit Forests
+    biome: Temperate Broadleaf & Mixed Forests
+    color: '#4f7d3a'
+    resolve: [Gissaro-Alai open woodlands, Alai-Western Tian Shan steppe]
+  ca_juniper:
+    name: Central Asian Juniper Woodlands
+    biome: Temperate Conifer Forests
+    color: '#41644a'
+    resolve: [Gissaro-Alai open woodlands, Alai-Western Tian Shan steppe, Tian Shan montane conifer forests]
+  tienshan_spruce:
+    name: Tien Shan Spruce Forests
+    biome: Temperate Conifer Forests
+    color: '#2f4f3a'
+    resolve: [Tian Shan montane conifer forests]
+  ca_steppe:
+    name: Central Asian Mountain Steppes
+    biome: Temperate Grasslands, Savannas & Shrublands
+    color: '#c4c58a'
+    resolve: [Tian Shan foothill arid steppe, Alai-Western Tian Shan steppe, Gissaro-Alai open woodlands]
+  ca_meadow:
+    name: Central Asian Alpine Meadows
+    biome: Montane Grasslands & Shrublands
+    color: '#9cc9a0'
+    resolve: [Tian Shan montane steppe and meadows, Pamir alpine desert and tundra]
+
+fallback:
+  '40': ca_sand_desert
+  '41': ca_black_saxaul
+  '42': ca_ustyurt_desert
+  '43': ca_sand_desert
+  '44': ca_halophyte
+  '45': ca_sand_desert
+  '46': ca_loess_semisavanna
+  '47': ca_mountain_steppe
+  '48': ca_loess_semisavanna
+  '49': ca_mountain_steppe
+  '50': ca_mountain_steppe
+  '51': ca_mountain_steppe
+  '52': ca_loess_semisavanna
+  '53': ca_loess_semisavanna
+  '54': ca_black_saxaul
+  '55': ca_loess_semisavanna
