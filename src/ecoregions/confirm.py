@@ -43,6 +43,43 @@ def draw_mask(country_geom, block_deg: float, share: float, min_land: float, buf
                 buffer=shapely.to_geojson(buf.difference(union).intersection(inside)))
 
 
+def draw_world_mask(countries: gpd.GeoDataFrame, mapped, block_deg: float, share: float, min_land: float,
+                    seed: int) -> dict:
+    """Every ``block_deg`` square with at least ``min_land`` of its area on land not yet mapped, each given a rank by
+    one seeded random order; squares ranked below ``share`` of the count are sealed. An area short of sealed data
+    seals its next squares in rank order (docs/preregistration.md, section 8): the order is fixed here, once."""
+    tree = shapely.STRtree(countries.geometry.values)
+    blocks = []
+    for lon in np.arange(-180, 180, block_deg):
+        for lat in np.arange(-90, 90, block_deg):
+            b = shapely.box(lon, lat, lon + block_deg, lat + block_deg)
+            parts = [shapely.intersection(b, countries.geometry.values[i]) for i in tree.query(b)]
+            land = shapely.unary_union(parts).difference(mapped) if parts else None
+            if land is not None and land.area / b.area >= min_land:
+                blocks.append([round(float(lon), 3), round(float(lat), 3)])
+    rank = np.random.default_rng(seed).permutation(len(blocks))
+    for blk, r in zip(blocks, rank):
+        blk.append(int(r))
+    return dict(blocks=blocks, candidates=len(blocks), sealed_below_rank=round(share * len(blocks)),
+                block_deg=block_deg, min_land=min_land, seed=seed)
+
+
+def world_sealed(m: dict, buffer_km: float, cut: int | None = None, within=None):
+    """Sealed squares and their buffer (lon/lat) from a world mask: squares ranked below ``cut`` (default: the global
+    share), optionally only those meeting ``within`` (an area that needed more squares raises its own cut). The buffer
+    is a rectangle at least ``buffer_km`` wide in every direction (longitude widened at each square's poleward edge)."""
+    d, cut = m["block_deg"], m["sealed_below_rank"] if cut is None else cut
+    sq = [(lon, lat) for lon, lat, r in m["blocks"] if r < cut
+          and (within is None or shapely.box(lon, lat, lon + d, lat + d).intersects(within))]
+    dy = buffer_km / 111.0
+
+    def dx(lat):  # longitude degrees spanning buffer_km at the square's poleward edge (plus the buffer)
+        return dy / max(0.05, np.cos(np.radians(min(89.0, max(abs(lat), abs(lat + d)) + dy))))
+    conf = shapely.unary_union([shapely.box(lon, lat, lon + d, lat + d) for lon, lat in sq])
+    buf = shapely.unary_union([shapely.box(lon - dx(lat), lat - dy, lon + d + dx(lat), lat + d + dy) for lon, lat in sq])
+    return conf, buf.difference(conf)
+
+
 def load_mask(cfg) -> dict | None:
     c = cfg.get("confirmation")
     if not c:

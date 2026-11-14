@@ -97,3 +97,35 @@ Score = agreement share, block-weighted. The same table scores our biomes and RE
 3. Iran: build the combined map using development records only; archive its coarsening tree; freeze it (hash); then
    open the confirmation records once and run A, B and C.
 4. Report every result, including failures, in the README and the ledger.
+
+## 8. Amendment of 2026-11-14: every area mapped from now on
+
+Added after the Iran tests (sections 1–7 unchanged). It applies to every area whose construction starts after this
+section is committed, and adds a second, temporal test for every area, including those already mapped.
+
+**Sealed squares.** [`docs/confirmation/world_mask.json`](confirmation/world_mask.json) was drawn from geography alone
+(`scripts/draw_world_mask.py`): every 2-degree square with at least a quarter of its area on land not yet mapped
+(Pakistan, Afghanistan & Iran and Texas excluded), each given a rank in one random order (seed 20261114); squares
+ranked in the lowest 30 % are sealed. Around them, a buffer at least 50 km wide in every direction. For an area being
+built, the sealed squares and buffer inside it play the roles of section 2: records there (GBIF downloads and API
+cells, eBird if available, any other occurrence data) are not used for rules, calibration, audits or any choice made
+while building, until the area's frozen map hash is committed.
+
+**Enough sealed data, settled before building, from counts only.** Before an area's construction starts, GBIF record
+*counts* per 0.25-degree cell inside its sealed squares are read for plants and for birds (counts only: no names,
+dates or other fields). A cell is eligible with at least 100 records; a 1-degree block is eligible with at least one
+eligible cell. If a taxon has fewer than 20 eligible blocks or fewer than 40 eligible cells (the scorecard needs 30
+after its own filters), the area seals its next squares in rank order, re-counting after each, until both are met or
+half the area's squares are sealed. A taxon still short is declared descriptive-only in the ledger before building.
+The counts, the final rank cut-off and any declaration are recorded in the ledger before construction starts.
+
+**Temporal test (all areas).** Observations made on or after 2026-11-14 (GBIF `eventDate`) are never used in
+construction. For each area, the count of such records is checked (counts only) at most every six months; once a
+taxon reaches 20 eligible blocks and 40 eligible cells, the area's current map hash is committed and the test is run
+once on those records, with the endpoints and decision rules of sections 3 and 6. These records are new in time but
+not in space (they fall among the development cells), so the result is reported as a temporal test, separately from
+the spatial confirmation.
+
+**Order of operations for each new area.** (1) Count the sealed data and set the rank cut-off; (2) build using
+development records only; (3) freeze (hash in the ledger, committed); (4) open the sealed records once and run the
+tests; (5) report every result, including failures.
