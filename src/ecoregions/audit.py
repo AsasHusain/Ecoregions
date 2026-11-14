@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import logging
 
+import geopandas as gpd
 import numpy as np
 import pandas as pd
 
@@ -165,7 +166,10 @@ def run(cfg) -> None:
 
     # 2. RESOLVE compatibility
     res_tab = vectors.resolve(cfg)[["ECO_ID", "ECO_NAME"]].drop_duplicates("ECO_ID").set_index("ECO_ID").ECO_NAME
-    unknown = {s for t in types.values() for s in t.get("resolve", [])} - set(res_tab)
+    # names are checked against the whole world: shared rule files list RESOLVE regions of other parcels
+    world = gpd.read_file(f"/vsizip/{paths.raw / 'resolve' / 'Ecoregions2017.zip'}/Ecoregions2017.shp",
+                          columns=["ECO_NAME"], ignore_geometry=True).ECO_NAME
+    unknown = {s for t in types.values() for s in t.get("resolve", [])} - set(world)
     missing = [t for t in tkeys if not types[t].get("resolve")]
     if unknown or missing:
         raise ValueError(f"ecoregion_types: unknown RESOLVE names {unknown}; types without a resolve list {missing}")
