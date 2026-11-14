@@ -251,6 +251,11 @@ fauna:
   pnv_to_habitat: {3: 105, 4: 104, 9: 104, 13: 104, 15: 104, 16: 308, 17: 104, 20: 305, 22: 404, 27: 801, 28: 404}
 
 # faunal regions: UPGMA on Simpson beta diversity between cells
+global_fauna:                   # global presence for the global Faunal Ecoregions (global_fauna stage)
+  cell_m: 100000               # EASE-Grid 2.0 cells
+  fine_m: 2500                 # nested grid for range cover and GMTED2010 elevation
+  out: data/global/fauna
+
 faunal:
   presence: elev               # 'range', 'elev' (range within elevation limits) or 'aoh' (+ habitat)
   min_study_share: 0.5         # cells at least this much inside the study area

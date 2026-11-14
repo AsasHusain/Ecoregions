@@ -29,6 +29,7 @@ STAGES = {
     "vegcheck": "ecoregions.vegcheck",
     "fauna": "ecoregions.fauna",
     "faunal": "ecoregions.faunal",
+    "global_fauna": "ecoregions.global_fauna",
     "biomes": "ecoregions.biomes",
     "assemble": "ecoregions.assemble",
     "evaluate": "ecoregions.evaluate",
