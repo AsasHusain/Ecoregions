@@ -49,11 +49,14 @@ log = logging.getLogger(__name__)
 
 
 def distinctive_indicators(rules: dict) -> dict[str, str]:
-    """Indicator species (binomial) -> the one ecoregion type whose communities list it."""
+    """Indicator species (binomial) -> the one ecoregion type whose communities list it. A rule file's ``audit_ignore``
+    names species that are widespread in its area although a shared library lists them under one type."""
+    ignore = {binomial(s) for s in rules.get("audit_ignore", [])}
     types = {}
     for c in rules["communities"]:
         for s in c["indicators"]:
-            types.setdefault(binomial(s), set()).add(c["ecoregion"])
+            if binomial(s) not in ignore:
+                types.setdefault(binomial(s), set()).add(c["ecoregion"])
     return {s: next(iter(t)) for s, t in types.items() if len(t) == 1}
 
 

@@ -6,6 +6,15 @@
 # provinces that continue here (27 Talysh, 30 Hakkari). Thresholds are first guesses, to be calibrated on development
 # records (sealed squares excluded).
 include: [communities_pak-afg-irn.yaml]
+# Species the audit does not count as indicators here (audit only, never the map): listed under one Iranian or Asian
+# type in the shared library but widespread in Euxine, Colchic and Anatolian vegetation, or along every watercourse
+# (Central Asia's audit showed the effect). Set 2026-11-14 from ranges in the literature, before any record was read.
+audit_ignore: [Tamarix ramosissima, Elaeagnus angustifolia, Celtis australis, Populus alba, Salix alba, Cornus mas,
+  Quercus petraea, Festuca valesiaca, Festuca ovina, Puccinellia distans, Alnus glutinosa, Fraxinus angustifolia,
+  Nymphaea alba, Trapa natans, Schoenoplectus lacustris, Schoenoplectus litoralis, Ceratophyllum demersum,
+  Imperata cylindrica, Diospyros lotus, Pterocarya fraxinifolia, Zelkova carpinifolia, Acer cappadocicum,
+  Fagus orientalis, Sorbus torminalis, Berberis integerrima, Cotoneaster nummularius, Hippophae rhamnoides,
+  Myricaria germanica, Crataegus azarolus]
 
 communities:
 # ---- Mediterranean belt
