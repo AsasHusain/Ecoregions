@@ -11,4 +11,5 @@ __pycache__/
 .pytest_cache/
 # over GitHub's 100 MB limit: committed zipped (*.gpkg.zip); the freeze hash is of the unzipped file
 outputs/pak-afg-irn/*.gpkg
+outputs/central-asia/*.gpkg
 outputs/irn/

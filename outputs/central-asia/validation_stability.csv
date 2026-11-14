@@ -1,0 +1,117 @@
+unit,code,name,type_name,area_km2,stability
+1,47.01,Turanian Gypsum & Clay Deserts — Ustyurt Plateau,Turanian Gypsum & Clay Deserts,159001.1,0.995
+2,48.01,Turanian Solonchaks & Takyrs — Amu Darya Delta & Aralkum (northwestern),Turanian Solonchaks & Takyrs,34470.1,0.872
+3,16.03,Tugai Riparian Forests — Amu Darya Delta & Aralkum (northeastern) 1,Tugai Riparian Forests,5706.9,0.929
+4,48.02,Turanian Solonchaks & Takyrs — Amu Darya Delta & Aralkum (northeastern) 1,Turanian Solonchaks & Takyrs,12993.5,0.854
+5,16.06,Tugai Riparian Forests — Amu Darya Delta & Aralkum (northwestern),Tugai Riparian Forests,1512.1,0.926
+6,47.11,Turanian Gypsum & Clay Deserts — Amu Darya Delta & Aralkum (northern),Turanian Gypsum & Clay Deserts,1266.0,0.892
+7,48.14,Turanian Solonchaks & Takyrs — Amu Darya Delta & Aralkum (northeastern) 2,Turanian Solonchaks & Takyrs,1191.8,0.942
+8,16.04,Tugai Riparian Forests — Amu Darya Delta & Aralkum (southern),Tugai Riparian Forests,5542.2,0.939
+9,17.01,Turanian Sand Deserts & Loess Steppe — Karakum Desert (northeastern),Turanian Sand Deserts & Loess Steppe,344894.9,0.988
+10,17.06,Turanian Sand Deserts & Loess Steppe — Amu Darya Delta & Aralkum,Turanian Sand Deserts & Loess Steppe,1976.4,0.987
+11,54.04,Central Asian Alpine Meadows — Northern Kyrgyz Basins,Central Asian Alpine Meadows,3576.5,0.791
+12,53.02,Central Asian Mountain Steppes — Northern Kyrgyz Basins (eastern),Central Asian Mountain Steppes,7142.8,0.979
+13,53.01,Central Asian Mountain Steppes — Central & Inner Tien Shan (northeastern),Central Asian Mountain Steppes,8034.3,0.899
+14,54.01,Central Asian Alpine Meadows — Central & Inner Tien Shan,Central Asian Alpine Meadows,87797.6,0.812
+15,51.04,Central Asian Juniper Woodlands — Northern Kyrgyz Basins,Central Asian Juniper Woodlands,3156.3,0.816
+16,28.02,High Asian Glaciers & Rock — Central & Inner Tien Shan (eastern),High Asian Glaciers & Rock,1390.2,0.868
+17,28.03,High Asian Glaciers & Rock — Central & Inner Tien Shan (western),High Asian Glaciers & Rock,1295.8,0.8
+18,47.04,Turanian Gypsum & Clay Deserts — Amu Darya Delta & Aralkum (western),Turanian Gypsum & Clay Deserts,9861.4,0.997
+19,53.04,Central Asian Mountain Steppes — Northern Kyrgyz Basins (western),Central Asian Mountain Steppes,5209.7,0.93
+20,27.02,High Asian Dry Alpine Steppe & Cold Desert — Central & Inner Tien Shan (northeastern),High Asian Dry Alpine Steppe & Cold Desert,14130.1,0.649
+21,48.04,Turanian Solonchaks & Takyrs — Amu Darya Delta & Aralkum (southern),Turanian Solonchaks & Takyrs,9436.4,0.94
+22,53.07,Central Asian Mountain Steppes — Central & Inner Tien Shan (western),Central Asian Mountain Steppes,1338.5,0.876
+23,51.02,Central Asian Juniper Woodlands — Central & Inner Tien Shan (western),Central Asian Juniper Woodlands,5814.8,0.806
+24,48.09,Turanian Solonchaks & Takyrs — Western Turkmen Lowlands (northern),Turanian Solonchaks & Takyrs,2536.8,0.973
+25,49.08,Alay Mountain Open Woodlands — Western Tien Shan,Alay Mountain Open Woodlands,1395.2,0.747
+26,48.11,Turanian Solonchaks & Takyrs — Amu Darya Delta & Aralkum (southwestern),Turanian Solonchaks & Takyrs,1876.5,0.862
+27,50.02,Walnut-Fruit Forests — Western Tien Shan (western),Walnut-Fruit Forests,6235.0,0.86
+28,48.06,Turanian Solonchaks & Takyrs — Amu Darya Delta & Aralkum (southeastern),Turanian Solonchaks & Takyrs,4139.1,0.886
+29,16.07,Tugai Riparian Forests — Amu Darya Delta & Aralkum (southwestern),Tugai Riparian Forests,1417.9,0.932
+30,50.01,Walnut-Fruit Forests — Western Tien Shan (eastern),Walnut-Fruit Forests,12493.3,0.806
+31,51.07,Central Asian Juniper Woodlands — Central & Inner Tien Shan (eastern),Central Asian Juniper Woodlands,1857.4,0.775
+32,53.05,Central Asian Mountain Steppes — Central & Inner Tien Shan (southwestern),Central Asian Mountain Steppes,4148.2,0.88
+33,53.08,Central Asian Mountain Steppes — Central & Inner Tien Shan (southern),Central Asian Mountain Steppes,1311.2,0.844
+34,46.01,Middle Asian Foothill Semi-savannas — Zeravshan & Kashkadarya Plains,Middle Asian Foothill Semi-savannas,135334.1,0.93
+35,27.07,High Asian Dry Alpine Steppe & Cold Desert — Central & Inner Tien Shan (western),High Asian Dry Alpine Steppe & Cold Desert,1324.9,0.583
+36,47.03,Turanian Gypsum & Clay Deserts — Amu Darya Delta & Aralkum (southern),Turanian Gypsum & Clay Deserts,12556.4,0.993
+37,16.02,Tugai Riparian Forests — Middle Amu Darya Valley,Tugai Riparian Forests,9046.1,0.932
+38,27.05,High Asian Dry Alpine Steppe & Cold Desert — Central & Inner Tien Shan (southern),High Asian Dry Alpine Steppe & Cold Desert,2762.5,0.535
+39,17.09,Turanian Sand Deserts & Loess Steppe — Syr Darya Valley,Turanian Sand Deserts & Loess Steppe,1524.8,1.0
+40,48.08,Turanian Solonchaks & Takyrs — Syr Darya Valley,Turanian Solonchaks & Takyrs,2749.1,0.959
+41,47.02,Turanian Gypsum & Clay Deserts — Zeravshan & Kashkadarya Plains (northwestern) 1,Turanian Gypsum & Clay Deserts,15056.0,0.967
+42,17.05,Turanian Sand Deserts & Loess Steppe — Western Turkmen Lowlands (northeastern),Turanian Sand Deserts & Loess Steppe,2016.7,0.997
+43,49.01,Alay Mountain Open Woodlands — Fergana Valley,Alay Mountain Open Woodlands,5037.5,0.828
+44,48.05,Turanian Solonchaks & Takyrs — Western Turkmen Lowlands (southern),Turanian Solonchaks & Takyrs,6985.4,0.98
+45,49.05,Alay Mountain Open Woodlands — Nuratau & Aktau Ranges,Alay Mountain Open Woodlands,1766.0,0.769
+46,27.08,High Asian Dry Alpine Steppe & Cold Desert — Alay Ranges (eastern),High Asian Dry Alpine Steppe & Cold Desert,1176.8,0.661
+47,17.07,Turanian Sand Deserts & Loess Steppe — Western Turkmen Lowlands (northwestern),Turanian Sand Deserts & Loess Steppe,1690.7,0.976
+48,27.03,High Asian Dry Alpine Steppe & Cold Desert — Alay Ranges (western),High Asian Dry Alpine Steppe & Cold Desert,10333.2,0.737
+49,53.06,Central Asian Mountain Steppes — Fergana Valley,Central Asian Mountain Steppes,3490.9,0.761
+50,47.09,Turanian Gypsum & Clay Deserts — Zeravshan & Kashkadarya Plains (northwestern) 2,Turanian Gypsum & Clay Deserts,3127.4,0.888
+51,51.05,Central Asian Juniper Woodlands — Alay Ranges (northeastern) 1,Central Asian Juniper Woodlands,3064.0,0.817
+52,53.03,Central Asian Mountain Steppes — Zeravshan & Kashkadarya Plains,Central Asian Mountain Steppes,5287.5,0.961
+53,27.01,High Asian Dry Alpine Steppe & Cold Desert — Pamir (eastern),High Asian Dry Alpine Steppe & Cold Desert,73141.7,0.901
+54,51.01,Central Asian Juniper Woodlands — Southern Tajik & Surkhan Lowlands,Central Asian Juniper Woodlands,17596.1,0.863
+55,28.01,High Asian Glaciers & Rock — Alay Ranges,High Asian Glaciers & Rock,3533.4,0.923
+56,48.12,Turanian Solonchaks & Takyrs — Zeravshan & Kashkadarya Plains,Turanian Solonchaks & Takyrs,1873.7,0.882
+57,47.05,Turanian Gypsum & Clay Deserts — Zeravshan & Kashkadarya Plains (southwestern),Turanian Gypsum & Clay Deserts,7383.5,0.871
+58,47.07,Turanian Gypsum & Clay Deserts — Zeravshan & Kashkadarya Plains (eastern),Turanian Gypsum & Clay Deserts,4184.4,0.835
+59,17.08,Turanian Sand Deserts & Loess Steppe — Western Turkmen Lowlands (southern),Turanian Sand Deserts & Loess Steppe,1598.2,0.984
+60,46.04,Middle Asian Foothill Semi-savannas — Akhal & Mary Oases (western),Middle Asian Foothill Semi-savannas,6680.3,0.892
+61,17.02,Turanian Sand Deserts & Loess Steppe — Middle Amu Darya Valley,Turanian Sand Deserts & Loess Steppe,8803.2,0.881
+62,33.02,Gorgan Steppe & Salt Marshes — Caspian Lowlands & Northern Alborz (northern),Gorgan Steppe & Salt Marshes,6688.8,0.999
+63,49.02,Alay Mountain Open Woodlands — Southern Tajik & Surkhan Lowlands (eastern),Alay Mountain Open Woodlands,3757.7,0.884
+64,16.01,Tugai Riparian Forests — Akhal & Mary Oases,Tugai Riparian Forests,10771.4,0.936
+65,50.03,Walnut-Fruit Forests — Alay Ranges (eastern),Walnut-Fruit Forests,5076.8,0.859
+66,47.08,Turanian Gypsum & Clay Deserts — Akhal & Mary Oases (northwestern),Turanian Gypsum & Clay Deserts,4162.2,0.876
+67,46.07,Middle Asian Foothill Semi-savannas — Akhal & Mary Oases (northwestern),Middle Asian Foothill Semi-savannas,3648.0,0.924
+68,46.06,Middle Asian Foothill Semi-savannas — Akhal & Mary Oases (northern),Middle Asian Foothill Semi-savannas,3668.0,0.937
+69,15.02,Iranian Plateau Artemisia Steppe — Khorasan Uplands & Kopet Dagh (western),Iranian Plateau Artemisia Steppe,11013.8,0.777
+70,18.04,Middle Asian Pistachio Woodlands — Khorasan Uplands & Kopet Dagh (northwestern),Middle Asian Pistachio Woodlands,4711.4,0.76
+71,17.1,Turanian Sand Deserts & Loess Steppe — Karakum Desert (southwestern),Turanian Sand Deserts & Loess Steppe,1225.2,0.929
+72,49.04,Alay Mountain Open Woodlands — Southern Tajik & Surkhan Lowlands (western) 1,Alay Mountain Open Woodlands,2454.5,0.838
+73,50.04,Walnut-Fruit Forests — Alay Ranges (western),Walnut-Fruit Forests,1376.6,0.75
+74,46.03,Middle Asian Foothill Semi-savannas — Akhal & Mary Oases (eastern),Middle Asian Foothill Semi-savannas,7105.5,0.964
+75,38.01,Zagros Foothill Thorn Scrub — Northern Zagros,Zagros Foothill Thorn Scrub,4851.7,1.0
+76,48.07,Turanian Solonchaks & Takyrs — Akhal & Mary Oases (western),Turanian Solonchaks & Takyrs,2889.4,0.926
+77,48.13,Turanian Solonchaks & Takyrs — Karakum Desert,Turanian Solonchaks & Takyrs,1777.5,0.927
+78,46.02,Middle Asian Foothill Semi-savannas — Paropamisus,Middle Asian Foothill Semi-savannas,46348.3,0.92
+79,48.03,Turanian Solonchaks & Takyrs — Akhal & Mary Oases (southwestern),Turanian Solonchaks & Takyrs,9616.4,0.935
+80,49.03,Alay Mountain Open Woodlands — Alay Ranges,Alay Mountain Open Woodlands,2916.8,0.744
+81,49.07,Alay Mountain Open Woodlands — Southern Tajik & Surkhan Lowlands (western) 2,Alay Mountain Open Woodlands,1543.3,0.835
+82,49.06,Alay Mountain Open Woodlands — Southern Tajik & Surkhan Lowlands (southeastern),Alay Mountain Open Woodlands,1578.6,0.856
+83,27.04,High Asian Dry Alpine Steppe & Cold Desert — Pamir (western),High Asian Dry Alpine Steppe & Cold Desert,3223.2,0.897
+84,33.01,Gorgan Steppe & Salt Marshes — Caspian Lowlands & Northern Alborz (southern),Gorgan Steppe & Salt Marshes,9568.7,0.914
+85,13.01,Iranian Plateau Juniper Woodlands — Khorasan Uplands & Kopet Dagh (eastern),Iranian Plateau Juniper Woodlands,8398.9,0.814
+86,15.03,Iranian Plateau Artemisia Steppe — Khorasan Uplands & Kopet Dagh (eastern),Iranian Plateau Artemisia Steppe,4190.1,0.974
+87,31.01,Hyrcanian Lowland Forests & Wetlands,Hyrcanian Lowland Forests & Wetlands,5642.5,0.876
+88,18.06,Middle Asian Pistachio Woodlands — Khorasan Uplands & Kopet Dagh (western),Middle Asian Pistachio Woodlands,4069.8,0.806
+89,47.06,Turanian Gypsum & Clay Deserts — Akhal & Mary Oases (southeastern) 1,Turanian Gypsum & Clay Deserts,7146.3,0.847
+90,18.03,Middle Asian Pistachio Woodlands — Khorasan Uplands & Kopet Dagh (southeastern),Middle Asian Pistachio Woodlands,6722.3,0.855
+91,54.03,Central Asian Alpine Meadows — Pamir (southern),Central Asian Alpine Meadows,6318.8,0.863
+92,27.06,High Asian Dry Alpine Steppe & Cold Desert — Pamir (southwestern),High Asian Dry Alpine Steppe & Cold Desert,1455.0,0.922
+93,18.02,Middle Asian Pistachio Woodlands — Amu Darya Plains (eastern),Middle Asian Pistachio Woodlands,7670.9,0.87
+94,13.02,Iranian Plateau Juniper Woodlands — Khorasan Uplands & Kopet Dagh (western),Iranian Plateau Juniper Woodlands,2099.2,0.805
+95,48.1,Turanian Solonchaks & Takyrs — Akhal & Mary Oases (eastern),Turanian Solonchaks & Takyrs,2070.4,0.914
+96,16.05,Tugai Riparian Forests — Amu Darya Plains,Tugai Riparian Forests,1908.8,0.897
+97,15.01,Iranian Plateau Artemisia Steppe — Dasht-e Kavir & Namak Basin,Iranian Plateau Artemisia Steppe,15191.8,0.914
+98,46.05,Middle Asian Foothill Semi-savannas — Akhal & Mary Oases (southern),Middle Asian Foothill Semi-savannas,4154.4,0.898
+99,25.01,Himalayan Dry Temperate Forests,Himalayan Dry Temperate Forests,5333.3,0.809
+100,17.04,Turanian Sand Deserts & Loess Steppe — Amu Darya Plains,Turanian Sand Deserts & Loess Steppe,2542.7,0.842
+101,47.1,Turanian Gypsum & Clay Deserts — Akhal & Mary Oases (southeastern) 2,Turanian Gypsum & Clay Deserts,2223.1,0.916
+102,17.03,Turanian Sand Deserts & Loess Steppe — Akhal & Mary Oases,Turanian Sand Deserts & Loess Steppe,3691.0,0.993
+103,26.01,Himalayan Subalpine Forests & Alpine Meadows,Himalayan Subalpine Forests & Alpine Meadows,2639.9,0.744
+104,18.05,Middle Asian Pistachio Woodlands — Amu Darya Plains (western),Middle Asian Pistachio Woodlands,4541.4,0.919
+105,18.01,Middle Asian Pistachio Woodlands — Paropamisus,Middle Asian Pistachio Woodlands,28482.8,0.899
+106,38.02,Zagros Foothill Thorn Scrub — Central & Southern Zagros,Zagros Foothill Thorn Scrub,3033.6,0.883
+107,46.08,Middle Asian Foothill Semi-savannas — Akhal & Mary Oases (southeastern),Middle Asian Foothill Semi-savannas,1030.3,0.959
+108,16.08,Tugai Riparian Forests — Amu Darya Delta & Aralkum (northeastern) 2,Tugai Riparian Forests,1121.7,0.945
+109,27.09,High Asian Dry Alpine Steppe & Cold Desert — Central & Inner Tien Shan (southwestern),High Asian Dry Alpine Steppe & Cold Desert,1173.2,0.692
+110,53.09,Central Asian Mountain Steppes — Central & Inner Tien Shan (northwestern),Central Asian Mountain Steppes,1193.1,0.881
+111,54.02,Central Asian Alpine Meadows — Alay Ranges (southern),Central Asian Alpine Meadows,10043.6,0.809
+112,54.05,Central Asian Alpine Meadows — Alay Ranges (northern),Central Asian Alpine Meadows,1545.0,0.828
+113,54.06,Central Asian Alpine Meadows — Pamir (northern),Central Asian Alpine Meadows,1494.9,0.872
+114,51.08,Central Asian Juniper Woodlands — Alay Ranges (southwestern) 1,Central Asian Juniper Woodlands,1585.5,0.809
+115,51.06,Central Asian Juniper Woodlands — Alay Ranges (northeastern) 2,Central Asian Juniper Woodlands,2026.9,0.862
+116,51.03,Central Asian Juniper Woodlands — Alay Ranges (southwestern) 2,Central Asian Juniper Woodlands,3876.8,0.849

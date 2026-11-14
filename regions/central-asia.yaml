@@ -4,7 +4,7 @@
 
 project:
   name: central-asia-ecoregions
-  version: "0.1.0"
+  version: "0.6.0"
   area: Central Asia     # map titles              # 0.1.x physiographic; 0.2.0 = first biodiversity-based release
 paths:
   raw_region: data/raw/regions/central-asia   # downloads clipped or tiled to this region (git-ignored)
@@ -401,6 +401,6 @@ confirmation:   # docs/preregistration.md, section 8: sealed squares of the worl
   area: [TKM, UZB, TJK, KGZ]
   buffer_km: 50
   open: false
-  map_sha256: null
+  map_sha256: b1851f842df76626257fb01aea52a5fdcf6a13c74cfc505e4962c933ffe9eec8   # v0.6.0, frozen 2026-11-14
 faunal:
   k_maps: [8, 15, 20]          # 20 regions grouped into 8 (assemble.faunal_k / faunal_group_k)

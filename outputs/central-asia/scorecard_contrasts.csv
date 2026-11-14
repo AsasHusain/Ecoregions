@@ -1,0 +1,55 @@
+taxon,cell_deg,candidate,comparator,relative_loss_improvement,ci_low,ci_high,boundary_contrast_difference,status
+plants,0.25,ours,overall-frequency prior,0.0254,0.0193,0.031,,exploratory
+plants,0.25,ours,spatial-only (nearest development cells),0.0405,0.0301,0.0521,,exploratory
+plants,0.25,ours,RESOLVE,0.0052,-0.0005,0.0099,-0.0038,exploratory
+plants,0.25,ours,climate k-means (24),0.0091,0.0045,0.0139,-0.0176,exploratory
+plants,0.25,ours,climate k-means (116),0.0144,0.0095,0.0207,-0.016,exploratory
+plants,0.25,ours,"RESOLVE, centre point (old test)",0.0064,0.0009,0.0109,-0.0058,exploratory
+plants,0.25,ours coarsened to RESOLVE's 24 units,overall-frequency prior,0.0227,0.0159,0.0288,,exploratory
+plants,0.25,ours coarsened to RESOLVE's 24 units,spatial-only (nearest development cells),0.0378,0.0276,0.0506,,exploratory
+plants,0.25,ours coarsened to RESOLVE's 24 units,RESOLVE,0.0024,-0.0033,0.0083,0.0022,exploratory
+plants,0.25,ours coarsened to RESOLVE's 24 units,climate k-means (24),0.0063,0.0023,0.0109,-0.01,exploratory
+plants,0.25,ours coarsened to RESOLVE's 24 units,climate k-means (116),0.0116,0.0062,0.0184,-0.0084,exploratory
+plants,0.25,ours coarsened to RESOLVE's 24 units,"RESOLVE, centre point (old test)",0.0036,-0.002,0.0091,0.0032,exploratory
+plants,0.25,our faunal ecoregions,overall-frequency prior,0.0238,0.018,0.0312,,exploratory
+plants,0.25,our faunal ecoregions,spatial-only (nearest development cells),0.039,0.0271,0.0504,,exploratory
+plants,0.25,our faunal ecoregions,RESOLVE,0.0036,0.0006,0.0068,0.0002,exploratory
+plants,0.25,our faunal ecoregions,climate k-means (24),0.0075,0.0021,0.0132,-0.01,exploratory
+plants,0.25,our faunal ecoregions,climate k-means (116),0.0128,0.0077,0.0184,-0.0103,exploratory
+plants,0.25,our faunal ecoregions,"RESOLVE, centre point (old test)",0.0048,0.0016,0.0084,0.0015,exploratory
+plants,0.125,ours,overall-frequency prior,0.0252,0.0164,0.0319,,exploratory
+plants,0.125,ours,spatial-only (nearest development cells),0.0569,0.0445,0.072,,exploratory
+plants,0.125,ours,RESOLVE,0.0094,0.003,0.0146,0.0123,exploratory
+plants,0.125,ours,climate k-means (24),0.0108,0.0055,0.0166,0.0291,exploratory
+plants,0.125,ours,climate k-means (116),0.016,0.0089,0.0224,0.0654,exploratory
+plants,0.125,ours,"RESOLVE, centre point (old test)",0.0094,0.003,0.0146,0.0123,exploratory
+plants,0.125,ours coarsened to RESOLVE's 24 units,overall-frequency prior,0.0196,0.011,0.026,,exploratory
+plants,0.125,ours coarsened to RESOLVE's 24 units,spatial-only (nearest development cells),0.0515,0.0395,0.0668,,exploratory
+plants,0.125,ours coarsened to RESOLVE's 24 units,RESOLVE,0.0038,-0.0022,0.0085,-0.0006,exploratory
+plants,0.125,ours coarsened to RESOLVE's 24 units,climate k-means (24),0.0051,-0.0003,0.0114,0.0157,exploratory
+plants,0.125,ours coarsened to RESOLVE's 24 units,climate k-means (116),0.0104,0.0026,0.0181,0.0514,exploratory
+plants,0.125,ours coarsened to RESOLVE's 24 units,"RESOLVE, centre point (old test)",0.0037,-0.0023,0.0085,-0.0006,exploratory
+plants,0.125,our faunal ecoregions,overall-frequency prior,0.0194,0.0126,0.025,,exploratory
+plants,0.125,our faunal ecoregions,spatial-only (nearest development cells),0.0513,0.0389,0.0667,,exploratory
+plants,0.125,our faunal ecoregions,RESOLVE,0.0036,-0.0025,0.0096,-0.0009,exploratory
+plants,0.125,our faunal ecoregions,climate k-means (24),0.0049,0.0006,0.0105,0.017,exploratory
+plants,0.125,our faunal ecoregions,climate k-means (116),0.0101,0.0042,0.0159,0.0492,exploratory
+plants,0.125,our faunal ecoregions,"RESOLVE, centre point (old test)",0.0035,-0.0026,0.0095,-0.0009,exploratory
+birds,0.25,ours,overall-frequency prior,0.0445,0.0347,0.0557,,exploratory
+birds,0.25,ours,spatial-only (nearest development cells),-0.0029,-0.0307,0.0226,,exploratory
+birds,0.25,ours,RESOLVE,-0.0118,-0.0235,-0.0005,0.0073,exploratory
+birds,0.25,ours,climate k-means (24),0.0068,-0.0028,0.017,0.0314,exploratory
+birds,0.25,ours,climate k-means (116),0.0172,0.0075,0.0279,-0.0103,exploratory
+birds,0.25,ours,"RESOLVE, centre point (old test)",-0.008,-0.0192,0.0036,0.0155,exploratory
+birds,0.25,ours coarsened to RESOLVE's 24 units,overall-frequency prior,0.0492,0.0376,0.0627,,exploratory
+birds,0.25,ours coarsened to RESOLVE's 24 units,spatial-only (nearest development cells),0.0021,-0.0244,0.0297,,exploratory
+birds,0.25,ours coarsened to RESOLVE's 24 units,RESOLVE,-0.0068,-0.0192,0.0057,-0.0112,exploratory
+birds,0.25,ours coarsened to RESOLVE's 24 units,climate k-means (24),0.0117,0.0006,0.0223,0.0127,exploratory
+birds,0.25,ours coarsened to RESOLVE's 24 units,climate k-means (116),0.022,0.0117,0.0335,-0.0322,exploratory
+birds,0.25,ours coarsened to RESOLVE's 24 units,"RESOLVE, centre point (old test)",-0.003,-0.0156,0.0103,-0.0061,exploratory
+birds,0.25,our faunal ecoregions,overall-frequency prior,0.0465,0.0346,0.0609,,exploratory
+birds,0.25,our faunal ecoregions,spatial-only (nearest development cells),-0.0007,-0.0222,0.0195,,exploratory
+birds,0.25,our faunal ecoregions,RESOLVE,-0.0097,-0.0208,-0.0011,-0.0088,exploratory
+birds,0.25,our faunal ecoregions,climate k-means (24),0.0089,-0.0013,0.0195,0.0161,exploratory
+birds,0.25,our faunal ecoregions,climate k-means (116),0.0192,0.009,0.0293,-0.0282,exploratory
+birds,0.25,our faunal ecoregions,"RESOLVE, centre point (old test)",-0.0059,-0.0153,0.003,0.0003,exploratory

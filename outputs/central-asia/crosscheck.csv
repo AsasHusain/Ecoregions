@@ -1,0 +1,145 @@
+feature,kind,status,notes,l3_codes,l3_names,shares_unit_with,character_test
+Sandal Bar,bar,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kirana Bar,bar,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Ganji Bar,bar,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Neeli Bar,bar,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kirana Hills,hills,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Thal Desert,desert,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Cholistan Desert,desert,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+"Pachad (Sulaiman piedmont, Dera Ghazi Khan)",piedmont,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+"Daman (Sulaiman piedmont, Dera Ismail Khan)",piedmont,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Potohar Plateau,plateau,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Salt Range,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Margalla Hills,hills,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Peshawar Basin,basin,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kohat Basin,basin,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Bannu Basin,basin,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Tirah,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+North Waziristan,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+South Waziristan,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Sulaiman Range,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Zhob Valley,valley,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Toba Kakar Range,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Quetta Valley,valley,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kachhi Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kirthar Range,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Sindh Kohistan,hills,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Lower Indus floodplain,floodplain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Indus Delta and creeks,delta,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Thar Desert,desert,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Nagarparkar granite (Karoonjhar Hills),hills,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Lasbela Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Hingol,valley,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Makran coast,coast,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Makran Coast Range,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Central Makran Range,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kharan Desert,desert,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Chagai Hills,hills,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Ras Koh,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Swat,valley,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Dir,valley,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Chitral,valley,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kaghan Valley,valley,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Neelum Valley,valley,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Poonch,hills,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Mirpur,hills,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Nanga Parbat massif,massif,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Deosai Plateau,plateau,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Gilgit,valley,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Hunza,valley,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Baltistan (Skardu-Shigar),valley,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Gilan Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Anzali Lagoon,lagoon,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Mazandaran Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Gorgan Plain,plain,resolved,,"27.12, 27.04",Gorgan Plain (eastern) | Gorgan Plain (western),,pass
+Golestan Forest,woodland,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Talesh Mountains,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Damavand,massif,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Alam Kuh,massif,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Alamut,valley,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Sefidrud Gorge,valley,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Lake Urmia,basin,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Urmia Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Miandoab Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Tabriz Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Sahand,massif,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Sabalan,massif,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Ardabil Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Moghan Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Arasbaran,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Hawraman,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Alvand,massif,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kermanshah Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kabir Kuh,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Oshtorankuh,massif,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Bakhtiari Mountains,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Zard Kuh,massif,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kuh-e Dena,massif,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Marvdasht Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Maharloo Lake,basin,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Lake Bakhtegan,basin,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Khuzestan Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Karun Floodplain,floodplain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Hawizeh Marshes,floodplain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Shadegan Marshes,floodplain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Dashtestan Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kish Island,island,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Qeshm Island,island,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Hara Mangroves,coast,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Minab Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Chabahar Bay,coast,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Bashagard Mountains,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Jaz Murian,basin,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Jiroft Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Bampur Valley,valley,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kuh-e Karkas,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Isfahan Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Gavkhouni,basin,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Shir Kuh,massif,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kuh-e Hazar,massif,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Jebal Barez,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Qazvin Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Tehran Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Hoz-e Soltan,basin,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Namak Lake,basin,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Dasht-e Kavir,desert,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Rig-e Jenn,desert,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Dasht-e Lut,desert,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kalut,desert,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Rig-e Yalan,desert,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kopet Dagh,range,resolved,,"37.11, 37.31, 37.23",Kopet Dagh (northwestern) | Kopet Dagh (southeastern) | Kopet Dagh (southern),,pass
+Aladagh,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Atrek Valley,valley,resolved,,"28.04, 37.21",Atrek Valley (southeastern) | Atrek Valley (northwestern),,pass
+Binalud,range,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Hezar Masjed,range,resolved,relief 392 m < 400,"37.35, 37.30",Open mountains east of Mashhad (2) | Hezar Masjed,,pass
+Kashaf Rud Valley,valley,resolved,,37.33,Kashaf Rud Valley,,pass
+Qaenat Highlands,plateau,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Sistan Plain,plain,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Hamun-e Hirmand,basin,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Hamun-e Saberi,basin,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kuh-e Taftan,massif,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Kuh-e Bazman,massif,not mapped,anchor point(s) fall outside the study area or on no unit,,,,
+Big Balkhan,range,resolved,,41.08,Big Balkhan,,pass
+Kugitang,range,resolved,,"47.01, 47.02",Kugitang (southern) | Kugitang (northern),,pass
+Babatag,range,resolved,,"52.04, 52.05",Babatag (northern) | Babatag (southern),,pass
+Gissar Range,range,resolved,,"47.13, 47.10, 47.07",Gissar Range (eastern) | Gissar Range (western 2) | Gissar Range (western 1),,pass
+Zeravshan Range,range,partly resolved,,"47.14, 47.08, 47.05",Zeravshan Range (eastern) | Zeravshan Range and Turkestan Range | Zeravshan Range (western),Turkestan Range,pass
+Turkestan Range,range,partly resolved,,"47.17, 47.08, 47.12",Turkestan Range (eastern) | Zeravshan Range and Turkestan Range | Turkestan Range (western),Zeravshan Range,pass
+Alay Range,range,resolved,,"47.22, 47.20, 47.27",Alay Range (northeastern) | Alay Range (western) | Alay Range (eastern),,pass
+Trans-Alay Range,range,resolved,,"47.28, 47.24",Trans-Alay Range (eastern) | Trans-Alay Range (western),,pass
+Darvaz Range,range,resolved,,"21.08, 21.01",Darvaz Range (eastern) | Darvaz Range (western),,pass
+Peter the Great Range,range,resolved,,47.18,Peter the Great Range,,pass
+Rushan Range,range,resolved,,21.14,Rushan Range,,pass
+Shugnan Range,range,resolved,,21.15,Shugnan Range,,pass
+Fergana Range,range,resolved,,"49.17, 49.16",Fergana Range (southeastern) | Fergana Range (northwestern),,pass
+Chatkal Range,range,resolved,,"49.08, 49.05",Chatkal Range (northeastern) | Chatkal Range (southwestern),,pass
+Kurama Range,range,resolved,,49.01,Kurama Range,,pass
+Pskem Range,range,resolved,,49.04,Pskem Range,,pass
+Talas Ala-Too,range,resolved,,"49.07, 49.13",Talas Ala-Too (western) | Talas Ala-Too (eastern),,pass
+Kyrgyz Ala-Too,range,resolved,,"50.02, 51.05",Kyrgyz Ala-Too (southwestern) | Kyrgyz Ala-Too (northeastern),,pass
+Kungey Ala-Too,range,resolved,,"51.10, 51.11",Kungey Ala-Too (western) | Kungey Ala-Too (eastern),,pass
+Terskey Ala-Too,range,resolved,,"50.23, 50.29, 51.07",Terskey Ala-Too (northern) | Terskey Ala-Too (eastern) | Terskey Ala-Too (western),,pass
+Kokshaal-Too,range,partly resolved,,"50.19, 50.25",Kokshaal-Too and At-Bashy Range | Kokshaal-Too,At-Bashy Range,pass
+At-Bashy Range,range,merged,,50.19,Kokshaal-Too and At-Bashy Range,Kokshaal-Too,pass
+Nuratau,range,resolved,relief 212 m < 250,"55.05, 55.04",Plains with hills northwest of Jizzakh (1) | Nuratau,,pass
+Aktau,range,resolved,,55.02,Aktau,,pass
