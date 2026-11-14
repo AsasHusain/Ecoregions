@@ -204,7 +204,8 @@ validation:
 maps:
   family_colors: {plains: "#5aa04c", deserts: "#ecc35a", plateaus: "#8b5bb0", ranges: "#7d3f35",
                   coasts: "#23a3a0", foothills: "#e07fa6", high_mountains: "#3f63c9"}
-  faunal_group_colors: {1: "#7b8fc7", 2: "#4f9d8a", 3: "#e0a458", 4: "#d9826b", 5: "#a77fb5", 6: "#8aa356", 7: "#c76f9a", 8: "#5fb3c4"}
+  faunal_group_colors: {1: "#7b8fc7", 2: "#4f9d8a", 3: "#e0a458", 4: "#d9826b", 5: "#a77fb5", 6: "#8aa356", 7: "#c76f9a", 8: "#5fb3c4", 9: "#b59a5e",
+                        10: "#6f7f8f", 11: "#c9a3c0", 12: "#7fae9e"}   # muted, one per group; extend when a key needs more
   river_color: "#2f6fb0"
   web_simplify_m: 150        # display-only simplification of web geometries
   hillshade_res_m: 500
