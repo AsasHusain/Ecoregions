@@ -45,9 +45,22 @@ def check_tiles(cfg, paths: Paths) -> list[str]:
     return [f"{len(missing)} Copernicus tiles missing from {paths.raw_region / 'copernicus_dem'}, e.g. {missing[:3]}"] if missing else []
 
 
+def check_settings(cfg, paths: Paths) -> list[str]:
+    """Every province needs a segmentation target and a fallback community (else segment or communities fails)."""
+    from .communities import load_rules
+
+    codes = [u["code"] for u in cfg["provinces"]["units"]]
+    targets = cfg["segmentation"]["target_units"]
+    fallback = load_rules(paths.root / cfg["communities"]["rules"])["fallback"]
+    out = [f"province {c}: no segmentation.target_units" for c in codes if c not in targets]
+    return out + [f"province {c}: no fallback community in {cfg['communities']['rules']}" for c in codes
+                  if c not in {str(k).zfill(2) for k in fallback}]
+
+
 def run(cfg) -> None:
     paths = Paths(cfg)
-    problems = check_seeds(cfg["provinces"]["units"], cfg["provinces"].get("seed_link_km", 400)) + check_tiles(cfg, paths)
+    problems = (check_seeds(cfg["provinces"]["units"], cfg["provinces"].get("seed_link_km", 400)) + check_tiles(cfg, paths)
+                + check_settings(cfg, paths))
     for p in problems:
         log.error("preflight: %s", p)
     if problems:
