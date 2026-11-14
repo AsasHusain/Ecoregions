@@ -400,7 +400,7 @@ confirmation:   # docs/preregistration.md, section 8: sealed squares of the worl
   sealed: docs/confirmation/central-asia_sealed.json
   area: [TKM, UZB, TJK, KGZ]
   buffer_km: 50
-  open: false
+  open: true                   # opened once on the frozen v0.6.0 (2026-11-14)
   map_sha256: b1851f842df76626257fb01aea52a5fdcf6a13c74cfc505e4962c933ffe9eec8   # v0.6.0, frozen 2026-11-14
 faunal:
   k_maps: [8, 15, 20]          # 20 regions grouped into 8 (assemble.faunal_k / faunal_group_k)

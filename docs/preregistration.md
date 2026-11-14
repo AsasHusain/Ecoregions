@@ -129,3 +129,13 @@ the spatial confirmation.
 **Order of operations for each new area.** (1) Count the sealed data and set the rank cut-off; (2) build using
 development records only; (3) freeze (hash in the ledger, committed); (4) open the sealed records once and run the
 tests; (5) report every result, including failures.
+
+## 9. Amendment of 2026-11-14: a margin on the sealed-data count
+
+Added after the Central Asia confirmation run (sections 1–8 unchanged otherwise). The count check of section 8 reads
+raw GBIF record counts; the scorecard keeps only wild, de-duplicated records, cells with enough species, and cells
+wholly inside the sealed squares. In Central Asia the counts promised 20 plant and 21 bird blocks and the scorecard
+found 19, 16 (0.125°) and 18, so every result was descriptive only. For every area whose sealed-data count is made
+after this section is committed, the count check requires **25 eligible blocks and 50 eligible cells** per taxon
+(was 20 and 40), still from counts only; everything else in section 8 is unchanged. The scorecard's own threshold
+(20 blocks) is unchanged. Caucasus & Anatolia, counted before this amendment, already meets the new margin.

@@ -1,0 +1,7 @@
+taxon,cell_deg,role,cells,blocks,land_km2,study_km2,share
+plants,0.25,development,85,43,49414,1417866,0.035
+plants,0.25,confirmation,59,19,34258,1417866,0.024
+plants,0.125,development,70,31,10201,1417866,0.007
+plants,0.125,confirmation,53,16,7869,1417866,0.006
+birds,0.25,development,94,48,54928,1417866,0.039
+birds,0.25,confirmation,54,18,29919,1417866,0.021

@@ -1,0 +1,10 @@
+taxon,cell_deg,candidate,prediction_improvement,prediction_ci_low,boundary_difference,boundary_ci_low,blocks,verdict,status
+plants,0.25,ours,0.0033,-0.002,0.0306,-0.0241,19,descriptive only (19 blocks < 20): not demonstrated,confirmatory
+plants,0.25,ours coarsened to RESOLVE's 24 units,0.0007,-0.0044,0.0408,0.0094,19,descriptive only (19 blocks < 20): non-inferior,confirmatory
+plants,0.25,our faunal ecoregions,-0.0005,-0.0036,0.0168,-0.0258,19,descriptive only (19 blocks < 20): not demonstrated,confirmatory
+plants,0.125,ours,0.0082,0.0013,0.0781,-0.0961,16,descriptive only (16 blocks < 20): not demonstrated,confirmatory
+plants,0.125,ours coarsened to RESOLVE's 24 units,0.0066,0.0004,0.0982,-0.021,16,descriptive only (16 blocks < 20): not demonstrated,confirmatory
+plants,0.125,our faunal ecoregions,0.0007,-0.0049,0.0855,-0.1004,16,descriptive only (16 blocks < 20): not demonstrated,confirmatory
+birds,0.25,ours,-0.0235,-0.0403,-0.0063,-0.1031,18,descriptive only (18 blocks < 20): not demonstrated,confirmatory
+birds,0.25,ours coarsened to RESOLVE's 24 units,-0.0285,-0.0472,-0.0017,-0.0754,18,descriptive only (18 blocks < 20): not demonstrated,confirmatory
+birds,0.25,our faunal ecoregions,-0.0065,-0.0156,-0.0144,-0.1549,18,descriptive only (18 blocks < 20): not demonstrated,confirmatory

@@ -1,6 +1,7 @@
-"""Enough sealed data? (docs/preregistration.md, section 8) Record COUNTS only, per 0.25-degree cell inside an area's
-sealed squares, for plants and birds; squares are added in rank order until each taxon has >= 20 eligible 1-degree
-blocks and >= 40 eligible cells (>= 100 records), or half the area's squares are sealed. Writes the rank cut-off.
+"""Enough sealed data? (docs/preregistration.md, sections 8-9) Record COUNTS only, per 0.25-degree cell inside an
+area's sealed squares, for plants and birds; squares are added in rank order until each taxon has >= 25 eligible
+1-degree blocks and >= 50 eligible cells (>= 100 records), a margin over the scorecard's 20 blocks (section 9), or
+half the area's squares are sealed. Writes the rank cut-off.
 
     PYTHONPATH=src python scripts/sealed_counts.py central-asia TKM UZB TJK KGZ
 """
@@ -64,13 +65,13 @@ for _, lon, lat in sealed:
 st = status()
 print("global share:", len(sealed), "squares", st, flush=True)
 rest = [s for s in squares if s[0] >= cut]
-while any(v["blocks"] < 20 or v["cells"] < 40 for v in st.values()) and rest and len(sealed) < len(squares) / 2:
+while any(v["blocks"] < 25 or v["cells"] < 50 for v in st.values()) and rest and len(sealed) < len(squares) / 2:
     s = rest.pop(0)
     sealed.append(s)
     add_square(s[1], s[2])
     st = status()
     print("added rank", s[0], st, flush=True)
-short = [t for t, v in st.items() if v["blocks"] < 20 or v["cells"] < 40]
+short = [t for t, v in st.items() if v["blocks"] < 25 or v["cells"] < 50]
 res = dict(area=name, countries=iso, squares_in_area=len(squares), squares_sealed=len(sealed),
            rank_cut=max(r for r, _, _ in sealed) + 1, eligible=st, descriptive_only=short,
            note="record counts only (GBIF occurrence search, limit=0); no names, dates or other fields read")
