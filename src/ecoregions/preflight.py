@@ -46,15 +46,20 @@ def check_tiles(cfg, paths: Paths) -> list[str]:
 
 
 def check_settings(cfg, paths: Paths) -> list[str]:
-    """Every province needs a segmentation target and a fallback community (else segment or communities fails)."""
+    """Every province needs a segmentation target and a fallback community (else segment or communities fails), and
+    the faunal map assemble reads must be one the faunal stage writes."""
     from .communities import load_rules
 
     codes = [u["code"] for u in cfg["provinces"]["units"]]
     targets = cfg["segmentation"]["target_units"]
     fallback = load_rules(paths.root / cfg["communities"]["rules"])["fallback"]
     out = [f"province {c}: no segmentation.target_units" for c in codes if c not in targets]
-    return out + [f"province {c}: no fallback community in {cfg['communities']['rules']}" for c in codes
-                  if c not in {str(k).zfill(2) for k in fallback}]
+    out += [f"province {c}: no fallback community in {cfg['communities']['rules']}" for c in codes
+            if c not in {str(k).zfill(2) for k in fallback}]
+    k, maps = cfg["assemble"].get("faunal_k"), cfg.get("faunal", {}).get("k_maps", [])
+    if k and k not in maps:  # the faunal stage writes only these maps; assemble reads regions_k{faunal_k}
+        out.append(f"assemble.faunal_k {k} is not in faunal.k_maps {maps}")
+    return out
 
 
 def run(cfg) -> None:
