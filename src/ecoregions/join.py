@@ -40,8 +40,11 @@ def run(cfg) -> None:
         f.unlink()
         for n, g in layers:
             before = len(g)
-            if n in ("rivers", "borders"):
+            if n == "rivers":  # context just beyond the border, as package draws them
                 g = g[g.intersects(area.buffer(20000))]
+            elif n == "borders":  # national borders and the area's outline; the strip's outer edge goes
+                g = g.assign(geometry=g.geometry.intersection(area.buffer(1000)))
+                g = g[~g.geometry.is_empty]
             elif n == "study_area":
                 g = g.iloc[:1].assign(geometry=[area])
             else:

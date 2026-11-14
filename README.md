@@ -10,9 +10,10 @@ with the same method and published when it is finished. Every area has two maps:
 
 | Area | Version | Land area | Floral Ecoregions | Types | Faunal Ecoregions | Maps |
 |---|---|---|---|---|---|---|
+| Turkmenistan, Uzbekistan, Tajikistan & Kyrgyzstan | 0.6.0 | 1,240,537 km² | 109 | 17 | 19 | [floral](outputs/central-asia/ecoregions_map_v0.6.0.png) · [faunal](outputs/central-asia/faunal_map_v0.6.0.png) |
 | Pakistan, Afghanistan & Iran | 0.5.0 | 3,281,449 km² | 165 | 44 | 20 | [floral](outputs/pak-afg-irn/ecoregions_map_v0.5.0.png) · [faunal](outputs/pak-afg-irn/faunal_map_v0.5.0.png) |
 | Texas | 0.2.0 | 685,641 km² | 31 | 19 | 12 | [floral](outputs/texas/ecoregions_map_v0.2.0.png) · [faunal](outputs/texas/faunal_map_v0.2.0.png) |
-| **Total** | | **3,967,090 km²** | **196** | | | **2.7 % of the world's land** |
+| **Total** | | **5,207,627 km²** | **305** | | | **3.5 % of the world's land** |
 
 Next: Central Asia.
 
@@ -24,6 +25,7 @@ Next: Central Asia.
 | 2026-11-11 | Pakistan & Afghanistan v0.4.2; Texas v0.1.0 |
 | 2026-11-12 | Texas v0.2.0 |
 | 2026-11-13 | Pakistan, Afghanistan & Iran v0.5.0, with the first confirmation test |
+| 2026-11-14 | Turkmenistan, Uzbekistan, Tajikistan & Kyrgyzstan (v0.6.0), the first area built as a parcel and joined at its border |
 
 ## How the maps are made
 
@@ -42,6 +44,33 @@ opened once, after the map is frozen; its rules are fixed in advance in
 [`docs/preregistration.md`](docs/preregistration.md). Every analysis is listed in [`docs/ledger.md`](docs/ledger.md).
 
 Results below are the change in prediction error relative to RESOLVE (positive: ours better), with 95 % intervals.
+
+## Turkmenistan, Uzbekistan, Tajikistan & Kyrgyzstan (v0.6.0)
+
+[![Floral Ecoregions of Central Asia](outputs/central-asia/ecoregions_map_v0.6.0_preview.png)](outputs/central-asia/ecoregions_map_v0.6.0.png)
+
+[![Faunal Ecoregions of Central Asia](outputs/central-asia/faunal_map_v0.6.0_preview.png)](outputs/central-asia/faunal_map_v0.6.0.png)
+
+Built on its own with a 75 km strip into Afghanistan and Iran for context, then clipped at the border, so the
+Pakistan, Afghanistan & Iran map is unchanged. The Turan lowland divides into the Karakum and Kyzylkum sand deserts,
+the Ustyurt gypsum desert, solonchaks and takyrs, and tugai forest along the rivers; the foothills from the Kopet Dagh
+to the Fergana Valley are semi-savanna on loess; the Tien Shan and Pamir-Alay rise through walnut-fruit forest,
+juniper woodland, spruce forest and mountain steppe to alpine meadow and cold desert.
+
+| Exploratory (held-out cells) | Ours vs RESOLVE |
+|---|---|
+| Plants, Floral Ecoregions (0.25° / 0.125° cells) | +0.5 % (−0.1 to +1.0) / +0.9 % (+0.3 to +1.5) |
+| Birds, Faunal Ecoregions | −1.0 % (−2.1 to −0.1) |
+
+| Confirmation (sealed records, opened once) | Result |
+|---|---|
+| Plants | Descriptive only (16–19 blocks, 20 needed): +0.3 % (−0.2 to +0.8) at 0.25°, +0.8 % (+0.1 to +1.6) at 0.125° |
+| Birds | Descriptive only (18 blocks): Floral Ecoregions −2.4 % (−4.0 to −0.6), Faunal Ecoregions −0.7 % (−1.6 to +0.2) |
+
+The sealed squares held fewer usable records than their raw counts suggested, so no result reached a verdict; the
+count check now keeps a margin. As in Iran, plants favour the Floral Ecoregions slightly and birds do not: the
+Floral Ecoregions are finer than the bird data can resolve. Most Floral Ecoregions here have too few plant records
+to test one by one (25,540 records over 1.24 million km²).
 
 ## Pakistan, Afghanistan & Iran (v0.5.0)
 
@@ -112,14 +141,14 @@ On Windows without `make`: `bash scripts/build_all.sh` from Git Bash. Raw downlo
 | HydroRIVERS v1.0, HydroBASINS v1c | rivers, basins | Lehner & Grill 2013, *Hydrol. Process.* 27: 2171–2186 | CC BY 4.0 |
 | CHELSA v2.1 (1981–2010) | climate | Karger et al. 2017, *Sci. Data* 4: 170122 | EnviDat open terms |
 | SoilGrids 2.0 | soils | Poggio et al. 2021, *SOIL* 7: 217–240 | CC BY 4.0 |
-| Geologic maps of South Asia (geo8ag) and Iran (geo2cg) | geology | Wandrey & Law 1998, USGS OFR 97-470-C; USGS OFR 97-470-G | public domain |
+| Geologic maps of South Asia (geo8ag), Iran (geo2cg) and the former Soviet Union (geo1ec) | geology | Wandrey & Law 1998, USGS OFR 97-470-C; USGS OFR 97-470-G; USGS OFR 97-470-E, doi:10.5066/P9GUL0PQ | public domain |
 | USGS State Geologic Map Compilation | geology (Texas) | Horton 2017, doi:10.5066/F7WH2N65 | public domain |
 | ESA WorldCover 2021 | land converted | Zanaga et al. 2022, doi:10.5281/zenodo.7254221 | CC BY 4.0 |
 | GHS-POP R2023A (2020) | population | Schiavina et al. 2023, JRC | CC BY 4.0 |
 | IUCN Red List range maps and assessments | Faunal Ecoregions | IUCN 2026, *The IUCN Red List of Threatened Species* | IUCN terms (non-commercial) |
 | BirdLife bird distribution maps 2025 | Faunal Ecoregions | BirdLife International and Handbook of the Birds of the World 2025 | BirdLife terms (non-commercial) |
 | EltonTraits 1.0 | body mass for the megafauna lists | Wilman et al. 2014, *Ecology* 95: 2027, doi:10.6084/m9.figshare.3559887 | CC0 |
-| GBIF occurrence downloads | testing, audit | GBIF.org 2026, doi:10.15468/dl.22b9a4, doi:10.15468/dl.6t43nn, doi:10.15468/dl.gv4z7m | per record; only aggregates stored |
+| GBIF occurrence downloads | testing, audit | GBIF.org 2026, doi:10.15468/dl.22b9a4, doi:10.15468/dl.6t43nn, doi:10.15468/dl.gv4z7m, doi:10.15468/dl.u2kux5, doi:10.15468/dl.77g6hc | per record; only aggregates stored |
 | RESOLVE Ecoregions 2017 | biomes, comparison | Dinerstein et al. 2017, *BioScience* 67: 534–545 | CC BY 4.0 |
 | EPA Level III and IV ecoregions | comparison only (Texas) | Griffith et al. 2007, *Ecoregions of Texas*, U.S. EPA | public domain |
 | Jung et al. 2020 habitat map; Hengl et al. 2018 potential natural vegetation | checks of the vegetation rules | Jung et al. 2020, *Sci. Data* 7: 220; Hengl et al. 2018, *PeerJ* 6: e5457 | CC BY 4.0 |
