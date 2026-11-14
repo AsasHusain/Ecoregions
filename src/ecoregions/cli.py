@@ -14,6 +14,7 @@ from .config import load_config, setup_logging
 
 STAGES = {
     "download": "ecoregions.download",
+    "preflight": "ecoregions.preflight",
     "grid": "ecoregions.boundaries",
     "dem": "ecoregions.dem",
     "terrain": "ecoregions.terrain",

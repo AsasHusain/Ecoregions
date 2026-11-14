@@ -16,7 +16,7 @@ RUN      = $(PY) -m ecoregions --config $(CONFIG) --region $(REGION)
 DONE    := $(shell PYTHONPATH=src $(PY) -c "from ecoregions.config import load_config; print(load_config(None, '$(strip $(REGION))')['paths']['interim'])")/.done
 SRC      = src/ecoregions
 
-STAGES = download grid dem terrain hydro covariates features provinces segment snap attributes communities vegcheck fauna faunal assemble evaluate audit validate crosscheck package webmap staticmap
+STAGES = download preflight grid dem terrain hydro covariates features provinces segment snap attributes communities vegcheck fauna faunal assemble evaluate audit validate crosscheck package webmap staticmap
 
 .PHONY: all clean distclean test names $(STAGES)
 all: $(DONE)/staticmap $(DONE)/webmap $(DONE)/crosscheck $(DONE)/vegcheck $(DONE)/faunal $(DONE)/audit
@@ -25,7 +25,8 @@ $(DONE):
 	mkdir -p $@
 
 $(DONE)/download:                                                 | $(DONE) ; $(RUN) download   && touch $@
-$(DONE)/grid:       $(DONE)/download   $(SRC)/boundaries.py       | $(DONE) ; $(RUN) grid       && touch $@
+$(DONE)/preflight:  $(DONE)/download   $(SRC)/preflight.py $(CONFIG) regions/$(REGION).yaml | $(DONE) ; $(RUN) preflight  && touch $@
+$(DONE)/grid:       $(DONE)/preflight  $(SRC)/boundaries.py       | $(DONE) ; $(RUN) grid       && touch $@
 $(DONE)/dem:        $(DONE)/grid       $(SRC)/dem.py              | $(DONE) ; $(RUN) dem        && touch $@
 $(DONE)/terrain:    $(DONE)/dem        $(SRC)/terrain.py          | $(DONE) ; $(RUN) terrain    && touch $@
 $(DONE)/hydro:      $(DONE)/terrain    $(SRC)/hydro.py            | $(DONE) ; $(RUN) hydro      && touch $@

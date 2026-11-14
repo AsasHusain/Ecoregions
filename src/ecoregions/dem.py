@@ -159,6 +159,11 @@ def run(cfg) -> None:
                  changed["land_added"].sum() * grid.cell_km2, (ne == 1).sum() * grid.cell_km2, (mask == 1).sum() * grid.cell_km2)
     for sea in cfg["grid"].get("inland_seas", []):  # e.g. the Caspian (surface at -28 m, so not sea by the 0 m test above)
         mask[sea_window(dem, grid, sea)] = 0
+    added = ((ne == 0) & (mask == 1)).sum() / max(1, (mask == 1).sum())
+    log.info("study area the DEM adds beyond Natural Earth's coast: %.2f%%", 100 * added)
+    if added > 0.01:  # Texas 0.2 %; the Caspian (at -28 m, so not 0 m sea) once added 4 %
+        raise SystemExit(f"dem: the DEM turns {100 * added:.1f}% of the study area from Natural Earth sea into land; "
+                         "an inland sea below 0 m? (grid.inland_seas)")
     write(paths.raster("mask"), mask, grid, nodata=None, tags=dict(values="0 sea, 1 study area, 3 other land",
                                                                    coast="Copernicus GLO-90 (0 m ocean)"))
     from .boundaries import raster_borders
