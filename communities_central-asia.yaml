@@ -125,12 +125,12 @@ communities:
   priority: 82
 - id: ca_loess_semisavanna
   structure: grassland
-  ecoregion: amu_darya
+  ecoregion: ca_semisavanna
   name: Turanian loess piedmont semi-savanna (Poa bulbosa and Carex pachystylis)
   group: Desert (ephemeral grass steppe)
   indicators: [Poa bulbosa, Carex pachystylis, Psoralea drupacea, Ferula foetida]
   where:
-    province: ['45', '46', '47', '48', '49', '52', '53', '54', '55']
+    province: ['24', '45', '46', '47', '48', '49', '52', '53', '54', '55']   # 24: Badkhyz and Karabil (fallback filled 42,000 km2 at 360-810 m)
     elev: [250, 1100]
     bio12: [180, 450]
   note: The adyr and loess foothill belt (Walter & Box 1983), continuous with the Afghan Amu Darya loess steppe.
@@ -286,6 +286,14 @@ ecoregion_types:
     biome: Deserts & Xeric Shrublands
     color: '#d8b98a'
     resolve: [Central Asian southern desert, Badghyz and Karabil semi-desert, Central Asian northern desert]
+  ca_semisavanna:   # 2026-11-14: split from amu_darya after the first audit, which joined the Karakum, the Kyzylkum and
+    # the loess foothills from the Kopet Dagh to the Fergana Valley into one 506,000 km2 unit; the ephemeroid
+    # semi-savanna on loess (adyr) is a zone of its own in Central Asia (Korovin 1961; Walter & Box 1983), as in RESOLVE
+    name: Middle Asian Foothill Semi-savannas
+    biome: Temperate Grasslands, Savannas & Shrublands
+    color: '#d4c47a'
+    resolve: [Alai-Western Tian Shan steppe, Kopet Dag semi-desert, Tian Shan foothill arid steppe, Gissaro-Alai open woodlands,
+              Badghyz and Karabil semi-desert]
   pistachio:
     name: Middle Asian Pistachio Woodlands
     biome: Deserts & Xeric Shrublands

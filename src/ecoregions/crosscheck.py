@@ -140,6 +140,8 @@ def run(cfg) -> None:
     for d in gaz["doabs"]:
         x, y = t.transform(*d["point"])
         c, r = inv * (x, y)
+        if not (0 <= r < lab_c.shape[0] and 0 <= c < lab_c.shape[1]):
+            continue  # a shared gazetteer's doab outside this parcel
         reg = lab_c[int(r), int(c)]
         if reg == 0:
             rows.append(dict(feature=d["name"], kind="doab", status="not mapped", notes="point not on the plains mask"))

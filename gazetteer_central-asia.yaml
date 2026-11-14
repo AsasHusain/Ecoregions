@@ -296,11 +296,11 @@ features:
     relief_min: 250
 - name: Kungey Ala-Too
   kind: range
-  points:
+  points:   # southern slope: the crest is the Kazakh border, outside the parcel
   - - 77.5
-    - 42.95
+    - 42.85
   - - 78.2
-    - 43.0
+    - 42.85
   priority: 0
   check: true
   expect:
@@ -320,11 +320,11 @@ features:
     relief_min: 250
 - name: Kokshaal-Too
   kind: range
-  points:
+  points:   # northern slope: the crest is the Chinese border, outside the parcel
   - - 78.0
-    - 40.85
-  - - 77.0
-    - 40.6
+    - 41.1
+  - - 76.5
+    - 40.75
   priority: 0
   check: true
   expect:
