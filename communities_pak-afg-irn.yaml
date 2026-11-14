@@ -2565,6 +2565,8 @@ ecoregion_types:
     - Hindu Kush alpine meadow
     - Northwestern Himalayan alpine shrub and meadows
     - Central Afghan Mountains xeric woodlands
+    - Pamir alpine desert and tundra          # Central Asia (audit only)
+    - Tian Shan montane steppe and meadows
   ice:
     name: High Asian Glaciers & Rock
     biome: Rock & Ice
@@ -2574,6 +2576,8 @@ ecoregion_types:
     - Karakoram-West Tibetan Plateau alpine steppe
     - Hindu Kush alpine meadow
     - Northwestern Himalayan alpine shrub and meadows
+    - Pamir alpine desert and tundra          # Central Asia (audit only)
+    - Tian Shan montane steppe and meadows
   kashmir_valley:
     name: Kashmir Valley Temperate Broadleaf Forests & Wetlands
     biome: Temperate Broadleaf & Mixed Forests
