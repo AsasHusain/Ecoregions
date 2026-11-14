@@ -99,6 +99,39 @@ def characteristic_species(X: sp.csc_matrix, labels: np.ndarray, names: list[str
     return pd.DataFrame(rows)
 
 
+def body_mass(paths: Paths) -> dict:
+    """Adult body mass (g) by species name from EltonTraits 1.0 (Wilman et al. 2014, CC0), mammals and birds."""
+    d = paths.raw / "eltontraits"
+    if not d.exists():
+        return {}
+    m = pd.concat([pd.read_csv(d / f, sep="	", encoding="latin-1", usecols=["Scientific", "BodyMass-Value"])
+                   for f in ("MamFuncDat.txt", "BirdFuncDat.txt")]).dropna()
+    return dict(zip(m.Scientific, m["BodyMass-Value"]))
+
+
+def region_members(X: sp.csc_matrix, labels: np.ndarray, names: list[str], cls: pd.Series, fc: dict, paths: Paths) -> pd.DataFrame:
+    """Every species whose (trimmed) range covers at least ``members_min_share`` of a region's cells (megafauna: at least
+    ``megafauna_min_share``, as large animals often have patchy ranges), with its share,
+    class, body mass and megafauna flag: mammals and birds by mass (``megafauna_kg``; a species missing from
+    EltonTraits takes its genus median), reptiles by genus (``megafauna_reptile_genera``)."""
+    mass = body_mass(paths)
+    genus = pd.Series(mass).groupby(lambda n: n.split()[0]).median().to_dict()
+    kg, rg = fc.get("megafauna_kg", {}), set(fc.get("megafauna_reptile_genera", []))
+    rows = []
+    for k in np.unique(labels[labels > 0]):
+        sel = labels == k
+        share = np.asarray(X[sel].sum(axis=0)).ravel() / sel.sum()
+        for j in np.flatnonzero(share >= min(fc.get("members_min_share", 0.25), fc.get("megafauna_min_share", 0.03))):
+            n, c = names[j], cls.get(names[j], "")
+            g = mass.get(n, genus.get(n.split()[0]))
+            big = (n.split()[0] in rg) if c == "REPTILIA" else (g is not None and c in kg and g >= kg[c] * 1000)
+            if share[j] < fc.get("members_min_share", 0.25) and not big:
+                continue  # patchy ranges are listed only for megafauna
+            rows.append(dict(region=int(k), species=n, cls=c, share=round(float(share[j]), 3),
+                             body_mass_g=None if g is None else round(float(g)), megafauna=bool(big)))
+    return pd.DataFrame(rows).sort_values(["region", "cls", "share"], ascending=[True, True, False])
+
+
 def run(cfg) -> None:
     paths = Paths(cfg)
     fc = cfg["faunal"]
@@ -145,3 +178,6 @@ def run(cfg) -> None:
         ch = characteristic_species(Xs, lab2d.ravel()[study], names, fc["top_species"])
         ch.insert(0, "k", k)
         ch.to_csv(out / f"region_species_k{k}.csv", index=False)
+        if k == cfg["assemble"].get("faunal_k"):
+            region_members(Xs, lab2d.ravel()[study], names, spc.set_index("name").cls, fc, paths).to_csv(
+                out / f"region_members_k{k}.csv", index=False)

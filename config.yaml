@@ -258,6 +258,10 @@ faunal:
   k_maps: [6, 8, 10, 12, 15]   # numbers of regions mapped for review
   min_fragment_cells: 5        # smaller spatial fragments join a neighbour
   top_species: 15              # characteristic species listed per region
+  members_min_share: 0.25      # full species list: range covers at least this share of the region
+  megafauna_kg: {MAMMALIA: 10, AVES: 2}   # adult body mass (EltonTraits 1.0) for the megafauna list
+  megafauna_min_share: 0.03    # megafauna listed where their range covers at least this share of the region
+  megafauna_reptile_genera: [Crocodylus, Gavialis, Varanus, Python]   # reptiles have no comparable mass data
 
 # ---------------------------------------------------------------------------
 # v0.2 community ecoregions (types in communities.yaml -> ecoregion_types)

@@ -118,6 +118,7 @@ On Windows without `make`: `bash scripts/build_all.sh` from Git Bash. Raw downlo
 | GHS-POP R2023A (2020) | population | Schiavina et al. 2023, JRC | CC BY 4.0 |
 | IUCN Red List range maps and assessments | Faunal Ecoregions | IUCN 2026, *The IUCN Red List of Threatened Species* | IUCN terms (non-commercial) |
 | BirdLife bird distribution maps 2025 | Faunal Ecoregions | BirdLife International and Handbook of the Birds of the World 2025 | BirdLife terms (non-commercial) |
+| EltonTraits 1.0 | body mass for the megafauna lists | Wilman et al. 2014, *Ecology* 95: 2027, doi:10.6084/m9.figshare.3559887 | CC0 |
 | GBIF occurrence downloads | testing, audit | GBIF.org 2026, doi:10.15468/dl.22b9a4, doi:10.15468/dl.6t43nn, doi:10.15468/dl.gv4z7m | per record; only aggregates stored |
 | RESOLVE Ecoregions 2017 | biomes, comparison | Dinerstein et al. 2017, *BioScience* 67: 534–545 | CC BY 4.0 |
 | EPA Level III and IV ecoregions | comparison only (Texas) | Griffith et al. 2007, *Ecoregions of Texas*, U.S. EPA | public domain |
