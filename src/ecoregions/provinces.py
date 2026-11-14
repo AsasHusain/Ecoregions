@@ -146,7 +146,7 @@ def feature_matrix(paths: Paths, weights: dict, level: str, valid: np.ndarray, s
     return X
 
 
-def seed_cells(units, grid: Grid, valid: np.ndarray):
+def seed_cells(units, grid: Grid, valid: np.ndarray, drop_outside: bool = False):
     t = Transformer.from_crs("EPSG:4326", grid.crs, always_xy=True)
     inv = ~grid.transform
     out = []
@@ -160,6 +160,8 @@ def seed_cells(units, grid: Grid, valid: np.ndarray):
                 # snap to the nearest valid cell within ~12 km (border/coast slop); fail beyond that
                 rr, cc = np.nonzero(valid[max(0, r - 15):r + 16, max(0, c - 15):c + 16])
                 if rr.size == 0:
+                    if drop_outside:  # a parcel uses the provinces of a larger area: seeds beyond it are skipped
+                        continue
                     raise ValueError(f"seed {lon},{lat} of province {u['code']} {u['name']} is outside the study area")
                 k = np.argmin((rr + max(0, r - 15) - r) ** 2 + (cc + max(0, c - 15) - c) ** 2)
                 r, c = int(rr[k] + max(0, r - 15)), int(cc[k] + max(0, c - 15))
@@ -179,7 +181,8 @@ def run(cfg) -> None:
     valid = read(paths.interim / "province" / "study_frac.tif") >= 0.5
     feat = feature_matrix(paths, pc["features"], "province", valid, pc.get("smooth_cells", 0))
     units = pc["units"]
-    seeds = seed_cells(units, pg, valid)
+    seeds = seed_cells(units, pg, valid, pc.get("drop_outside_seeds", False))
+    units, seeds = [u for u, s in zip(units, seeds) if s[0].size], [s for s in seeds if s[0].size]  # parcels: provinces with no seed inside drop out
     rb = pc.get("river_barrier")
     barrier = np.zeros(pg.shape, "float32")
     if rb:

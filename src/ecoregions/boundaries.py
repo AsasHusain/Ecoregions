@@ -117,6 +117,13 @@ def run(cfg) -> None:
                       + ([disputed.loc[disputed.BRK_A3.isin(WITH_PAKISTAN + WITH_CHINA), ["geometry"]]] if "PAK" in mapped else []))
     study["name"] = cfg["project"]["area"]
     study = study.dissolve().reset_index(drop=True)
+    ov = cfg["grid"].get("overlap")  # a parcel: a strip into its neighbours, built for context and clipped at the join
+    if ov:
+        sp = study.to_crs(crs).union_all()
+        nb = countries.loc[countries.ADM0_A3.isin(ov["into"])].to_crs(crs).union_all()
+        study = gpd.GeoDataFrame({"name": [cfg["project"]["area"]]},
+                                 geometry=[sp.union(sp.buffer(ov["km"] * 1000).intersection(nb))], crs=crs).to_crs(4326)
+        log.info("parcel overlap: %g km into %s", ov["km"], ", ".join(ov["into"]))
     if not study.within(bbox).all():
         raise ValueError(f"grid.bbox_lonlat {cfg['grid']['bbox_lonlat']} does not contain the study area "
                          f"{[round(v, 2) for v in study.total_bounds]}")
