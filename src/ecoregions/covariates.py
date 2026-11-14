@@ -216,7 +216,8 @@ def glaciers(cfg, paths: Paths, grid: Grid) -> None:
     w, s, e, n = cfg["grid"]["bbox_lonlat"]
     g = pd.concat([gpd.read_file(f"zip://{paths.raw / 'rgi' / f}", bbox=(w, s, e, n), columns=[])
                    for f in cfg["sources"]["rgi"]["files"]]).to_crs(grid.crs)
-    study = gpd.read_file(paths.vector("boundaries"), layer="study_area").to_crs(grid.crs)
+    g = g.set_geometry(g.make_valid())  # a few RGI outlines self-intersect after reprojection
+    study =gpd.read_file(paths.vector("boundaries"), layer="study_area").to_crs(grid.crs)
     gpd.clip(g, study).explode()[lambda d: d.geom_type == "Polygon"].to_file(vec, layer="glaciers")
     arr = rasterize_geoms(((geom, 1) for geom in g.geometry), grid)
     write(out, arr, grid, nodata=None, tags=dict(units="1 = glacier (RGI 7.0)"))
