@@ -22,7 +22,7 @@ grid:
   inland_seas:                         # below-sea-level water the coast-from-DEM step would call land; Copernicus flattens it to one height
   - name: Caspian Sea
     level_m: -28.0
-    bbox_lonlat: [46.5, 36.4, 54.5, 39.0]   # Lake Urmia (45.5 E, now mostly salt flat) stays land, outside the box
+    bbox_lonlat: [46.5, 36.4, 54.5, 40.0]   # to the processing box's north edge; Lake Urmia (45.5 E, now mostly salt flat) stays land, outside the box
     min_km2: 1000
 sources:
   natural_earth:

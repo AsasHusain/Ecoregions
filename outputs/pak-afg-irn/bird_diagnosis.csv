@@ -1,0 +1,45 @@
+test,partition,units_in_test,units_in_dev,loss,vs_RESOLVE_pct
+held-out (exploratory),overall-frequency prior,0,0,0.05877,-13.87
+held-out (exploratory),ours (165),50,59,0.05291,-2.53
+held-out (exploratory),RESOLVE,30,30,0.05161,0.0
+held-out (exploratory),ours coarsened (120),46,51,0.05274,-2.19
+held-out (exploratory),ours coarsened (80),40,45,0.05242,-1.58
+held-out (exploratory),ours coarsened (60),35,38,0.05202,-0.79
+held-out (exploratory),ours coarsened (39),28,30,0.05168,-0.15
+held-out (exploratory),ours coarsened (25),19,21,0.05199,-0.74
+held-out (exploratory),ours coarsened (15),11,13,0.0533,-3.29
+held-out (exploratory),ours coarsened (8),5,6,0.0555,-7.55
+held-out (exploratory),faunal range (8),9,9,0.05097,1.24
+held-out (exploratory),faunal range (20),16,16,0.05139,0.41
+held-out (exploratory),faunal range (30),23,24,0.05103,1.12
+held-out (exploratory),faunal range (40),29,31,0.05122,0.74
+held-out (exploratory),faunal elev (8),9,9,0.05115,0.88
+held-out (exploratory),faunal elev (20),20,19,0.05087,1.42
+held-out (exploratory),faunal elev (30),27,26,0.0512,0.79
+held-out (exploratory),faunal elev (40),31,31,0.05142,0.36
+held-out (exploratory),faunal aoh (8),3,4,0.05523,-7.02
+held-out (exploratory),faunal aoh (20),11,12,0.0519,-0.56
+held-out (exploratory),faunal aoh (30),17,18,0.05199,-0.74
+held-out (exploratory),faunal aoh (40),24,24,0.05204,-0.84
+Iran sealed (opened),overall-frequency prior,0,0,0.05468,-6.94
+Iran sealed (opened),ours (165),13,59,0.05261,-2.91
+Iran sealed (opened),RESOLVE,8,30,0.05113,0.0
+Iran sealed (opened),ours coarsened (120),13,51,0.05261,-2.91
+Iran sealed (opened),ours coarsened (80),10,45,0.05229,-2.28
+Iran sealed (opened),ours coarsened (60),10,38,0.05221,-2.12
+Iran sealed (opened),ours coarsened (39),7,30,0.05128,-0.31
+Iran sealed (opened),ours coarsened (25),6,21,0.05124,-0.23
+Iran sealed (opened),ours coarsened (15),4,13,0.05119,-0.13
+Iran sealed (opened),ours coarsened (8),3,6,0.0565,-10.5
+Iran sealed (opened),faunal range (8),3,9,0.04964,2.9
+Iran sealed (opened),faunal range (20),7,16,0.05195,-1.61
+Iran sealed (opened),faunal range (30),9,24,0.05245,-2.59
+Iran sealed (opened),faunal range (40),11,31,0.05294,-3.54
+Iran sealed (opened),faunal elev (8),4,9,0.05084,0.57
+Iran sealed (opened),faunal elev (20),6,19,0.05135,-0.43
+Iran sealed (opened),faunal elev (30),9,26,0.0529,-3.47
+Iran sealed (opened),faunal elev (40),9,31,0.05304,-3.73
+Iran sealed (opened),faunal aoh (8),1,4,0.05237,-2.43
+Iran sealed (opened),faunal aoh (20),4,12,0.05105,0.16
+Iran sealed (opened),faunal aoh (30),5,18,0.05154,-0.82
+Iran sealed (opened),faunal aoh (40),8,24,0.05153,-0.8

@@ -147,6 +147,9 @@ def run(cfg) -> None:
         mask[win] = coast_from_dem(ne[win], (near == 0) | np.isnan(near), round(cfg["grid"]["open_sea_m"] / grid.res),
                                      round(cfg["grid"]["coast_max_inland_m"] / grid.res))
         del near
+    for sea in cfg["grid"].get("inland_seas", []):  # e.g. the Caspian (surface at -28 m, so not sea by the 0 m test above)
+        mask[sea_window(dem, grid, sea)] = 0  # before coast_changes, which the web land layer draws
+    if win is not None:
         sub = ne[win]
         changed = {"sea_added": (sub > 0) & (mask[win] == 0), "land_added": (sub == 0) & (mask[win] > 0)}
         tr = grid.transform * grid.transform.translation(win[1].start, win[0].start)
@@ -157,8 +160,6 @@ def run(cfg) -> None:
         log.info("coast from the DEM: %.0f km² of Natural Earth land is sea, %.0f km² of its sea is land "
                  "(study area %.0f -> %.0f km²)", changed["sea_added"].sum() * grid.cell_km2,
                  changed["land_added"].sum() * grid.cell_km2, (ne == 1).sum() * grid.cell_km2, (mask == 1).sum() * grid.cell_km2)
-    for sea in cfg["grid"].get("inland_seas", []):  # e.g. the Caspian (surface at -28 m, so not sea by the 0 m test above)
-        mask[sea_window(dem, grid, sea)] = 0
     added = ((ne == 0) & (mask == 1)).sum() / max(1, (mask == 1).sum())
     log.info("study area the DEM adds beyond Natural Earth's coast: %.2f%%", 100 * added)
     if added > 0.01:  # Texas 0.2 %; the Caspian (at -28 m, so not 0 m sea) once added 4 %
