@@ -15,7 +15,8 @@
 >
 > The maps, code and results below remain as published.
 
-A new ecoregion map of the world, mapped at 90 m and tested against held-back species records. Each area is mapped
+A new ecoregion map of the world, with natural vegetation mapped at 90 m and every map tested against held-back species
+records. Each area is mapped
 with the same method and published when it is finished. Every area has two maps:
 
 - **Floral Ecoregions**: regions of distinct natural vegetation.
