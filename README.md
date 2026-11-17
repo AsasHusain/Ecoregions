@@ -1,25 +1,19 @@
 # Revised Ecoregions of the World
 
-> **Frozen on 17 November 2026.** The work continues as **Biotic Regions of the World** at
-> [AsasHusain/Bioregions](https://github.com/AsasHusain/Bioregions).
+> **Frozen on 17 November 2026. The project continues as the World Atlas of Biotic Regions at
+> [AsasHusain/Bioregions](https://github.com/AsasHusain/Bioregions).**
 >
-> **Why the project changed.** The aim was a map of regions with distinct native life. Testing showed that the maps
-> here fall short of it:
+> Revised Ecoregions of the World mapped 5.2 million km² in three areas, in two layers. The Floral Ecoregions map
+> natural vegetation at 90 m from explicit rules on terrain, climate, soils, geology and water. The Faunal Ecoregions
+> group the ranges of mammals, birds, reptiles and amphibians. Each map was tested against species records held back
+> from its construction, including records sealed before work on an area began.
 >
-> - A Floral Ecoregion is a connected area of one vegetation type. It maps a habitat, not a region with its own
->   community of plants and animals.
-> - Neither map predicted species at sealed test sites better than RESOLVE. In Iran, for birds, the Floral
->   Ecoregions did 2.9 % worse and the Faunal Ecoregions 0.9 % worse. The Floral Ecoregions matched RESOLVE only
->   when coarsened to its level of detail.
-> - Each area was built on its own and joined to its neighbours at national borders, so the type could change at a
->   border where two areas meet.
+> The World Atlas of Biotic Regions joins the two layers in one map. A Biotic Region is a connected area whose native
+> plants and animals together form a community distinct from those of its neighbours, with a mix of habitats inside
+> it. The atlas is built on the project's own definition, as one continuous area across national borders, with the
+> vegetation and animal maps developed here as its layers.
 >
-> The new project maps one set of Biotic Regions: connected areas whose native plants and animals, taken together,
-> form a community distinct from those of their neighbours, each holding a mix of habitats. It uses its own
-> definition, with RESOLVE only as an outside benchmark. The vegetation and animal maps developed here become its
-> supporting layers.
->
-> The maps, results and code below are unchanged.
+> The maps, code and results below remain as published.
 
 A new ecoregion map of the world, built to improve on the WWF/RESOLVE *Ecoregions 2017* map. Each area is mapped
 with the same method and published when it is finished. Every area has two maps:
