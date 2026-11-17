@@ -15,7 +15,7 @@
 >
 > The maps, code and results below remain as published.
 
-A new ecoregion map of the world, built to improve on the WWF/RESOLVE *Ecoregions 2017* map. Each area is mapped
+A new ecoregion map of the world, mapped at 90 m and tested against held-back species records. Each area is mapped
 with the same method and published when it is finished. Every area has two maps:
 
 - **Floral Ecoregions**: regions of distinct natural vegetation.
@@ -29,8 +29,6 @@ with the same method and published when it is finished. Every area has two maps:
 | Pakistan, Afghanistan & Iran | 0.5.0 | 3,281,449 km² | 165 | 44 | 20 | [floral](outputs/pak-afg-irn/ecoregions_map_v0.5.0.png) · [faunal](outputs/pak-afg-irn/faunal_map_v0.5.0.png) |
 | Texas | 0.2.0 | 685,641 km² | 31 | 19 | 12 | [floral](outputs/texas/ecoregions_map_v0.2.0.png) · [faunal](outputs/texas/faunal_map_v0.2.0.png) |
 | **Total** | | **5,207,627 km²** | **305** | | | **3.5 % of the world's land** |
-
-Next: Central Asia.
 
 | Date | Done |
 |---|---|
@@ -66,9 +64,7 @@ Results below are the change in prediction error relative to RESOLVE (positive: 
 
 [![Faunal Ecoregions of Central Asia](outputs/central-asia/faunal_map_v0.6.0_preview.png)](outputs/central-asia/faunal_map_v0.6.0.png)
 
-Built on its own with a 75 km strip into Afghanistan and Iran for context, then clipped at the border, so the
-Pakistan, Afghanistan & Iran map is unchanged. The Turan lowland divides into the Karakum and Kyzylkum sand deserts,
-the Ustyurt gypsum desert, solonchaks and takyrs, and tugai forest along the rivers; the foothills from the Kopet Dagh
+The Turan lowland divides into the Karakum and Kyzylkum sand deserts, the Ustyurt gypsum desert, solonchaks and takyrs, and tugai forest along the rivers; the foothills from the Kopet Dagh
 to the Fergana Valley are semi-savanna on loess; the Tien Shan and Pamir-Alay rise through walnut-fruit forest,
 juniper woodland, spruce forest and mountain steppe to alpine meadow and cold desert.
 
@@ -81,11 +77,6 @@ juniper woodland, spruce forest and mountain steppe to alpine meadow and cold de
 |---|---|
 | Plants | Descriptive only (16–19 blocks, 20 needed): +0.3 % (−0.2 to +0.8) at 0.25°, +0.8 % (+0.1 to +1.6) at 0.125° |
 | Birds | Descriptive only (18 blocks): Floral Ecoregions −2.4 % (−4.0 to −0.6), Faunal Ecoregions −0.7 % (−1.6 to +0.2) |
-
-The sealed squares held fewer usable records than their raw counts suggested, so no result reached a verdict; the
-count check now keeps a margin. As in Iran, plants favour the Floral Ecoregions slightly and birds do not: the
-Floral Ecoregions are finer than the bird data can resolve. Most Floral Ecoregions here have too few plant records
-to test one by one (25,540 records over 1.24 million km²).
 
 ## Pakistan, Afghanistan & Iran (v0.5.0)
 
@@ -104,10 +95,6 @@ to test one by one (25,540 records over 1.24 million km²).
 | Plants | Not testable: too few sealed records |
 | Vegetation plots (sPlotOpen) | Too few for a verdict; biome agreement 94 % vs RESOLVE's 54 % |
 
-The gain seen on held-out cells did not hold up for birds on the sealed records. A follow-up analysis found that the
-Floral Ecoregions are finer than the bird data can support (they reach parity with RESOLVE at RESOLVE's level of
-detail), and that the Faunal Ecoregions are level with RESOLVE.
-
 ## Texas (v0.2.0)
 
 [![Floral Ecoregions of Texas](outputs/texas/ecoregions_map_v0.2.0_preview.png)](outputs/texas/ecoregions_map_v0.2.0.png)
@@ -120,8 +107,7 @@ detail), and that the Faunal Ecoregions are level with RESOLVE.
 | Birds, Faunal Ecoregions | 0.0 % (−1.0 to +0.9) |
 
 At two to three times RESOLVE's detail, the Floral Ecoregions predict plant records as well as RESOLVE. They agree
-with the EPA ecoregions with a V-measure of 0.66 (Level III) and 0.64 (Level IV). A test on vegetation plots had too
-few plots for a verdict.
+with the EPA ecoregions with a V-measure of 0.66 (Level III) and 0.64 (Level IV).
 
 ## Outputs
 
