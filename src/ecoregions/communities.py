@@ -138,6 +138,20 @@ def dune_share(dune: np.ndarray, window: int) -> np.ndarray:
     return ndimage.uniform_filter(dune.astype("float32"), size=window, mode="nearest")
 
 
+def landsat_layers(paths: Paths, used: set, cell_m: float) -> dict:
+    """1984-93 Landsat rule inputs on the coarse grid, with converted ground reconstructed (features.natural_fill)."""
+    sat = {}
+    if "green_rel" in used:  # greenness above or below the surrounding ~5 km, so the test holds in wet and dry country
+        g = read(paths.coarse("nat_green"))
+        ok = np.isfinite(g)
+        size = max(3, round(5000 / cell_m) | 1)
+        mean = ndimage.uniform_filter(np.where(ok, g, 0), size) / np.maximum(ndimage.uniform_filter(ok.astype("float32"), size), 1e-6)
+        sat["green_rel"] = (g - mean).astype("float32")
+    if "bare" in used:
+        sat["bare"] = read(paths.coarse("nat_bare"))
+    return sat
+
+
 def run(cfg) -> None:
     paths = Paths(cfg)
     grid = Grid.load(paths.grid_json)
@@ -159,17 +173,7 @@ def run(cfg) -> None:
     l2_of_unit = np.zeros(int(att.unit.max()) + 1, "uint8")
     l2_of_unit[att.unit.to_numpy()] = att.l2_code.astype(int).to_numpy()
 
-    used = {k for c in comms for k in c["where"]}
-    sat = {}
-    if "green_rel" in used:  # greenness above or below the surrounding ~5 km, so the test holds in wet and dry country
-        g = read(paths.coarse("nat_green"))  # converted ground reconstructed from natural ground (features.natural_fill)
-        ok = np.isfinite(g)
-        size = max(3, round(5000 / (grid.res * f)) | 1)
-        mean = ndimage.uniform_filter(np.where(ok, g, 0), size) / np.maximum(ndimage.uniform_filter(ok.astype("float32"), size), 1e-6)
-        sat["green_rel"] = (g - mean).astype("float32")
-        del g, ok, mean
-    if "bare" in used:
-        sat["bare"] = read(paths.coarse("nat_bare"))
+    sat = landsat_layers(paths, {k for c in comms for k in c["where"]}, grid.res * f)
 
     H, W = grid.shape
     out = np.zeros((H, W), "uint8")

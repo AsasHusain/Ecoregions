@@ -43,7 +43,7 @@ from scipy.spatial.distance import squareform
 
 from . import vectors
 from .assemble import pair_counts
-from .communities import CATEGORICAL, NUMERIC, classify, load_rules, northness
+from .communities import CATEGORICAL, NUMERIC, classify, landsat_layers, load_rules, northness
 from .config import Paths
 from .faunal import beta_sim
 from .features import dune_mask
@@ -270,6 +270,8 @@ def sensitivity(cfg, paths: Paths, eco_df: pd.DataFrame) -> tuple[pd.DataFrame, 
         lut[j + 1] = tkeys.index(c["ecoregion"]) + 1
     L = coarse_layers(cfg, paths, grid, f)
     study = L.pop("_study")
+    h, w = study.shape
+    L.update({k: a[:h, :w] for k, a in landsat_layers(paths, {k for c in rules["communities"] for k in c["where"]}, grid.res * f).items()})
     base = lut[classify(L, rules)[0]]
     rng = np.random.default_rng(ec["seed"])
     agree = np.zeros(base.shape, "float32")
