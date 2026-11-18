@@ -198,7 +198,7 @@ provinces:
     - code: "25"
       name: Helmand Basin (incl. Registan, Dasht-i-Margo, Sistan, Kandahar)
       family: deserts
-      seeds: [[64.3, 31.0], [65.5, 30.6], [62.0, 31.0], [65.7, 31.6], [63.3, 30.0], [62.5, 32.5], [64.4, 31.6], [61.5, 31.05], [61.3, 30.9], [61.3, 31.35], [61.2, 30.7]]   # last 4: Iranian Sistan (Hamun lakes, Zabol)
+      seeds: [[64.3, 31.0], [65.5, 30.6], [62.0, 31.0], [65.7, 31.6], [63.3, 30.0], [62.5, 32.5], [64.4, 31.6], [61.5, 31.05], [61.3, 30.9], [61.3, 31.35], [61.2, 30.7], [61.3, 31.9], [61.35, 32.3]]   # [61.5, 31.05] to [61.2, 30.7]: Iranian Sistan (Hamun lakes, Zabol); last 2: the basin floor north of the Hamun (relief under 50 m)
     - code: "26"
       name: Ghazni Plateau (incl. Kabul, Logar, Zabul)
       region: Central Afghan Highlands
@@ -264,7 +264,7 @@ provinces:
       name: East Iranian Ranges (Qaenat, Birjand, Zahedan & Taftan)
       region: Eastern Highlands
       family: ranges
-      seeds: [[59.2, 33.6], [59.3, 32.8], [60.3, 33.3], [60.0, 31.9], [60.5, 30.9], [60.6, 29.6], [61.1, 28.6], [60.0, 28.15]]
+      seeds: [[59.2, 33.6], [59.3, 32.8], [60.3, 33.3], [60.0, 31.9], [60.5, 30.9], [60.6, 29.6], [61.1, 28.6], [60.0, 28.15], [60.95, 31.6], [60.95, 31.9], [60.95, 32.15]]   # last 3: the dissected gravel apron east of the Iran-Afghanistan border (relief 150-230 m), which belongs with the ranges; the break is at the Sistan basin floor near 61.15 E
 segmentation:
   # Number of L3 units requested per L2 province (expert-tunable). Defaults were
   # set from area and internal heterogeneity; total ~ 300.
