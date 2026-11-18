@@ -78,3 +78,12 @@ def test_gradient_in_row_blocks_matches_the_whole_grid():
     gy, gx = np.gradient(a)
     for rows in (1, 2, 10, 100, 500):
         np.testing.assert_allclose(_grad(a, rows), np.hypot(gx, gy), rtol=0, atol=1e-6)
+
+
+def test_block_mode_in_row_bands_matches_one_pass():
+    from ecoregions.grid import block_mode
+
+    a = np.random.default_rng(4).integers(0, 5, (103, 41)).astype("uint16")
+    band = 3 * 7
+    banded = np.vstack([block_mode(a[r : r + band], 3) for r in range(0, a.shape[0], band)])
+    np.testing.assert_array_equal(banded, block_mode(a, 3))

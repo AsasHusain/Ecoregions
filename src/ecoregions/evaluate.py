@@ -37,6 +37,7 @@ import pandas as pd
 import rasterio
 import scipy.sparse as sp
 from rasterio.enums import Resampling
+from rasterio.windows import Window
 from scipy import ndimage as ndi
 from scipy.cluster.hierarchy import fcluster, linkage
 from scipy.spatial.distance import squareform
@@ -279,7 +280,9 @@ def sensitivity(cfg, paths: Paths, eco_df: pd.DataFrame) -> tuple[pd.DataFrame, 
         agree += lut[classify(L, perturb(rules, ec["sigma"], rng))[0]] == base
         log.info("sensitivity run %d/%d", i + 1, ec["runs"])
     agree /= ec["runs"]
-    eco = block_mode(read(paths.raster("ecoregions")), f)[: base.shape[0], : base.shape[1]]
+    band = f * 512  # row bands on block edges: the same blocks as one read, without the whole 90 m map in memory
+    eco = np.vstack([block_mode(read(paths.raster("ecoregions"), Window(0, r, grid.width, min(band, grid.height - r))), f)
+                     for r in range(0, grid.height, band)])[: base.shape[0], : base.shape[1]]
     ok = study & (eco > 0)
     n = int(eco.max()) + 1
     s_sum = np.bincount(eco[ok], weights=agree[ok], minlength=n)
