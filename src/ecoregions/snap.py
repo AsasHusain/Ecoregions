@@ -41,11 +41,16 @@ def _norm(a: np.ndarray, scale: float) -> np.ndarray:
     return np.clip(r, 0, 1, out=r)  # in place: each copy of a large area's grid is ~3 GB
 
 
-def _grad(a: np.ndarray) -> np.ndarray:
-    gy, gx = np.gradient(a)
-    np.hypot(gx, gy, out=gx)
-    del gy
-    return gx.astype("float32", copy=False)
+def _grad(a: np.ndarray, rows: int = 2048) -> np.ndarray:
+    """Gradient magnitude, in row blocks (one row of overlap each side) so no whole-grid temporaries are held."""
+    out = np.empty(a.shape, "float32")
+    n = a.shape[0]
+    for r0 in range(0, n, rows):
+        r1 = min(r0 + rows, n)
+        lo, hi = max(r0 - 1, 0), min(r1 + 1, n)
+        gy, gx = np.gradient(a[lo:hi])
+        out[r0:r1] = np.hypot(gx, gy)[r0 - lo : r0 - lo + r1 - r0]
+    return out
 
 
 def boundary_strength(cfg, paths: Paths, grid: Grid) -> np.ndarray:

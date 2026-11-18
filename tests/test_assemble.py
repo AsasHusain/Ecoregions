@@ -69,3 +69,12 @@ def test_seam_blend_in_a_window_matches_the_whole_grid():
     smooth = np.where(den > 1e-3, num / np.maximum(den, 1e-3), a)
     full = np.where(ok, w * a + (1 - w) * smooth, np.nan).astype("float32")
     np.testing.assert_allclose(blend(a, seam, res, band), full, rtol=0, atol=1e-6)
+
+
+def test_gradient_in_row_blocks_matches_the_whole_grid():
+    from ecoregions.snap import _grad
+
+    a = np.random.default_rng(3).random((101, 37)).astype("float32")
+    gy, gx = np.gradient(a)
+    for rows in (1, 2, 10, 100, 500):
+        np.testing.assert_allclose(_grad(a, rows), np.hypot(gx, gy), rtol=0, atol=1e-6)
