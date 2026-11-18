@@ -188,6 +188,16 @@ def blend(a: np.ndarray, seam: np.ndarray, res: float, band_m: float) -> np.ndar
     ``band_m``, the rest from a Gaussian-smoothed copy (sigma band/2, NaN-aware) that is continuous across it."""
     from scipy import ndimage as ndi
 
+    if not seam.any():
+        return a.astype("float32")
+    # only cells within the band change, and their smoothed value reaches 4 sigma (= 2 bands) further: work in that window
+    rr, cc = np.nonzero(seam)
+    pad = int(np.ceil(3 * band_m / res)) + 2
+    win = (slice(max(rr.min() - pad, 0), rr.max() + pad + 1), slice(max(cc.min() - pad, 0), cc.max() + pad + 1))
+    if a[win].size < a.size:
+        out = np.where(np.isfinite(a), a, np.nan).astype("float32")
+        out[win] = blend(a[win], seam[win], res, band_m)
+        return out
     w = np.clip(ndi.distance_transform_edt(~seam) * res / band_m, 0, 1).astype("float32")
     ok = np.isfinite(a)
     sig = band_m / 2 / res

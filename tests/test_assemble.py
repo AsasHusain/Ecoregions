@@ -47,3 +47,25 @@ def test_a_winning_belt_holds_the_slopes_between_its_forests():
     cls = np.ones((30, 30), "uint8")
     bc = {"window_km": 2, "min_share": 0.3, "by_type": {5: {"min_share": 0.2, "wins": True}}}
     assert (belt_zones(cls, cls90, 3, [5, 6], bc, 270.0) == 5).mean() > 0.6
+
+
+def test_seam_blend_in_a_window_matches_the_whole_grid():
+    from scipy import ndimage as ndi
+
+    from ecoregions.features import blend
+
+    rng = np.random.default_rng(2)
+    a = ndi.gaussian_filter(rng.random((400, 300)), 3).astype("float32")
+    a[:, 150:] += 0.5  # a step at a border
+    a[rng.random(a.shape) < 0.02] = np.nan
+    seam = np.zeros(a.shape, bool)
+    seam[180:220, 150] = True
+    res, band = 270.0, 3000.0
+    w = np.clip(ndi.distance_transform_edt(~seam) * res / band, 0, 1).astype("float32")
+    ok = np.isfinite(a)
+    sig = band / 2 / res
+    num = ndi.gaussian_filter(np.where(ok, a, 0).astype("float32"), sig)
+    den = ndi.gaussian_filter(ok.astype("float32"), sig)
+    smooth = np.where(den > 1e-3, num / np.maximum(den, 1e-3), a)
+    full = np.where(ok, w * a + (1 - w) * smooth, np.nan).astype("float32")
+    np.testing.assert_allclose(blend(a, seam, res, band), full, rtol=0, atol=1e-6)
