@@ -77,6 +77,7 @@ sources:
 bordercheck:
   accept:
     - {lat: 40.89, lon: 43.61, layer: faunal_regions, reason: "Akhurian valley: a tongue of the Aras lowland fauna (Merops persicus, Paralaudakia caucasia, Eremias strauchi) follows the lowest cells north along the river (lowest point 1,280-1,470 m, against 1,550-2,100 m on the plateaus either side); the border runs down the river, so both edges of the tongue lie within 10 km of it, and across it at matched heights only 1 species differs"}
+    - {lat: 40.37, lon: 43.61, layer: faunal_regions, reason: "lower Akhurian gorge, the lowest ground (about 1,400 m) between the Kars and Shirak plateaus, down which the Aras lowland fauna reaches north; the border runs down the river. Cells 6 km either side differ by 15.3 species per pair, against 9.3-16.6 on the same line shifted 25-40 km; no species is one-sided along it"}
     - {lat: 39.85, lon: 44.59, layer: faunal_regions, reason: "Aras on the Turkey-Armenia line (39.91-40.10 N), inside this area: the area's own gate (six layers at 270 m) finds a natural break (contrast 0.95, bar 0.88); no species one-sided at matched heights. The world gate takes it up only because Iran's northern tip lies within 20 km"}
 provinces:
   drop_outside_seeds: true     # parcel: provinces seeded only outside it drop out
