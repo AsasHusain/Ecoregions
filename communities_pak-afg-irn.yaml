@@ -1507,9 +1507,15 @@ communities:
     bio12:
     - 900
     - null
+    summer_rain:
+    - 0.35
+    - null
   calibrate: The Caspian-facing Talesh slopes fall in the colleague's I03 (Azerbaijan plateau). 900 mm separates them from
     Arasbaran (Kaleybar 550) and the dry Ardabil side (300); Astara ~1,400 mm at sea level (Akhani et al. 2010). Not needed
-    if Talesh moves to I01, as the province draft suggests. Priority 58 beats Arasbaran (55).
+    if Talesh moves to I01, as the province draft suggests. Priority 58 beats Arasbaran (55). Summer rain (May-Oct share)
+    from 0.35 (2026-11-19). The Talesh gets about half its rain then (5th percentile 0.5), while the wet border mountains west
+    of Lake Urmia (Semdinli, Oshnavieh), also in this province with 900 mm or more, get a fifth (95th percentile 0.2) and
+    carry Zagros oak, not Hyrcanian forest; the rule had put 770 km2 of Hyrcanian forest there.
   priority: 58
 - id: gorgan_salt_marsh
   structure: sparse
@@ -1675,9 +1681,44 @@ communities:
     slope:
     - 5
     - null
+    summer_rain:
+    - 0.35
+    - null
   calibrate: 'Qaradagh north slopes above the Aras, ~500-2,200 m, 400-700 mm (Kaleybar 550; Sagheb-Talebi et al. 2014). Q.
-    petraea here is subsp. iberica. RISK: any steep, wet slope in I03 qualifies, so the I03/I04 boundary must put the Urmia-west
-    ranges (Q. infectoria country) in I04.'
+    petraea here is subsp. iberica. Summer rain (May-Oct share) from 0.35 (2026-11-19). The steep, wet slopes of the ranges
+    west of Lake Urmia and in Hakkari also fell in I03 and took this rule (2,667 km2 in the Caucasus & Anatolia parcel, summer
+    rain median 0.25), while the Qaradagh gets about half its rain then (5th percentile 0.42) and the Lesser Caucasus slopes
+    0.36 or more; those western slopes now take urmia_west_oak.'
+  priority: 55
+- id: urmia_west_oak
+  structure: forest_broadleaf
+  ecoregion: zagros_oak
+  name: Urmia-west and Hakkari Lebanon oak and Aleppo oak forest
+  group: Kurdo-Zagrosian forest (northern, Q. libani - Q. infectoria)
+  indicators:
+  - Quercus libani
+  - Quercus infectoria
+  - Quercus brantii
+  - Acer monspessulanum
+  - Pyrus syriaca
+  where:
+    province:
+    - '29'
+    elev:
+    - 500
+    - 2300
+    bio12:
+    - 450
+    - null
+    slope:
+    - 5
+    - null
+    summer_rain:
+    - null
+    - 0.35
+  calibrate: 'The arasbaran_forest thresholds with the summer-dry half (2026-11-19): the ranges west of Lake Urmia (Oshnavieh,
+    Piranshahr) and Hakkari (Semdinli) carry the northern Zagros oaks (Zohary 1973; Mayer & Aksoy 1986), with dry summers
+    like the Lebanon-oak forest of province 30 (summer rain median 0.18) rather than the Qaradagh (0.48).'
   priority: 55
 - id: urmia_salt_flat
   structure: sparse

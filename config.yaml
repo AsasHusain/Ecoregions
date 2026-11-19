@@ -317,6 +317,10 @@ assemble:
     by_type:
       # and the belt holds the juniper scrub and meadow between its forests (without: 293 pieces, none of 1,000 km2)
       tienshan_spruce: {window_km: 5, min_share: 0.2, wins: true}
+      # 2026-11-19: Euxine fir-spruce likewise (12,435 km2 of communities): at 2 km / 0.3 its zone broke into 698 pieces
+      # (largest 687 km2) and lost 7,300 km2 more to the beech belts below it; at 5 km / 0.2 with wins, 4 belts of
+      # 1,000 km2 or more (11,362 km2): upper Aragvi, Adjara-Shavsheti, Kackar north slopes, Giresun mountains
+      euxine_conifer: {window_km: 5, min_share: 0.2, wins: true}
   snap_band_m: 1000            # boundaries snapped to landform edges within this band
 
 # validation of the v0.2 ecoregions (evaluate stage)

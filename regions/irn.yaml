@@ -111,7 +111,7 @@ provinces:
       # incl. the Marri-Bugti hills (southern Sulaiman fold belt) and the Takht-i-Sulaiman crest
       seeds: [[69.9, 30.6], [69.4, 31.3], [69.0, 30.6], [68.2, 30.3], [70.2, 29.9], [69.6, 31.9],
               [69.1, 29.15], [68.95, 29.6], [69.55, 29.45], [70.05, 31.5], [69.95, 30.95],
-              [68.9, 32.2]]   # last: Paktika
+              [68.9, 32.2], [67.8, 31.5], [67.15, 31.05]]   # [68.9, 32.2]: Paktika; [67.8, 31.5]: the Toba Kakar crest; [67.15, 31.05]: the Toba plateau south of it, above the Pishin valley
     - code: "09"
       name: Kirthar Ranges (incl. Pab and Lasbela)
       region: Balochistan
@@ -121,12 +121,12 @@ provinces:
       name: Central Balochistan Uplands (Quetta, Kalat, Brahui)
       region: Balochistan
       family: plateaus
-      seeds: [[67.0, 30.2], [66.6, 29.0], [66.4, 27.8], [67.1, 29.4], [66.1, 28.4]]
+      seeds: [[67.0, 30.2], [66.6, 29.0], [66.4, 27.8], [67.1, 29.4], [66.1, 28.4], [66.6, 30.85], [66.35, 30.45], [66.3, 30.0]]   # last 3: the Khwaja Amran crest at the Khojak pass, the Sarlath hills
     - code: "11"
       name: Kharan Deserts and Basins (incl. Chagai)
       region: Balochistan
       family: deserts
-      seeds: [[65.4, 28.6], [64.3, 29.0], [63.0, 29.2], [65.4, 29.5], [62.5, 28.4]]
+      seeds: [[65.4, 28.6], [64.3, 29.0], [63.0, 29.2], [65.4, 29.5], [62.5, 28.4], [66.1, 30.65], [66.0, 30.15]]   # last 2: the plain west of the Sarlath hills, which drains to the Lora (the Kadanai catchment begins about 10 km north of the first)
     - code: "12"
       name: Makran Ranges and Coast
       region: Balochistan
@@ -198,12 +198,12 @@ provinces:
     - code: "25"
       name: Helmand Basin (incl. Registan, Dasht-i-Margo, Sistan, Kandahar)
       family: deserts
-      seeds: [[64.3, 31.0], [65.5, 30.6], [62.0, 31.0], [65.7, 31.6], [63.3, 30.0], [62.5, 32.5], [64.4, 31.6], [61.5, 31.05], [61.3, 30.9], [61.3, 31.35], [61.2, 30.7], [61.3, 31.9], [61.35, 32.3]]   # [61.5, 31.05] to [61.2, 30.7]: Iranian Sistan (Hamun lakes, Zabol); last 2: the basin floor north of the Hamun (relief under 50 m)
+      seeds: [[64.3, 31.0], [65.5, 30.6], [62.0, 31.0], [65.7, 31.6], [63.3, 30.0], [62.5, 32.5], [64.4, 31.6], [61.5, 31.05], [61.3, 30.9], [61.3, 31.35], [61.2, 30.7], [61.3, 31.9], [61.35, 32.3], [66.25, 30.95]]   # [61.5, 31.05] to [61.2, 30.7]: Iranian Sistan (Hamun lakes, Zabol); last 2: the basin floor north of the Hamun (relief under 50 m); last: the Chaman plain, which the Kadanai drains to the Helmand (the Lora catchment begins about 10 km south)
     - code: "26"
       name: Ghazni Plateau (incl. Kabul, Logar, Zabul)
       region: Central Afghan Highlands
       family: plateaus
-      seeds: [[68.4, 33.55], [69.17, 34.53], [69.0, 34.0], [67.6, 32.6], [68.8, 34.4]]
+      seeds: [[68.4, 33.55], [69.17, 34.53], [69.0, 34.0], [67.6, 32.6], [68.8, 34.4], [67.2, 31.8]]
     # Iran, provinces 27-38 (draft codes I01-I14; I08 Makran and I13 Sistan joined to 12 and 25) (from the provinces draft, after Fisher 1968, Stocklin 1968, Berberian; Makran and Sistan joined to 12 and 25)
     - code: "27"
       name: Caspian Lowlands & Northern Alborz (incl. the Gorgan Plain)
