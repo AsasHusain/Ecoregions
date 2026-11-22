@@ -36,16 +36,17 @@ CRS = "EPSG:6933"  # equal-area (EASE-Grid 2.0 global): areas in km² straight f
 WEIGHTED = ["elev_p10", "elev_median", "elev_p90", "type_purity", "fallback_share", "converted_share", "rain_mm",
             "temp_c", "aridity", "humidity_pct", "vpd_pa", "summer_rain", "glacier_share", "natural_share",
             "confidence", "faunal_share"]
-SHARE = re.compile(r"^(.*) (<1|\d+(?:\.\d+)?)%$")
+SHARE = re.compile(r"^(.*) ([<>]?\d+(?:\.\d+)?)%$")
 
 
 def shares(text) -> dict[str, float]:
-    """'Iran 71%; Afghanistan 21%; Pakistan <1%' -> {name: share}."""
+    """'Pakistan >99%; Iran 21%; Kashmir <1%' -> {name: share}; '<1' counts 0.5 and '>99' 99.5."""
     out = {}
     for part in str(text or "").split("; "):
         m = SHARE.match(part.strip())
         if m:
-            out[m.group(1)] = 0.5 if m.group(2) == "<1" else float(m.group(2))
+            v = m.group(2)
+            out[m.group(1)] = float(v[1:]) + (0.5 if v[0] == ">" else -0.5) if v[0] in "<>" else float(v)
     return out
 
 
@@ -56,8 +57,8 @@ def combine(texts, weights) -> str:
         for k, v in shares(t).items():
             tot[k] = tot.get(k, 0.0) + v * w
     s = sum(weights) or 1.0
-    items = sorted(((k, v / s) for k, v in tot.items()), key=lambda kv: -kv[1])
-    return "; ".join(f"{k} {'<1' if v < 1 else round(v)}%" for k, v in items if v >= 0.5)
+    items = [(k, v) for k, v in sorted(((k, v / s) for k, v in tot.items()), key=lambda kv: -kv[1]) if v >= 0.5]
+    return "; ".join(f"{k} {'<1' if v < 1 else '>99' if v > 99 and len(items) > 1 else round(v)}%" for k, v in items)
 
 
 def seams(areas: dict[str, shapely.Geometry]) -> dict[str, shapely.Geometry]:

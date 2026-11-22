@@ -1,7 +1,7 @@
 import geopandas as gpd
 from shapely.geometry import LineString, box
 
-from ecoregions.world import natural_seam
+from ecoregions.world import combine, natural_seam, shares
 
 
 def test_natural_seam_moves_change_to_landform_edge():
@@ -15,3 +15,10 @@ def test_natural_seam_moves_change_to_landform_edge():
     by = {t: g.union_all() for t, g in out.groupby("type").geometry}
     assert by["A"].equals(box(0, 0, 5, 10)) and by["B"].equals(box(5, 0, 10, 10))
     assert set(out.parcel) == {"q"}
+
+
+def test_shares_read_the_area_layers_bounds():
+    # the area layers write "Pakistan >99%"; dropping it left "Kashmir <1%" as the only country (2026-11-22)
+    assert shares("Pakistan >99%; Kashmir <1%") == {"Pakistan": 99.5, "Kashmir": 0.5}
+    assert combine(["Pakistan >99%; Kashmir <1%"], [1]) == "Pakistan >99%; Kashmir <1%"
+    assert combine(["Iran 60%; Iraq 40%", "Iran 100%"], [1, 1]) == "Iran 80%; Iraq 20%"
