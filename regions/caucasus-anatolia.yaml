@@ -218,7 +218,7 @@ provinces:
       family: ranges
       seeds: [[62.2, 34.35], [63.2, 35.0], [64.2, 35.2], [62.8, 34.0],
               [61.8, 35.8], [62.5, 36.1], [63.9, 36.4],   # Badkhyz and Karabil (Turkmenistan)
-              [61.05, 35.85], [63.4, 35.75]]   # added 2026-11-17: the Pol-e Khatun pistachio hills on the Iranian bank of the Tejen and the Bala Murghab hills on the Afghan bank of the Murghab, the same Badkhyz upland
+              [61.05, 35.85], [63.4, 35.75], [61.65, 35.2]]   # added 2026-11-17: the Pol-e Khatun pistachio hills on the Iranian bank of the Tejen and the Bala Murghab hills on the Afghan bank of the Murghab, the same Badkhyz upland; 2026-11-20: the Gulran upland south of Badkhyz, which Khorasan took across the Harirud up to the Turkmen border
     - code: "25"
       name: Helmand Basin (incl. Registan, Dasht-i-Margo, Sistan, Kandahar)
       family: deserts
@@ -291,8 +291,8 @@ provinces:
       region: Khorasan
       family: ranges
       seeds: [[57.4, 37.4], [58.5, 37.35], [59.65, 36.85], [59.0, 36.4], [60.0, 36.1], [57.6, 36.4], [59.2, 35.35], [60.4, 35.35],
-              [56.8, 38.3], [57.6, 38.0], [58.6, 37.75], [61.3, 35.3], [60.6, 36.3]]   # Turkmen Kopet Dagh
-      # added 2026-11-17: Taybad and the Kashafrud foothills, for parcels whose strip holds no other seed of it
+              [56.8, 38.3], [57.6, 38.0], [58.6, 37.75], [60.95, 35.3], [60.6, 36.3]]   # Turkmen Kopet Dagh
+      # added 2026-11-17: Taybad and the Kashafrud foothills, for parcels whose strip holds no other seed of it; 2026-11-20 the Taybad seed moved from [61.3, 35.3], on the Afghan side of the Harirud (Khorasan took the Zulfiqar corner up to the Turkmen line), to the hills on the Iranian bank
     - code: "38"
       name: East Iranian Ranges (Qaenat, Birjand, Zahedan & Taftan)
       region: Eastern Highlands
@@ -333,7 +333,7 @@ provinces:
       name: Akhal & Mary Oases (Kopet Dagh piedmont, incl. the Murgab & Tejen deltas)
       region: Turan Lowland
       family: plains
-      seeds: [[58.1, 38.1], [60.5, 37.25], [61.8, 37.6], [56.6, 38.7], [61.05, 36.45]]   # last: the Sarakhs plain on the Iranian bank of the Tejen
+      seeds: [[58.1, 38.1], [60.5, 37.25], [61.8, 37.6], [56.6, 38.7], [61.05, 36.45], [59.2, 37.85]]   # [61.05, 36.45]: the Sarakhs plain on the Iranian bank of the Tejen; [59.2, 37.85], 2026-11-20: the Kaka plain, which Khorasan took from the mountain foot to the Dargaz border
     - code: "47"
       name: Alay Ranges (incl. Gissar, Zeravshan, Turkestan & Kugitang)
       region: Pamir & Alay

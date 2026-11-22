@@ -1674,7 +1674,7 @@ communities:
     - '29'
     elev:
     - 500
-    - 2300
+    - 1800
     bio12:
     - 450
     - null
@@ -1688,7 +1688,11 @@ communities:
     petraea here is subsp. iberica. Summer rain (May-Oct share) from 0.35 (2026-11-19). The steep, wet slopes of the ranges
     west of Lake Urmia and in Hakkari also fell in I03 and took this rule (2,667 km2 in the Caucasus & Anatolia parcel, summer
     rain median 0.25), while the Qaradagh gets about half its rain then (5th percentile 0.42) and the Lesser Caucasus slopes
-    0.36 or more; those western slopes now take urmia_west_oak.'
+    0.36 or more; those western slopes now take urmia_west_oak. Up to 1,800 m (2026-11-20): the steppe ranges of the
+    Azerbaijan plateau (Salmas-Kotur, Mishu, Bozgush, Sahand, Sabalan) took the rule on 3,370 km2 at a median 2,000-2,150 m
+    (10th percentile 1,680-1,980 m), above a plateau at 1,300-1,600 m, with no natural forest (natural-forest share 0 at the
+    90th percentile, against 0.46 in the Qaradagh, where the rule cells lie at a median 1,614 m and reach down to 900 m); at
+    1,800 m the Qaradagh keeps 66 % of its cells and those ranges 0-22 %.'
   priority: 55
 - id: urmia_west_oak
   structure: forest_broadleaf

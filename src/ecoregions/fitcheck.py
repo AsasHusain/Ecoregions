@@ -103,10 +103,11 @@ def run(cfg) -> None:
     df.to_csv(paths.outputs / "fitcheck.csv", index=False)
     lost = coverage(cfg, paths, fc)
     accept = {a["type"]: a["reason"] for a in fc.get("accept", [])}  # reviewed exceptions, as in bordercheck.accept
-    for t in lost.type[lost.type.isin(list(accept))]:
+    dropped = df.type[df.change < -fc["max_drop"]] if "change" in df else df.type.iloc[0:0]
+    for t in sorted(set(lost.type[lost.type.isin(list(accept))]) | set(dropped[dropped.isin(list(accept))])):
         log.info("fitcheck: %s accepted: %s", t, accept[t])
     lost = lost[~lost.type.isin(list(accept))]
-    worse = df[df.change < -fc["max_drop"]] if "change" in df else df.iloc[0:0]
+    worse = df[(df.change < -fc["max_drop"]) & ~df.type.isin(list(accept))] if "change" in df else df.iloc[0:0]
     msgs = [f"{r.type} fit {r.fit:.2f} (published {r.published_fit:.2f})" for r in worse.itertuples()]
     msgs += [f"{r.type}: {r.mapped_km2:,.0f} km² mapped of {r.pixel_km2:,.0f} km² of its communities" for r in lost.itertuples()]
     if msgs:

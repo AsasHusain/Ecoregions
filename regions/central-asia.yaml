@@ -89,6 +89,7 @@ bordercheck:
     - {lat: 37.53, lon: 65.67, layer: provinces, reason: "the Amu Darya in its floodplain; tugai covers both banks in both provinces, so no type changes at the river"}
     - {lat: 37.50, lon: 65.92, layer: ecoregions, reason: "outer edge of the Amu Darya floodplain on the right bank, between Kelif and Termez, where the river is the Afghanistan border: tugai communities cover 70 % of the ground within 2.5 km of the river and 7 % at 5-10 km, 1984-93 Landsat greenness 0.26 against 0.14; the left-bank floodplain is tugai too (82 % within 2.5 km), mapped as a tugai unit of the Afghan side, so the type crosses the river"}
     - {lat: 41.38, lon: 71.57, layer: provinces, reason: "northern rim of the Fergana valley at Namangan: the edge lies on the foot of the Chatkal hills, valley floor 900-1,200 m against foothills 1,300-2,000 m within 10 km, the same break accepted for the Faunal layer"}
+    - {lat: 37.24, lon: 65.46, layer: faunal_regions, reason: "Afghanistan-Turkmenistan line in the Karakum north of Andkhoy: regions differ 2 km either side of the line on 13% of the 68 km; species turnover 6 km either side is 2.3-3.1 per pair at matched heights, against 2.8-4.9 on the line shifted 30 km north or south, and no species is one-sided (2026-11-20)"}
     - {lat: 39.85, lon: 69.31, layer: faunal_regions, reason: "foot of the Turkestan Range, where the Fergana floor (Tajik cells, median 1,100 m) meets the foothills (Kyrgyz cells, 1,640 m); the border was drawn along the same foot, and at matched heights only 4 of 1,695 species differ"}
     - {lat: 40.22, lon: 69.81, layer: faunal_regions, reason: "edge of the Fergana valley floor (Tajik cells, median 530 m) against the Alai foothills (Kyrgyz cells, 1,150 m), along which the border runs; lowland and wetland species on one side, montane on the other"}
     - {lat: 41.37, lon: 71.57, layer: faunal_regions, reason: "northern rim of the Fergana valley at Namangan: valley floor (median 1,020 m, 12 km from the line) against the Chatkal foothills (1,340 m); the edge lies a median 2.5 km from the border and within 1 km of it for only 22 % of its length, the regions differ across the line at only 29 % of pairs 3 km either side, and no species is one-sided at matched heights"}
@@ -231,7 +232,7 @@ provinces:
       family: ranges
       seeds: [[62.2, 34.35], [63.2, 35.0], [64.2, 35.2], [62.8, 34.0],
               [61.8, 35.8], [62.5, 36.1], [63.9, 36.4],   # Badkhyz and Karabil (Turkmenistan)
-              [61.05, 35.85], [63.4, 35.75]]   # added 2026-11-17: the Pol-e Khatun pistachio hills on the Iranian bank of the Tejen and the Bala Murghab hills on the Afghan bank of the Murghab, the same Badkhyz upland
+              [61.05, 35.85], [63.4, 35.75], [61.65, 35.2]]   # added 2026-11-17: the Pol-e Khatun pistachio hills on the Iranian bank of the Tejen and the Bala Murghab hills on the Afghan bank of the Murghab, the same Badkhyz upland; 2026-11-20: the Gulran upland south of Badkhyz, which Khorasan took across the Harirud up to the Turkmen border
     - code: "25"
       name: Helmand Basin (incl. Registan, Dasht-i-Margo, Sistan, Kandahar)
       family: deserts
@@ -307,8 +308,8 @@ provinces:
       region: Khorasan
       family: ranges
       seeds: [[57.4, 37.4], [58.5, 37.35], [59.65, 36.85], [59.0, 36.4], [60.0, 36.1], [57.6, 36.4], [59.2, 35.35], [60.4, 35.35],
-              [56.8, 38.3], [57.6, 38.0], [58.6, 37.75], [61.3, 35.3], [60.6, 36.3]]   # Turkmen Kopet Dagh
-      # added 2026-11-17: Taybad and the Kashafrud foothills, for parcels whose strip holds no other seed of it
+              [56.8, 38.3], [57.6, 38.0], [58.6, 37.75], [60.95, 35.3], [60.6, 36.3]]   # Turkmen Kopet Dagh
+      # added 2026-11-17: Taybad and the Kashafrud foothills, for parcels whose strip holds no other seed of it; 2026-11-20 the Taybad seed moved from [61.3, 35.3], on the Afghan side of the Harirud (Khorasan took the Zulfiqar corner up to the Turkmen line), to the hills on the Iranian bank
     - code: "38"
       name: East Iranian Ranges (Qaenat, Birjand, Zahedan & Taftan)
       region: Eastern Highlands
@@ -349,7 +350,7 @@ provinces:
       name: Akhal & Mary Oases (Kopet Dagh piedmont, incl. the Murgab & Tejen deltas)
       region: Turan Lowland
       family: plains
-      seeds: [[58.1, 38.1], [60.5, 37.25], [61.8, 37.6], [56.6, 38.7], [61.05, 36.45]]   # last: the Sarakhs plain on the Iranian bank of the Tejen
+      seeds: [[58.1, 38.1], [60.5, 37.25], [61.8, 37.6], [56.6, 38.7], [61.05, 36.45], [59.2, 37.85]]   # [61.05, 36.45]: the Sarakhs plain on the Iranian bank of the Tejen; [59.2, 37.85], 2026-11-20: the Kaka plain, which Khorasan took from the mountain foot to the Dargaz border
     - code: "47"
       name: Alay Ranges (incl. Gissar, Zeravshan, Turkestan & Kugitang)
       region: Pamir & Alay

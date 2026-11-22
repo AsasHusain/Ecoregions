@@ -310,7 +310,7 @@ assemble:
     min_share: 0.3
     types: [chir, moist_temperate, sulaiman_temperate, northern_dry_temperate, siwalik, hyrcanian_montane, arasbaran,
             zagros_oak, walnut_fruit, tienshan_spruce, euxine, euxine_conifer, north_anatolian, balkan,
-            caucasus_broadleaf, med_pine, taurus_conifer, juniper, ca_juniper]
+            caucasus_broadleaf, med_pine, taurus_conifer, juniper, ca_juniper, iran_alpine]
     # 2026-11-18: Tien Shan spruce grows in streaks on north slopes; at 2 km / 0.3 its zone broke into 767 pieces
     # (largest 532 km2), all merged away; at 5 km / 0.2, 7 belts of 1,000 km2 or more (12,938 km2 against 11,211 km2
     # of spruce communities), following the forest of Natural Forests of the World 2020
@@ -321,6 +321,9 @@ assemble:
       # (largest 687 km2) and lost 7,300 km2 more to the beech belts below it; at 5 km / 0.2 with wins, 4 belts of
       # 1,000 km2 or more (11,362 km2): upper Aragvi, Adjara-Shavsheti, Kackar north slopes, Giresun mountains
       euxine_conifer: {window_km: 5, min_share: 0.2, wins: true}
+      # 2026-11-20: Iranian alpine (3,696 km2 of communities in 399 patches among scree and thorn cushions) kept none;
+      # at 8 km / 0.15 with wins, a 1,471 km2 belt on the central Alborz crest (own communities 46 %)
+      iran_alpine: {window_km: 8, min_share: 0.15, wins: true}
   snap_band_m: 1000            # boundaries snapped to landform edges within this band
 
 # validation of the v0.2 ecoregions (evaluate stage)

@@ -83,6 +83,10 @@ bordercheck:
     - {lat: 30.64, lon: 66.24, layer: ecoregions, reason: "foot of the Khwaja Amran south of Chaman: plain on the Afghan side (median 1,220 m, slope 1 degree) against the range foot on the Pakistani side (1,450 m, 3 degrees); the edge runs a median 4.5 km inside Pakistan and within 1 km of the line for 15% of its length"}
     - {lat: 31.79, lon: 68.23, layer: faunal_regions, reason: "Zhob, west of the 31.74 N stretch: regions differ 1 km either side of the line on 13% of the 138 km, on level ground (a 60 m step between points 3 km either side); species turnover 6 km either side is 4.6 per pair at matched heights, against 4.3-4.4 on the line shifted 30 km, and no species is one-sided"}
     - {lat: 34.59, lon: 71.09, layer: faunal_regions, reason: "Mohmand: regions differ 1 km either side of the line on 23% of the 91 km, and there the line is a crest (a median 467 m above the ground 3 km either side, a ridge on 90%); species turnover 6 km either side is 21.8 per pair at matched heights against 16.0-17.3 on the line shifted 30 km, as across a crest, with 1 range map stopping at it (Zosterops palpebrosus)"}
+    - {lat: 31.14, lon: 67.36, layer: faunal_regions, reason: "Toba Kakar, Toba plateau: regions differ 1 km either side of the line on 1% of the 75 km (the edge runs 4-8 km inside Pakistan, where units on the plateau take the southern region by majority); species turnover 6 km either side is 8.4 per pair at matched heights, against 9.0-10.9 on the line shifted 30 km north or south, and no species is one-sided"}
+    - {lat: 31.27, lon: 67.06, layer: faunal_regions, reason: "Toba Kakar, north of the Khwaja Amran: regions differ 1 km either side of the line on 4% of the 78 km, the edge running a few km inside Afghanistan; species turnover 6 km either side is 8.4 per pair at matched heights, against 9.0-10.9 on the line shifted 30 km north or south, and no species is one-sided"}
+    - {lat: 34.36, lon: 60.82, layer: faunal_regions, reason: "Iran-Afghanistan line south of Islam Qala (2026-11-20, after the Gulran seed rebuilt the segments): the edge is the edge between two landform units that both cross the border, the 10 km regions cross it too, and regions differ 2 km either side of the line on 14% of the 115 km; no species is one-sided. Species turnover 6 km either side is 6.9 per pair at matched heights against 4.8 and 6.3 on the line shifted 30 km east and west, so this one is a borderline call"}
+    - {lat: 32.01, lon: 60.82, layer: faunal_regions, reason: "foot of the East Iranian ranges west of Farah, where the border runs on the lower slope: hills at 1,100-1,300 m on the Iranian side fall to the Farah plain at 650-850 m, and the landform edge lies on the slope at 900-1,000 m within 2-4 km of the line (relief, slope, height above drainage and upland share step by 0.4-0.7 sd across it). Species turnover 6 km either side is 5.6 per pair against 3.9 and 2.7 on the line shifted 30 km east and west; at 12 km the great egret of the Farah plain wetlands is one-sided (2026-11-22)"}
 provinces:
   drop_outside_seeds: true     # parcel: provinces seeded only outside it drop out
   units:
@@ -218,7 +222,7 @@ provinces:
       name: Paropamisus (incl. Herat, Badghis)
       region: Central Afghan Highlands
       family: ranges
-      seeds: [[62.2, 34.35], [63.2, 35.0], [64.2, 35.2], [62.8, 34.0], [61.8, 35.8], [62.5, 36.1], [63.9, 36.4], [61.05, 35.85], [63.4, 35.75]]   # last two, added 2026-11-17: the Pol-e Khatun pistachio hills on the Iranian bank of the Tejen and the Bala Murghab hills on the Afghan bank of the Murghab, the same Badkhyz upland
+      seeds: [[62.2, 34.35], [63.2, 35.0], [64.2, 35.2], [62.8, 34.0], [61.8, 35.8], [62.5, 36.1], [63.9, 36.4], [61.05, 35.85], [63.4, 35.75], [61.65, 35.2]]   # [61.05, 35.85], [63.4, 35.75], added 2026-11-17: the Pol-e Khatun pistachio hills on the Iranian bank of the Tejen and the Bala Murghab hills on the Afghan bank of the Murghab, the same Badkhyz upland; [61.65, 35.2], 2026-11-20: the Gulran upland south of Badkhyz, which Khorasan took across the Harirud up to the Turkmen border
       # seeds: one list for every area (2026-11-17); a province seeded only outside an area drops out there
     - code: "25"
       name: Helmand Basin (incl. Registan, Dasht-i-Margo, Sistan, Kandahar)
@@ -293,8 +297,8 @@ provinces:
       region: Khorasan
       family: ranges
       seeds: [[57.4, 37.4], [58.5, 37.35], [59.65, 36.85], [59.0, 36.4], [60.0, 36.1], [57.6, 36.4], [59.2, 35.35],
-              [60.4, 35.35], [56.8, 38.3], [57.6, 38.0], [58.6, 37.75], [61.3, 35.3], [60.6, 36.3]]
-      # added 2026-11-17: Taybad and the Kashafrud foothills, for parcels whose strip holds no other seed of it
+              [60.4, 35.35], [56.8, 38.3], [57.6, 38.0], [58.6, 37.75], [60.95, 35.3], [60.6, 36.3]]
+      # added 2026-11-17: Taybad and the Kashafrud foothills, for parcels whose strip holds no other seed of it; 2026-11-20 the Taybad seed moved from [61.3, 35.3], on the Afghan side of the Harirud (Khorasan took the Zulfiqar corner up to the Turkmen line), to the hills on the Iranian bank
       # seeds: one list for every area (2026-11-17); a province seeded only outside an area drops out there
     - code: "38"
       name: East Iranian Ranges (Qaenat, Birjand, Zahedan & Taftan)
@@ -335,7 +339,7 @@ provinces:
       name: Akhal & Mary Oases (Kopet Dagh piedmont, incl. the Murgab & Tejen deltas)
       region: Turan Lowland
       family: plains
-      seeds: [[58.1, 38.1], [60.5, 37.25], [61.8, 37.6], [56.6, 38.7], [61.05, 36.45]]   # last: the Sarakhs plain on the Iranian bank of the Tejen
+      seeds: [[58.1, 38.1], [60.5, 37.25], [61.8, 37.6], [56.6, 38.7], [61.05, 36.45], [59.2, 37.85]]   # [61.05, 36.45]: the Sarakhs plain on the Iranian bank of the Tejen; [59.2, 37.85], 2026-11-20: the Kaka plain, which Khorasan took from the mountain foot to the Dargaz border
     - code: "47"
       name: Alay Ranges (incl. Gissar, Zeravshan, Turkestan & Kugitang)
       region: Pamir & Alay
@@ -513,6 +517,17 @@ communities:
 assemble:
   faunal_k: 123                # joint Faunal Ecoregions with Pakistan, Afghanistan & Iran, Central Asia and the Caucasus (joint_faunal, 25 km bins, 354 border-clipped range maps left out, 12 reviewed in config faunal.clipped_known): 7 groups (largest step above 5 regions), then regions within each group where its own turnover curve levels off (16, 24, 15, 19, 17, 13, 19)
   faunal_group_k: 7            # the key groups them (nests exactly; the largest step above 5 regions in the joint turnover curve)
+  belts:
+    by_type:
+      # 2026-11-20: Afghan Darvaz, across the Panj from Central Asia's juniper unit, kept none of its 1,863 km2 of juniper
+      # communities (alpine meadow units, a change at the border river); at 5 km / 0.2 with wins, a 2,294 km2 belt on
+      # both banks. Here only: in Central Asia juniper already takes its units by majority (45,599 km2)
+      ca_juniper: {window_km: 5, min_share: 0.2, wins: true}
+fitcheck:
+  accept:   # reviewed exceptions (2026-11-20)
+    - {type: amu_darya, reason: "1,200 km2 of sand-desert communities in 125 patches on the Afghan Turkestan plain and at Sarakhs, the largest 172 km2; the published map's 48,097 km2 of this type lay mostly on loess plains and juniper uplands, now semi-savanna and juniper"}
+    - {type: caucasus_xeric, reason: "1,569 km2 of arid open woodland communities in 94 patches on the Iranian bank of the Aras, the largest 721 km2, inside the Kura desert unit that the Azerbaijani bank opposite also has; a belt here would make the two banks differ"}
+    - {type: tugai, reason: "fit 0.55 against 0.63 because the type gained two units, the Balkh delta and the Amu Darya bank opposite Termez (median height above drainage 0.22 and 0.65 m inside against 1.12 and 1.53 m in the ring; fit 0.49 each), while the published unit scores 0.61; the published map kept 6 % of its tugai communities as units, this one 18 %"}
 confirmation:   # docs/preregistration.md: Iran's records in these squares and their buffer are sealed until the map is frozen
   area: IRN
   mask: docs/confirmation/iran_mask.json
