@@ -131,6 +131,54 @@ def env(cfg) -> pd.DataFrame:
     return res
 
 
+def fine_grid(df: pd.DataFrame, g: Grid, k: int) -> tuple[Grid, int, int]:
+    """The 1/k grid nested in the cells' window: (grid, first row, first column of the window on the coarse grid)."""
+    c0, r0 = int(df.col.min()), int(df.row.min())
+    w, h = (int(df.col.max()) + 1 - c0) * k, (int(df.row.max()) + 1 - r0) * k
+    return Grid(CRS, g.x0 + c0 * g.res, g.y0 - r0 * g.res, g.res / k, w, h), r0, c0
+
+
+def env_fine(cfg) -> None:
+    """Climate and terrain on the 1 km grid nested in the 10 km cells (level 1 of the boundaries), one GeoTIFF per
+    variable in ``biotic.out/fine``; the plant model's variables, read over HTTP for the window only."""
+    from .grid import write
+
+    bc, out, g = setup(cfg)
+    df = pd.read_csv(out / "cells.csv")
+    k = int(bc["cell_m"] // bc["fine_m"])
+    fg, r0, c0 = fine_grid(df, g, k)
+    (out / "fine").mkdir(exist_ok=True)
+    ch = cfg["sources"]["chelsa"]
+
+    def warp(path):
+        dst = np.full(fg.shape, np.nan, "float32")
+        with rasterio.open(path) as s:
+            b = transform_bounds(CRS, s.crs, *fg.bounds)
+            w = from_bounds(*b, s.transform).round_offsets().round_lengths()
+            a = s.read(1, window=w, boundless=True, masked=True).astype("float32").filled(np.nan) * s.scales[0] + s.offsets[0]
+            reproject(a, dst, src_transform=s.window_transform(w), src_crs=s.crs, src_nodata=np.nan,
+                      dst_transform=fg.transform, dst_crs=CRS, dst_nodata=np.nan, resampling=Resampling.average)
+        return dst
+
+    for var in bc["env"]["chelsa"]:
+        a = warp("/vsicurl/" + ch["url"].format(var=var))
+        if var == "ai":
+            a[a > 50] = np.nan
+        write(out / "fine" / f"{var}.tif", a, fg, nodata=np.nan)
+        log.info("biotic env_fine: %s", var)
+    pr = [warp("/vsicurl/" + ch["monthly_url"].format(month=m)) for m in range(1, 13)]
+    tot = np.sum(pr, axis=0)
+    write(out / "fine" / "summer_rain.tif", (sum(pr[m - 1] for m in ch["summer_months"]) / np.where(tot > 0, tot, np.nan)).astype("float32"), fg, nodata=np.nan)
+    dem = f"/vsizip/{(Paths(cfg).raw / 'gmted2010' / 'mn30_grd.zip').as_posix()}/mn30_grd"
+    elev = warp(dem)
+    write(out / "fine" / "elev.tif", elev, fg, nodata=np.nan)
+    # relief at 1 km: spread of elevation within 5 km (the 10 km cells' relief, scaled to the finer grid)
+    from scipy.ndimage import maximum_filter, minimum_filter
+    e = np.where(np.isnan(elev), np.nanmedian(elev), elev)
+    write(out / "fine" / "relief.tif", (maximum_filter(e, 5) - minimum_filter(e, 5)).astype("float32"), fg, nodata=np.nan)
+    log.info("biotic env_fine: %d x %d cells of %g km", fg.width, fg.height, bc["fine_m"] / 1000)
+
+
 def plants(cfg) -> None:
     from .confirm import load_mask, role
     from .native import screen
@@ -336,6 +384,7 @@ def plantmodel(cfg) -> None:
     nv = 4 * len(pm["vars"])
     T = B * coef[1:nv + 1]  # turnover coordinates: city-block distance between two cells = predicted eta (climate, terrain)
     np.save(out / "plant_T.npy", T.astype("float32"))
+    np.savez(out / "plant_model.npz", coef=coef, vars=np.array(pm["vars"]), knots=np.stack([knots[v] for v in pm["vars"]]))
     imp = pd.DataFrame({"var": pm["vars"], "weight": coef[1:nv + 1].reshape(-1, 4).sum(1)}).sort_values("weight", ascending=False)
     imp.to_csv(out / "plant_model_weights.csv", index=False)
     pd.DataFrame(res).to_csv(out / "plant_model_cv.csv", index=False)
@@ -577,6 +626,232 @@ def detail(cfg) -> None:
              len(np.unique(lab[is_prov])))
 
 
+def refine(cfg) -> None:
+    """Level 1 of the boundaries (plan.md, Boundaries at every scale): each 1 km cell within ``band_km`` of a 10 km
+    boundary goes to the neighbouring ecoregion whose own ground it matches best, in plant-turnover coordinates
+    computed at 1 km from the plant model (linear discriminant on each region's core: 1 km cells farther than
+    ``band_km`` inside it). Only regions present within ``band_km`` of the cell are candidates, so no ground moves
+    farther; a pair of regions whose cores differ by less than ``min_sep`` (Mahalanobis) keeps the 10 km line. Then a
+    majority filter and removal of fragments cut off from their region's core."""
+    from scipy import ndimage
+    from .grid import read, write
+
+    bc, out, g = setup(cfg)
+    rf = bc["refine"]
+    df = pd.read_csv(out / "cells.csv")
+    lab10 = pd.read_csv(out / "regions.csv")["final"].to_numpy()
+    k = int(bc["cell_m"] // bc["fine_m"])
+    fg, r0, c0 = fine_grid(df, g, k)
+    coarse = np.zeros((fg.height // k, fg.width // k), "int32")
+    coarse[df.row - r0, df.col - c0] = lab10
+    L0 = np.kron(coarse, np.ones((k, k), "int32"))  # 10 km labels on the 1 km grid
+    m = np.load(out / "plant_model.npz")
+    env = {v: read(out / "fine" / f"{v}.tif") for v in m["vars"]}
+    band_px = int(rf["band_km"] * 1000 / bc["fine_m"])
+    # distance (1 km cells) to the nearest 10 km boundary between two regions
+    edge = np.zeros(L0.shape, bool)
+    for ax in (0, 1):
+        d = np.diff(L0, axis=ax) != 0
+        both = (np.take(L0, range(L0.shape[ax] - 1), axis=ax) > 0) & (np.take(L0, range(1, L0.shape[ax]), axis=ax) > 0)
+        d &= both
+        if ax == 0:
+            edge[:-1][d] = True; edge[1:][d] = True
+        else:
+            edge[:, :-1][d] = True; edge[:, 1:][d] = True
+    dist = ndimage.distance_transform_edt(~edge)
+    land = L0 > 0
+    band = land & (dist <= band_px)
+    core = land & (dist > band_px)
+
+    def coords(rows, cols):  # plant-turnover coordinates of 1 km cells
+        cols_ = []
+        for n_v, v in enumerate(m["vars"]):
+            x = env[v][rows, cols]
+            x = np.where(np.isnan(x), np.nanmedian(env[v]), x)
+            cols_.append(ramps(x, m["knots"][n_v]))
+        return np.hstack(cols_) * m["coef"][1:4 * len(m["vars"]) + 1]
+
+    rng = np.random.default_rng(rf["seed"])
+    R = int(lab10.max())
+    means, X_all, y_all = np.zeros((R + 1, 4 * len(m["vars"]))), [], []
+    for r in range(1, R + 1):
+        rr, cc = np.nonzero(core & (L0 == r))
+        if len(rr) < 20:  # a region with almost no core: its 10 km cells stand for it
+            rr, cc = np.nonzero(L0 == r)
+        pick = rng.choice(len(rr), min(len(rr), rf["core_sample"]), replace=False)
+        Xr = coords(rr[pick], cc[pick])
+        means[r] = Xr.mean(0)
+        X_all.append(Xr - means[r])
+    W = np.cov(np.vstack(X_all).T) + rf["ridge"] * np.eye(means.shape[1])
+    Wi = np.linalg.inv(W)
+    # Mahalanobis separation between every pair of region cores
+    def sep(a, b):
+        d = means[a] - means[b]
+        return float(np.sqrt(d @ Wi @ d))
+    br, bcol = np.nonzero(band)
+    Xb = coords(br, bcol)
+    score = Xb @ Wi @ means[1:].T - 0.5 * np.einsum("ij,jk,ik->i", means[1:], Wi, means[1:])[None, :]  # cells x regions
+    # candidates: regions present within band_km on the 10 km map
+    cand = np.zeros((len(br), R), bool)
+    rad = int(np.ceil(rf["band_km"] * 1000 / bc["cell_m"]))
+    cr, cc_ = br // k, bcol // k
+    for dr in range(-rad, rad + 1):
+        for dc_ in range(-rad, rad + 1):
+            rr_, cl_ = np.clip(cr + dr, 0, coarse.shape[0] - 1), np.clip(cc_ + dc_, 0, coarse.shape[1] - 1)
+            v = coarse[rr_, cl_]
+            ok = v > 0
+            cand[np.flatnonzero(ok), v[ok] - 1] = True
+    score[~cand] = -np.inf
+    best = score.argmax(1) + 1
+    own = L0[br, bcol]
+    seps = {}
+    for a, b in set(zip(own.tolist(), best.tolist())):
+        seps[(a, b)] = sep(a, b) if a != b else np.inf
+    weak = np.array([seps[(a, b)] < rf["min_sep"] for a, b in zip(own.tolist(), best.tolist())])
+    weak_pairs = {(min(a, b), max(a, b)) for (a, b), v in seps.items() if v < rf["min_sep"]}
+    best[weak] = own[weak]
+    L1 = L0.copy()
+    L1[br, bcol] = best
+    # majority filter inside the band, then fragments cut off from their region's core go to their neighbours
+    from scipy.stats import mode as stat_mode
+    H, Wd = L1.shape
+    for _ in range(rf["smooth"]):  # 3 x 3 majority over the band cells
+        nb = np.stack([L1[np.clip(br + dr, 0, H - 1), np.clip(bcol + dc_, 0, Wd - 1)]
+                       for dr in (-1, 0, 1) for dc_ in (-1, 0, 1)], 1)
+        nb = np.where(nb > 0, nb, L1[br, bcol][:, None])  # outside the land counts as the cell itself
+        L1[br, bcol] = stat_mode(nb, axis=1, keepdims=False).mode
+    for r in range(1, R + 1):
+        comp, nc = ndimage.label(L1 == r)
+        if nc <= 1:
+            continue
+        keep_ids = np.unique(comp[(comp > 0) & ((L0 == r) & core)])
+        if not len(keep_ids):  # no core: keep the largest piece
+            keep_ids = [np.bincount(comp[comp > 0]).argmax()]
+        drop = (comp > 0) & ~np.isin(comp, keep_ids)
+        if drop.any():
+            nb = ndimage.grey_dilation(np.where(drop, 0, L1), size=3)
+            L1[drop] = np.where(nb[drop] > 0, nb[drop], L0[drop])
+    L1[~land] = 0
+    write(out / "fine" / "regions_1km.tif", L1.astype("int16"), fg, nodata=0)
+    moved = (L1 != L0) & land
+    log.info("biotic refine: %d of %d band cells (1 km) changed region (%.1f %% of the land); %d region pairs kept "
+             "their 10 km line (cores closer than %.1f)", int(moved.sum()), int(band.sum()), 100 * moved.sum() / land.sum(),
+             len(weak_pairs), rf["min_sep"])
+
+
+STRUCTURE = {  # biome of the dominant vegetation -> the word for the ecoregion's name
+    "Temperate Broadleaf & Mixed Forests": "Forests", "Temperate Conifer Forests": "Conifer Forests",
+    "Temperate Grasslands, Savannas & Shrublands": "Steppe", "Deserts & Xeric Shrublands": "Deserts",
+    "Montane Grasslands & Shrublands": "Mountain Grasslands", "Mediterranean Forests, Woodlands & Scrub": "Woodlands",
+    "Flooded Grasslands & Savannas": "Wetlands", "Tropical & Subtropical Dry Broadleaf Forests": "Dry Forests",
+    "Tropical & Subtropical Grasslands, Savannas & Shrublands": "Savannas", "Mangroves": "Mangroves",
+    "Rock & Ice": "Alpine Rock & Ice", "Tundra": "Alpine Tundra"}
+HUES = {"Forests": "#3d7a4f", "Conifer Forests": "#2f5d4a", "Steppe": "#b5a04a", "Deserts": "#c99a5b",
+        "Mountain Grasslands": "#7b8f5a", "Woodlands": "#8a7a3c", "Wetlands": "#4f8a8f", "Dry Forests": "#9a6b3a",
+        "Savannas": "#c2a35a", "Mangroves": "#2f6f6a", "Alpine Rock & Ice": "#8f9aa8", "Alpine Tundra": "#9aa58a"}
+
+
+def mix_text(shares: pd.Series, min_pct=2) -> str:
+    """{name: share} -> 'Name 34%; Other 21%', largest first, shares under min_pct left out."""
+    s = (shares / shares.sum() * 100).sort_values(ascending=False)
+    return "; ".join(f"{k} {'<1' if v < 1 else round(v)}%" for k, v in s.items() if v >= min_pct)
+
+
+def profile(cfg) -> None:
+    """Each ecoregion's profile, for the map and its key: name, area, elevation, climate, population, converted land,
+    countries, its mix of vegetation types (from the vegetation map), characteristic native plants (development
+    records) and animals (range maps; members and megafauna as in ``faunal``). Writes ``ecoregions.gpkg`` and
+    ``ecoregions.csv`` in ``biotic.out``."""
+    from .boundaries import display_countries, load_boundaries
+    from .colors import SHADES, shade
+    from .faunal import characteristic_species, region_members
+    from .grid import read
+
+    bc, out, g = setup(cfg)
+    df = pd.read_csv(out / "cells.csv")
+    lab10 = pd.read_csv(out / "regions.csv")
+    reg = gpd.read_file(out / "regions_1km.gpkg", layer="ecoregions").rename(columns={"type": "region"})
+    reg["area_km2"] = reg.area / 1e6
+    L = read(out / "fine" / "regions_1km.tif")
+    stats = {}
+    for v in ("elev", "bio1", "bio12", "ai", "summer_rain"):
+        a = read(out / "fine" / f"{v}.tif")
+        ok = (L > 0) & np.isfinite(a)
+        s = pd.Series(a[ok]).groupby(L[ok])
+        stats[v] = s.median() if v != "elev" else s
+    reg["elev_p10"] = reg.region.map(stats["elev"].quantile(0.1))
+    reg["elev_median"] = reg.region.map(stats["elev"].median())
+    reg["elev_p90"] = reg.region.map(stats["elev"].quantile(0.9))
+    reg["temp_c"] = reg.region.map(stats["bio1"]).round(1)
+    reg["rain_mm"] = reg.region.map(stats["bio12"]).round()
+    reg["aridity"] = reg.region.map(stats["ai"]).round(3)
+    reg["summer_rain"] = reg.region.map(stats["summer_rain"]).round(2)
+    from .attributes import aridity_class
+    reg["aridity_class"] = reg.aridity.map(aridity_class)
+    # vegetation map: mix of types, biome, converted land, population, glaciers, province
+    veg = gpd.read_file(Paths(cfg).root / "outputs" / "world" / "ecoregions.gpkg", layer="ecoregions").to_crs(CRS)
+    veg["geometry"] = veg.geometry.make_valid()
+    ov = gpd.overlay(reg[["region", "geometry"]], veg[["type_name", "biome", "l2_name", "converted_share", "population",
+                                                       "glacier_share", "area_km2", "geometry"]].rename(columns={"area_km2": "unit_km2"}),
+                     how="intersection", keep_geom_type=True)
+    ov["a"] = ov.area / 1e6
+    ov["pop"] = ov.population * ov.a / ov.unit_km2
+    by = ov.groupby("region")
+    reg = reg.set_index("region")
+    reg["habitat_mix"] = by.apply(lambda d: mix_text(d.groupby("type_name").a.sum()))
+    reg["biome"] = by.apply(lambda d: d.groupby("biome").a.sum().idxmax())
+    reg["province"] = by.apply(lambda d: d.groupby("l2_name").a.sum().idxmax())
+    reg["converted_share"] = by.apply(lambda d: np.average(d.converted_share.fillna(0), weights=d.a)).round(3)
+    reg["glacier_share"] = by.apply(lambda d: np.average(d.glacier_share.fillna(0), weights=d.a)).round(3)
+    reg["population"] = by["pop"].sum().round()
+    cty = display_countries(*load_boundaries(Paths(cfg))).to_crs(CRS)
+    oc = gpd.overlay(reg.reset_index()[["region", "geometry"]], cty[["NAME", "geometry"]], how="intersection", keep_geom_type=True)
+    oc["a"] = oc.area
+    reg["countries"] = oc.groupby("region").apply(lambda d: mix_text(d.groupby("NAME").a.sum(), min_pct=0.5))
+    # names: province + structure of the dominant vegetation; duplicates told apart by direction
+    reg["structure"] = reg.biome.map(STRUCTURE).fillna("Ecoregion")
+    reg["name"] = reg.province + " " + reg.structure
+    cen = reg.geometry.centroid
+    for nm, grp in reg.groupby("name"):
+        if len(grp) > 1:
+            c = cen.loc[grp.index]
+            dx, dy = c.x - c.x.mean(), c.y - c.y.mean()
+            for i in grp.index:
+                ns = "Northern" if dy[i] > abs(dx[i]) else "Southern" if -dy[i] > abs(dx[i]) else "Eastern" if dx[i] > 0 else "Western"
+                reg.loc[i, "name"] = f"{ns} {nm}"
+    reg["group_name"] = reg.biome
+    rank = reg.groupby("structure").area_km2.rank(ascending=False, method="first").astype(int) - 1
+    reg["color"] = [shade(HUES.get(s, "#888888"), SHADES[r % len(SHADES)]) for s, r in zip(reg.structure, rank)]
+    # species: plants from development records, animals from the cleaned range maps, on the 10 km cells
+    lab = lab10["final"].to_numpy()
+    P = sp.load_npz(out / "plants.npz").tocsc()
+    P.data[:] = 1
+    pnames = pd.read_csv(out / "plant_species.csv").species.tolist()
+    sampled = np.asarray(P.sum(1)).ravel() >= 5
+    cp = characteristic_species(P[sampled].tocsc(), lab[sampled], pnames, bc["profile"]["plants_top"])
+    reg["plants"] = cp.groupby("region").species.apply(lambda s: ";".join(s))
+    A = sp.load_npz(out / "animals.npz").tocsc()
+    spc = pd.read_csv(out / "animal_species.csv")
+    spc = spc[~spc.clipped].reset_index(drop=True)
+    anames, acls = spc.name.tolist(), spc.set_index("name").cls.str.upper()
+    ca = characteristic_species(A, lab, anames, bc["profile"]["animals_top"])
+    ca["cls"] = ca.species.map(acls)
+    reg["species"] = ca.groupby("region").apply(lambda d: ";".join(f"{s}|{c}" for s, c in zip(d.species, d.cls)))
+    mem = region_members(A, lab, anames, acls, cfg["faunal"], Paths(cfg))
+    reg["members"] = mem.groupby("region").apply(lambda d: ";".join(f"{s}|{c}" for s, c in zip(d.species, d.cls)))
+    reg["megafauna"] = mem[mem.megafauna].groupby("region").apply(lambda d: ";".join(f"{s}|{c}" for s, c in zip(d.species, d.cls)))
+    prov = lab10.groupby("final").provisional.mean() > 0.5
+    reg["provisional"] = prov.reindex(reg.index).fillna(False)
+    reg = reg.reset_index().sort_values("area_km2", ascending=False)
+    reg["code"] = np.arange(1, len(reg) + 1)
+    reg.to_crs(4326).to_file(out / "ecoregions.gpkg", layer="ecoregions")
+    reg.drop(columns="geometry").to_csv(out / "ecoregions.csv", index=False)
+    cp.to_csv(out / "plants_characteristic.csv", index=False)
+    ca.to_csv(out / "animals_characteristic.csv", index=False)
+    log.info("biotic profile: %d ecoregions, %d names; median area %.0f km2; plants listed for %d, animals for %d",
+             len(reg), reg.name.nunique(), reg.area_km2.median(), reg.plants.notna().sum(), reg.species.notna().sum())
+
+
 def polygons(df: pd.DataFrame, labels: np.ndarray, g: Grid) -> gpd.GeoDataFrame:
     """Regions as polygons in EPSG:6933, from the cells' labels."""
     from rasterio.features import shapes
@@ -662,5 +937,5 @@ if __name__ == "__main__":
     setup_logging()
     step = sys.argv[1]
     steps = {"cells": cells, "env": env, "plants": plants, "animals": animals, "plantmodel": plantmodel,
-             "regions": regions, "render": render, "gates": gates, "detail": detail}
+             "regions": regions, "render": render, "gates": gates, "detail": detail, "env_fine": env_fine, "refine": refine, "profile": profile}
     steps[step](load_config())
