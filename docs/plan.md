@@ -1,18 +1,18 @@
-# World Atlas of Biotic Regions: method plan
+# Revised Ecoregions of the World: method plan
 
-This plan is fixed before the first map of the atlas is built. Changes to it are recorded in
+This plan is fixed before the first ecoregion map is built. Changes to it are recorded in
 [`ledger.md`](ledger.md), and the test rules are registered in [`preregistration.md`](preregistration.md) before any
 result is seen.
 
 ## Purpose
 
-The atlas shows the natural communities of every place, including land that is now farmed or built on. For any
-site it gives the reference to restore toward: the natural vegetation expected there, the Biotic Region it belongs
+The map shows the natural communities of every place, including land that is now farmed or built on. For any
+site it gives the reference to restore toward: the natural vegetation expected there, the ecoregion it belongs
 to, and the native plants and animals of that region, with the evidence behind each.
 
 ## Definition
 
-A Biotic Region is a connected area whose native plants and animals, taken together, form a community distinct from
+An ecoregion is a connected area whose native plants and animals, taken together, form a community distinct from
 those of its neighbours. Each region holds a characteristic mix of habitats. Size neither qualifies nor disqualifies
 a region: a small, coherent area with a distinctive native biota is eligible.
 

@@ -267,9 +267,9 @@ fauna:
 
 # faunal regions: UPGMA on Simpson beta diversity between cells
 global_fauna:                   # global presence for the global Faunal Ecoregions (global_fauna stage)
-  cell_m: 100000               # EASE-Grid 2.0 cells
+  cell_m: 10000                # EASE-Grid 2.0 cells; 10 km for the ecoregion map (2026-11-22)
   fine_m: 2500                 # nested grid for range cover and GMTED2010 elevation
-  out: data/global/fauna
+  out: data/global/fauna_10km
 
 faunal:
   presence: elev               # 'range', 'elev' (range within elevation limits) or 'aoh' (+ habitat)
@@ -432,3 +432,16 @@ fitcheck:
 world:
   areas: [texas, pak-afg-irn, central-asia]
   joint_faunal: [pak-afg-irn, central-asia, caucasus-anatolia]  # one Faunal clustering (joint_faunal), one numbering
+
+# ---------------------------------------------------------------------------
+# Ecoregions, one run on a 10 km grid (docs/plan.md; tests registered in docs/preregistration.md, section 10, commit 8f6d157)
+# ---------------------------------------------------------------------------
+biotic:
+  areas: [pak-afg-irn, central-asia, caucasus-anatolia]   # their mapped countries, GBIF downloads and sealed masks
+  cell_m: 10000                # the world grid of global_fauna (EPSG:6933)
+  min_land: 0.5                # share of a cell in the mapped countries
+  temporal_cut: "2026-11-14"   # records made on or after this date are for the temporal test only
+  folds: {block_deg: 1.0, n: 5, seed: 20261122}   # registered
+  env:
+    chelsa: [bio1, bio4, bio12, bio15, gdd5, ai]
+  out: data/biotic

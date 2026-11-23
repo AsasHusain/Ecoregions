@@ -1,14 +1,14 @@
-# World Atlas of Biotic Regions
+# Revised Ecoregions of the World
 
-The World Atlas of Biotic Regions is mapping the world's regions of native life, area by area. A Biotic Region is a
+Revised Ecoregions of the World maps the world's ecoregions from open data on native life. An ecoregion is a
 connected area whose native plants and animals together form a community distinct from those of its neighbours.
 Each region holds its own mix of habitats; a riparian forest or a juniper belt is a habitat inside a region, not a
 region of its own.
 
-The atlas maps natural communities everywhere, including land that is now farmed or built on. For any site it gives
-the reference to restore toward: the natural vegetation, the Biotic Region and its native plants and animals.
+The map shows natural communities everywhere, including land that is now farmed or built on. For any site it gives
+the reference to restore toward: the natural vegetation, the ecoregion and its native plants and animals.
 
-The atlas uses its own definition and evidence. Each map is tested against established maps, such as RESOLVE
+The map stands on its own evidence. Each map is tested against established maps, such as RESOLVE
 *Ecoregions 2017*, and against maps built from climate or location alone.
 
 ## Status
@@ -26,12 +26,11 @@ continuous area of about 5.5 million km². It combines six kinds of evidence on 
 Each kind of evidence stays in the model only if it improves predictions of species at places not used to build the
 map, and every cell reports the plant evidence behind it. The method is in [`docs/plan.md`](docs/plan.md).
 
-## Foundations
+## Earlier maps
 
-The atlas builds on Revised Ecoregions of the World, the project's earlier maps of natural vegetation and vertebrate
-regions, archived with their maps and test results at
-[AsasHusain/Ecoregions](https://github.com/AsasHusain/Ecoregions). Its vegetation rules, landform units and
-range-map analysis carry forward as the atlas's layers; their working files are in `outputs/<area>/`.
+The project's earlier maps, of natural vegetation and of vertebrate regions (v0.2 to v0.7), are kept with their test
+results in `outputs/<area>/`. Their vegetation rules, landform units and range-map analysis carry forward as layers
+of the ecoregion map.
 
 ## How to run
 
