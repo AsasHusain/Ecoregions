@@ -139,3 +139,67 @@ found 19, 16 (0.125°) and 18, so every result was descriptive only. For every a
 after this section is committed, the count check requires **25 eligible blocks and 50 eligible cells** per taxon
 (was 20 and 40), still from counts only; everything else in section 8 is unchanged. The scorecard's own threshold
 (20 blocks) is unchanged. Caucasus & Anatolia, counted before this amendment, already meets the new margin.
+
+## 10. The Biotic Regions map
+
+Registered 2026-11-22, before the map's construction starts. It covers the first Biotic Regions map (plan.md):
+Pakistan, Afghanistan, Iran, Turkmenistan, Uzbekistan, Tajikistan, Kyrgyzstan, Türkiye, Armenia, Azerbaijan and
+Georgia, built in one run. Land added later follows section 8 for its own sealed squares and these rules for
+everything else.
+
+**Data roles.**
+
+* *Confirmation, never read while building:* records in Caucasus & Anatolia's sealed squares
+  ([`caucasus-anatolia_sealed.json`](confirmation/caucasus-anatolia_sealed.json): 10 squares, counted 2026-11-14 and
+  never opened) with their buffer, which is used for nothing; and records dated 2026-11-14 or later anywhere in the
+  area (temporal test, run as in section 8 once a taxon reaches 25 eligible blocks and 50 eligible cells).
+* *Opened before, kept apart:* Iran's and Central Asia's confirmation records were opened once, to test the earlier
+  maps. They are not used to build this map. Results on them are reported as secondary, never as confirmation.
+* *Development:* all other records. Every choice (method, weights, neighbourhood, number of regions, boundary
+  refinement) is made by spatial cross-validation on development records: one-degree blocks assigned at random to
+  five folds (seed 20261122).
+* Animal range maps are evidence for building, not test data. Animal tests use occurrence records (GBIF, and eBird if
+  received) of birds, mammals, and reptiles with amphibians.
+
+**Endpoints.** Section 3, A (prediction of held-out species lists) and B (boundary contrast), for plants, birds,
+mammals, and reptiles with amphibians, each on its own. The units scored are the 10 km regions.
+
+**Comparators.**
+
+| Comparator | Built how | Compared at |
+|---|---|---|
+| Location alone | the same region-growing on cell coordinates only; and 99 random contiguous maps | our number of regions |
+| Climate alone; climate and terrain | the same region-growing on those layers only | our number of regions |
+| The vegetation map; the animal map | as published at the freeze | their own number of units, our map coarsened to it |
+| RESOLVE *Ecoregions 2017* | as published | its number of ecoregions, our map coarsened to it |
+
+Our map is coarsened along its own construction tree, archived with the freeze.
+
+**Decision rules** (per taxon and endpoint, 95 % intervals from section 3's block bootstrap):
+
+1. *Useful:* the lower bound of the improvement over every null (location, climate, climate and terrain) is above
+   +0.02 on both A and B.
+2. *Best of the project's designs:* the lower bound against the vegetation map and against the animal map is above
+   −0.01 on both A and B.
+3. *An improvement on RESOLVE:* the lower bound is above +0.02 on both A and B.
+
+A taxon with fewer than 20 eligible blocks is reported as descriptive only. Taxa are reported separately and never
+averaged. No threshold changes after opening.
+
+**Level of detail** (development records only). A split of a region is kept when, in at least four of the five folds,
+held-out boundary contrast across it is positive for a taxon with at least ten eligible cell pairs across it, and
+held-out prediction loss gets no worse than 1 % (relative) for any taxon with at least 20 eligible blocks. A split
+that cannot be tested for lack of pairs is kept and marked provisional.
+
+**Borders.** Gates on construction: a map that fails one is not frozen or published, and there are no exceptions.
+
+* *Regions (10 km):* the share of region boundary within 10 km of an international border is no higher than the
+  highest share on copies of the borders shifted 30 km north, south, east and west.
+* *Every boundary level:* no stretch of 10 km or more lies within 2.5 km of a border with a median distance of
+  0.3 km or half the level's cell, whichever is larger (`world.on_line`).
+* *Inputs:* each input is checked at every border before use (plan.md, Continuity across borders).
+
+**Order of operations.** (1) Commit this section; its commit is recorded in the ledger. (2) Build on development
+records only. (3) Freeze the regions, every boundary level and the construction tree (hashes in the ledger,
+committed). (4) Open the sealed Caucasus & Anatolia records once and run the tests; run the temporal test when its
+counts suffice. (5) Report every result, including failures.

@@ -50,6 +50,33 @@ for the reference community on converted land.
 Regions are grown on the grid's neighbour graph, so similarity is computed between neighbouring cells and to region
 centres, never between every pair of cells.
 
+## Boundaries at every scale
+
+Species evidence decides which region each place belongs to; it is reliable at 10 km and no finer. The landscape
+decides where each boundary runs. Boundaries are therefore drawn in nested steps, each finer than the last:
+
+| Level | Grid | Boundary may move within | Placed on |
+|---|---|---|---|
+| Regions | 10 km | — | species composition and the other evidence above |
+| 1 | 1 km | 15 km either side of the level above | terrain, climate, soils, geology (global 1 km layers) |
+| 2 | 90 m | 2 km either side | terrain, land cover on natural ground, geology |
+| 3 | 30 m | 200 m either side | terrain and land cover on natural ground |
+
+At each level the boundary between two regions moves to the line in its band where the two regions' own ground
+differs most: the band's cells are scored on the measures that best separate the cores of the two regions (cells
+deep inside each, on that level's grid), and the boundary follows the sharpest change in that score. Where nothing
+in the band separates them, the boundary stays where the level above put it. A level never adds a region, removes
+one, or moves ground between regions outside its band, so a place belongs to the same region at every zoom.
+
+Finer levels are computed only inside the bands, a few percent of the land, so their cost follows the length of the
+boundaries, not the area mapped, and fine data are downloaded only where a band needs them.
+
+The band's own width is kept: a boundary on a crest narrows to a few hundred metres, one across a plain may stay
+kilometres wide. Each boundary carries this width as its transition zone.
+
+**Viewing.** Each scale of view has its own level: the 10 km regions, smoothed, for the world; level 1 for a
+country; levels 2 and 3 for a valley or a slope.
+
 ## Continuity across borders
 
 Every input is checked for changes at national borders that the landscape does not show, and each is repaired at its
@@ -60,7 +87,10 @@ source:
 | Geology compiled country by country | One rock-type legend for all sheets; in border strips where sheets disagree, rock type is predicted from terrain and soils |
 | Native status by botanical area | Native in any botanical area within 100 km counts as native |
 | Range maps that stop at a border | Extended across the border within the species' elevation and habitat limits, checked against records on the far side |
-| Vegetation layer built in parts | Parts overlap and join along natural edges; any type change left at a border fails the build |
+| Vegetation layer built in parts | Its mix of types per 10 km cell is checked at every border like any other input; a step there that the landscape does not show is repaired before the layer is used |
+
+The map itself is built in one run over everything mapped, so no boundary can come from joining separate builds.
+Every boundary, at every level, is then tested against the borders it lies near (pre-registration, section 10).
 
 ## Evidence support
 
@@ -93,7 +123,8 @@ kept and marked provisional.
 | RESOLVE *Ecoregions 2017* | An established map, as an outside benchmark |
 
 **Confirmation.** One chosen map is frozen, with its test plan, before sealed records are opened. They are opened
-once. Before freezing, a script counts how many sealed test areas are usable, without revealing any species.
+once. Before freezing, a script counts how many sealed test areas are usable, without revealing any species. The
+test rules, thresholds and data roles are registered in [`preregistration.md`](preregistration.md), section 10.
 
 ## Claims
 
