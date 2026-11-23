@@ -445,3 +445,15 @@ biotic:
   env:
     chelsa: [bio1, bio4, bio12, bio15, gdd5, ai]
   out: data/biotic
+  plant_model:
+    vars: [bio1, bio4, bio12, bio15, gdd5, ai, summer_rain, elev, relief]
+    rarefy: 30                 # records drawn from each site, so effort does not pose as turnover
+    pairs: 300000
+    max_km: 600
+    geo_knots_km: [0, 50, 150, 300, 600]
+    seed: 20261122
+  regions:
+    weights: {plants: 1.0, animals: 1.0}
+    animal_components: 20
+    seed: 20261122
+    k: [20, 40, 60, 80, 120, 160]   # drafts to look at; the count is set by the registered level-of-detail rule
