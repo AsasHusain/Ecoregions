@@ -457,3 +457,9 @@ biotic:
     animal_components: 20
     seed: 20261122
     k: [20, 40, 60, 80, 120, 160]   # drafts to look at; the count is set by the registered level-of-detail rule
+  detail:                      # level of detail (preregistration section 10)
+    seed: 20261122
+    min_cells_per_species: 5   # species universe for the prediction loss
+    k_ladder: [20, 40, 60, 80, 100, 120, 160, 200, 250, 300, 400]
+    min_pairs: 10              # held-out pairs across a split, per fold
+    rarefy: 15                 # records per test cell (cells with fewer are not test cells)

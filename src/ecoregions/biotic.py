@@ -174,6 +174,35 @@ def plants(cfg) -> None:
              int(m.sum()), len(sp_names), int((n_rec > 0).sum()), len(df), int(np.median(n_rec[n_rec > 0])))
 
 
+def border_drawn(X: sp.csr_matrix, df: pd.DataFrame, country_of, shifts, ratio=3.0, min_pairs=6) -> np.ndarray:
+    """Range maps whose edge follows a national border: for each species and each border (pair of countries), the
+    number of range-edge pairs of neighbouring cells (one cell with the species, one without) that cross that border,
+    against the same count for copies of the borders shifted ``shifts`` (m). Flagged when, on some border, at least
+    ``min_pairs`` edge pairs cross it and at least ``ratio`` times as many as on any shifted copy. Counted border by
+    border, so a short stretch of a long range edge is found (2026-11-22: wildcat, kestrel, black francolin, night
+    heron and woolly hare one-sided on the Makran coast, missed by the 100 km run test)."""
+    A = sp.triu(neighbours(df), 1).tocoo()
+    i, j = A.row, A.col
+    Xc = X.tocsc().astype(np.int8)
+    edge = abs(Xc[i] - Xc[j]).tocsc()  # pairs x species: 1 where exactly one of the two cells has the species
+
+    def per_border(dx, dy):
+        c = country_of(dx, dy)
+        lo, hi = np.minimum(c[i], c[j]), np.maximum(c[i], c[j])
+        cross = (lo != hi) & (lo >= 0)
+        key = lo * 1000 + hi
+        keys = np.unique(key[cross])
+        K = sp.csr_matrix((np.ones(cross.sum()), (np.searchsorted(keys, key[cross]), np.flatnonzero(cross))),
+                          shape=(len(keys), len(i)))
+        return pd.DataFrame((K @ edge).toarray(), index=keys)
+
+    real = per_border(0, 0)
+    sh = [per_border(dx, dy).reindex(real.index, fill_value=0) for dx, dy in shifts]
+    shifted = np.maximum.reduce([x.to_numpy() for x in sh])
+    hit = (real.to_numpy() >= min_pairs) & (real.to_numpy() >= ratio * np.maximum(shifted, 1))
+    return hit.any(0)
+
+
 def animals(cfg) -> None:
     """Range-map presence on the cells, from the world run of ``global_fauna``; range maps that stop at a border on
     level ground (``joint_faunal.clipped_species``) and the reviewed ``faunal.clipped_known`` are left out."""
@@ -193,8 +222,24 @@ def animals(cfg) -> None:
     countries = countries[countries.intersects(area)]
     dem = f"/vsizip/{(Paths(cfg).raw / 'gmted2010' / 'mn30_grd.zip').as_posix()}/mn30_grd"
     clipped = clipped_species(g, df, X, spc.name.tolist(), countries, dem) | set(cfg["faunal"].get("clipped_known", {}))
+    from .boundaries import display_countries
+    cty = display_countries(*load_boundaries(Paths(cfg))).to_crs(CRS)
+    cty = cty[cty.intersects(gpd.GeoSeries([area], crs=4326).to_crs(CRS).iloc[0])].reset_index(drop=True)
+    xs, ys = df.x.to_numpy(), df.y.to_numpy()
+
+    def country_of(dx, dy):  # country index of each cell centre with the borders shifted by (dx, dy)
+        c = np.full(len(df), -1)
+        for n_, geom in enumerate(cty.geometry):
+            c[shapely.contains_xy(geom, xs - dx, ys - dy)] = n_
+        return c
+
+    s = bc.get("border_drawn", {})
+    drawn = border_drawn(X, df, country_of, [(0, 30000), (0, -30000), (30000, 0), (-30000, 0)],
+                         s.get("ratio", 3.0), s.get("min_pairs", 6))
     spc["cells"] = np.asarray(X.getnnz(0)).ravel()
-    spc["clipped"] = spc.name.isin(clipped)
+    spc["border_run"] = spc.name.isin(clipped)
+    spc["border_edge"] = drawn
+    spc["clipped"] = spc.border_run | spc.border_edge
     spc.to_csv(out / "animal_species.csv", index=False)
     keep = ~spc.clipped.to_numpy()
     sp.save_npz(out / "animals.npz", X[:, keep].tocsr())
@@ -373,6 +418,216 @@ def cut(children: np.ndarray, n: int, k: int) -> np.ndarray:
     return pd.factorize(roots)[0] + 1
 
 
+def rarefied(X: sp.csr_matrix, n: int, seed: int) -> tuple[np.ndarray, sp.csr_matrix]:
+    """Cells with at least n records, each rarefied once to n records: (cell index, presence matrix)."""
+    rng = np.random.default_rng(seed)
+    cells_ = np.flatnonzero(np.asarray(X.sum(1)).ravel() >= n)
+    rows = []
+    for i in cells_:
+        r = X.getrow(i)
+        rows.append(r.indices[rng.multivariate_hypergeometric(r.data.astype(np.int64), n) > 0])
+    P = sp.csr_matrix((np.ones(sum(map(len, rows)), "float32"), np.concatenate(rows),
+                       np.cumsum([0] + [len(r) for r in rows])), shape=(len(cells_), X.shape[1]))
+    return cells_, P
+
+
+def brier(Y: np.ndarray, p: np.ndarray) -> float:
+    return float(((Y - p) ** 2).mean())
+
+
+def detail(cfg) -> None:
+    """Number of ecoregions and which splits stand (preregistration section 10, Level of detail), plants on held-out
+    folds: (1) the largest count worth testing is the tree cut whose regions best predict held-out cells' species
+    lists (Brier loss, region frequencies from the other folds shrunk toward the overall frequency with 20
+    pseudo-cells); (2) below it, from the top, a split stands when in at least 4 of 5 folds the held-out cells across
+    it differ more than those within it (Jaccard, pairs 10-50 km apart, matched by 10 km bins) with at least 10 pairs
+    across, and prediction is no more than 1 % worse; a split with too few pairs is kept and marked provisional."""
+    bc, out, g = setup(cfg)
+    dc = bc["detail"]
+    df = pd.read_csv(out / "cells.csv")
+    n = len(df)
+    children = np.load(out / "tree_children.npy")
+    X = sp.load_npz(out / "plants.npz").tocsr()
+    idx, P = rarefied(X, dc["rarefy"], dc["seed"])
+    keep_sp = np.asarray((P > 0).sum(0)).ravel() >= dc["min_cells_per_species"]
+    Y = P[:, keep_sp].toarray()
+    fold = df.fold.to_numpy()[idx]
+    overall = Y.mean(0)
+
+    def loss_at(labels, f, sub=None):
+        tr, te = fold != f, fold == f
+        if sub is not None:
+            tr, te = tr & sub, te & sub
+        lab = labels[idx]
+        pred = np.empty((te.sum(), Y.shape[1]), "float32")
+        for r in np.unique(lab[te]):
+            m = tr & (lab == r)
+            freq = (Y[m].sum(0) + 20 * overall) / (m.sum() + 20)
+            pred[lab[te] == r] = freq
+        return brier(Y[te], pred)
+
+    # (1) the largest count worth testing
+    scan = []
+    for k in dc["k_ladder"]:
+        labels = cut(children, n, k)
+        scan.append(dict(k=k, **{f"fold{f}": loss_at(labels, f) for f in range(bc["folds"]["n"])}))
+    scan = pd.DataFrame(scan)
+    scan["mean"] = scan.filter(like="fold").mean(1)
+    k_max = int(scan.loc[scan["mean"].idxmin(), "k"])
+    scan.to_csv(out / "detail_scan.csv", index=False)
+    log.info("biotic detail: held-out prediction best at %d regions (Brier %.5f; %d regions %.5f)", k_max,
+             scan["mean"].min(), scan.k.iloc[0], scan["mean"].iloc[0])
+
+    # (2) splits from the top, within the tree cut at k_max
+    xy = df[["x", "y"]].to_numpy()[idx] / 1000
+    from scipy.spatial import cKDTree
+    pairs = cKDTree(xy).query_pairs(50.0, output_type="ndarray")
+    d = np.hypot(*(xy[pairs[:, 0]] - xy[pairs[:, 1]]).T)
+    pairs, d = pairs[d >= 10], d[d >= 10]
+    inter = np.asarray(P[pairs[:, 0]].multiply(P[pairs[:, 1]]).sum(1)).ravel()
+    na, nb = np.asarray(P[pairs[:, 0]].sum(1)).ravel(), np.asarray(P[pairs[:, 1]].sum(1)).ravel()
+    jac = 1 - inter / (na + nb - inter)
+    dbin = np.minimum((d // 10).astype(int), 4)
+    pf = np.where(fold[pairs[:, 0]] == fold[pairs[:, 1]], fold[pairs[:, 0]], -1)  # pairs inside one held-out fold
+    cell_pos = np.full(n, -1)
+    cell_pos[idx] = np.arange(len(idx))
+
+    # members of every tree node (leaves 0..n-1, merges n..2n-2)
+    left, right = children[:, 0], children[:, 1]
+    top = 2 * n - 2
+
+    def leaves(node):
+        out_, stack = [], [node]
+        while stack:
+            v = stack.pop()
+            if v < n:
+                out_.append(v)
+            else:
+                stack += [left[v - n], right[v - n]]
+        return np.array(out_)
+
+    stop = {2 * n - 2 - j for j in range(k_max - 1)}  # the merges undone by the cut at k_max
+    # pruned from the leaves up (as a classification tree is pruned): a split is tested once both its sides are whole
+    # regions, and merged when it fails; a split with structure kept below it stands. Top-down, one failed split high
+    # in the tree discarded every split beneath it (2026-11-22: all of Anatolia and the Caucasus became one region)
+    status_of, results = {}, []
+    whole = lambda v: v < n or v not in stop or status_of.get(v) == "merged"  # noqa: E731
+    for v in sorted(stop):  # children before parents
+        a, b = left[v - n], right[v - n]
+        if not (whole(a) and whole(b)):
+            status_of[v] = "kept (structure below)"
+            results.append(dict(node=v, cells_a=len(leaves(a)), cells_b=len(leaves(b)), folds_tested=-1, folds_for=-1,
+                                status=status_of[v]))
+            continue
+        A, B = leaves(a), leaves(b)
+        side = np.zeros(n, np.int8)
+        side[A], side[B] = 1, 2
+        s0, s1 = side[idx][pairs[:, 0]], side[idx][pairs[:, 1]]
+        inside = (s0 > 0) & (s1 > 0)
+        across = inside & (s0 != s1)
+        within = inside & (s0 == s1)
+        votes, tested = 0, 0
+        for f in range(bc["folds"]["n"]):
+            ac, wi = across & (pf == f), within & (pf == f)
+            if ac.sum() < dc["min_pairs"]:
+                continue
+            diffs = [jac[ac & (dbin == k)].mean() - jac[wi & (dbin == k)].mean() for k in range(1, 5)
+                     if (ac & (dbin == k)).any() and (wi & (dbin == k)).any()]
+            if not diffs:
+                continue
+            tested += 1
+            sub = side[idx] > 0  # held-out cells of this region only
+            ok_loss = True
+            if (sub & (fold == f)).sum() and (sub & (fold != f)).sum():
+                ok_loss = loss_at(side, f, sub) <= loss_at((side > 0).astype(np.int8), f, sub) * 1.01
+            votes += int(np.mean(diffs) > 0 and ok_loss)
+        if tested < 4:
+            status = "provisional"
+        elif votes >= 4:
+            status = "kept"
+        else:
+            status = "merged"
+        status_of[v] = status
+        results.append(dict(node=v, cells_a=len(A), cells_b=len(B), folds_tested=tested, folds_for=votes, status=status))
+    regions_out, prov, queue = [], [], [top]
+    while queue:  # the regions: nodes whose own split was merged, or not undone by the cut at k_max
+        v = queue.pop()
+        if v < n or v not in stop or status_of[v] == "merged":
+            regions_out.append(v)
+            continue
+        queue += [left[v - n], right[v - n]]
+        if status_of[v] == "provisional":
+            prov += [left[v - n], right[v - n]]
+    lab = np.zeros(n, "int32")
+    is_prov = np.zeros(n, bool)
+    for r, v in enumerate(sorted(regions_out, key=lambda v: -len(leaves(v))), start=1):
+        lab[leaves(v)] = r
+    for v in prov:
+        if v in regions_out:
+            is_prov[leaves(v)] = True
+    res = pd.DataFrame(results)
+    res.to_csv(out / "detail_splits.csv", index=False)
+    labs = pd.read_csv(out / "regions.csv")
+    labs["final"] = lab
+    labs["provisional"] = is_prov
+    labs.to_csv(out / "regions.csv", index=False)
+    log.info("biotic detail: %d splits examined below %d regions: %d kept, %d provisional (too few held-out pairs), %d "
+             "merged; %d ecoregions (%d provisional)", len(res), k_max, res.status.str.startswith("kept").sum(),
+             (res.status == "provisional").sum(), (res.status == "merged").sum(), lab.max(),
+             len(np.unique(lab[is_prov])))
+
+
+def polygons(df: pd.DataFrame, labels: np.ndarray, g: Grid) -> gpd.GeoDataFrame:
+    """Regions as polygons in EPSG:6933, from the cells' labels."""
+    from rasterio.features import shapes
+
+    c0, c1, r0, r1 = df.col.min(), df.col.max() + 1, df.row.min(), df.row.max() + 1
+    img = np.zeros((r1 - r0, c1 - c0), "int32")
+    img[df.row - r0, df.col - c0] = labels
+    tr = rasterio.transform.Affine(g.res, 0, g.x0 + c0 * g.res, 0, -g.res, g.y0 - r0 * g.res)
+    geo = [(shapely.geometry.shape(s), int(v)) for s, v in shapes(img, mask=img > 0, transform=tr)]
+    p = gpd.GeoDataFrame({"region": [v for _, v in geo]}, geometry=[s for s, _ in geo], crs=CRS)
+    return p.dissolve("region").reset_index()
+
+
+def gates(cfg, k: int | None = None) -> pd.DataFrame:
+    """The registered border gates (preregistration section 10) on the regions cut at k: (1) share of region boundary
+    within 10 km of a border inside the mapped land, against copies of those borders shifted 30 km north, south, east
+    and west; (2) no boundary on a border: a run of 10 km or more within 2.5 km whose median distance is at most
+    max(0.3 km, half a cell)."""
+    from shapely import affinity
+    from .bordercheck import coincidence, internal_boundaries, international_borders
+    from .boundaries import display_countries, load_boundaries
+    from .world import on_line
+
+    bc, out, g = setup(cfg)
+    df = pd.read_csv(out / "cells.csv")
+    lab = pd.read_csv(out / "regions.csv")
+    countries, disputed = load_boundaries(Paths(cfg))
+    cty = display_countries(countries, disputed).to_crs(CRS)
+    land = gpd.GeoSeries([study_area(cfg)], crs=4326).to_crs(CRS).iloc[0]
+    cty = cty[cty.intersects(land)]
+    borders = international_borders(cty).intersection(land.buffer(-1000))
+    rows = []
+    for kk in ([k] if k else bc["regions"]["k"]):
+        reg = polygons(df, lab[f"k{kk}"].to_numpy(), g)
+        bound = internal_boundaries(reg)
+        obs = coincidence(bound, borders, 10000)
+        shifted = [coincidence(bound, affinity.translate(borders, dx, dy), 10000)
+                   for dx, dy in ((0, 30000), (0, -30000), (30000, 0), (-30000, 0))]
+        lines = on_line(reg.rename(columns={"region": "type"}), cty, "type", on_km=max(0.3, bc["cell_m"] / 2000))
+        rows.append(dict(k=kk, boundary_km=round(bound.length / 1000), share_near_borders=round(obs, 4),
+                         shifted_max=round(max(shifted), 4), share_pass=obs <= max(shifted), on_line=len(lines),
+                         on_line_km=sum(r["km"] for r in lines),
+                         where="; ".join(f"{r['countries']} {r['km']} km at {r['lat']} N {r['lon']} E" for r in lines)))
+        log.info("biotic gates k=%d: %.1f %% of %d km of boundary within 10 km of a border (shifted copies up to %.1f %%): %s; "
+                 "%d runs on a border (%d km)", kk, 100 * obs, bound.length / 1000, 100 * max(shifted),
+                 "pass" if obs <= max(shifted) else "FAIL", len(lines), rows[-1]["on_line_km"])
+    res = pd.DataFrame(rows)
+    res.to_csv(out / "gates.csv", index=False)
+    return res
+
+
 def render(cfg, k: int | None = None) -> None:
     """Quick look of the regions at k: cells coloured by region, borders in thin grey (outputs in ``biotic.out``)."""
     import matplotlib
@@ -407,5 +662,5 @@ if __name__ == "__main__":
     setup_logging()
     step = sys.argv[1]
     steps = {"cells": cells, "env": env, "plants": plants, "animals": animals, "plantmodel": plantmodel,
-             "regions": regions, "render": render}
+             "regions": regions, "render": render, "gates": gates, "detail": detail}
     steps[step](load_config())
