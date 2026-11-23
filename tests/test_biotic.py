@@ -29,3 +29,17 @@ def test_fill_gaps_uses_neighbours():
     df = pd.DataFrame({"row": [0, 0, 0, 5], "col": [0, 1, 2, 5]})
     E = pd.DataFrame({"t": [1.0, np.nan, 3.0, 100.0]})
     assert fill_gaps(E, df)["t"].tolist() == [1.0, 2.0, 3.0, 100.0]
+
+
+def test_names_do_not_double_and_are_unique():
+    import geopandas as gpd
+    import pandas as pd
+    from shapely.geometry import Point
+    from ecoregions.biotic import disambiguate, unit_name
+
+    assert unit_name("Karakum Desert", "Deserts") == "Karakum Desert"
+    assert unit_name("Lower Indus Plain and Delta", "Deserts") == "Lower Indus Plain & Delta Deserts"
+    names = pd.Series(["Zagros Forests"] * 4 + ["Alborz Forests"])
+    c = gpd.GeoSeries([Point(0, 0), Point(10, 0), Point(-10, 0), Point(0, 10), Point(5, 5)])
+    out = disambiguate(names, c)
+    assert out.is_unique and out.iloc[4] == "Alborz Forests" and "Central Zagros Forests" in set(out)

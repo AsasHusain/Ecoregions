@@ -732,6 +732,48 @@ def refine(cfg) -> None:
             nb = ndimage.grey_dilation(np.where(drop, 0, L1), size=3)
             L1[drop] = np.where(nb[drop] > 0, nb[drop], L0[drop])
     L1[~land] = 0
+    # edges on a border (the registered gate, preregistration section 10): the cells within strip_km either side go to
+    # the one region they match best together, and the cells beyond, to strip_km + 10 km, are classified again
+    # between the regions there, so the edge moves to the next change in the land off the border
+    # (2026-11-22: a valley floor on the Iran-Turkmenistan line at 38.3 N 56.8 E held an edge)
+    from rasterio.features import rasterize as _rz, shapes as _shapes
+    from .boundaries import display_countries, load_boundaries
+    from .world import on_line
+    cty = display_countries(*load_boundaries(Paths(cfg))).to_crs(CRS)
+    area = gpd.GeoSeries([study_area(cfg)], crs=4326).to_crs(CRS).iloc[0]
+    cty = cty[cty.intersects(area.buffer(100000))]
+
+    def scores(rows, cols):
+        return coords(rows, cols) @ Wi @ means[1:].T - 0.5 * np.einsum("ij,jk,ik->i", means[1:], Wi, means[1:])[None, :]
+
+    moved_off = 0
+    for _ in range(rf["off_border_rounds"]):
+        geo = [(shapely.geometry.shape(s_), int(v)) for s_, v in _shapes(L1.astype("int32"), mask=L1 > 0, transform=fg.transform)]
+        reg = gpd.GeoDataFrame({"type": [v for _, v in geo]}, geometry=[s_ for s_, _ in geo], crs=CRS).dissolve("type").reset_index()
+        runs = on_line(reg, cty, "type", on_km=max(0.3, bc["fine_m"] / 2000))
+        if not runs:
+            break
+        for run in runs:
+            strip = _rz([(run["run"].buffer(rf["strip_km"] * 1000), 1)], out_shape=L1.shape, transform=fg.transform).astype(bool) & land
+            beyond = _rz([(run["run"].buffer((rf["strip_km"] + 10) * 1000), 1)], out_shape=L1.shape, transform=fg.transform).astype(bool) & land & ~strip
+            cands = np.unique(L1[strip])
+            cands = cands[cands > 0]
+            sr, sc = np.nonzero(strip)
+            pick = cands[scores(sr, sc)[:, cands - 1].mean(0).argmax()]
+            L1[strip] = pick
+            br_, bc_ = np.nonzero(beyond & np.isin(L1, cands))
+            if len(br_):
+                L1[br_, bc_] = cands[scores(br_, bc_)[:, cands - 1].argmax(1)]
+            moved_off += 1
+        for r in range(1, R + 1):  # fragments again
+            comp, nc = ndimage.label(L1 == r)
+            if nc > 1:
+                sizes = np.bincount(comp.ravel())
+                sizes[0] = 0
+                drop = (comp > 0) & (comp != sizes.argmax())
+                nb = ndimage.grey_dilation(np.where(drop, 0, L1), size=3)
+                L1[drop] = np.where(nb[drop] > 0, nb[drop], L1[drop])
+    log.info("biotic refine: %d border runs moved off the border", moved_off)
     write(out / "fine" / "regions_1km.tif", L1.astype("int16"), fg, nodata=0)
     moved = (L1 != L0) & land
     log.info("biotic refine: %d of %d band cells (1 km) changed region (%.1f %% of the land); %d region pairs kept "
@@ -757,6 +799,40 @@ def mix_text(shares: pd.Series, min_pct=2) -> str:
     return "; ".join(f"{k} {'<1' if v < 1 else round(v)}%" for k, v in s.items() if v >= min_pct)
 
 
+NAMED = ("Desert", "Steppe", "Forest", "Grassland", "Woodland", "Mangrove", "Wetland", "Marsh", "Tundra")
+OCTANTS = ["Eastern", "Northeastern", "Northern", "Northwestern", "Western", "Southwestern", "Southern", "Southeastern"]
+
+
+def unit_name(province: str, structure: str) -> str:
+    """Province + the structure of its dominant vegetation, unless the province's name already says it; '&' for 'and'."""
+    p = str(province).replace(" and ", " & ")
+    return p if any(w in p for w in NAMED) else f"{p} {structure}"
+
+
+def disambiguate(names: pd.Series, centres: gpd.GeoSeries) -> pd.Series:
+    """Ecoregions sharing a name take a compass word from their position among the group (the one nearest the
+    group's centre 'Central' when three or more share it); a word already taken in the group goes to the next octant."""
+    out = names.copy()
+    for nm, idx in names.groupby(names).groups.items():
+        if len(idx) < 2:
+            continue
+        c = centres.loc[idx]
+        dx, dy = c.x - c.x.mean(), c.y - c.y.mean()
+        used, order = set(), np.argsort(np.hypot(dx, dy).to_numpy())
+        if len(idx) >= 3 and not nm.startswith("Central"):
+            out.loc[idx[order[0]]] = f"Central {nm}"
+            used.add("Central")
+            order = order[1:]
+        for j in order:
+            i = idx[j]
+            o = int(np.round(np.arctan2(dy[i], dx[i]) / (np.pi / 4))) % 8
+            while OCTANTS[o] in used:
+                o = (o + 1) % 8
+            used.add(OCTANTS[o])
+            out.loc[i] = f"{OCTANTS[o]} {nm}"
+    return out
+
+
 def profile(cfg) -> None:
     """Each ecoregion's profile, for the map and its key: name, area, elevation, climate, population, converted land,
     countries, its mix of vegetation types (from the vegetation map), characteristic native plants (development
@@ -771,6 +847,8 @@ def profile(cfg) -> None:
     df = pd.read_csv(out / "cells.csv")
     lab10 = pd.read_csv(out / "regions.csv")
     reg = gpd.read_file(out / "regions_1km.gpkg", layer="ecoregions").rename(columns={"type": "region"})
+    land = gpd.GeoSeries([study_area(cfg)], crs=4326).to_crs(reg.crs).iloc[0]
+    reg["geometry"] = reg.geometry.intersection(land)  # the coast and the mapped countries' outline, not the cells' steps
     reg["area_km2"] = reg.area / 1e6
     L = read(out / "fine" / "regions_1km.tif")
     stats = {}
@@ -810,15 +888,8 @@ def profile(cfg) -> None:
     reg["countries"] = oc.groupby("region").apply(lambda d: mix_text(d.groupby("NAME").a.sum(), min_pct=0.5))
     # names: province + structure of the dominant vegetation; duplicates told apart by direction
     reg["structure"] = reg.biome.map(STRUCTURE).fillna("Ecoregion")
-    reg["name"] = reg.province + " " + reg.structure
-    cen = reg.geometry.centroid
-    for nm, grp in reg.groupby("name"):
-        if len(grp) > 1:
-            c = cen.loc[grp.index]
-            dx, dy = c.x - c.x.mean(), c.y - c.y.mean()
-            for i in grp.index:
-                ns = "Northern" if dy[i] > abs(dx[i]) else "Southern" if -dy[i] > abs(dx[i]) else "Eastern" if dx[i] > 0 else "Western"
-                reg.loc[i, "name"] = f"{ns} {nm}"
+    reg["name"] = [unit_name(p_, s_) for p_, s_ in zip(reg.province, reg.structure)]
+    reg["name"] = disambiguate(reg.name, reg.geometry.centroid)
     reg["group_name"] = reg.biome
     rank = reg.groupby("structure").area_km2.rank(ascending=False, method="first").astype(int) - 1
     reg["color"] = [shade(HUES.get(s, "#888888"), SHADES[r % len(SHADES)]) for s, r in zip(reg.structure, rank)]

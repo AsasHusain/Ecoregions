@@ -226,7 +226,7 @@ def on_line(units: gpd.GeoDataFrame, countries: gpd.GeoDataFrame, col: str, near
                     on_edge = shapely.get_point(shapely.shortest_line(seg_arr[nearest[s:e]], pts[s:e]), 0)  # the edge's points
                     meet = {t.index[x] for p in on_edge for x in labels.query(p.buffer(300), predicate="intersects")}
                     out.append(dict(layer=col, countries=f"{c.NAME[i]} – {c.NAME[j]}", km=e - s, median_km=round(med, 2),
-                                    lat=round(m.y, 2), lon=round(m.x, 2), types=" | ".join(sorted(map(str, meet)))))
+                                    lat=round(m.y, 2), lon=round(m.x, 2), types=" | ".join(sorted(map(str, meet))), run=shapely.LineString(pts[s:e])))
     return out
 
 

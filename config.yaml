@@ -470,6 +470,8 @@ biotic:
     core_sample: 4000
     ridge: 0.001
     smooth: 2
+    strip_km: 3                # edges on a border: the cells this close either side go to one region
+    off_border_rounds: 3
     seed: 20261122
   profile:
     plants_top: 25
