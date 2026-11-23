@@ -202,6 +202,24 @@ def animals(cfg) -> None:
              int(keep.sum()), ", ".join(f"{c} {n}" for c, n in spc[keep].cls.value_counts().items()), int((~keep).sum()))
 
 
+def fill_gaps(E: pd.DataFrame, df: pd.DataFrame, rounds: int = 20) -> pd.DataFrame:
+    """Missing values (coastal cells beyond a layer's edge) from the mean of their neighbouring cells, outward."""
+    A = neighbours(df)
+    E = E.copy()
+    for v in E.columns:
+        x = E[v].to_numpy(float, copy=True)
+        for _ in range(rounds):
+            miss = np.isnan(x)
+            if not miss.any():
+                break
+            have = (~miss).astype(float)
+            s, c = A @ np.where(miss, 0, x), A @ have
+            fill = miss & (c > 0)
+            x[fill] = s[fill] / c[fill]
+        E[v] = np.where(np.isnan(x), np.nanmedian(x), x)
+    return E
+
+
 # ---------------------------------------------------------------- plant turnover model (GDM)
 def ramps(x: np.ndarray, knots: np.ndarray) -> np.ndarray:
     """Monotone piecewise-linear basis (linear I-splines): one ramp per knot interval, 0 below it, 1 above."""
@@ -234,8 +252,7 @@ def plantmodel(cfg) -> None:
     bc, out, g = setup(cfg)
     pm = bc["plant_model"]
     df = pd.read_csv(out / "cells.csv")
-    E = pd.read_csv(out / "env.csv").set_index("cell").loc[df.cell, pm["vars"]]
-    E = E.fillna(E.median())
+    E = fill_gaps(pd.read_csv(out / "env.csv").set_index("cell").loc[df.cell, pm["vars"]].reset_index(drop=True), df)
     X = sp.load_npz(out / "plants.npz").tocsr()
     rng = np.random.default_rng(pm["seed"])
     n_rec = np.asarray(X.sum(1)).ravel()

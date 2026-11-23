@@ -20,3 +20,12 @@ def test_gdm_recovers_known_turnover():
 def test_ramps_are_monotone_and_bounded():
     r = ramps(np.linspace(-1, 5, 50), np.array([0, 1, 2, 4.0]))
     assert r.shape == (50, 3) and (np.diff(r, axis=0) >= 0).all() and r.min() == 0 and r.max() == 1
+
+
+def test_fill_gaps_uses_neighbours():
+    import pandas as pd
+    from ecoregions.biotic import fill_gaps
+
+    df = pd.DataFrame({"row": [0, 0, 0, 5], "col": [0, 1, 2, 5]})
+    E = pd.DataFrame({"t": [1.0, np.nan, 3.0, 100.0]})
+    assert fill_gaps(E, df)["t"].tolist() == [1.0, 2.0, 3.0, 100.0]
