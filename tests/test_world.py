@@ -44,3 +44,30 @@ def test_adopt_strip_moves_the_edge_to_the_neighbours_own_edge():
     # a patch reaching more than reach_km from the seam is a deep disagreement: left alone
     short = gpd.GeoDataFrame({"type": ["B"]}, geometry=[box(0, 0, 10000, 10000)], crs=3857)
     assert (adopt_strip(own, short, other, seam, "type", reach_km=5)["type"] == "A").all()
+
+
+def test_naturalize_moves_an_edge_from_the_border_to_the_terrain(monkeypatch):
+    import numpy as np
+    from rasterio.transform import from_origin
+    import ecoregions.world as w
+
+    # border at x = 20 km; type A west of it, B east; the land steps up at x = 26 km
+    def fake(bounds, res, dem_paths, url):
+        x0, y0, x1, y1 = bounds
+        wd, ht = int(np.ceil((x1 - x0) / res)), int(np.ceil((y1 - y0) / res))
+        xs = x0 + (np.arange(wd) + 0.5) * res
+        rng = np.random.default_rng(0)
+        elev = np.where(xs < 26000, 200.0, 900.0)[None, :].repeat(ht, 0) + rng.normal(0, 20, (ht, wd))
+        f = {k: rng.normal(0, 1, (ht, wd)).astype("float32") for k in ("slope", "relief", "tpi", "bio1", "bio12", "ai")}
+        f["elev"] = elev.astype("float32")
+        return dict(f=f, transform=from_origin(x0, y1, res, res), shape=(ht, wd))
+
+    monkeypatch.setattr(w, "_window_features", fake)
+    cty = gpd.GeoDataFrame({"NAME": ["W", "E"]}, geometry=[box(-40000, 0, 20000, 60000), box(20000, 0, 80000, 60000)], crs=3857)
+    u = gpd.GeoDataFrame({"type": ["A", "B"]}, geometry=[box(-40000, 0, 20000, 60000), box(20000, 0, 80000, 60000)], crs=3857)
+    runs = on_line(u, cty, "type", on_km=0.5, min_km=5)
+    assert runs
+    out, rows = w.naturalize(u, runs, [], "", band_km=8, train_km=30, res=500)
+    a = out[out["type"] == "A"].union_all()
+    assert 24000 < a.bounds[2] < 28500, a.bounds  # A now reaches the step in the land
+    assert on_line(out, cty, "type", on_km=0.5, min_km=5) == []

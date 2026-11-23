@@ -230,6 +230,146 @@ def on_line(units: gpd.GeoDataFrame, countries: gpd.GeoDataFrame, col: str, near
     return out
 
 
+def _window_features(bounds, res, dem_paths: list, chelsa_url: str) -> dict:
+    """Terrain and climate on a local equal-area grid: elevation (Copernicus 90 m, averaged), slope, relief within
+    1 km, position on the slope (elevation minus the 2 km mean), and CHELSA bio1, bio12, ai."""
+    import rasterio
+    from rasterio.enums import Resampling
+    from rasterio.transform import from_origin
+    from rasterio.warp import reproject, transform_bounds
+    from rasterio.windows import from_bounds
+    from scipy import ndimage
+
+    x0, y0, x1, y1 = bounds
+    w, h = int(np.ceil((x1 - x0) / res)), int(np.ceil((y1 - y0) / res))
+    tr = from_origin(x0, y1, res, res)
+
+    def warp(path, scale=1.0, offset=0.0):
+        dst = np.full((h, w), np.nan, "float32")
+        with rasterio.open(path) as s:
+            b = transform_bounds(CRS, s.crs, x0, y0, x1, y1)
+            win = from_bounds(*b, s.transform).round_offsets().round_lengths()
+            a = s.read(1, window=win, boundless=True, masked=True).astype("float32").filled(np.nan)
+            sc = s.scales[0] if s.scales and s.scales[0] not in (None, 0) else scale
+            of = s.offsets[0] if s.offsets else offset
+            reproject(a * sc + of, dst, src_transform=s.window_transform(win), src_crs=s.crs, src_nodata=np.nan,
+                      dst_transform=tr, dst_crs=CRS, dst_nodata=np.nan, resampling=Resampling.average)
+        return dst
+
+    z = np.full((h, w), np.nan, "float32")
+    for p in dem_paths:  # the areas' mosaics, each filling what the others lack
+        if np.isnan(z).any():
+            zz = warp(p)
+            z = np.where(np.isnan(z), zz, z)
+    zf = np.where(np.isnan(z), np.nanmean(z), z)
+    gy, gx = np.gradient(zf, res)
+    k1, k2 = max(1, int(1000 / res)), max(1, int(2000 / res))
+    f = dict(elev=z, slope=np.degrees(np.arctan(np.hypot(gx, gy))).astype("float32"),
+             relief=(ndimage.maximum_filter(zf, 2 * k1 + 1) - ndimage.minimum_filter(zf, 2 * k1 + 1)).astype("float32"),
+             tpi=(zf - ndimage.uniform_filter(zf, 2 * k2 + 1)).astype("float32"))
+    for v in ("bio1", "bio12", "ai"):
+        a = warp("/vsicurl/" + chelsa_url.format(var=v))
+        if v == "ai":
+            a[a > 50] = np.nan
+        f[v] = a
+    return dict(f=f, transform=tr, shape=(h, w))
+
+
+def naturalize(units: gpd.GeoDataFrame, runs: list[dict], dem_paths: list, chelsa_url: str, band_km=8.0, train_km=40.0,
+               res=250.0, min_acc=0.7, cap_km2=3000.0) -> tuple[gpd.GeoDataFrame, list[dict]]:
+    """Move type edges off political borders onto the landscape (2026-11-22, the user: no boundary may follow a
+    border; "naturalized in those instances using topography or other data sources"). For each run of an edge on a
+    border (``on_line``), the two types meeting there are told apart by a linear discriminant on their own ground
+    within ``train_km`` but outside a ``band_km`` band around the run, on terrain and climate at ``res`` m; if it sorts
+    held-out 5 km blocks with balanced accuracy of at least ``min_acc``, every cell of those two types inside the band
+    is classified again and the edge follows the terrain. If the two cannot be told apart (one vegetation under two
+    names across a seam), the smaller patch touching the run, up to ``cap_km2``, takes the other type whole, so the
+    edge moves to that patch's own outline."""
+    from rasterio.features import rasterize, shapes
+    from scipy import ndimage
+    from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+
+    units = units.copy()
+    log_rows = []
+    for run in runs:
+        line = run["run"]
+        near = units[units.intersects(line.buffer(1500))]
+        if near.empty:
+            continue
+        share = near.assign(l=near.geometry.boundary.intersection(line.buffer(1500)).length).groupby("type").l.sum()
+        if len(share) < 2:
+            continue
+        X_t, Y_t = share.sort_values(ascending=False).index[:2]
+        box = line.buffer(train_km * 1000).bounds
+        wf = _window_features(box, res, dem_paths, chelsa_url)
+        tr, shape = wf["transform"], wf["shape"]
+        local = units[units.intersects(shapely.box(*box))]
+        lab = rasterize([(g, 1 if t == X_t else 2) for g, t in zip(local.geometry, local["type"]) if t in (X_t, Y_t)],
+                        out_shape=shape, transform=tr, fill=0, dtype="uint8")
+        band = rasterize([(line.buffer(band_km * 1000), 1)], out_shape=shape, transform=tr, dtype="uint8").astype(bool)
+        reach = rasterize([(line.buffer(train_km * 1000), 1)], out_shape=shape, transform=tr, dtype="uint8").astype(bool)
+        F = np.stack([wf["f"][k] for k in ("elev", "slope", "relief", "tpi", "bio1", "bio12", "ai")], -1)
+        ok = np.isfinite(F).all(-1)
+        train = (lab > 0) & ~band & reach & ok
+        rr, cc = np.nonzero(train)
+        acc = 0.0
+        if len(rr) > 200 and len(np.unique(lab[train])) == 2:
+            blk = (rr * res // 5000).astype(int) * 100000 + (cc * res // 5000).astype(int)
+            ub = np.unique(blk)
+            fold = np.random.default_rng(1).integers(0, 5, len(ub))[np.searchsorted(ub, blk)]
+            Xf, yf = F[rr, cc], lab[rr, cc]
+            hits = []
+            for k in range(5):
+                te = fold == k
+                if te.sum() and len(np.unique(yf[~te])) == 2:
+                    p = LinearDiscriminantAnalysis().fit(Xf[~te], yf[~te]).predict(Xf[te])
+                    hits.append(np.mean([np.mean(p[yf[te] == c] == c) for c in (1, 2) if (yf[te] == c).any()]))
+            acc = float(np.mean(hits)) if hits else 0.0
+        how = ""
+        if acc >= min_acc:
+            model = LinearDiscriminantAnalysis().fit(F[rr, cc], lab[rr, cc])
+            redo = band & (lab > 0) & ok
+            new = lab.copy()
+            new[redo] = model.predict(F[redo])
+            for _ in range(2):  # 5 x 5 majority inside the band
+                cnt1 = ndimage.uniform_filter((new == 1).astype("float32"), 5)
+                cnt2 = ndimage.uniform_filter((new == 2).astype("float32"), 5)
+                new = np.where(redo, np.where(cnt1 >= cnt2, 1, 2), new).astype("uint8")
+            zone = shapely.union_all([shapely.geometry.shape(s) for s, v in shapes(redo.astype("uint8"), mask=redo, transform=tr)])
+            for code, t in ((1, X_t), (2, Y_t)):
+                piece = shapely.union_all([shapely.geometry.shape(s) for s, v in shapes(new, mask=(new == code) & redo, transform=tr)])
+                mine = units.index[(units["type"] == t) & units.intersects(zone)]
+                units.loc[mine, "geometry"] = units.loc[mine].geometry.difference(zone)
+                if piece.is_empty or not len(mine):
+                    continue
+                for part in getattr(piece, "geoms", [piece]):  # each piece joins the unit of its type it touches most
+                    d = units.loc[mine].geometry.distance(part)
+                    i = d.idxmin()
+                    units.loc[i, "geometry"] = units.loc[i].geometry.union(part)
+            how = f"terrain and climate (balanced accuracy {acc:.2f})"
+        else:
+            touch = units[units.intersects(line.buffer(1500)) & units["type"].isin([X_t, Y_t])]
+            area = touch.groupby("type").geometry.apply(lambda g: g.area.sum() / 1e6)
+            small = area.idxmin()
+            other = Y_t if small == X_t else X_t
+            if area[small] <= cap_km2:
+                donors = units[units["type"] == other]
+                for i in touch.index[touch["type"] == small]:
+                    d = donors.iloc[[int(donors.distance(units.loc[i].geometry).argmin())]]
+                    for c in ("type", "type_name", "biome", "name", "code"):
+                        if c in units:
+                            units.loc[i, c] = d[c].iloc[0]
+                how = f"{small} patch ({area[small]:.0f} km2) joins {other}: the two are not told apart (balanced accuracy {acc:.2f})"
+            else:
+                how = f"left: {X_t} and {Y_t} not told apart (balanced accuracy {acc:.2f}) and both patches over {cap_km2:.0f} km2"
+        log_rows.append(dict(countries=run["countries"], lat=run["lat"], lon=run["lon"], km=run["km"], types=f"{X_t} | {Y_t}", how=how))
+        log.info("world: border edge %s %.2f N %.2f E (%d km), %s | %s: %s", run["countries"], run["lat"], run["lon"],
+                 run["km"], X_t, Y_t, how)
+    units = units[~units.is_empty]
+    units["area_km2"] = units.area / 1e6
+    return units, log_rows
+
+
 def merge(units: gpd.GeoDataFrame, countries: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     """Units of one type from different areas that share at least 1 km of edge become one unit."""
     u = units.reset_index(drop=True)
@@ -404,6 +544,18 @@ def run(areas: list[str]) -> None:
     pd.DataFrame(agree, columns=["strip_of", "inside", "km2", "same_type"]).to_csv(out_dir / "strip_agreement.csv", index=False)
     low = [a for a in agree if a["km2"] >= 1000 and a["same_type"] < 0.90]
     units = merge(pd.concat(fl, ignore_index=True), cty)
+    # edges on political borders move onto the landscape (naturalize), until none is found
+    nc = load_config()["world"].get("naturalize", {})
+    dem_paths = [str(Paths(c).interim / "copernicus_mosaic.vrt") for c in cfgs.values() if (Paths(c).interim / "copernicus_mosaic.vrt").exists()]
+    nat_rows = []
+    for _ in range(nc.get("rounds", 3)):
+        found = on_line(units, cty, "type", on_km=nc.get("on_km", 0.5), min_km=nc.get("min_km", 5))
+        if not found:
+            break
+        units, rows = naturalize(units, found, dem_paths, cfgs[next(iter(cfgs))]["sources"]["chelsa"]["url"],
+                                 band_km=nc.get("band_km", 8.0), min_acc=nc.get("min_acc", 0.7), cap_km2=nc.get("cap_km2", 3000.0))
+        nat_rows += rows
+    pd.DataFrame(nat_rows).to_csv(out_dir / "naturalized.csv", index=False)
     units = units.sort_values(["type", "area_km2"], ascending=[True, False]).reset_index(drop=True)
     units["unit"] = np.arange(1, len(units) + 1)
     tys = types(units, pd.concat(ty, ignore_index=True))
@@ -421,7 +573,7 @@ def run(areas: list[str]) -> None:
              ", ".join(areas))
 
     # edges on the border itself, anywhere in the merged map; the first check, as it takes minutes
-    lines = on_line(units, cty, "type")
+    lines = on_line(units, cty, "type", on_km=nc.get("on_km", 0.5), min_km=nc.get("min_km", 5))
     pd.DataFrame(lines, columns=["layer", "countries", "km", "median_km", "lat", "lon", "types"]).to_csv(out_dir / "on_line.csv", index=False)
     for r in lines:
         log.warning("world: type edge on the %s border for %d km near %.2f N, %.2f E (median %.2f km from the line): %s",

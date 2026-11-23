@@ -432,6 +432,8 @@ fitcheck:
 world:
   areas: [texas, pak-afg-irn, central-asia]
   joint_faunal: [pak-afg-irn, central-asia, caucasus-anatolia]  # one Faunal clustering (joint_faunal), one numbering
+  # type edges on political borders move onto the landscape (world.naturalize); found with world.on_line
+  naturalize: {min_km: 5, on_km: 0.5, band_km: 8, min_acc: 0.7, cap_km2: 3000, rounds: 3}
 
 # ---------------------------------------------------------------------------
 # Ecoregions, one run on a 10 km grid (docs/plan.md; tests registered in docs/preregistration.md, section 10, commit 8f6d157)
