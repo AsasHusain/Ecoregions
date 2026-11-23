@@ -91,6 +91,48 @@ def fit(units: gpd.GeoDataFrame, area, seam, max_width=500.0) -> gpd.GeoDataFram
     return units
 
 
+def donor_piece(other: gpd.GeoDataFrame, col: str, label, g) -> gpd.GeoDataFrame | None:
+    """``g`` labelled ``label``, with the attributes of the neighbour's nearest unit of that label."""
+    donors = other[other[col] == label]
+    if donors.empty:
+        return None
+    return donors.iloc[[int(donors.distance(g).argmin())]].assign(geometry=[g], area_km2=g.area / 1e6)
+
+
+def adopt_strip(own: gpd.GeoDataFrame, strip: gpd.GeoDataFrame, other: gpd.GeoDataFrame, seam, col: str,
+                min_m2: float = 1e5, reach_km: float = 30.0) -> gpd.GeoDataFrame:
+    """Where the neighbour's build, read across the border (its strip), labels ground on this side of the seam
+    differently, the patch it labels from the seam to its own edge takes its label, so the change sits on the
+    neighbour's natural edge, not on the border (2026-11-22: on the Aras, Panj and Harirud the strips' edges lay
+    2-8 km past the border, too thin a band for whole landform units to switch, and 275 km of edges lay on borders).
+    Patches reaching more than ``reach_km`` from the seam are left to the landform-unit rule: a deep disagreement
+    between the two builds is not settled by moving this much ground (the strips are 75 km wide)."""
+    land = own.union_all()
+    s = strip[[col, "geometry"]].assign(geometry=strip.geometry.intersection(land))
+    s = s[~s.is_empty & s.geom_type.isin(["Polygon", "MultiPolygon"])]
+    if s.empty:
+        return own
+    ov = gpd.overlay(s, own[[col, "geometry"]].rename(columns={col: "_mine"}), how="intersection", keep_geom_type=True)
+    ov = ov[ov[col] != ov["_mine"]]
+    if ov.empty:
+        return own
+    patches = ov[[col, "geometry"]].dissolve(col).explode(index_parts=False).reset_index()
+    reach = seam.buffer(reach_km * 1000)
+    patches = patches[(patches.area >= min_m2) & patches.intersects(seam.buffer(1000))
+                      & patches.geometry.apply(lambda g: g.difference(reach).is_empty)]
+    pieces = [p for p in (donor_piece(other, col, r[col], r.geometry) for _, r in patches.iterrows()) if p is not None]
+    if not pieces:
+        return own
+    carved = own.assign(geometry=own.geometry.difference(shapely.union_all([p.geometry.iloc[0] for p in pieces])))
+    carved = carved[~carved.is_empty]
+    log.info("world: %d patches on the seam take the neighbour's %s up to its own edge (%.0f km²)", len(pieces), col,
+             sum(p.area_km2.iloc[0] for p in pieces))
+    out = gpd.GeoDataFrame(pd.concat([carved, *pieces], ignore_index=True), crs=own.crs)
+    if "parcel" in own:
+        out["parcel"] = own.parcel.iloc[0]
+    return out
+
+
 def natural_seam(own: gpd.GeoDataFrame, strip: gpd.GeoDataFrame, other: gpd.GeoDataFrame, cells: gpd.GeoSeries,
                  seam, col: str, min_cover: float = 0.5) -> gpd.GeoDataFrame:
     """Move label changes off a seam onto landform edges.
@@ -101,6 +143,7 @@ def natural_seam(own: gpd.GeoDataFrame, strip: gpd.GeoDataFrame, other: gpd.GeoD
     unit, takes that label whole, so the change of label follows the unit's inner edges, not the border."""
     if strip is None or strip.empty or seam.is_empty:
         return own
+    own = adopt_strip(own, strip, other, seam, col)
     near = gpd.GeoDataFrame(geometry=cells[cells.intersects(seam.buffer(1000))].values, crs=own.crs)
     if near.empty:
         return own
@@ -123,14 +166,7 @@ def natural_seam(own: gpd.GeoDataFrame, strip: gpd.GeoDataFrame, other: gpd.GeoD
     cut = near.set_index("cell").loc[sw.index]
     carved = own.assign(geometry=own.geometry.difference(cut.union_all()))
     carved = carved[~carved.is_empty]
-    pieces = []
-    for c, r in sw.iterrows():
-        donors = other[other[col] == r.theirs]
-        if donors.empty:
-            continue
-        g = cut.geometry.loc[c]
-        d = donors.iloc[[int(donors.distance(g).argmin())]].copy()
-        pieces.append(d.assign(geometry=[g], area_km2=g.area / 1e6))
+    pieces = [p for p in (donor_piece(other, col, r.theirs, cut.geometry.loc[c]) for c, r in sw.iterrows()) if p is not None]
     log.info("world: %d landform units on the seam take the neighbour's %s (%.0f km²)", len(pieces), col,
              sum(p.area_km2.iloc[0] for p in pieces))
     if not pieces:
@@ -138,6 +174,59 @@ def natural_seam(own: gpd.GeoDataFrame, strip: gpd.GeoDataFrame, other: gpd.GeoD
     out = gpd.GeoDataFrame(pd.concat([carved, *pieces], ignore_index=True), crs=own.crs)
     if "parcel" in own:  # the pieces lie in this area; the merge then joins them to the neighbour's units across the seam
         out["parcel"] = own.parcel.iloc[0]
+    return out
+
+
+def on_line(units: gpd.GeoDataFrame, countries: gpd.GeoDataFrame, col: str, near_km: float = 2.5,
+            on_km: float = 0.3, min_km: int = 10) -> list[dict]:
+    """Edges that lie on a border: every 1 km of border inside the mapped land, the distance to the nearest edge
+    between two labels of ``col``; a run of ``min_km`` or more within ``near_km`` whose median distance is
+    ``on_km`` or less. Declared 2026-11-22 from the published map: 15 such runs (275 km) on the borders against 1 run
+    (12-24 km) on each copy of the borders shifted 30 km."""
+    land = units.union_all()
+    c = countries[countries.intersects(land)].reset_index(drop=True)
+    inner = land.buffer(-3000)
+    borders = [c.geometry[i].boundary.intersection(c.geometry[j].buffer(300)).intersection(inner)
+               for i in range(len(c)) for j in range(i + 1, len(c))]
+    pairs = [(i, j) for i in range(len(c)) for j in range(i + 1, len(c))]
+    zone = shapely.union_all([b for b in borders if not b.is_empty]).buffer(near_km * 2000)
+    t = units[[col, "geometry"]].assign(geometry=units.geometry.intersection(zone))
+    t = t[~t.is_empty].dissolve(col)
+    edges = shapely.union_all(t.boundary.values).difference(t.union_all().boundary.buffer(1000))  # coasts, zone edge out
+    segs = [s for s in getattr(edges, "geoms", [edges]) if s.length > 0]
+    if not segs:
+        return []
+    tree = shapely.STRtree(segs)
+    labels = shapely.STRtree(t.geometry.values)
+    out = []
+    seg_arr = np.array(segs, dtype=object)
+    for (i, j), line in zip(pairs, borders):
+        if line.is_empty:
+            continue
+        line = shapely.line_merge(line)
+        for part in getattr(line, "geoms", [line]):
+            if part.geom_type != "LineString" or part.length < min_km * 1000:
+                continue
+            pts = shapely.line_interpolate_point(part, np.arange(500, part.length, 1000))
+            (_, nearest), dist = tree.query_nearest(pts, return_distance=True, all_matches=False)
+            near = dist <= near_km * 1000
+            k = 0
+            while k < len(near):
+                if not near[k]:
+                    k += 1
+                    continue
+                s, gap = k, 0
+                while k < len(near) and gap <= 2:
+                    gap = 0 if near[k] else gap + 1
+                    k += 1
+                e = k - gap
+                med = float(np.median(dist[s:e])) / 1000
+                if e - s >= min_km and med <= on_km:
+                    m = gpd.GeoSeries([pts[(s + e) // 2]], crs=units.crs).to_crs(4326).iloc[0]
+                    on_edge = shapely.get_point(shapely.shortest_line(seg_arr[nearest[s:e]], pts[s:e]), 0)  # the edge's points
+                    meet = {t.index[x] for p in on_edge for x in labels.query(p.buffer(300), predicate="intersects")}
+                    out.append(dict(layer=col, countries=f"{c.NAME[i]} – {c.NAME[j]}", km=e - s, median_km=round(med, 2),
+                                    lat=round(m.y, 2), lon=round(m.x, 2), types=" | ".join(sorted(meet))))
     return out
 
 
@@ -292,8 +381,8 @@ def run(areas: list[str]) -> None:
             for layer, col, maps in (("ecoregions", "type", fl), ("faunal_regions", "faunal_region", fa)):
                 st = gpd.read_file(sf, layer=layer).to_crs(CRS)
                 maps[q] = natural_seam(maps[q], st[st.intersects(shapes[q])], maps[r], cells[q], line, col)
-    fl, fa = list(fl.values()), list(fa.values())
     cty = display_countries(countries, disputed).to_crs(CRS)
+    fl, fa = list(fl.values()), list(fa.values())
     # strip agreement (declared 2026-11-14 before any result): where an area's 75 km strip lies in a neighbour's
     # mapped area, both classify the same ground; the type must agree on at least 90 % of it
     agree = []
@@ -330,6 +419,16 @@ def run(areas: list[str]) -> None:
     units.drop(columns="geometry").to_csv(out_dir / "ecoregions.csv", index=False)
     log.info("world: %d Floral Ecoregions in %d types, %.0f km², from %s", len(units), len(tys), units.area_km2.sum(),
              ", ".join(areas))
+
+    # edges on the border itself, anywhere in the merged map; the first check, as it takes minutes
+    lines = on_line(units, cty, "type")
+    pd.DataFrame(lines, columns=["layer", "countries", "km", "median_km", "lat", "lon", "types"]).to_csv(out_dir / "on_line.csv", index=False)
+    for r in lines:
+        log.warning("world: type edge on the %s border for %d km near %.2f N, %.2f E (median %.2f km from the line): %s",
+                    r["countries"], r["km"], r["lat"], r["lon"], r["median_km"], r["types"])
+    if lines:
+        raise SystemExit(f"world: {len(lines)} type edge(s) lie on a border (outputs/world/staging/on_line.csv); "
+                         "the published files are unchanged")
 
     # the gate on the merged map, over the areas that meet another area
     joined = [r for r in areas if not seam[r].is_empty]
